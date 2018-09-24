@@ -6,6 +6,16 @@
  * user guide available at https://docs.gradle.org/4.10/userguide/tutorial_java_projects.html
  */
 
+buildscript {
+    dependencies {
+        classpath group: 'de.dynamicfiles.projects.gradle.plugins', name: 'javafx-gradle-plugin', version: '8.8.2'
+    }
+    repositories {
+        mavenLocal()
+        mavenCentral()
+    }
+}
+
 plugins {
     // Apply the java plugin to add support for Java
     id 'java'
@@ -33,4 +43,16 @@ repositories {
     // Use jcenter for resolving your dependencies.
     // You can declare any Maven/Ivy/file repository here.
     jcenter()
+    mavenLocal()
+    mavenCentral()
+}
+
+apply plugin: 'javafx-gradle-plugin'
+
+jfx {
+    // minimal requirement for jfxJar-task
+    mainClass = 'App'
+    
+    // minimal requirement for jfxNative-task
+    vendor = 'YourName'
 }
