@@ -1,2 +1,17 @@
 .root * {
 }
+
+.dark {
+    -fx-background-color: rgb(57, 57, 57);
+}
+
+.btn {
+    -fx-background-color: none;
+    -fx-text-fill: rgb(187, 187, 187);
+}
+
+.btn:hover {
+    -fx-text-fill: orange;
+    -fx-cursor: hand;
+    
+}

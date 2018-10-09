@@ -25,12 +25,15 @@ public class StartupPopUpView extends Application {
 	{
 	    // Create the FXMLLoader 
 		FXMLLoader loader = new FXMLLoader();
+		
 		// Path to the FXML File
 
 		loader.setLocation(getClass().getResource("/fxml/popUp.fxml"));
+		
 		// Create the Pane and all Details
 		VBox root = (VBox) loader.load();
-
+		
+		StartupPopUpViewController controller = loader.getController();
 		// Create the Scene
 		Scene scene = new Scene(root);
 		// Set the Scene to the Stage
@@ -39,6 +42,9 @@ public class StartupPopUpView extends Application {
 		stage.setTitle("InnoEvent");
 		stage.setResizable(false);
 		// Display the Stage
+		
+		controller.init(stage);
+		
 		stage.show();
 	}
 
