@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: rgb(57, 57, 57);" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.inno.startuppopup.StartupPopUpViewController">
+
+    <Pane>
+    <children>
+         <ImageView fitHeight="94.0" fitWidth="90.0" layoutX="255.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+               <Image url="@../icon/logo.png" />
+            </image>
+         </ImageView>
+        <Text fill="#bbbbbb" layoutX="193.0" layoutY="146.0" strokeType="OUTSIDE" strokeWidth="0.0" text="IntelliJ" textAlignment="CENTER" wrappingWidth="214.2060546875">
+            <font>
+                <Font size="41.0" />
+            </font>
+        </Text>
+        <Text fill="#bababaa3" layoutX="193.0" layoutY="167.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Verion 2018.2.4" textAlignment="CENTER" wrappingWidth="214.2060546875">
+            <font>
+                <Font name="System Italic" size="13.0" />
+            </font>
+        </Text>
+        <Text fill="#bbbbbb" layoutX="238.0" layoutY="250.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Open" wrappingWidth="125.20605325698853" />
+        <Text fill="#bbbbbb" layoutX="237.0" layoutY="223.0" strokeType="OUTSIDE" text="Create New Project" wrappingWidth="125.2060546875" />
+         <ImageView fitHeight="17.0" fitWidth="18.0" layoutX="206.0" layoutY="210.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+               <Image url="@../icon/plus.png" />
+            </image>
+         </ImageView>
+         <ImageView fitHeight="17.0" fitWidth="18.0" layoutX="206.0" layoutY="237.0" pickOnBounds="true" preserveRatio="true">
+            <image>
+               <Image url="@../icon/folder.png" />
+            </image>
+         </ImageView>
+    </children>
+    </Pane>
+</VBox>
