@@ -16,7 +16,6 @@ import java.io.File;
 import javafx.fxml.FXML;
 
 import javafx.stage.FileChooser;
-import javafx.stage.Stage;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -48,7 +47,7 @@ public class StartupPopUpMainViewController {
   }
 
   @FXML
-  private void openProject() {
+  private void openProjectButtonAction() {
     FileChooser fileChooser = new FileChooser();
     fileChooser.setTitle("Open Resource File");
     fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("InnoEvent", "*.inevt"));
@@ -61,9 +60,7 @@ public class StartupPopUpMainViewController {
   }
 
   @FXML
-  private void createNewProject() {
-    System.out.println("Create");
-
+  private void createNewProjectButtonAction() {
     try {
       Parent root = FXMLLoader.load(getClass().getResource("/fxml/popUpNewProject.fxml"));
       Scene scene = createNewProjectButton.getScene();

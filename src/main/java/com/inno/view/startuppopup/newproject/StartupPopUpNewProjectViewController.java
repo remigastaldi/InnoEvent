@@ -32,7 +32,15 @@ public class StartupPopUpNewProjectViewController {
   @FXML
   private Button cancelButton;
   @FXML
+  private Button doneButton;
+  @FXML
   private AnchorPane anchorRoot;
+
+
+  /**
+   * 
+   */
+
 
   public StartupPopUpNewProjectViewController() {
   }

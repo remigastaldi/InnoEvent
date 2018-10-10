@@ -1,35 +1,55 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ButtonBar?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane id="AnchorPane" fx:id="anchorRoot" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" styleClass="dark" stylesheets="@../dark-theme.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.inno.startuppopup.newproject.StartupPopUpNewProjectViewController">
+<AnchorPane id="AnchorPane" fx:id="anchorRoot" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" styleClass="dark" stylesheets="@../dark-theme.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.inno.view.startuppopup.newproject.StartupPopUpNewProjectViewController">
    <children>
-      <Button fx:id="cancelButton" layoutX="391.0" layoutY="364.0" mnemonicParsing="false" onAction="#cancelButtonAction" prefHeight="22.0" prefWidth="90.0" style="-fx-background-color: white;" text="Cancel">
-         <font>
-            <Font size="11.0" />
-         </font>
-      </Button>
-      <Button fx:id="doneButton" layoutX="496.0" layoutY="364.0" mnemonicParsing="false" prefHeight="22.0" prefWidth="90.0" style="-fx-background-color: rgb(87, 87, 87);" text="Done" textFill="WHITE">
-         <font>
-            <Font size="11.0" />
-         </font>
-      </Button>
-      <TextField layoutX="187.0" layoutY="33.0" prefHeight="37.0" prefWidth="226.0" promptText="Project Name" styleClass="input" />
-      <Text fill="WHITE" layoutX="134.0" layoutY="108.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Room : " />
-      <Text fill="WHITE" layoutX="132.0" layoutY="208.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Scene :" />
+      <TextField fx:id="projectNameInput" layoutX="187.0" layoutY="33.0" prefHeight="37.0" prefWidth="226.0" promptText="Project Name" styleClass="input" />
+      <AnchorPane layoutX="139.0" layoutY="70.0" prefHeight="132.0" prefWidth="323.0">
+         <children>
+            <Text fill="WHITE" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Room : " />
+            <TextField fx:id="roomHeightInput" layoutX="77.0" layoutY="31.0" promptText="Room Height" styleClass="input" />
+            <TextField fx:id="roomWidthInput" layoutX="77.0" layoutY="69.0" promptText="Room Width" styleClass="input" />
+            <Text fill="WHITE" layoutX="24.0" layoutY="88.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Height " />
+            <Text fill="WHITE" layoutX="26.0" layoutY="50.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Width " />
+         </children>
+      </AnchorPane>
       <Text fill="WHITE" layoutX="134.0" layoutY="327.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Vital Space " />
-      <TextField layoutX="217.0" layoutY="119.0" promptText="Room Height" styleClass="input" />
-      <TextField layoutX="217.0" layoutY="154.0" promptText="Room Width" styleClass="input" />
-      <Text fill="WHITE" layoutX="155.0" layoutY="137.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Height " />
-      <Text fill="WHITE" layoutX="158.0" layoutY="172.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Width " />
-      <TextField layoutX="217.0" layoutY="216.0" promptText="Scene Height" styleClass="input" />
-      <TextField layoutX="217.0" layoutY="251.0" promptText="Scene Width" styleClass="input" />
-      <Text fill="WHITE" layoutX="157.0" layoutY="234.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Height " />
-      <Text fill="WHITE" layoutX="160.0" layoutY="269.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Width " />
-      <TextField layoutX="217.0" layoutY="309.0" promptText="Vital Space" styleClass="input" />
+      <TextField fx:id="vitalSpaceInput" layoutX="217.0" layoutY="309.0" promptText="Vital Space" styleClass="input" />
+      <AnchorPane layoutX="139.0" layoutY="177.0" prefHeight="132.0" prefWidth="323.0">
+         <children>
+            <Text fill="WHITE" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Scene : " />
+            <TextField fx:id="sceneHeightInput" layoutX="77.0" layoutY="31.0" promptText="Room Height" styleClass="input" />
+            <TextField fx:id="sceneWidthInput" layoutX="77.0" layoutY="69.0" promptText="Room Width" styleClass="input" />
+            <Text fill="WHITE" layoutX="24.0" layoutY="88.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Height " />
+            <Text fill="WHITE" layoutX="26.0" layoutY="50.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Width " />
+         </children>
+      </AnchorPane>
+      <ButtonBar cache="true" layoutY="360.0" prefHeight="40.0" prefWidth="600.0" style="-fx-background-color: rgb(57,57,57);">
+         <buttons>
+            <Button fx:id="cancelButton" mnemonicParsing="false" onAction="#cancelButtonAction" prefHeight="22.0" prefWidth="90.0" style="-fx-background-color: white;" text="Cancel">
+               <font>
+                  <Font size="11.0" />
+               </font>
+            </Button>
+            <Button fx:id="doneButton" mnemonicParsing="false" prefHeight="22.0" prefWidth="90.0" style="-fx-background-color: rgb(87, 87, 87);" text="Done" textFill="WHITE">
+               <font>
+                  <Font size="11.0" />
+               </font>
+            </Button>
+         </buttons>
+         <opaqueInsets>
+            <Insets />
+         </opaqueInsets>
+         <padding>
+            <Insets left="10.0" right="10.0" />
+         </padding>
+      </ButtonBar>
    </children>
 </AnchorPane>
