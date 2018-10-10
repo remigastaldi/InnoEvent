@@ -33,8 +33,6 @@ import javafx.animation.Timeline;
 
 public class StartupPopUpMainViewController {
 
-  Stage stage;
-
   @FXML
   private Button createNewProjectButton;
   @FXML
@@ -43,10 +41,6 @@ public class StartupPopUpMainViewController {
   private StackPane parentContainer;
 
   public StartupPopUpMainViewController() {
-  }
-
-  public void init(Stage stage) {
-    this.stage = stage;
   }
 
   @FXML
@@ -58,7 +52,7 @@ public class StartupPopUpMainViewController {
     FileChooser fileChooser = new FileChooser();
     fileChooser.setTitle("Open Resource File");
     fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("InnoEvent", "*.inevt"));
-    File file = fileChooser.showOpenDialog(stage);
+    File file = fileChooser.showOpenDialog(null); //ToDO add current stage 
     if (file != null) {
       System.out.println("OK");
       System.out.println(file);
