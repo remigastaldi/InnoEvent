@@ -13,14 +13,16 @@
 package com.inno;
 
 import com.inno.mainview.MainView;
+import com.inno.startuppopup.StartupPopUpView;
 
 public class Main {
 
   public static void main(String[] args) {
     // System.out.println(new App().getGreeting());
-    MainView mainview = new MainView();
+    //MainView mainview = new MainView();
+    StartupPopUpView startUp = new StartupPopUpView();
 
-    mainview.run(args);
+    startUp.run(args);
   }
 }
 
