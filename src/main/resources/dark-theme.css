@@ -1,5 +1,4 @@
-.root * {
-}
+.root * {}
 
 .dark {
     -fx-background-color: rgb(57, 57, 57);
@@ -13,5 +12,10 @@
 .btn:hover {
     -fx-text-fill: orange;
     -fx-cursor: hand;
-    
+}
+
+.input {
+    -fx-background-color: rgb(69, 73, 74);
+    -fx-text-fill: rgb(187, 187, 187);
+    -fx-border-color: rgb(100, 100, 100);
 }
