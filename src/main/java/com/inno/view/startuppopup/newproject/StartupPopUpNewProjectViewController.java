@@ -2,25 +2,21 @@
  * File Created: Wednesday, 26th September 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Thursday, 4th October 2018
+ * Last Modified: Wednesday, 10th October 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
  * <<licensetext>>
  */
 
-package com.inno.startuppopup.main;
-
-import java.io.File;
+package com.inno.view.startuppopup.newproject;
 
 import javafx.fxml.FXML;
 
-import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
@@ -31,22 +27,17 @@ import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 
-public class StartupPopUpMainViewController {
-
-  Stage stage;
+public class StartupPopUpNewProjectViewController {
 
   @FXML
-  private Button createNewProjectButton;
+  private Button cancelButton;
   @FXML
   private AnchorPane anchorRoot;
-  @FXML
-  private StackPane parentContainer;
 
-  public StartupPopUpMainViewController() {
+  public StartupPopUpNewProjectViewController() {
   }
 
   public void init(Stage stage) {
-    this.stage = stage;
   }
 
   @FXML
@@ -54,33 +45,20 @@ public class StartupPopUpMainViewController {
   }
 
   @FXML
-  private void openProject() {
-    FileChooser fileChooser = new FileChooser();
-    fileChooser.setTitle("Open Resource File");
-    fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("InnoEvent", "*.inevt"));
-    File file = fileChooser.showOpenDialog(stage);
-    if (file != null) {
-      System.out.println("OK");
-      System.out.println(file);
-    }
-
-  }
-
-  @FXML
-  private void createNewProject() {
-    System.out.println("Create");
-
+  private void cancelButtonAction() {
     try {
-      Parent root = FXMLLoader.load(getClass().getResource("/fxml/popUpNewProject.fxml"));
-      Scene scene = createNewProjectButton.getScene();
+      Parent root = FXMLLoader.load(getClass().getResource("/fxml/popUp.fxml"));
+      StackPane parentContainer = (StackPane) cancelButton.getScene().getRoot();
+      
+      root.translateXProperty().set(-600);
 
-      root.translateXProperty().set(scene.getWidth());
       parentContainer.getChildren().add(root);
+
 
       Timeline timeline = new Timeline();
       Timeline timeline2 = new Timeline();
       KeyValue kv = new KeyValue(root.translateXProperty(), 0, Interpolator.EASE_IN);
-      KeyValue kv2 = new KeyValue(anchorRoot.translateXProperty(), -600 , Interpolator.EASE_IN);
+      KeyValue kv2 = new KeyValue(anchorRoot.translateXProperty(), 600 , Interpolator.EASE_IN);
       KeyFrame kf = new KeyFrame(Duration.seconds(0.2), kv);
       KeyFrame kf2 = new KeyFrame(Duration.seconds(0.2), kv2);
 
@@ -95,7 +73,7 @@ public class StartupPopUpMainViewController {
       timeline.play();
       timeline2.play();
     } catch (Exception e) {
-      System.out.println("ERROR"+ e.getMessage());
+      System.out.println("ERROR in annimation"+ e.getMessage());
     }
   }
 }

@@ -2,14 +2,14 @@
  * File Created: Wednesday, 26th September 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Thursday, 4th October 2018
+ * Last Modified: Wednesday, 10th October 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
  * <<licensetext>>
  */
 
- package com.inno.mainview;
+ package com.inno.view.mainview;
 
  import java.io.IOException;
  
