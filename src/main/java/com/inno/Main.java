@@ -12,8 +12,7 @@
 
 package com.inno;
 
-import com.inno.mainview.MainView;
-import com.inno.startuppopup.main.StartupPopUpMainView;;
+import com.inno.view.startuppopup.main.StartupPopUpMainView;;
 
 public class Main {
 
