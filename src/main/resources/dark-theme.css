@@ -19,3 +19,11 @@
     -fx-text-fill: rgb(187, 187, 187);
     -fx-border-color: rgb(100, 100, 100);
 }
+
+.input:hover {
+    -fx-border-color: rgb(187, 187, 187);
+}
+
+.input:focused {
+    -fx-border-color: orange;
+}
