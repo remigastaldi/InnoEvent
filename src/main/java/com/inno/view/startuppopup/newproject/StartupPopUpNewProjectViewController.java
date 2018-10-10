@@ -20,6 +20,8 @@ import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.control.TextField;
+
 import javafx.util.Duration;
 
 import javafx.animation.Interpolator;
@@ -36,10 +38,18 @@ public class StartupPopUpNewProjectViewController {
   @FXML
   private AnchorPane anchorRoot;
 
-
-  /**
-   * 
-   */
+  @FXML
+  private TextField projectNameInput;
+  @FXML
+  private TextField roomHeightInput;
+  @FXML
+  private TextField roomWidthInput;
+  @FXML
+  private TextField sceneHeightInput;
+  @FXML
+  private TextField sceneWidthInput;
+  @FXML
+  private TextField vitalSpaceInput;
 
 
   public StartupPopUpNewProjectViewController() {
@@ -53,23 +63,26 @@ public class StartupPopUpNewProjectViewController {
   }
 
   @FXML
+  private void doneButtonAction() {
+    System.out.println(projectNameInput.getText());
+  }
+
+  @FXML
   private void cancelButtonAction() {
     try {
       Parent root = FXMLLoader.load(getClass().getResource("/fxml/popUp.fxml"));
       StackPane parentContainer = (StackPane) cancelButton.getScene().getRoot();
-      
+
       root.translateXProperty().set(-600);
 
       parentContainer.getChildren().add(root);
 
-
       Timeline timeline = new Timeline();
       Timeline timeline2 = new Timeline();
       KeyValue kv = new KeyValue(root.translateXProperty(), 0, Interpolator.EASE_IN);
-      KeyValue kv2 = new KeyValue(anchorRoot.translateXProperty(), 600 , Interpolator.EASE_IN);
+      KeyValue kv2 = new KeyValue(anchorRoot.translateXProperty(), 600, Interpolator.EASE_IN);
       KeyFrame kf = new KeyFrame(Duration.seconds(0.2), kv);
       KeyFrame kf2 = new KeyFrame(Duration.seconds(0.2), kv2);
-
 
       timeline2.getKeyFrames().add(kf2);
       timeline.getKeyFrames().add(kf);
@@ -77,11 +90,10 @@ public class StartupPopUpNewProjectViewController {
         parentContainer.getChildren().remove(anchorRoot);
       });
 
-
       timeline.play();
       timeline2.play();
     } catch (Exception e) {
-      System.out.println("ERROR in annimation"+ e.getMessage());
+      System.out.println("ERROR in annimation" + e.getMessage());
     }
   }
 }

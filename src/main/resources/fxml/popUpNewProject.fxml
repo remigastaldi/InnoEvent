@@ -38,7 +38,7 @@
                   <Font size="11.0" />
                </font>
             </Button>
-            <Button fx:id="doneButton" mnemonicParsing="false" prefHeight="22.0" prefWidth="90.0" style="-fx-background-color: rgb(87, 87, 87);" text="Done" textFill="WHITE">
+            <Button fx:id="doneButton" mnemonicParsing="false" onAction="#doneButtonAction" prefHeight="22.0" prefWidth="90.0" style="-fx-background-color: rgb(87, 87, 87);" text="Done" textFill="WHITE">
                <font>
                   <Font size="11.0" />
                </font>
