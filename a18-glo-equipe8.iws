@@ -6,7 +6,7 @@
       <change beforePath="$PROJECT_DIR$/a18-glo-equipe8.iws" beforeDir="false" afterPath="$PROJECT_DIR$/a18-glo-equipe8.iws" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/inno/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/inno/Main.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/dark-theme.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/dark-theme.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/fxml/popUp.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/fxml/popUp.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/fxml/popup.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/fxml/popup.fxml" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/.gradle/" />

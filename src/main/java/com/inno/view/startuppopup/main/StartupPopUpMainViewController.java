@@ -2,7 +2,7 @@
  * File Created: Wednesday, 26th September 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Wednesday, 10th October 2018
+ * Last Modified: Friday, 12th October 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -62,7 +62,7 @@ public class StartupPopUpMainViewController {
   @FXML
   private void createNewProjectButtonAction() {
     try {
-      Parent root = FXMLLoader.load(getClass().getResource("/fxml/popUpNewProject.fxml"));
+      Parent root = FXMLLoader.load(getClass().getResource("/fxml/popup_new_project.fxml"));
       Scene scene = createNewProjectButton.getScene();
 
       root.translateXProperty().set(scene.getWidth());

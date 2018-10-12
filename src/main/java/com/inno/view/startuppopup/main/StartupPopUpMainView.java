@@ -2,7 +2,7 @@
  * File Created: Wednesday, 26th September 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Wednesday, 10th October 2018
+ * Last Modified: Friday, 12th October 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -24,7 +24,7 @@ public class StartupPopUpMainView extends Application {
 	public void start(Stage stage) throws IOException
 	{
 
-		Parent root = FXMLLoader.load(getClass().getResource("/fxml/popUp.fxml"));
+		Parent root = FXMLLoader.load(getClass().getResource("/fxml/popup.fxml"));
 
         Scene scene = new Scene(root);
         stage.setScene(scene);

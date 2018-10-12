@@ -79,7 +79,7 @@
                      <graphic>
                         <ImageView fitHeight="10.0" fitWidth="10.0" preserveRatio="true">
                            <image>
-                              <Image url="@../icon/zoom-in.png" />
+                              <Image url="@../icon/zoom_in.png" />
                            </image>
                         </ImageView>
                      </graphic>
@@ -88,7 +88,7 @@
                      <graphic>
                         <ImageView fitHeight="10.0" fitWidth="10.0" preserveRatio="true">
                            <image>
-                              <Image url="@../icon/zoom-out.png" />
+                              <Image url="@../icon/zoom_out.png" />
                            </image>
                         </ImageView>
                      </graphic>
@@ -99,7 +99,7 @@
                      <graphic>
                         <ImageView fitHeight="10.0" fitWidth="10.0" preserveRatio="true">
                            <image>
-                              <Image url="@../icon/dollar-symbol.png" />
+                              <Image url="@../icon/dollar_symbol.png" />
                            </image>
                         </ImageView>
                      </graphic>

@@ -2,7 +2,7 @@
  * File Created: Wednesday, 26th September 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Wednesday, 10th October 2018
+ * Last Modified: Friday, 12th October 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -35,7 +35,7 @@ import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 
-public class StartupPopUpNewProjectViewController {
+public class StartupPopupNewProjectViewController {
 
   @FXML
   private Button cancelButton;
@@ -57,7 +57,7 @@ public class StartupPopUpNewProjectViewController {
   @FXML
   private TextField vitalSpaceInput;
 
-  public StartupPopUpNewProjectViewController() {
+  public StartupPopupNewProjectViewController() {
   }
 
   public void init(Stage stage) {
@@ -139,7 +139,7 @@ public class StartupPopUpNewProjectViewController {
   @FXML
   private void cancelButtonAction() {
     try {
-      Parent root = FXMLLoader.load(getClass().getResource("/fxml/popUp.fxml"));
+      Parent root = FXMLLoader.load(getClass().getResource("/fxml/popup.fxml"));
       StackPane parentContainer = (StackPane) cancelButton.getScene().getRoot();
 
       root.translateXProperty().set(-600);
