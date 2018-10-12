@@ -19,7 +19,7 @@
  import javafx.stage.Stage;
  import javafx.scene.Parent;
 
-public class StartupPopUpMainView extends Application {
+public class StartupPopupMainView extends Application {
 	@Override
 	public void start(Stage stage) throws IOException
 	{

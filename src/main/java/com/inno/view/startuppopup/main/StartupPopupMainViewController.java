@@ -30,7 +30,7 @@ import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 
-public class StartupPopUpMainViewController {
+public class StartupPopupMainViewController {
 
   @FXML
   private Button createNewProjectButton;
@@ -39,7 +39,7 @@ public class StartupPopUpMainViewController {
   @FXML
   private StackPane parentContainer;
 
-  public StartupPopUpMainViewController() {
+  public StartupPopupMainViewController() {
   }
 
   @FXML
