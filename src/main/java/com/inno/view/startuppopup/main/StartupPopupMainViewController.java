@@ -13,6 +13,8 @@ package com.inno.view.startuppopup.main;
 
 import java.io.File;
 
+import com.inno.InnoViewController;
+
 import javafx.fxml.FXML;
 
 import javafx.stage.FileChooser;
@@ -30,7 +32,7 @@ import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 
-public class StartupPopupMainViewController {
+public class StartupPopupMainViewController extends InnoViewController {
 
   @FXML
   private Button createNewProjectButton;

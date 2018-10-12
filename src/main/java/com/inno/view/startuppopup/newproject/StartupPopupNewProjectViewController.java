@@ -29,13 +29,14 @@ import java.util.Map;
 import java.util.Vector;
 
 import com.google.common.collect.MapMaker;
+import com.inno.InnoViewController;
 
 import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 
-public class StartupPopupNewProjectViewController {
+public class StartupPopupNewProjectViewController extends InnoViewController {
 
   @FXML
   private Button cancelButton;
