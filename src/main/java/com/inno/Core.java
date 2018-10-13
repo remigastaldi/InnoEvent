@@ -22,8 +22,8 @@ public class Core {
   private static Core _instance = null; 
 
   // Services
-  private Save  _saveService = new Save();
   private View  _viewService = null;
+  private Save  _saveService = new Save();
   private Utils _utilsService = new Utils();
 
   // Inno Class
@@ -59,5 +59,22 @@ public class Core {
 
   public void setEngine(InnoEngine engine) {
     _engine = engine;
+  }
+
+  // Services
+  public InnoEngine Engine() {
+    return _engine;
+  }
+
+  public View View() {
+    return _viewService;
+  }
+  
+  public Save Save() {
+    return _saveService;
+  }
+
+  public Utils Utils() {
+    return _utilsService;
   }
 };
