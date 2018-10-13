@@ -3,7 +3,7 @@
  * Author: GASTALDI Rémi
  * -----
  * Last Modified: Saturday, 13th October 2018
- * Modified By: HUBERT Léo
+ * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
  * <<licensetext>>
@@ -29,7 +29,7 @@ public class View extends Application {
   @Override
   public void start(Stage mainView) throws Exception {
     _mainView = mainView;
-    Core.get().test2(this);
+    Core.get().setViewService(this);
     FXMLLoader loader = new FXMLLoader();
 
     loader.setLocation(getClass().getResource("/fxml/popup.fxml"));

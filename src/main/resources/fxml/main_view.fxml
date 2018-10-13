@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.canvas.Canvas?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ButtonBar?>
 <?import javafx.scene.control.Menu?>
@@ -13,7 +14,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.StackPane?>
 
-<StackPane  prefHeight="720.0" prefWidth="1280.0" stylesheets="@../dark-theme.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.inno.view.mainview.MainViewController">
+<StackPane prefHeight="720.0" prefWidth="1280.0" stylesheets="@../dark-theme.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.inno.view.mainview.MainViewController">
   <children>
       <AnchorPane prefHeight="200.0" prefWidth="200.0">
          <children>
@@ -120,7 +121,10 @@
             </ButtonBar>
             <SplitPane dividerPositions="0.7100313479623824" layoutY="69.0" prefHeight="719.0" prefWidth="1280.0">
               <items>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="728.0" prefWidth="903.0" />
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="728.0" prefWidth="903.0">
+                     <children>
+                        <Canvas fx:id="canvas" height="719.0" width="903.0" />
+                     </children></AnchorPane>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="334.0" prefWidth="221.0" />
               </items>
             </SplitPane>

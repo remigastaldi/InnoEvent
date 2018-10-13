@@ -3,7 +3,7 @@
  * Author: GASTALDI Rémi
  * -----
  * Last Modified: Saturday, 13th October 2018
- * Modified By: HUBERT Léo
+ * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
  * <<licensetext>>
@@ -12,11 +12,11 @@
 
 package com.inno;
 
+import com.inno.service.View;
+
 public class Main {
   public static void main(String[] args) {
-    // System.out.println(new App().getGreeting());
-    //MainView mainview = new MainView();
-    Core.get().start(args);
+    new View().run(args);
   }
 }
 

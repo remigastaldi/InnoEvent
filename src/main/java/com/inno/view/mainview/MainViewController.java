@@ -2,8 +2,8 @@
  * File Created: Wednesday, 26th September 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Friday, 12th October 2018
- * Modified By: HUBERT Léo
+ * Last Modified: Saturday, 13th October 2018
+ * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
  * <<licensetext>>
@@ -11,25 +11,25 @@
 
 package com.inno.view.mainview;
 
+
+import com.inno.InnoEngine;
 import com.inno.InnoViewController;
 
 import javafx.fxml.FXML;
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.ArcType;
 
-import javafx.scene.control.Button;
-
-public class MainViewController extends InnoViewController{
+public class MainViewController extends InnoViewController {
   @FXML
-  private Button testButton;
+  private Canvas canvas;
 
   public MainViewController() {
   }
 
 	@FXML
 	private void initialize() {
-  }
-  
-  @FXML
-  private void testButtonMethod() {
-    System.out.println("===============");
+    InnoCore().setEngine(new InnoEngine(canvas));
   }
 }
