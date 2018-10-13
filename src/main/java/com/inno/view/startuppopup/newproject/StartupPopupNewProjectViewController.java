@@ -1,11 +1,11 @@
 /*
- * File Created: Wednesday, 26th September 2018
- * Author: GASTALDI Rémi
+ * File Created: Friday, 12th October 2018
+ * Author: HUBERT Léo
  * -----
  * Last Modified: Friday, 12th October 2018
- * Modified By: GASTALDI Rémi
+ * Modified By: HUBERT Léo
  * -----
- * Copyright - 2018 GASTALDI Rémi
+ * Copyright - 2018 HUBERT Léo
  * <<licensetext>>
  */
 
@@ -24,11 +24,8 @@ import javafx.scene.control.TextField;
 
 import javafx.util.Duration;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Vector;
 
-import com.google.common.collect.MapMaker;
 import com.inno.InnoViewController;
 
 import javafx.animation.Interpolator;
@@ -95,6 +92,10 @@ public class StartupPopupNewProjectViewController extends InnoViewController {
     System.out.println("X => " + test.x + " Y => " + test.y);
 
     System.out.println(projectNameInput.getText());
+
+    InnoCore().test();
+
+
   }
 
   private Point getCenterOfPoints(Vector<Point> points) {

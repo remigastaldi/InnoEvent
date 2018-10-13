@@ -3,7 +3,7 @@
  * Author: GASTALDI Rémi
  * -----
  * Last Modified: Friday, 12th October 2018
- * Modified By: GASTALDI Rémi
+ * Modified By: HUBERT Léo
  * -----
  * Copyright - 2018 GASTALDI Rémi
  * <<licensetext>>
@@ -11,11 +11,13 @@
 
 package com.inno.view.mainview;
 
+import com.inno.InnoViewController;
+
 import javafx.fxml.FXML;
 
 import javafx.scene.control.Button;
 
-public class MainViewController {
+public class MainViewController extends InnoViewController{
   @FXML
   private Button testButton;
 

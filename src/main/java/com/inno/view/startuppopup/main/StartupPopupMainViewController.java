@@ -3,7 +3,7 @@
  * Author: GASTALDI Rémi
  * -----
  * Last Modified: Friday, 12th October 2018
- * Modified By: GASTALDI Rémi
+ * Modified By: HUBERT Léo
  * -----
  * Copyright - 2018 GASTALDI Rémi
  * <<licensetext>>
@@ -66,8 +66,8 @@ public class StartupPopupMainViewController extends InnoViewController {
     try {
       Parent root = FXMLLoader.load(getClass().getResource("/fxml/popup_new_project.fxml"));
       Scene scene = createNewProjectButton.getScene();
-
       root.translateXProperty().set(scene.getWidth());
+
       parentContainer.getChildren().add(root);
 
       Timeline timeline = new Timeline();
@@ -88,7 +88,7 @@ public class StartupPopupMainViewController extends InnoViewController {
       timeline.play();
       timeline2.play();
     } catch (Exception e) {
-      System.out.println("ERROR"+ e.getMessage());
+      System.out.println("ERROR "+ e.getMessage());
     }
   }
 }
