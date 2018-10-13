@@ -2,7 +2,7 @@
  * File Created: Wednesday, 26th September 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Friday, 12th October 2018
+ * Last Modified: Saturday, 13th October 2018
  * Modified By: HUBERT Léo
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -53,8 +53,8 @@ public class StartupPopupMainViewController extends InnoViewController {
     FileChooser fileChooser = new FileChooser();
     fileChooser.setTitle("Open Resource File");
     fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("InnoEvent", "*.inevt"));
-    File file = fileChooser.showOpenDialog(null); //ToDO add current stage 
-    if (file != null) {
+    File file = fileChooser.showOpenDialog(null); // ToDO add current stage if (file != null)
+    {
       System.out.println("OK");
       System.out.println(file);
     }
@@ -73,10 +73,9 @@ public class StartupPopupMainViewController extends InnoViewController {
       Timeline timeline = new Timeline();
       Timeline timeline2 = new Timeline();
       KeyValue kv = new KeyValue(root.translateXProperty(), 0, Interpolator.EASE_IN);
-      KeyValue kv2 = new KeyValue(anchorRoot.translateXProperty(), -600 , Interpolator.EASE_IN);
+      KeyValue kv2 = new KeyValue(anchorRoot.translateXProperty(), -600, Interpolator.EASE_IN);
       KeyFrame kf = new KeyFrame(Duration.seconds(0.2), kv);
       KeyFrame kf2 = new KeyFrame(Duration.seconds(0.2), kv2);
-
 
       timeline2.getKeyFrames().add(kf2);
       timeline.getKeyFrames().add(kf);
@@ -84,11 +83,10 @@ public class StartupPopupMainViewController extends InnoViewController {
         parentContainer.getChildren().remove(anchorRoot);
       });
 
-
       timeline.play();
       timeline2.play();
     } catch (Exception e) {
-      System.out.println("ERROR "+ e.getMessage());
+      System.out.println("ERROR " + e.getMessage());
     }
   }
 }

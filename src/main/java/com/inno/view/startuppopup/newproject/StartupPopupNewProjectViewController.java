@@ -2,7 +2,7 @@
  * File Created: Friday, 12th October 2018
  * Author: HUBERT Léo
  * -----
- * Last Modified: Friday, 12th October 2018
+ * Last Modified: Saturday, 13th October 2018
  * Modified By: HUBERT Léo
  * -----
  * Copyright - 2018 HUBERT Léo
@@ -94,8 +94,6 @@ public class StartupPopupNewProjectViewController extends InnoViewController {
     System.out.println(projectNameInput.getText());
 
     InnoCore().test();
-
-
   }
 
   private Point getCenterOfPoints(Vector<Point> points) {

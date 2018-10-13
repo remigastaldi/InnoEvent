@@ -50,4 +50,8 @@ public class Core {
     _viewService.test();
     System.out.println("test");
   }
+
+  public void test2(View view) {
+    _viewService = view;
+  }
 };
