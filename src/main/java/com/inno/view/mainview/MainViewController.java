@@ -3,7 +3,7 @@
  * Author: GASTALDI Rémi
  * -----
  * Last Modified: Sunday, 14th October 2018
- * Modified By: GASTALDI Rémi
+ * Modified By: HUBERT Léo
  * -----
  * Copyright - 2018 GASTALDI Rémi
  * <<licensetext>>
@@ -82,5 +82,15 @@ public class MainViewController extends InnoViewController {
   private void testBtn() {
     System.out.println("ok");
     InnoCore().View().setSidebarFromFxmlFileName("sidebar_section.fxml", sidebarAnchor);
+  }
+
+  @FXML
+  private void dragStart() {
+    System.out.println("start");
+  }
+
+  @FXML
+  private void dragDone() {
+    System.out.println("done");
   }
 }

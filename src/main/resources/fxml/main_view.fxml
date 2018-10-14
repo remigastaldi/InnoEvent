@@ -15,11 +15,11 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.StackPane?>
 
-<StackPane prefHeight="720.0" prefWidth="1280.0" stylesheets="@../dark-theme.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.inno.view.mainview.MainViewController">
+<StackPane minHeight="720.0" minWidth="1280.0" prefHeight="720.0" prefWidth="1280.0" stylesheets="@../dark-theme.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.inno.view.mainview.MainViewController">
   <children>
       <AnchorPane prefHeight="200.0" prefWidth="200.0">
          <children>
-          <MenuBar prefHeight="29.0" prefWidth="1280.0">
+          <MenuBar prefHeight="29.0" prefWidth="1280.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <menus>
               <Menu mnemonicParsing="false" text="File">
                 <items>
@@ -48,7 +48,7 @@
               <Menu mnemonicParsing="false" text="Insertion" />
             </menus>
           </MenuBar>
-            <ButtonBar buttonMinWidth="0.0" centerShape="false" layoutY="29.0" prefHeight="29.0" prefWidth="1280.0">
+            <ButtonBar buttonMinWidth="0.0" centerShape="false" layoutY="29.0" prefHeight="29.0" prefWidth="1280.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
                <buttons>
                   <Button mnemonicParsing="false" ButtonBar.buttonData="LEFT">
                      <graphic>
@@ -121,24 +121,27 @@
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </padding>
             </ButtonBar>
-            <SplitPane dividerPositions="0.7100313479623824" layoutY="69.0" prefHeight="719.0" prefWidth="1280.0">
+         </children>
+      </AnchorPane>
+      <AnchorPane prefHeight="200.0" prefWidth="200.0">
+         <children>
+            <SplitPane dividerPositions="0.797339593114241" onDragDetected="#dragStart" prefHeight="719.0" prefWidth="1280.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
               <items>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="728.0" prefWidth="903.0">
                      <children>
-                        <AnchorPane prefHeight="200.0" prefWidth="200.0">
-                           <children>
-                              <ScrollPane prefHeight="717.0" prefWidth="903.0">
-                                 <content>
-                                    <Pane fx:id="graphicsPane" prefHeight="715.0" prefWidth="899.0" />
-                                 </content>
-                              </ScrollPane>
-                           </children>
-                        </AnchorPane>
+                        <ScrollPane prefHeight="717.0" prefWidth="903.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <content>
+                              <Pane fx:id="graphicsPane" prefHeight="715.0" prefWidth="899.0" />
+                           </content>
+                        </ScrollPane>
                      </children></AnchorPane>
-                <AnchorPane fx:id="sidebarAnchor" minHeight="0.0" minWidth="0.0" prefHeight="334.0" prefWidth="221.0" />
+                <AnchorPane fx:id="sidebarAnchor" minHeight="0.0" minWidth="0.0" SplitPane.resizableWithParent="false" />
               </items>
             </SplitPane>
          </children>
+         <StackPane.margin>
+            <Insets top="66.0" />
+         </StackPane.margin>
       </AnchorPane>
   </children>
 </StackPane>

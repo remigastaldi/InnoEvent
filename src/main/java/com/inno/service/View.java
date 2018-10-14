@@ -3,7 +3,7 @@
  * Author: GASTALDI Rémi
  * -----
  * Last Modified: Sunday, 14th October 2018
- * Modified By: GASTALDI Rémi
+ * Modified By: HUBERT Léo
  * -----
  * Copyright - 2018 GASTALDI Rémi
  * <<licensetext>>
@@ -163,7 +163,8 @@ public class View extends Application {
     fxmlLoader.setLocation(getClass().getResource("/fxml/sidebar/" + fxmlFileName));
 
     try {
-      anchorPane.getChildren().setAll((Pane) fxmlLoader.load());
+      Pane pane = (Pane) fxmlLoader.load();
+      anchorPane.getChildren().setAll(pane.getChildren());
     } catch (Exception e) {
       System.out.println("Error when load sidebar file " + e.getMessage());
     }
