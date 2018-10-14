@@ -27,7 +27,8 @@ public class CanvasGrid {
   private Pane  _pane = null;
   private ObservableList<Node> _nodes = null;
   private ArrayList<Line> _lines = new ArrayList<>();
-  private double  _spacing = 5.0;
+  private double  _xSpacing = 5.0;
+  private double  _ySpacing = 5.0;
   private Color _color = Color.WHITE;
   private double _width = 1.0;
 
@@ -39,24 +40,28 @@ public class CanvasGrid {
   public void zoom(double factor) {
   }
 
-  public void setGridSpacing(double spacing) {
-    _spacing = spacing;
+  public void setXSpacing(double spacing) {
+    _xSpacing = spacing;
   }
 
-  public void setGridColor(Color color) {
+  public void setYSpacing(double spacing) {
+    _ySpacing = spacing;
+  }
+
+  public void setColor(Color color) {
     _color = color;
   }
 
-  public void setGridLinesWidth(double width) {
+  public void setLinesWidth(double width) {
     _width = width;
   }
 
-  public void activateGrid() {
-    double xNeeded = _pane.getPrefWidth() / _spacing;
-    double yNeeded = _pane.getPrefHeight() / _spacing;
+  public void activate() {
+    double xNeeded = _pane.getPrefWidth() / _xSpacing;
+    double yNeeded = _pane.getPrefHeight() / _ySpacing;
   
-    for (double i = 1; i < xNeeded; i += _spacing) {
-      double pos = i * _spacing;
+    for (double i = 1; i < xNeeded; i += _xSpacing) {
+      double pos = i * _xSpacing;
       Line line = new Line(pos, 0, pos, _pane.getPrefHeight());
 
       line.setStroke(_color);
@@ -65,14 +70,20 @@ public class CanvasGrid {
       _nodes.add(line);
     }
     
-    for (double i = 1; i < yNeeded; i += _spacing) {
-      double pos = i * _spacing;
+    for (double i = 1; i < yNeeded; i += _ySpacing) {
+      double pos = i * _ySpacing;
       Line line = new Line(0, pos, _pane.getPrefWidth(), pos);
 
       line.setStroke(_color);
       line.setStrokeWidth(_width);
       _lines.add(line);
       _nodes.add(line);
+    }
+  }
+
+  public void disable() {
+    for (Line line : _lines) {
+      _nodes.remove(line);
     }
   }
 }

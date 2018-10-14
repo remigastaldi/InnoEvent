@@ -42,11 +42,12 @@ public class Engine {
     if (val) {
       if (_grid == null) {
         _grid = new CanvasGrid(_pane);
-        _grid.setGridColor(Color.valueOf("#777A81"));
-        _grid.setGridLinesWidth(0.5);
-        _grid.activateGrid();
+        _grid.setColor(Color.valueOf("#777A81"));
+        _grid.setLinesWidth(0.5);
+        _grid.activate();
       }
     } else {
+      _grid.disable();
       _grid = null;
     }
   }
