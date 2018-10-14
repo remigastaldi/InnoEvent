@@ -11,6 +11,7 @@
 
 package com.inno.view.mainview;
 
+
 import com.inno.InnoEngine;
 import com.inno.InnoViewController;
 
@@ -23,9 +24,13 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.ArcType;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.TilePane;
+import javafx.scene.control.ScrollPane;
 
 import javafx.scene.shape.Polygon;
 import javafx.event.EventHandler;
+
+import javafx.geometry.Bounds;
 
 import javafx.fxml.FXMLLoader;
 
@@ -36,28 +41,35 @@ public class MainViewController extends InnoViewController {
   @FXML
   private AnchorPane sidebarAnchor;
 
+  @FXML
+  private ScrollPane scrollPane;
+
   public MainViewController() {
   }
 
   @FXML
   private void initialize() {
     // Polygon polygon = new Polygon();
-    // polygon.getPoints().addAll(new Double[] { 0.0, 0.0, 1000.0, 100.0, 10.0, 20.0 });
-    // Polygon polygon2 = new Polygon();
-    // polygon2.getPoints().addAll(new Double[] { 10.0, 50.0, 200.0, 300.0, 500.0, 400.0 });
-    // polygon.addEventHandler(MouseEvent.MOUSE_MOVED, new EventHandler<javafx.scene.input.MouseEvent>() {
-    //   public void handle(javafx.scene.input.MouseEvent event) {
-    //     // code used for retrieving x,y values
-    //     // canvas.removeEventHandler(MouseEvent.MOUSE_MOVED, this);
-    //     System.out.println("Poly one");
-    //   }
+    // polygon.getPoints().addAll(new Double[] { 0.0, 0.0, 1000.0, 100.0, 10.0, 20.0
     // });
-    // polygon2.addEventHandler(MouseEvent.MOUSE_MOVED, new EventHandler<javafx.scene.input.MouseEvent>() {
-    //   public void handle(javafx.scene.input.MouseEvent event) {
-    //     // code used for retrieving x,y values
-    //     // canvas.removeEventHandler(MouseEvent.MOUSE_MOVED, this);
-    //     System.out.println("Poly two");
-    //   }
+    // Polygon polygon2 = new Polygon();
+    // polygon2.getPoints().addAll(new Double[] { 10.0, 50.0, 200.0, 300.0, 500.0,
+    // 400.0 });
+    // polygon.addEventHandler(MouseEvent.MOUSE_MOVED, new
+    // EventHandler<javafx.scene.input.MouseEvent>() {
+    // public void handle(javafx.scene.input.MouseEvent event) {
+    // // code used for retrieving x,y values
+    // // canvas.removeEventHandler(MouseEvent.MOUSE_MOVED, this);
+    // System.out.println("Poly one");
+    // }
+    // });
+    // polygon2.addEventHandler(MouseEvent.MOUSE_MOVED, new
+    // EventHandler<javafx.scene.input.MouseEvent>() {
+    // public void handle(javafx.scene.input.MouseEvent event) {
+    // // code used for retrieving x,y values
+    // // canvas.removeEventHandler(MouseEvent.MOUSE_MOVED, this);
+    // System.out.println("Poly two");
+    // }
     // });
 
     // graphicsPane.getChildren().add(polygon);
@@ -71,6 +83,9 @@ public class MainViewController extends InnoViewController {
     // graphicsPane.setScaleY(2);
     InnoCore().setEngine(new InnoEngine(graphicsPane));
     InnoCore().View().setSidebarFromFxmlFileName("sidebar_room.fxml", sidebarAnchor);
+
+    scrollPane.setVvalue(0.5);
+    scrollPane.setHvalue(0.5);
   }
 
   @FXML
@@ -82,15 +97,5 @@ public class MainViewController extends InnoViewController {
   private void testBtn() {
     System.out.println("ok");
     InnoCore().View().setSidebarFromFxmlFileName("sidebar_section.fxml", sidebarAnchor);
-  }
-
-  @FXML
-  private void dragStart() {
-    System.out.println("start");
-  }
-
-  @FXML
-  private void dragDone() {
-    System.out.println("done");
   }
 }
