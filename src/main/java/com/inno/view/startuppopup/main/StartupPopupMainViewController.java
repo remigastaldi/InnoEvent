@@ -27,8 +27,6 @@ import javafx.scene.layout.StackPane;
 public class StartupPopupMainViewController extends InnoViewController {
 
   @FXML
-  private Button createNewProjectButton;
-  @FXML
   private AnchorPane anchorRoot;
   @FXML
   private StackPane parentContainer;

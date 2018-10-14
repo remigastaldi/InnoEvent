@@ -17,7 +17,6 @@ import javafx.stage.Stage;
 
 import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.StackPane;
 import javafx.scene.control.TextField;
 
 import java.util.Vector;
@@ -36,7 +35,6 @@ public class StartupPopupNewProjectViewController extends InnoViewController {
   private Button doneButton;
   @FXML
   private AnchorPane anchorRoot;
-
   @FXML
   private TextField projectNameInput;
   @FXML

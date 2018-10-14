@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Text?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="334.0" prefWidth="221.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.inno.view.sidebar.SectionController">
+   <children>
+      <Text layoutX="72.0" layoutY="90.0" strokeType="OUTSIDE" strokeWidth="0.0" text="JE SUIS LE 1" />
+   </children>
+</Pane>

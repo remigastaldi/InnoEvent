@@ -115,6 +115,7 @@
                         </ImageView>
                      </graphic>
                   </Button>
+                  <Button mnemonicParsing="false" onAction="#testBtn" text="Button" />
                </buttons>
                <padding>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
@@ -134,7 +135,7 @@
                            </children>
                         </AnchorPane>
                      </children></AnchorPane>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="334.0" prefWidth="221.0" />
+                <AnchorPane fx:id="sidebarAnchor" minHeight="0.0" minWidth="0.0" prefHeight="334.0" prefWidth="221.0" />
               </items>
             </SplitPane>
          </children>

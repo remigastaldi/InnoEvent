@@ -2,7 +2,7 @@
  * File Created: Wednesday, 10th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Saturday, 13th October 2018
+ * Last Modified: Sunday, 14th October 2018
  * Modified By: HUBERT Léo
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -26,6 +26,7 @@ import javafx.scene.Parent;
 import javafx.util.Duration;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
 
 public class View extends Application {
 
@@ -98,7 +99,7 @@ public class View extends Application {
   }
 
   public void openViewWithAnimation(String fxmlFileName, AnimationDirection animationTo, AnchorPane anchorRoot) {
-    StackPane parentContainer = (StackPane)anchorRoot.getScene().getRoot();
+    StackPane parentContainer = (StackPane) anchorRoot.getScene().getRoot();
     Scene scene = parentContainer.getScene();
     try {
       FXMLLoader fxmlLoader = new FXMLLoader();
@@ -154,7 +155,17 @@ public class View extends Application {
     } catch (Exception e) {
       System.out.println("Error with annimation " + e.getMessage());
     }
+  }
 
+  public void setSidebarFromFxmlFileName(String fxmlFileName, AnchorPane anchorPane) {
+    FXMLLoader fxmlLoader = new FXMLLoader();
+    fxmlLoader.setLocation(getClass().getResource("/fxml/sidebar/" + fxmlFileName));
+
+    try {
+      anchorPane.getChildren().setAll((Pane) fxmlLoader.load());
+    } catch (Exception e) {
+      System.out.println("Error when load sidebar file " + e.getMessage());
+    }
   }
 
   public void showMainView() {
