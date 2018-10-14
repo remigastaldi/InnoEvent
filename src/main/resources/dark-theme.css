@@ -4,6 +4,10 @@
     -fx-background-color: rgb(57, 57, 57);
 }
 
+.grey {
+   -fx-background-color: rgb(69, 73, 74);
+}
+
 .btn {
     -fx-background-color: none;
     -fx-text-fill: rgb(187, 187, 187);

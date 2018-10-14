@@ -125,11 +125,11 @@
       </AnchorPane>
       <AnchorPane prefHeight="200.0" prefWidth="200.0">
          <children>
-            <SplitPane dividerPositions="0.797339593114241" prefHeight="719.0" prefWidth="1280.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <SplitPane dividerPositions="0.8450704225352113" prefHeight="719.0" prefWidth="1280.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
               <items>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="728.0" prefWidth="903.0">
                      <children>
-                        <ScrollPane fx:id="scrollPane" minViewportHeight="100.0" minViewportWidth="100.0" prefHeight="717.0" prefViewportHeight="100.0" prefViewportWidth="100.0" prefWidth="903.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <ScrollPane fx:id="scrollPane" minViewportHeight="100.0" minViewportWidth="100.0" prefHeight="717.0" prefViewportHeight="100.0" prefViewportWidth="100.0" prefWidth="1038.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <content>
                               <Pane fx:id="paneParent" prefHeight="1080.0" prefWidth="1920.0" style="-fx-background-color: rgb(57, 57, 57);">
                                  <children>
@@ -139,7 +139,7 @@
                            </content>
                         </ScrollPane>
                      </children></AnchorPane>
-                <AnchorPane fx:id="sidebarAnchor" minHeight="0.0" minWidth="0.0" SplitPane.resizableWithParent="false" />
+                <AnchorPane fx:id="sidebarAnchor" maxWidth="500.0" minHeight="0.0" minWidth="200.0" styleClass="dark" SplitPane.resizableWithParent="false" />
               </items>
             </SplitPane>
          </children>
