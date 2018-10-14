@@ -112,30 +112,30 @@ public class View extends Application {
       KeyValue kv2;
 
       switch (animationTo) {
-      case LEFT:
-        newAnchor.translateXProperty().set(scene.getWidth());
-        kv = new KeyValue(newAnchor.translateXProperty(), 0, Interpolator.EASE_IN);
-        kv2 = new KeyValue(anchorRoot.translateXProperty(), -scene.getWidth(), Interpolator.EASE_IN);
-        break;
-      case RIGHT:
-        newAnchor.translateXProperty().set(-scene.getWidth());
-        kv = new KeyValue(newAnchor.translateXProperty(), 0, Interpolator.EASE_IN);
-        kv2 = new KeyValue(anchorRoot.translateXProperty(), scene.getWidth(), Interpolator.EASE_IN);
-        break;
-      case TOP:
-        newAnchor.translateYProperty().set(scene.getHeight());
-        kv = new KeyValue(newAnchor.translateYProperty(), 0, Interpolator.EASE_IN);
-        kv2 = new KeyValue(anchorRoot.translateYProperty(), -scene.getHeight(), Interpolator.EASE_IN);
-        break;
-      case BOTTOM:
-        newAnchor.translateYProperty().set(-scene.getHeight());
-        kv = new KeyValue(newAnchor.translateYProperty(), 0, Interpolator.EASE_IN);
-        kv2 = new KeyValue(anchorRoot.translateYProperty(), scene.getHeight(), Interpolator.EASE_IN);
-        break;
-      default:
-        kv = new KeyValue(newAnchor.translateXProperty(), 0, Interpolator.EASE_IN);
-        kv2 = new KeyValue(anchorRoot.translateYProperty(), 0, Interpolator.EASE_IN);
-        break;
+        case LEFT:
+          newAnchor.translateXProperty().set(scene.getWidth());
+          kv = new KeyValue(newAnchor.translateXProperty(), 0, Interpolator.EASE_IN);
+          kv2 = new KeyValue(anchorRoot.translateXProperty(), -scene.getWidth(), Interpolator.EASE_IN);
+          break;
+        case RIGHT:
+          newAnchor.translateXProperty().set(-scene.getWidth());
+          kv = new KeyValue(newAnchor.translateXProperty(), 0, Interpolator.EASE_IN);
+          kv2 = new KeyValue(anchorRoot.translateXProperty(), scene.getWidth(), Interpolator.EASE_IN);
+          break;
+        case TOP:
+          newAnchor.translateYProperty().set(scene.getHeight());
+          kv = new KeyValue(newAnchor.translateYProperty(), 0, Interpolator.EASE_IN);
+          kv2 = new KeyValue(anchorRoot.translateYProperty(), -scene.getHeight(), Interpolator.EASE_IN);
+          break;
+        case BOTTOM:
+          newAnchor.translateYProperty().set(-scene.getHeight());
+          kv = new KeyValue(newAnchor.translateYProperty(), 0, Interpolator.EASE_IN);
+          kv2 = new KeyValue(anchorRoot.translateYProperty(), scene.getHeight(), Interpolator.EASE_IN);
+          break;
+        default:
+          kv = new KeyValue(newAnchor.translateXProperty(), 0, Interpolator.EASE_IN);
+          kv2 = new KeyValue(anchorRoot.translateYProperty(), 0, Interpolator.EASE_IN);
+          break;
       }
 
       parentContainer.getChildren().add(newAnchor);
