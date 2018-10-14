@@ -3,7 +3,7 @@
  * Author: GASTALDI Rémi
  * -----
  * Last Modified: Sunday, 14th October 2018
- * Modified By: HUBERT Léo
+ * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
  * <<licensetext>>
@@ -39,7 +39,8 @@ public class View extends Application {
   public void start(Stage mainView) throws Exception {
     _mainView = mainView;
     Core.get().setViewService(this);
-    showStartupPopup();
+    showMainView();
+    // showStartupPopup();
   }
 
   /**
