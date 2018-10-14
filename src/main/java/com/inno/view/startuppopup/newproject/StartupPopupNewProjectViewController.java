@@ -27,6 +27,8 @@ import javafx.util.Duration;
 import java.util.Vector;
 
 import com.inno.InnoViewController;
+import com.inno.service.View.AnimationDirection;
+
 import javafx.geometry.Point2D;
 
 import javafx.animation.Interpolator;
@@ -88,31 +90,6 @@ public class StartupPopupNewProjectViewController extends InnoViewController {
 
   @FXML
   private void cancelButtonAction() {
-    try {
-      Parent root = FXMLLoader.load(getClass().getResource("/fxml/popup.fxml"));
-      StackPane parentContainer = (StackPane) cancelButton.getScene().getRoot();
-
-      root.translateXProperty().set(-600);
-
-      parentContainer.getChildren().add(root);
-
-      Timeline timeline = new Timeline();
-      Timeline timeline2 = new Timeline();
-      KeyValue kv = new KeyValue(root.translateXProperty(), 0, Interpolator.EASE_IN);
-      KeyValue kv2 = new KeyValue(anchorRoot.translateXProperty(), 600, Interpolator.EASE_IN);
-      KeyFrame kf = new KeyFrame(Duration.seconds(0.2), kv);
-      KeyFrame kf2 = new KeyFrame(Duration.seconds(0.2), kv2);
-
-      timeline2.getKeyFrames().add(kf2);
-      timeline.getKeyFrames().add(kf);
-      timeline.setOnFinished(t -> {
-        parentContainer.getChildren().remove(anchorRoot);
-      });
-
-      timeline.play();
-      timeline2.play();
-    } catch (Exception e) {
-      System.out.println("ERROR in annimation" + e.getMessage());
-    }
+    InnoCore().View().openViewWithAnimation("popup.fxml", AnimationDirection.TOP, cancelButton.getScene(), (StackPane)cancelButton.getScene().getRoot(), anchorRoot);
   }
 }

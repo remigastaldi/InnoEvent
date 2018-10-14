@@ -14,6 +14,7 @@ package com.inno.view.startuppopup.main;
 import java.io.File;
 
 import com.inno.InnoViewController;
+import com.inno.service.View.AnimationDirection;
 
 import javafx.fxml.FXML;
 
@@ -62,30 +63,6 @@ public class StartupPopupMainViewController extends InnoViewController {
 
   @FXML
   private void createNewProjectButtonAction() {
-    try {
-      Parent root = FXMLLoader.load(getClass().getResource("/fxml/popup_new_project.fxml"));
-      Scene scene = createNewProjectButton.getScene();
-      root.translateXProperty().set(scene.getWidth());
-
-      parentContainer.getChildren().add(root);
-
-      Timeline timeline = new Timeline();
-      Timeline timeline2 = new Timeline();
-      KeyValue kv = new KeyValue(root.translateXProperty(), 0, Interpolator.EASE_IN);
-      KeyValue kv2 = new KeyValue(anchorRoot.translateXProperty(), -600, Interpolator.EASE_IN);
-      KeyFrame kf = new KeyFrame(Duration.seconds(0.2), kv);
-      KeyFrame kf2 = new KeyFrame(Duration.seconds(0.2), kv2);
-
-      timeline2.getKeyFrames().add(kf2);
-      timeline.getKeyFrames().add(kf);
-      timeline.setOnFinished(t -> {
-        parentContainer.getChildren().remove(anchorRoot);
-      });
-
-      timeline.play();
-      timeline2.play();
-    } catch (Exception e) {
-      System.out.println("ERROR " + e.getMessage());
-    }
+    InnoCore().View().openViewWithAnimation("popup_new_project.fxml", AnimationDirection.BOTTOM, parentContainer.getScene(), parentContainer, anchorRoot);
   }
 }

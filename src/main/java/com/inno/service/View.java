@@ -18,9 +18,18 @@ import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
 
+import javafx.animation.Interpolator;
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
+import javafx.scene.Parent;
+import javafx.util.Duration;
+import javafx.scene.layout.StackPane;
+import javafx.scene.layout.AnchorPane;
+
 public class View extends Application {
 
-  Stage _mainView;
+  private Stage _mainView;
 
   public View() {
   }
@@ -77,15 +86,79 @@ public class View extends Application {
 
   /**
    * Get current mainView
+   * 
    * @return
    */
   public Stage getMainView() {
     return _mainView;
   }
 
+  public enum AnimationDirection {
+    LEFT, RIGHT, TOP, BOTTOM
+  }
+
+  public void openViewWithAnimation(String fxmlFileName, AnimationDirection animationTo, Scene scene,
+      StackPane parentContainer, AnchorPane anchorRoot) {
+    try {
+      FXMLLoader fxmlLoader = new FXMLLoader();
+
+      fxmlLoader.setLocation(getClass().getResource("/fxml/" + fxmlFileName));
+      Parent newAnchor = (Parent) fxmlLoader.load();
+      
+      KeyValue kv;
+      KeyValue kv2;
+
+      switch (animationTo) {
+      case LEFT:
+        newAnchor.translateXProperty().set(scene.getWidth());
+        kv = new KeyValue(newAnchor.translateXProperty(), 0, Interpolator.EASE_IN);
+        kv2 = new KeyValue(anchorRoot.translateXProperty(), -scene.getWidth(), Interpolator.EASE_IN);
+        break;
+      case RIGHT:
+        newAnchor.translateXProperty().set(-scene.getWidth());
+        kv = new KeyValue(newAnchor.translateXProperty(), 0, Interpolator.EASE_IN);
+        kv2 = new KeyValue(anchorRoot.translateXProperty(), scene.getWidth(), Interpolator.EASE_IN);
+        break;
+      case TOP:
+        newAnchor.translateYProperty().set(scene.getHeight());
+        kv = new KeyValue(newAnchor.translateYProperty(), 0, Interpolator.EASE_IN);
+        kv2 = new KeyValue(anchorRoot.translateYProperty(), -scene.getHeight(), Interpolator.EASE_IN);
+        break;
+      case BOTTOM:
+        newAnchor.translateYProperty().set(-scene.getHeight());
+        kv = new KeyValue(newAnchor.translateYProperty(), 0, Interpolator.EASE_IN);
+        kv2 = new KeyValue(anchorRoot.translateYProperty(), scene.getHeight(), Interpolator.EASE_IN);
+        break;
+      default:
+        kv = new KeyValue(newAnchor.translateXProperty(), 0, Interpolator.EASE_IN);
+        kv2 = new KeyValue(anchorRoot.translateYProperty(), 0, Interpolator.EASE_IN);
+        break;
+      }
+
+      parentContainer.getChildren().add(newAnchor);
+
+      Timeline timeline = new Timeline();
+      Timeline timeline2 = new Timeline();
+      KeyFrame kf = new KeyFrame(Duration.seconds(0.2), kv);
+      KeyFrame kf2 = new KeyFrame(Duration.seconds(0.2), kv2);
+
+      timeline2.getKeyFrames().add(kf2);
+      timeline.getKeyFrames().add(kf);
+      timeline.setOnFinished(t -> {
+        parentContainer.getChildren().remove(anchorRoot);
+      });
+
+      timeline.play();
+      timeline2.play();
+    } catch (Exception e) {
+      System.out.println("Error with annimation " + e.getMessage());
+    }
+
+  }
+
   public void showMainView() {
     Stage view = openView(null, "main_view.fxml");
-    closeView(getMainView()); 
+    closeView(getMainView());
     setMainView(view);
   }
 
