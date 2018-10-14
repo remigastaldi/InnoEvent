@@ -27,6 +27,7 @@ import javafx.util.Duration;
 import java.util.Vector;
 
 import com.inno.InnoViewController;
+import javafx.geometry.Point2D;
 
 import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
@@ -65,75 +66,24 @@ public class StartupPopupNewProjectViewController extends InnoViewController {
   private void initialize() {
   }
 
-  public class Point {
-    public double x = 0;
-    public double y = 0;
-
-    // constructor
-    public Point(int a, int b) {
-      x = a;
-      y = b;
-    }
-  }
-
   @FXML
   private void doneButtonAction() {
 
-    Vector<Point> points = new Vector<Point>();
+    Vector<Point2D> points = new Vector<Point2D>();
 
-    points.add(new Point(-1, 2));
-    points.add(new Point(7, 5));
-    points.add(new Point(4, 3));
-    points.add(new Point(6, -1));
-    points.add(new Point(3, 1));
+    points.add(new Point2D(-1, 2));
+    points.add(new Point2D(7, 5));
+    points.add(new Point2D(4, 3));
+    points.add(new Point2D(6, -1));
+    points.add(new Point2D(3, 1));
 
-    Point test = getCenterOfPoints(points);
+    Point2D test = InnoCore().Utils().getCenterOfPoints(points);
 
-    System.out.println("X => " + test.x + " Y => " + test.y);
+    System.out.println("X => " + test.getX() + " Y => " + test.getY());
 
     System.out.println(projectNameInput.getText());
 
-    InnoCore().test();
-  }
-
-  private Point getCenterOfPoints(Vector<Point> points) {
-    Point center = new Point(0, 0);
-
-    System.out.println("Size =>  " + points.size());
-
-    double sum1 = 0;
-    double sum2 = 0;
-    double sum3 = 0;
-
-    for (int i = 0; i < points.size(); i++) {
-      System.out.println("I =>  " + i);
-
-      Point point1 = points.get(i);
-      Point point2;
-      if (i + 1 == points.size()) {
-        point2 = points.get(0);
-      } else {
-        point2 = points.get(i + 1);
-      }
-
-      double val1 = ((point1.x * point2.y) - (point2.x * point1.y));
-      double val2 = (val1 * (point1.x + point2.x));
-      double val3 = (val1 * (point1.y + point2.y));
-
-      sum1 += val1;
-      sum2 += val2;
-      sum3 += val3;
-
-      System.out.println("Val1 " + val1);
-      System.out.println("Val2 " + val2);
-      System.out.println("Val3 " + val3);
-
-    }
-
-    double air = (sum1 / 2);
-    center.x = (sum2 / (6 * air));
-    center.y = (sum3 / (6 * air));
-    return center;
+    InnoCore().View().showMainView();
   }
 
   @FXML

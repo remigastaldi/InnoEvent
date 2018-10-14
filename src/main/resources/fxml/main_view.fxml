@@ -31,7 +31,7 @@
                   <MenuItem mnemonicParsing="false" text="Save" />
                   <MenuItem mnemonicParsing="false" text="Save As…" />
                   <SeparatorMenuItem mnemonicParsing="false" />
-                  <MenuItem mnemonicParsing="false" text="Quit" />
+                  <MenuItem mnemonicParsing="false" onAction="#quitButtonAction" text="Quit" />
                 </items>
               </Menu>
               <Menu mnemonicParsing="false" text="Edit">

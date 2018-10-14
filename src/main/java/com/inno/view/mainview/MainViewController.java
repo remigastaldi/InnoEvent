@@ -3,7 +3,7 @@
  * Author: GASTALDI Rémi
  * -----
  * Last Modified: Saturday, 13th October 2018
- * Modified By: GASTALDI Rémi
+ * Modified By: HUBERT Léo
  * -----
  * Copyright - 2018 GASTALDI Rémi
  * <<licensetext>>
@@ -31,5 +31,11 @@ public class MainViewController extends InnoViewController {
 	@FXML
 	private void initialize() {
     InnoCore().setEngine(new InnoEngine(canvas));
+  }
+
+
+  @FXML
+  private void quitButtonAction() {
+    InnoCore().View().showStartupPopup();
   }
 }

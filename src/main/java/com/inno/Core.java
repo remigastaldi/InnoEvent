@@ -3,7 +3,7 @@
  * Author: GASTALDI Rémi
  * -----
  * Last Modified: Saturday, 13th October 2018
- * Modified By: GASTALDI Rémi
+ * Modified By: HUBERT Léo
  * -----
  * Copyright - 2018 GASTALDI Rémi
  * <<licensetext>>
@@ -44,12 +44,7 @@ public class Core {
     return _instance;
   }
 
-  public void start(String[] args) {
-    _viewService.run(args);
-  }
-
   public void test() {
-    _viewService.test();
     System.out.println("test");
   }
 

@@ -53,12 +53,11 @@ public class StartupPopupMainViewController extends InnoViewController {
     FileChooser fileChooser = new FileChooser();
     fileChooser.setTitle("Open Resource File");
     fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("InnoEvent", "*.inevt"));
-    File file = fileChooser.showOpenDialog(null); // ToDO add current stage if (file != null)
-    {
+    File file = fileChooser.showOpenDialog(InnoCore().View().getMainView());
+    if (file != null) {
       System.out.println("OK");
       System.out.println(file);
     }
-
   }
 
   @FXML
