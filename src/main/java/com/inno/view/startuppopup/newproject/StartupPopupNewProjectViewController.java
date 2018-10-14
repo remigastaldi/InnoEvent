@@ -15,14 +15,10 @@ import javafx.fxml.FXML;
 
 import javafx.stage.Stage;
 
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.control.TextField;
-
-import javafx.util.Duration;
 
 import java.util.Vector;
 
@@ -31,10 +27,6 @@ import com.inno.service.View.AnimationDirection;
 
 import javafx.geometry.Point2D;
 
-import javafx.animation.Interpolator;
-import javafx.animation.KeyFrame;
-import javafx.animation.KeyValue;
-import javafx.animation.Timeline;
 
 public class StartupPopupNewProjectViewController extends InnoViewController {
 
@@ -90,6 +82,6 @@ public class StartupPopupNewProjectViewController extends InnoViewController {
 
   @FXML
   private void cancelButtonAction() {
-    InnoCore().View().openViewWithAnimation("popup.fxml", AnimationDirection.TOP, cancelButton.getScene(), (StackPane)cancelButton.getScene().getRoot(), anchorRoot);
+    InnoCore().View().openViewWithAnimation("popup.fxml", AnimationDirection.RIGHT, anchorRoot);
   }
 }

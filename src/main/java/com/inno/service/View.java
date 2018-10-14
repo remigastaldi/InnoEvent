@@ -97,14 +97,15 @@ public class View extends Application {
     LEFT, RIGHT, TOP, BOTTOM
   }
 
-  public void openViewWithAnimation(String fxmlFileName, AnimationDirection animationTo, Scene scene,
-      StackPane parentContainer, AnchorPane anchorRoot) {
+  public void openViewWithAnimation(String fxmlFileName, AnimationDirection animationTo, AnchorPane anchorRoot) {
+    StackPane parentContainer = (StackPane)anchorRoot.getScene().getRoot();
+    Scene scene = parentContainer.getScene();
     try {
       FXMLLoader fxmlLoader = new FXMLLoader();
 
       fxmlLoader.setLocation(getClass().getResource("/fxml/" + fxmlFileName));
       Parent newAnchor = (Parent) fxmlLoader.load();
-      
+
       KeyValue kv;
       KeyValue kv2;
 
