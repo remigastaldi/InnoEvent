@@ -8,7 +8,7 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="597.0" prefWidth="356.0" style="-fx-background-color: rgb(57, 57, 57);" styleClass="dark" stylesheets="@../../dark-theme.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <AnchorPane prefHeight="86.0" prefWidth="367.0" style="-fx-border-color: orange; -fx-border-width: 2;" styleClass="grey" AnchorPane.leftAnchor="-3.0" AnchorPane.rightAnchor="-3.0" AnchorPane.topAnchor="-3.0">
+      <AnchorPane prefWidth="367.0" style="-fx-border-color: orange; -fx-border-width: 2;" styleClass="grey" AnchorPane.leftAnchor="-3.0" AnchorPane.rightAnchor="-3.0" AnchorPane.topAnchor="-3.0">
          <children>
             <Label alignment="CENTER" layoutX="22.0" text="Room" textAlignment="CENTER" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
                <textFill>
@@ -20,7 +20,7 @@
                   </LinearGradient>
                </textFill>
                <font>
-                  <Font name="System Bold" size="70.0" />
+                  <Font name="System Bold" size="40.0" />
                </font>
             </Label>
          </children>

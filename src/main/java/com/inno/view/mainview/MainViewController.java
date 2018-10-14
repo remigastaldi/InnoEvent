@@ -11,9 +11,9 @@
 
 package com.inno.view.mainview;
 
-
 import com.inno.InnoEngine;
 import com.inno.InnoViewController;
+import com.inno.service.View.AnimationDirection;
 
 import javafx.scene.input.MouseEvent;
 import javafx.fxml.FXML;
@@ -94,8 +94,12 @@ public class MainViewController extends InnoViewController {
   }
 
   @FXML
-  private void testBtn() {
-    System.out.println("ok");
+  private void openRoom() {
+    InnoCore().View().setSidebarFromFxmlFileName("sidebar_room.fxml", sidebarAnchor);
+  }
+
+  @FXML
+  private void openSection() {
     InnoCore().View().setSidebarFromFxmlFileName("sidebar_section.fxml", sidebarAnchor);
   }
 }

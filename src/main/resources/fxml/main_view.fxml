@@ -61,7 +61,7 @@
                   </Button>
                   <Button mnemonicParsing="false" ButtonBar.buttonData="LEFT">
                      <graphic>
-                        <ImageView fitHeight="10.0" fitWidth="10.0" nodeOrientation="RIGHT_TO_LEFT" preserveRatio="true">
+                        <ImageView fitHeight="10.0" fitWidth="15.0" nodeOrientation="RIGHT_TO_LEFT" preserveRatio="true">
                            <image>
                               <Image url="@../icon/arrow.png" />
                            </image>
@@ -115,7 +115,8 @@
                         </ImageView>
                      </graphic>
                   </Button>
-                  <Button mnemonicParsing="false" onAction="#testBtn" text="Button" />
+                  <Button mnemonicParsing="false" onAction="#openSection" text="Section" />
+                  <Button mnemonicParsing="false" onAction="#openRoom" text="Room" />
                </buttons>
                <padding>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
@@ -129,7 +130,7 @@
               <items>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="728.0" prefWidth="903.0">
                      <children>
-                        <ScrollPane fx:id="scrollPane" minViewportHeight="100.0" minViewportWidth="100.0" prefHeight="717.0" prefViewportHeight="100.0" prefViewportWidth="100.0" prefWidth="1038.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <ScrollPane fx:id="scrollPane" minViewportHeight="100.0" minViewportWidth="100.0" prefHeight="717.0" prefViewportHeight="100.0" prefViewportWidth="100.0" prefWidth="1038.0" styleClass="scrollPane" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <content>
                               <Pane fx:id="paneParent" prefHeight="1080.0" prefWidth="1920.0" style="-fx-background-color: rgb(57, 57, 57);">
                                  <children>
