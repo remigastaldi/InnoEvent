@@ -32,7 +32,10 @@ public class Engine {
     _nodes = pane.getChildren();
   }
 
-  public void setBackground(Color color) {
+  public void setBackgroundColor(Color color) {
+    String val = Integer.toHexString(color.hashCode()).toUpperCase();
+
+    _pane.setStyle("-fx-background-color: #" + val);
   }
 
   public void activateGrid(boolean val) {
@@ -40,6 +43,8 @@ public class Engine {
       if (_grid == null) {
         _grid = new CanvasGrid(_pane);
         _grid.setGridColor(Color.valueOf("#777A81"));
+        _grid.setGridLinesWidth(0.5);
+        _grid.activateGrid();
       }
     } else {
       _grid = null;

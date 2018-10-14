@@ -45,7 +45,7 @@ public class InnoEngine extends Engine {
   public InnoEngine(Pane pane) {
     super(pane);
 
-    setBackground(Color.valueOf("#282C34"));
+    setBackgroundColor(Color.valueOf("#282C34"));
     activateGrid(true);
     // drawShapes(canvas.getGraphicsContext2D());
   }
@@ -68,4 +68,6 @@ public class InnoEngine extends Engine {
     // update();
     // GraphicsContext gc = getGraphicsContext();
   }
+
+  // public void 
 }

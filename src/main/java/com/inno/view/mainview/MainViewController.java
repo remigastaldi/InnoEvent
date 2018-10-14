@@ -69,7 +69,7 @@ public class MainViewController extends InnoViewController {
     // graphicsPane.getChildren().remove(polygon2);
     // graphicsPane.setScaleX(2);
     // graphicsPane.setScaleY(2);
-    // InnoCore().setEngine(new InnoEngine(canvas));
+    InnoCore().setEngine(new InnoEngine(graphicsPane));
     InnoCore().View().setSidebarFromFxmlFileName("sidebar_room.fxml", sidebarAnchor);
   }
 
