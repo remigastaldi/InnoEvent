@@ -12,20 +12,22 @@
 
 package com.inno.service.engine;
 
-import  com.inno.service.engine.CanvasGrid;
+import java.util.ArrayList;
 
-import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.paint.Color;
-import javafx.scene.layout.Pane;
+import com.inno.service.engine.shape.InteractivePolygon;
+import com.inno.service.engine.shape.InteractiveShape;
+
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
+import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 
 
 public class Engine {
-  private CanvasGrid _grid = null;
   private Pane  _pane = null;
   private ObservableList<Node> _nodes = null;
+  private ArrayList<InteractiveShape> _shapes = new ArrayList<>();
+  private CanvasGrid _grid = null;
 
   public Engine(Pane pane) {
     _pane = pane;
@@ -51,4 +53,17 @@ public class Engine {
       _grid = null;
     }
   }
+
+  public void createPolygon() {
+    _shapes.add(new InteractivePolygon(this, _pane));
+  }
+
+  public void addInteractiveShape(InteractiveShape intShape) {
+    _shapes.add(intShape);
+  }
+
+  public Pane getPane() {
+    return _pane;
+  }
+
 }

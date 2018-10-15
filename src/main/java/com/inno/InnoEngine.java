@@ -2,8 +2,8 @@
  * File Created: Friday, 12th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Sunday, 14th October 2018
- * Modified By: HUBERT Léo
+ * Last Modified: Monday, 15th October 2018
+ * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
  * <<licensetext>>
@@ -12,22 +12,13 @@
 
 package com.inno;
 
-import java.util.ArrayList;
-
-import com.inno.room.Section;
 import com.inno.room.StandingSection;
 import com.inno.service.engine.Engine;
-// import com.inno.service.engine.GraphicShape;
-// import com.inno.service.engine.Polyline;
+import com.inno.shape.InnoPolygon;
 
 import javafx.scene.input.MouseEvent;
-import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.ArcType;
-import javafx.geometry.Point2D;
-import javafx.event.EventHandler;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 
 
 public class InnoEngine extends Engine {
@@ -63,10 +54,12 @@ public class InnoEngine extends Engine {
     _state = State.ADD_IRREGULAR_SECTION;
   }
 
-  private void drawLine(MouseEvent event) {
-    // System.out.println("Draw Line");
-    // update();
-    // GraphicsContext gc = getGraphicsContext();
+  public void test() {
+    InnoPolygon innoPoly = new InnoPolygon(this, getPane());
+    addInteractiveShape(innoPoly);
+    innoPoly.start();
+    // InnoPolygon pl = new InnoPolygon();
+    // pl.start();
   }
 
   // public void 

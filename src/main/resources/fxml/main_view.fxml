@@ -15,7 +15,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.StackPane?>
 
-<StackPane minHeight="720.0" minWidth="1280.0" prefHeight="720.0" prefWidth="1280.0" stylesheets="@../dark-theme.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.inno.view.mainview.MainViewController">
+<StackPane minHeight="720.0" minWidth="1280.0" onKeyReleased="#keyAction" prefHeight="720.0" prefWidth="1280.0" stylesheets="@../dark-theme.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.inno.view.mainview.MainViewController">
   <children>
       <AnchorPane prefHeight="200.0" prefWidth="200.0">
          <children>
@@ -134,7 +134,7 @@
                            <content>
                               <Pane fx:id="paneParent" prefHeight="1080.0" prefWidth="1920.0" style="-fx-background-color: rgb(57, 57, 57);">
                                  <children>
-                                    <Pane fx:id="graphicsPane" layoutX="715.0" layoutY="371.0" prefHeight="334.0" prefWidth="470.0" style="-fx-background-color: red;" />
+                                    <Pane fx:id="graphicsPane" layoutX="519.0" layoutY="249.0" prefHeight="582.0" prefWidth="883.0" style="-fx-background-color: red;" />
                                  </children>
                               </Pane>
                            </content>

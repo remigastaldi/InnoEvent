@@ -2,7 +2,7 @@
  * File Created: Saturday, 13th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Sunday, 14th October 2018
+ * Last Modified: Monday, 15th October 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -12,16 +12,13 @@
 
 package com.inno.service.engine;
 
-import javafx.scene.canvas.Canvas;
-import javafx.scene.shape.Line;
-import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.paint.Color;
-import javafx.scene.layout.Pane;
-
 import java.util.ArrayList;
 
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
+import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Line;
 
 public class CanvasGrid {
   private Pane  _pane = null;
