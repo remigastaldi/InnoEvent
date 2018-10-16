@@ -19,13 +19,13 @@ import  com.inno.service.engine.Engine;
 
 import  javafx.scene.layout.Pane;
 import  javafx.geometry.Point2D;
-import  javafx.event.EventHandler;
 import  javafx.scene.Cursor;
 import  javafx.scene.input.MouseEvent;
 import  javafx.scene.shape.Line;
 import  javafx.scene.shape.Circle;
 import  javafx.scene.shape.Polygon;
 import  javafx.scene.paint.Color;
+import  javafx.event.EventHandler;
 import  javafx.event.EventType;
 
 import javafx.scene.ImageCursor;
@@ -37,7 +37,6 @@ public class InteractivePolygon extends InteractiveShape {
   private ArrayList<Circle> _points = new ArrayList<>();
   private ArrayList<Line> _lines = new ArrayList<>();
   private Polygon _polygon = null;
-  private HashMap<EventType<MouseEvent>, EventHandler<MouseEvent>> _eventHandlers = new HashMap<>();
 
   public InteractivePolygon(Engine engine, Pane pane) {
     _engine = engine;

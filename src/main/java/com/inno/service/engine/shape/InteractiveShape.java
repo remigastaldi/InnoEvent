@@ -12,19 +12,26 @@
 package com.inno.service.engine.shape;
 
 import  javafx.scene.input.MouseEvent;
-import  com.inno.service.engine.Engine;
+
+import java.util.HashMap;
+
+import com.inno.service.engine.Engine;
 import  javafx.scene.layout.Pane;
 import  javafx.scene.shape.Circle;
+import  javafx.event.EventType;
+import  javafx.event.EventHandler;
 
 public abstract class InteractiveShape {
   private Engine  _engine = null;
   private Pane  _pane = null;
   private boolean _collision = false;
   private Circle _cursor = null;
+  private HashMap<EventType<MouseEvent>, EventHandler<MouseEvent>> _eventHandlers = new HashMap<>();
   
   public abstract void start();
   
-  public void enableCollision(boolean collision) { _collision = collision; }
+  public void enableCollision(boolean collision) { _collision = collision; 
+  }
 
   public boolean onMouseEntered(MouseEvent event) { return true; }
   public boolean onMouseClicked(MouseEvent event) { return true; }
