@@ -6,3 +6,4 @@
 - Const return ?
 - Même nommage de classe dans des packages differents (ex engine)
 - Représentation des classes dans l'interaction entre packages
+- Représentation uml de l'heritage de librarie systeme
