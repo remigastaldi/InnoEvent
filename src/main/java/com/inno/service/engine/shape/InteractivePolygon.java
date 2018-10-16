@@ -2,7 +2,7 @@
  * File Created: Sunday, 14th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Monday, 15th October 2018
+ * Last Modified: Tuesday, 16th October 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -16,7 +16,6 @@ import  java.util.ArrayList;
 import  java.util.HashMap;
 
 import  com.inno.service.engine.Engine;
-import  com.inno.service.engine.EventCallback;
 
 import  javafx.scene.layout.Pane;
 import  javafx.geometry.Point2D;
@@ -34,13 +33,9 @@ import javafx.scene.SnapshotParameters;
 import javafx.scene.image.WritableImage;
 
 
-public class InteractivePolygon extends EventCallback implements InteractiveShape {
-  private Engine  _engine = null;
-  private Pane  _pane = null;
-  private Circle _cursor = null;
+public class InteractivePolygon extends InteractiveShape {
   private ArrayList<Circle> _points = new ArrayList<>();
   private ArrayList<Line> _lines = new ArrayList<>();
-  private boolean _collision = false;
   private Polygon _polygon = null;
   private HashMap<EventType<MouseEvent>, EventHandler<MouseEvent>> _eventHandlers = new HashMap<>();
 
@@ -94,11 +89,7 @@ public class InteractivePolygon extends EventCallback implements InteractiveShap
     // _pane.getChildren().add(_polygon);
   }
 
-  public void enableCollision(boolean collision) {
-    _collision = collision;
-  }
-
-  public void addPoint(MouseEvent event) {    
+  private void addPoint(MouseEvent event) {    
     if (_points.size() > 0 && _cursor.intersects(_points.get(0).getBoundsInParent())) {
       _pane.setCursor(Cursor.HAND);
       System.out.println("=============");
@@ -138,7 +129,7 @@ public class InteractivePolygon extends EventCallback implements InteractiveShap
     _pane.getChildren().addAll(circle);
   }
   
-  public void updateCurrentLine(MouseEvent event) {
+  private void updateCurrentLine(MouseEvent event) {
     _cursor.setCenterX(event.getX());
     _cursor.setCenterY(event.getY());
     
