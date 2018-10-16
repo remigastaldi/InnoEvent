@@ -2,8 +2,8 @@
  * File Created: Tuesday, 9th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Saturday, 13th October 2018
- * Modified By: HUBERT Léo
+ * Last Modified: Tuesday, 16th October 2018
+ * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
  * <<licensetext>>
@@ -43,13 +43,9 @@ public class Core {
     return _instance;
   }
 
-  public void test() {
-    System.out.println("test");
-  }
-
-  public void setViewService(View view) {
+  public void setViewService(InnoView view) {
     _viewService = view;
-  }
+  } 
 
   public void setEngine(InnoEngine engine) {
     _engine = engine;
