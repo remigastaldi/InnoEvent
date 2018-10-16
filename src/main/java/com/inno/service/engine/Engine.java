@@ -2,7 +2,7 @@
  * File Created: Friday, 12th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Sunday, 14th October 2018
+ * Last Modified: Tuesday, 16th October 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -54,7 +54,7 @@ public class Engine {
     }
   }
 
-  public void createPolygon() {
+  public void createInteractivePolygon() {
     _shapes.add(new InteractivePolygon(this, _pane));
   }
 
