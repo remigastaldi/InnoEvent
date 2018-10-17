@@ -2,7 +2,7 @@
  * File Created: Saturday, 13th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Monday, 15th October 2018
+ * Last Modified: Tuesday, 16th October 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -22,7 +22,6 @@ import javafx.scene.shape.Line;
 
 public class CanvasGrid {
   private Pane  _pane = null;
-  private ObservableList<Node> _nodes = null;
   private ArrayList<Line> _lines = new ArrayList<>();
   private double  _xSpacing = 5.0;
   private double  _ySpacing = 5.0;
@@ -31,7 +30,6 @@ public class CanvasGrid {
 
   public CanvasGrid(Pane pane) {
     _pane = pane;
-    _nodes = pane.getChildren();
   }
 
   public void zoom(double factor) {
@@ -64,7 +62,7 @@ public class CanvasGrid {
       line.setStroke(_color);
       line.setStrokeWidth(_width);
       _lines.add(line);
-      _nodes.add(line);
+      _pane.getChildren().add(line);
     }
     
     for (double i = 1; i < yNeeded; i += _ySpacing) {
@@ -74,13 +72,13 @@ public class CanvasGrid {
       line.setStroke(_color);
       line.setStrokeWidth(_width);
       _lines.add(line);
-      _nodes.add(line);
+      _pane.getChildren().add(line);
     }
   }
 
   public void disable() {
     for (Line line : _lines) {
-      _nodes.remove(line);
+      _pane.getChildren().remove(line);
     }
   }
 }

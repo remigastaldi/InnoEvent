@@ -23,7 +23,6 @@ public class Core {
   // Services
   private View  _viewService = null;
   private Save  _saveService = new Save();
-  private Utils _utilsService = new Utils();
 
   // Inno Class
   private Room  _room = null;
@@ -64,7 +63,4 @@ public class Core {
     return _saveService;
   }
 
-  public Utils Utils() {
-    return _utilsService;
-  }
 };
