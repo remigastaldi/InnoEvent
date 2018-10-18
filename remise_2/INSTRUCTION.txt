@@ -1,0 +1,5 @@
+Pour lancer le programme, exécuter la commande suivante:
+java -jar project-jfx.jar
+
+
+Nous tenons à préciser que ce code ne correspond plus du tout à notre nouveau digramme et donc de ne pas en en prendre compte.
