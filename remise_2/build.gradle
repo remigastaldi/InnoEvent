@@ -55,3 +55,11 @@ jfx {
     // minimal requirement for jfxNative-task
     vendor = 'InnoEvent'
 }
+
+jar {
+  manifest {
+    attributes(
+      'Main-Class': 'com.inno.Main'
+    )
+  }
+}
