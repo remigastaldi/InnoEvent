@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ButtonBar?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.SeparatorMenuItem?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.StackPane?>
+
+<StackPane minHeight="720.0" minWidth="1280.0" onKeyReleased="#keyAction" prefHeight="720.0" prefWidth="1280.0" stylesheets="@../dark-theme.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.inno.ui.mainview.MainViewController">
+  <children>
+      <AnchorPane prefHeight="200.0" prefWidth="200.0">
+         <children>
+          <MenuBar prefHeight="29.0" prefWidth="1280.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <menus>
+              <Menu mnemonicParsing="false" text="File">
+                <items>
+                  <MenuItem mnemonicParsing="false" text="New" />
+                  <MenuItem mnemonicParsing="false" text="Open…" />
+                  <Menu mnemonicParsing="false" text="Open Recent" />
+                  <SeparatorMenuItem mnemonicParsing="false" />
+                  <MenuItem mnemonicParsing="false" text="Close" />
+                  <MenuItem mnemonicParsing="false" text="Save" />
+                  <MenuItem mnemonicParsing="false" text="Save As…" />
+                  <SeparatorMenuItem mnemonicParsing="false" />
+                  <MenuItem mnemonicParsing="false" onAction="#quitButtonAction" text="Quit" />
+                </items>
+              </Menu>
+              <Menu mnemonicParsing="false" text="Edit">
+                <items>
+                  <MenuItem mnemonicParsing="false" text="Undo" />
+                  <MenuItem mnemonicParsing="false" text="Redo" />
+                  <SeparatorMenuItem mnemonicParsing="false" />
+                  <MenuItem mnemonicParsing="false" text="Delete" />
+                  <SeparatorMenuItem mnemonicParsing="false" />
+                  <MenuItem mnemonicParsing="false" text="Select All" />
+                  <MenuItem mnemonicParsing="false" text="Unselect All" />
+                </items>
+              </Menu>
+              <Menu mnemonicParsing="false" text="Insertion" />
+            </menus>
+          </MenuBar>
+            <ButtonBar buttonMinWidth="0.0" centerShape="false" layoutY="29.0" prefHeight="29.0" prefWidth="1280.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+               <buttons>
+                  <Button mnemonicParsing="false" ButtonBar.buttonData="LEFT">
+                     <graphic>
+                        <ImageView fitHeight="10.0" fitWidth="10.0" preserveRatio="true">
+                           <image>
+                              <Image url="@../icon/arrow.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+                  <Button mnemonicParsing="false" ButtonBar.buttonData="LEFT">
+                     <graphic>
+                        <ImageView fitHeight="10.0" fitWidth="15.0" nodeOrientation="RIGHT_TO_LEFT" preserveRatio="true">
+                           <image>
+                              <Image url="@../icon/arrow.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+                  <Button mnemonicParsing="false" ButtonBar.buttonData="LEFT">
+                     <graphic>
+                        <ImageView fitHeight="10.0" fitWidth="10.0" preserveRatio="true">
+                           <image>
+                              <Image url="@../icon/save.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+                  <Button mnemonicParsing="false" ButtonBar.buttonData="LEFT">
+                     <graphic>
+                        <ImageView fitHeight="10.0" fitWidth="10.0" preserveRatio="true">
+                           <image>
+                              <Image url="@../icon/zoom_in.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+                  <Button mnemonicParsing="false" ButtonBar.buttonData="LEFT">
+                     <graphic>
+                        <ImageView fitHeight="10.0" fitWidth="10.0" preserveRatio="true">
+                           <image>
+                              <Image url="@../icon/zoom_out.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+                  <Button mnemonicParsing="false" text="+" ButtonBar.buttonData="LEFT" />
+                  <Button mnemonicParsing="false" text="+" ButtonBar.buttonData="LEFT" />
+                  <Button mnemonicParsing="false" ButtonBar.buttonData="LEFT">
+                     <graphic>
+                        <ImageView fitHeight="10.0" fitWidth="10.0" preserveRatio="true">
+                           <image>
+                              <Image url="@../icon/dollar_symbol.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+                  <Button mnemonicParsing="false" ButtonBar.buttonData="LEFT">
+                     <graphic>
+                        <ImageView fitHeight="10.0" fitWidth="10.0" preserveRatio="true">
+                           <image>
+                              <Image url="@../icon/magnet.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </Button>
+                  <Button mnemonicParsing="false" onAction="#openSection" text="Section" />
+                  <Button mnemonicParsing="false" onAction="#openRoom" text="Room" />
+               </buttons>
+               <padding>
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </padding>
+            </ButtonBar>
+         </children>
+      </AnchorPane>
+      <AnchorPane prefHeight="200.0" prefWidth="200.0">
+         <children>
+            <SplitPane dividerPositions="0.8450704225352113" prefHeight="719.0" prefWidth="1280.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+              <items>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="728.0" prefWidth="903.0">
+                     <children>
+                        <ScrollPane fx:id="scrollPane" minViewportHeight="100.0" minViewportWidth="100.0" prefHeight="717.0" prefViewportHeight="100.0" prefViewportWidth="100.0" prefWidth="1038.0" styleClass="scrollPane" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <content>
+                              <Pane fx:id="paneParent" prefHeight="1080.0" prefWidth="1920.0" style="-fx-background-color: rgb(57, 57, 57);">
+                                 <children>
+                                    <Pane fx:id="graphicsPane" layoutX="519.0" layoutY="249.0" prefHeight="582.0" prefWidth="883.0" style="-fx-background-color: red;" />
+                                 </children>
+                              </Pane>
+                           </content>
+                        </ScrollPane>
+                     </children></AnchorPane>
+                <AnchorPane fx:id="sidebarAnchor" maxWidth="500.0" minHeight="0.0" minWidth="200.0" styleClass="dark" SplitPane.resizableWithParent="false" />
+              </items>
+            </SplitPane>
+         </children>
+         <StackPane.margin>
+            <Insets top="66.0" />
+         </StackPane.margin>
+      </AnchorPane>
+  </children>
+</StackPane>

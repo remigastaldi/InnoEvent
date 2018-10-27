@@ -28,7 +28,6 @@ plugins {
 }
 
 // Define the main class for the application
-mainClassName = 'App'
 
 dependencies {
     // This dependency is found on compile classpath of this component and consumers.
@@ -51,8 +50,8 @@ apply plugin: 'javafx-gradle-plugin'
 
 jfx {
     // minimal requirement for jfxJar-task
-    mainClass = 'App'
+    mainClass = 'com.inno.ui.Main'
     
     // minimal requirement for jfxNative-task
-    vendor = 'YourName'
+    vendor = 'InnoEvent'
 }
