@@ -50,7 +50,7 @@ apply plugin: 'javafx-gradle-plugin'
 
 jfx {
     // minimal requirement for jfxJar-task
-    mainClass = 'com.inno.Main'
+    mainClass = 'com.inno.ui.Main'
     
     // minimal requirement for jfxNative-task
     vendor = 'InnoEvent'
