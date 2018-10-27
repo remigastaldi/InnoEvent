@@ -39,8 +39,8 @@ public class View extends Application {
   @Override
   public void start(Stage mainView) throws Exception {
     _mainView = mainView;
-    // showMainView();
-    showStartupPopup();
+    showMainView();
+    // showStartupPopup();
   }
 
   /**

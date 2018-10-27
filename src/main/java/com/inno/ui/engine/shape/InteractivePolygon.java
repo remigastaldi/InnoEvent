@@ -43,8 +43,6 @@ public class InteractivePolygon extends InteractiveShape {
   }
 
   public void start() {
-  
-    
     SnapshotParameters params = new SnapshotParameters();
     params.setFill(Color.TRANSPARENT);
     // System.out.println(ImageCursor.getBestSize(5, 5));
@@ -55,8 +53,6 @@ public class InteractivePolygon extends InteractiveShape {
     snapshot.getHeight() /2));
     Cursor().setVisible(false);
     // Pane().setCursor(Cursor.NONE);
-
-
 
     EventHandler<MouseEvent> mouseClickEvent = new EventHandler<MouseEvent>() {
       public void handle(MouseEvent event) {
@@ -102,6 +98,15 @@ public class InteractivePolygon extends InteractiveShape {
       Pane().removeEventHandler(MouseEvent.MOUSE_CLICKED, mouseClickedEvent);
 
       Pane().setCursor(Cursor.DEFAULT);
+
+      EventHandler<MouseEvent> mouseClick = new EventHandler<MouseEvent>() {
+        public void handle(MouseEvent event) {
+          select();
+        }
+      };
+      EventHandlers().put(MouseEvent.MOUSE_CLICKED, mouseClick);
+      _polygon.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseClick);
+        
       return;
     } 
 
@@ -140,5 +145,20 @@ public class InteractivePolygon extends InteractiveShape {
     activeLine.setStartY(lastPoint.getCenterY());
     activeLine.setEndX(event.getX());
     activeLine.setEndY(event.getY());
+  }
+
+  private void select() {
+    System.out.println("SHAPE" + this);
+
+    for (Circle point : _points) {
+      point.setVisible(true);
+    }
+    Engine().selected(this);
+  }
+
+  public void deselect() {
+    for (Circle point : _points) {
+      point.setVisible(false);
+    }
   }
 }

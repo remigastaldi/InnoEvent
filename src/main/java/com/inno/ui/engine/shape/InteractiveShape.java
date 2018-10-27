@@ -39,6 +39,7 @@ public abstract class InteractiveShape {
     _cursor.setRadius(5.0);
     _cursor.setStroke(Color.GREEN);
     _cursor.setStrokeWidth(2);
+    // _cursor.setVisible(false);
     
     _pane.getChildren().add(_cursor);
   }
@@ -56,6 +57,7 @@ public abstract class InteractiveShape {
   public boolean onMouseReleased(MouseEvent event) { return true; }
   public boolean onMouseOnDragDetected(MouseEvent event) { return true; }
   public boolean onMouseOnDragDropped(MouseEvent event) { return true; }
+  public abstract void deselect();
 
 
   // TODO: replace this horrible think with methods
@@ -69,5 +71,9 @@ public abstract class InteractiveShape {
 
   protected HashMap<EventType<MouseEvent>, EventHandler<MouseEvent>> EventHandlers() {
     return _eventHandlers;
+  }
+
+  protected Engine Engine() {
+    return _engine;
   }
 }
