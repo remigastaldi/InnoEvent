@@ -2,7 +2,7 @@
  * File Created: Sunday, 14th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Monday, 15th October 2018
+ * Last Modified: Saturday, 27th October 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -10,10 +10,10 @@
  */
 
 
-package com.inno.shape;
+package com.inno.ui.innoengine.shape;
 
-import  com.inno.service.engine.Engine;
-import  com.inno.service.engine.shape.InteractivePolygon;
+import  com.inno.ui.engine.Engine;
+import  com.inno.ui.engine.shape.InteractivePolygon;
 
 import  javafx.scene.layout.Pane;
 import  javafx.scene.input.MouseEvent;

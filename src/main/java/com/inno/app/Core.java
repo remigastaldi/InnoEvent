@@ -2,19 +2,19 @@
  * File Created: Tuesday, 9th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Tuesday, 16th October 2018
+ * Last Modified: Saturday, 27th October 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
  * <<licensetext>>
  */
 
-package com.inno;
+package com.inno.app;
 
-import com.inno.service.View;
+import com.inno.ui.View;
+import com.inno.ui.innoengine.InnoEngine;
 import com.inno.service.Save;
-import com.inno.service.Utils;
-import com.inno.room.Room;
+import com.inno.app.room.Room;
 
 public class Core {
 
@@ -42,7 +42,7 @@ public class Core {
     return _instance;
   }
 
-  public void setViewService(InnoView view) {
+  public void setViewService(View view) {
     _viewService = view;
   } 
 

@@ -2,7 +2,7 @@
  * File Created: Sunday, 14th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Tuesday, 16th October 2018
+ * Last Modified: Saturday, 27th October 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -10,12 +10,12 @@
  */
 
 
-package com.inno.service.engine.shape;
+package com.inno.ui.engine.shape;
 
 import  java.util.ArrayList;
 import  java.util.HashMap;
 
-import  com.inno.service.engine.Engine;
+import  com.inno.ui.engine.Engine;
 
 import  javafx.scene.layout.Pane;
 import  javafx.geometry.Point2D;
@@ -39,30 +39,22 @@ public class InteractivePolygon extends InteractiveShape {
   private Polygon _polygon = null;
 
   public InteractivePolygon(Engine engine, Pane pane) {
-    _engine = engine;
-    _pane = pane;
+    super(engine, pane);
   }
-  
+
   public void start() {
-    
-    _cursor = new Circle();
-    _cursor.setFill(Color.TRANSPARENT);
-    _cursor.setRadius(5.0);
-    _cursor.setStroke(Color.GREEN);
-    _cursor.setStrokeWidth(2);
-    
-    _pane.getChildren().add(_cursor);
+  
     
     SnapshotParameters params = new SnapshotParameters();
     params.setFill(Color.TRANSPARENT);
     // System.out.println(ImageCursor.getBestSize(5, 5));
-    WritableImage snapshot = _cursor.snapshot(params, null);
+    WritableImage snapshot = Cursor().snapshot(params, null);
     
-    _pane.setCursor(new ImageCursor(snapshot,
+    Pane().setCursor(new ImageCursor(snapshot,
     snapshot.getWidth() / 2,
     snapshot.getHeight() /2));
-    _cursor.setVisible(false);
-    // _pane.setCursor(Cursor.NONE);
+    Cursor().setVisible(false);
+    // Pane().setCursor(Cursor.NONE);
 
 
 
@@ -72,8 +64,8 @@ public class InteractivePolygon extends InteractiveShape {
           addPoint(event);
       }
     };
-    _eventHandlers.put(MouseEvent.MOUSE_CLICKED, mouseClickEvent);
-    _pane.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseClickEvent);
+    EventHandlers().put(MouseEvent.MOUSE_CLICKED, mouseClickEvent);
+    Pane().addEventHandler(MouseEvent.MOUSE_CLICKED, mouseClickEvent);
 
     EventHandler<MouseEvent> mouseMovedEvent = new EventHandler<MouseEvent>() {
       public void handle(MouseEvent event) {
@@ -81,16 +73,16 @@ public class InteractivePolygon extends InteractiveShape {
           updateCurrentLine(event);
       }
     };
-    _eventHandlers.put(MouseEvent.MOUSE_MOVED, mouseMovedEvent);
-    _pane.addEventHandler(MouseEvent.MOUSE_MOVED, mouseMovedEvent);
+    EventHandlers().put(MouseEvent.MOUSE_MOVED, mouseMovedEvent);
+    Pane().addEventHandler(MouseEvent.MOUSE_MOVED, mouseMovedEvent);
 
     // canvas.removeEventHandler(MouseEvent.MOUSE_MOVED, this);
-    // _pane.getChildren().add(_polygon);
+    // Pane().getChildren().add(_polygon);
   }
 
   private void addPoint(MouseEvent event) {    
-    if (_points.size() > 0 && _cursor.intersects(_points.get(0).getBoundsInParent())) {
-      _pane.setCursor(Cursor.HAND);
+    if (_points.size() > 0 && Cursor().intersects(_points.get(0).getBoundsInParent())) {
+      Pane().setCursor(Cursor.HAND);
       System.out.println("=============");
       _polygon = new Polygon();
 
@@ -98,18 +90,18 @@ public class InteractivePolygon extends InteractiveShape {
       for (Circle point : _points) {
         _polygon.getPoints().addAll(new Double[] { point.getCenterX(), point.getCenterY() });
       }
-      _pane.getChildren().add(_polygon);
+      Pane().getChildren().add(_polygon);
 
       for (Circle point : _points) {
         point.setVisible(false);
       }
 
-      EventHandler<MouseEvent> mouseMovedEvent = _eventHandlers.remove(MouseEvent.MOUSE_MOVED);
-      _pane.removeEventHandler(MouseEvent.MOUSE_MOVED, mouseMovedEvent);
-      EventHandler<MouseEvent> mouseClickedEvent = _eventHandlers.remove(MouseEvent.MOUSE_CLICKED);
-      _pane.removeEventHandler(MouseEvent.MOUSE_CLICKED, mouseClickedEvent);
+      EventHandler<MouseEvent> mouseMovedEvent = EventHandlers().remove(MouseEvent.MOUSE_MOVED);
+      Pane().removeEventHandler(MouseEvent.MOUSE_MOVED, mouseMovedEvent);
+      EventHandler<MouseEvent> mouseClickedEvent = EventHandlers().remove(MouseEvent.MOUSE_CLICKED);
+      Pane().removeEventHandler(MouseEvent.MOUSE_CLICKED, mouseClickedEvent);
 
-      _pane.setCursor(Cursor.DEFAULT);
+      Pane().setCursor(Cursor.DEFAULT);
       return;
     } 
 
@@ -119,26 +111,26 @@ public class InteractivePolygon extends InteractiveShape {
     line.setStroke(Color.KHAKI);
     line.setVisible(false);
     _lines.add(line);
-    _pane.getChildren().add(line);
+    Pane().getChildren().add(line);
     
     Circle circle = new Circle(event.getX(), event.getY(), 5.0);
     circle.setFill(Color.GREEN);
     
     _points.add(circle);
-    _pane.getChildren().addAll(circle);
+    Pane().getChildren().addAll(circle);
   }
   
   private void updateCurrentLine(MouseEvent event) {
-    _cursor.setCenterX(event.getX());
-    _cursor.setCenterY(event.getY());
+    Cursor().setCenterX(event.getX());
+    Cursor().setCenterY(event.getY());
     
     if (_points.size() == 0)
       return;
   
-    // if (_cursor.intersects(_points.get(0).getBoundsInParent())) {
-    //   _pane.setCursor(Cursor.HAND);
-    // } else if (_pane.getCursor() == Cursor.HAND)
-    //   _pane.setCursor(Cursor.DEFAULT);
+    // if (Cursor().intersects(_points.get(0).getBoundsInParent())) {
+    //   Pane().setCursor(Cursor.HAND);
+    // } else if (Pane().getCursor() == Cursor.HAND)
+    //   Pane().setCursor(Cursor.DEFAULT);
     
     Circle lastPoint = _points.get(_points.size() - 1);
     Line activeLine = _lines.get(_lines.size() - 1);

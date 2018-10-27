@@ -2,7 +2,7 @@
  * File Created: Friday, 12th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Monday, 15th October 2018
+ * Last Modified: Saturday, 27th October 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -10,11 +10,11 @@
  */
 
 
-package com.inno;
+package com.inno.ui.innoengine;
 
-import com.inno.room.StandingSection;
-import com.inno.service.engine.Engine;
-import com.inno.shape.InnoPolygon;
+// import com.inno.ui.engine.room.StandingSection;
+import com.inno.ui.engine.Engine;
+import com.inno.ui.innoengine.shape.InnoPolygon;
 
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
@@ -31,7 +31,7 @@ public class InnoEngine extends Engine {
   private State _state = State.NOTHING;
 
   // Test
-  private StandingSection _section = new StandingSection();
+  // private StandingSection _section = new StandingSection();
 
   public InnoEngine(Pane pane) {
     super(pane);

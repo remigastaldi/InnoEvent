@@ -2,14 +2,14 @@
  * File Created: Friday, 12th October 2018
  * Author: HUBERT Léo
  * -----
- * Last Modified: Saturday, 13th October 2018
- * Modified By: HUBERT Léo
+ * Last Modified: Saturday, 27th October 2018
+ * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 HUBERT Léo
  * <<licensetext>>
  */
 
-package com.inno.view.startuppopup.newproject;
+package com.inno.ui.popup;
 
 import javafx.fxml.FXML;
 
@@ -21,13 +21,13 @@ import javafx.scene.control.TextField;
 
 import java.util.Vector;
 
-import com.inno.InnoViewController;
-import com.inno.service.View.AnimationDirection;
+import com.inno.ui.ViewController;
+import com.inno.ui.View.AnimationDirection;
 
 import javafx.geometry.Point2D;
 
 
-public class StartupPopupNewProjectViewController extends InnoViewController {
+public class StartupPopupNewProjectViewController extends ViewController {
 
   @FXML
   private Button cancelButton;
@@ -69,9 +69,9 @@ public class StartupPopupNewProjectViewController extends InnoViewController {
     points.add(new Point2D(6, -1));
     points.add(new Point2D(3, 1));
 
-    Point2D test = InnoCore().Utils().getCenterOfPoints(points);
+    // Point2D test = InnoCore().Utils().getCenterOfPoints(points);
 
-    System.out.println("X => " + test.getX() + " Y => " + test.getY());
+    // System.out.println("X => " + test.getX() + " Y => " + test.getY());
 
     System.out.println(projectNameInput.getText());
 

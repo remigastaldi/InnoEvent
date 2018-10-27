@@ -2,7 +2,7 @@
  * File Created: Friday, 12th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Tuesday, 16th October 2018
+ * Last Modified: Saturday, 27th October 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -10,12 +10,12 @@
  */
 
 
-package com.inno.service.engine;
+package com.inno.ui.engine;
 
 import java.util.ArrayList;
 
-import com.inno.service.engine.shape.InteractivePolygon;
-import com.inno.service.engine.shape.InteractiveShape;
+import com.inno.ui.engine.shape.InteractivePolygon;
+import com.inno.ui.engine.shape.InteractiveShape;
 
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
@@ -27,7 +27,7 @@ public class Engine {
   private Pane  _pane = null;
   private ObservableList<Node> _nodes = null;
   private ArrayList<InteractiveShape> _shapes = new ArrayList<>();
-  private CanvasGrid _grid = null;
+  private Grid _grid = null;
 
   public Engine(Pane pane) {
     _pane = pane;
@@ -43,7 +43,7 @@ public class Engine {
   public void activateGrid(boolean val) {
     if (val) {
       if (_grid == null) {
-        _grid = new CanvasGrid(_pane);
+        _grid = new Grid(_pane);
         _grid.setColor(Color.valueOf("#777A81"));
         _grid.setLinesWidth(0.5);
         _grid.activate();

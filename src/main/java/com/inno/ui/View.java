@@ -2,16 +2,16 @@
  * File Created: Wednesday, 10th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Sunday, 14th October 2018
- * Modified By: HUBERT Léo
+ * Last Modified: Saturday, 27th October 2018
+ * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
  * <<licensetext>>
  */
 
-package com.inno.service;
+package com.inno.ui;
 
-import com.inno.Core;
+import com.inno.app.Core;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -39,8 +39,8 @@ public class View extends Application {
   public void start(Stage mainView) throws Exception {
     _mainView = mainView;
     Core.get().setViewService(this);
-    showMainView();
-    // showStartupPopup();
+    // showMainView();
+    showStartupPopup();
   }
 
   /**

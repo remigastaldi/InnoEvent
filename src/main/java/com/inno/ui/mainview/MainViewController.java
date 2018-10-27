@@ -2,24 +2,24 @@
  * File Created: Wednesday, 26th September 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Monday, 15th October 2018
+ * Last Modified: Saturday, 27th October 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
  * <<licensetext>>
  */
 
-package com.inno.view.mainview;
+package com.inno.ui.mainview;
 
-import com.inno.InnoEngine;
-import com.inno.InnoViewController;
+import com.inno.ui.innoengine.InnoEngine;
+import com.inno.ui.ViewController;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 
-public class MainViewController extends InnoViewController {
+public class MainViewController extends ViewController {
   @FXML
   private Pane graphicsPane;
 

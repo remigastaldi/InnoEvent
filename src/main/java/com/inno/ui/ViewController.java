@@ -1,5 +1,5 @@
 /*
- * File Created: Friday, 12th October 2018
+ * File Created: Saturday, 27th October 2018
  * Author: GASTALDI Rémi
  * -----
  * Last Modified: Saturday, 27th October 2018
@@ -9,11 +9,12 @@
  * <<licensetext>>
  */
 
+package com.inno.ui;
 
-package com.inno.app.room;
+import  com.inno.app.Core;
 
-public class StandingSection extends Section {
-  public StandingSection() {
-
+public abstract class ViewController {
+  public Core InnoCore() {
+    return Core.get();
   }
-}
+};
