@@ -20,7 +20,6 @@ import javafx.fxml.FXML;
 
 import javafx.stage.FileChooser;
 
-import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 
@@ -38,12 +37,15 @@ public class StartupPopupController extends ViewController {
   private void initialize() {
   }
 
+  public void init() {
+  }
+
   @FXML
   private void openProjectButtonAction() {
     FileChooser fileChooser = new FileChooser();
     fileChooser.setTitle("Open Resource File");
     fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("InnoEvent", "*.inevt"));
-    File file = fileChooser.showOpenDialog(InnoCore().View().getMainView());
+    File file = fileChooser.showOpenDialog(View().getMainView());
     if (file != null) {
       System.out.println("OK");
       System.out.println(file);
@@ -52,6 +54,6 @@ public class StartupPopupController extends ViewController {
 
   @FXML
   private void createNewProjectButtonAction() {
-    InnoCore().View().openViewWithAnimation("popup_new_project.fxml", AnimationDirection.LEFT, anchorRoot);
+    View().openViewWithAnimation("popup_new_project.fxml", AnimationDirection.LEFT, anchorRoot);
   }
 }

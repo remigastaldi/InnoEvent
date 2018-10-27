@@ -11,7 +11,6 @@
 
 package com.inno.ui.mainview;
 
-import com.inno.ui.innoengine.InnoEngine;
 import com.inno.ui.ViewController;
 
 import javafx.fxml.FXML;
@@ -29,38 +28,38 @@ public class MainViewController extends ViewController {
   @FXML
   private ScrollPane scrollPane;
 
-  public MainViewController() {
-  }
-
   @FXML
   private void initialize() {
-    InnoCore().View().setSidebarFromFxmlFileName("sidebar_room.fxml", sidebarAnchor);
+  }
 
+  public void init() {
+    View().setSidebarFromFxmlFileName("sidebar_room.fxml", sidebarAnchor);
+  
     scrollPane.setVvalue(0.5);
     scrollPane.setHvalue(0.5);
-
-    InnoCore().setEngine(new InnoEngine(graphicsPane));
+  
+    View().createEngine(graphicsPane);
   }
 
   @FXML
   private void  keyAction() {
     System.out.println("Add section");
-    InnoCore().Engine().test();
+    Engine().test();
     // System.out.println(event.getKeyChar());
   }
 
   @FXML
   private void quitButtonAction() {
-    InnoCore().View().showStartupPopup();
+    View().showStartupPopup();
   }
 
   @FXML
   private void openRoom() {
-    InnoCore().View().setSidebarFromFxmlFileName("sidebar_room.fxml", sidebarAnchor);
+    View().setSidebarFromFxmlFileName("sidebar_room.fxml", sidebarAnchor);
   }
 
   @FXML
   private void openSection() {
-    InnoCore().View().setSidebarFromFxmlFileName("sidebar_section.fxml", sidebarAnchor);
+    View().setSidebarFromFxmlFileName("sidebar_section.fxml", sidebarAnchor);
   }
 }

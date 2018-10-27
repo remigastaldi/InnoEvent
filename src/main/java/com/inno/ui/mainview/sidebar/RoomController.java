@@ -35,4 +35,7 @@ public class RoomController extends ViewController {
   @FXML
   private void initialize() {
   }
+
+  public void init() {
+  }
 }

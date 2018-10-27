@@ -48,10 +48,7 @@ public class StartupPopupNewProjectViewController extends ViewController {
   @FXML
   private TextField vitalSpaceInput;
 
-  public StartupPopupNewProjectViewController() {
-  }
-
-  public void init(Stage stage) {
+  public void init() {
   }
 
   @FXML
@@ -75,11 +72,11 @@ public class StartupPopupNewProjectViewController extends ViewController {
 
     System.out.println(projectNameInput.getText());
 
-    InnoCore().View().showMainView();
+    View().showMainView();
   }
 
   @FXML
   private void cancelButtonAction() {
-    InnoCore().View().openViewWithAnimation("popup.fxml", AnimationDirection.RIGHT, anchorRoot);
+    View().openViewWithAnimation("popup.fxml", AnimationDirection.RIGHT, anchorRoot);
   }
 }

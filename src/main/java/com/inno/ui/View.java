@@ -11,8 +11,6 @@
 
 package com.inno.ui;
 
-import com.inno.app.Core;
-
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;
@@ -28,9 +26,12 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 
+import com.inno.ui.innoengine.InnoEngine;
+
 public class View extends Application {
 
   private Stage _mainView;
+  private InnoEngine  _engine = null;
 
   public View() {
   }
@@ -38,7 +39,6 @@ public class View extends Application {
   @Override
   public void start(Stage mainView) throws Exception {
     _mainView = mainView;
-    Core.get().setViewService(this);
     // showMainView();
     showStartupPopup();
   }
@@ -54,14 +54,19 @@ public class View extends Application {
       view = new Stage();
     }
     try {
-      FXMLLoader fxmlLoader = new FXMLLoader();
-      fxmlLoader.setLocation(getClass().getResource("/fxml/" + fxmlFileName));
+      FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/" + fxmlFileName));
+ 
+      // Parent parent = (Parent) fxmlLoader.load();
       Scene scene = new Scene(fxmlLoader.load());
+      ViewController viewController = fxmlLoader.<ViewController>getController();
+      viewController.setView(this);
+      viewController.init();
+      
       view.setTitle("InnoEvent");
       view.setScene(scene);
       view.show();
     } catch (Exception e) {
-      System.out.println("Error when load newView => " + e.getMessage());
+      System.out.println("Error when load new view => " + e.getMessage());
     }
     return view;
   }
@@ -103,10 +108,13 @@ public class View extends Application {
     StackPane parentContainer = (StackPane) anchorRoot.getScene().getRoot();
     Scene scene = parentContainer.getScene();
     try {
-      FXMLLoader fxmlLoader = new FXMLLoader();
-
-      fxmlLoader.setLocation(getClass().getResource("/fxml/" + fxmlFileName));
+      FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/" + fxmlFileName));
+      
       Parent newAnchor = (Parent) fxmlLoader.load();
+
+      ViewController viewController = fxmlLoader.<ViewController>getController();
+      viewController.setView(this);
+      viewController.init();
 
       KeyValue kv;
       KeyValue kv2;
@@ -185,5 +193,13 @@ public class View extends Application {
 
   public void run(String[] args) {
     Application.launch(View.class, args);
+  }
+
+  public void createEngine(Pane pane) {
+    _engine = new InnoEngine(pane);
+  }
+
+  public InnoEngine getEngine() {
+    return _engine;
   }
 };
