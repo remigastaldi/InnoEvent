@@ -2,19 +2,19 @@
  * File Created: Friday, 12th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Sunday, 14th October 2018
- * Modified By: MAREL Maud
+ * Last Modified: Saturday, 27th October 2018
+ * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
  * <<licensetext>>
  */
 
 
-package com.inno.pricing;
+package com.inno.service.pricing;
 
 import java.util.ArrayList;
 
-public class Price {
+public class PlaceRate {
 
   private double _price;
   private int _idSection;
@@ -22,7 +22,7 @@ public class Price {
   private int _idSeat;
   private ArrayList<String> _listOffers = new ArrayList<String>();
 
-  public Price(int section, String row, int seat, double price, ArrayList<String> listOffers) {
+  public PlaceRate(int section, String row, int seat, double price, ArrayList<String> listOffers) {
   }
 
   public void setPrice(double price) {

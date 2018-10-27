@@ -2,7 +2,7 @@
  * File Created: Saturday, 13th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Tuesday, 16th October 2018
+ * Last Modified: Friday, 26th October 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -10,7 +10,7 @@
  */
 
 
-package com.inno.service.engine;
+package com.inno.ui.engine;
 
 import java.util.ArrayList;
 
@@ -20,7 +20,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 
-public class CanvasGrid {
+public class Grid {
   private Pane  _pane = null;
   private ArrayList<Line> _lines = new ArrayList<>();
   private double  _xSpacing = 5.0;
@@ -28,7 +28,7 @@ public class CanvasGrid {
   private Color _color = Color.WHITE;
   private double _width = 1.0;
 
-  public CanvasGrid(Pane pane) {
+  public Grid(Pane pane) {
     _pane = pane;
   }
 
