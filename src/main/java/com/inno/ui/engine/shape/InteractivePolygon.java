@@ -75,8 +75,8 @@ public class InteractivePolygon extends InteractiveShape {
         }
       }
     };
-    EventHandlers().put(MouseEvent.MOUSE_CLICKED, mouseClickEvent);
-    Pane().addEventHandler(MouseEvent.MOUSE_CLICKED, mouseClickEvent);
+    EventHandlers().put(MouseEvent.MOUSE_RELEASED, mouseClickEvent);
+    Pane().addEventHandler(MouseEvent.MOUSE_RELEASED, mouseClickEvent);
 
     EventHandler<MouseEvent> mouseMovedEvent = new EventHandler<MouseEvent>() {
       public void handle(MouseEvent event) {
@@ -86,6 +86,8 @@ public class InteractivePolygon extends InteractiveShape {
     };
     EventHandlers().put(MouseEvent.MOUSE_MOVED, mouseMovedEvent);
     Pane().addEventHandler(MouseEvent.MOUSE_MOVED, mouseMovedEvent);
+    EventHandlers().put(MouseEvent.MOUSE_DRAGGED, mouseMovedEvent);
+    Pane().addEventHandler(MouseEvent.MOUSE_DRAGGED, mouseMovedEvent);
 
     // canvas.removeEventHandler(MouseEvent.MOUSE_MOVED, this);
     // Pane().getChildren().add(_polygon);
@@ -129,8 +131,12 @@ public class InteractivePolygon extends InteractiveShape {
 
     EventHandler<MouseEvent> mouseMovedEvent = EventHandlers().remove(MouseEvent.MOUSE_MOVED);
     Pane().removeEventHandler(MouseEvent.MOUSE_MOVED, mouseMovedEvent);
-    EventHandler<MouseEvent> mouseClickedEvent = EventHandlers().remove(MouseEvent.MOUSE_CLICKED);
-    Pane().removeEventHandler(MouseEvent.MOUSE_CLICKED, mouseClickedEvent);
+    EventHandler<MouseEvent> mouseRelesedEvent = EventHandlers().remove(MouseEvent.MOUSE_RELEASED);
+    Pane().removeEventHandler(MouseEvent.MOUSE_RELEASED, mouseRelesedEvent);
+    // EventHandler<MouseEvent> mouseClickedEvent = EventHandlers().remove(MouseEvent.MOUSE_CLICKED);
+    // Pane().removeEventHandler(MouseEvent.MOUSE_CLICKED, mouseClickedEvent);
+    EventHandler<MouseEvent> mouseDraggEvent = EventHandlers().remove(MouseEvent.MOUSE_DRAGGED);
+    Pane().removeEventHandler(MouseEvent.MOUSE_DRAGGED, mouseDraggEvent);
 
     Pane().setCursor(Cursor.DEFAULT);
 
