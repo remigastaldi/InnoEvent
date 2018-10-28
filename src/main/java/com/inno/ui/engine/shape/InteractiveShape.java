@@ -27,21 +27,12 @@ public abstract class InteractiveShape {
   private Engine  _engine = null;
   private Pane  _pane = null;
   private boolean _collision = false;
-  private Circle _cursor = null;
   private HashMap<EventType<MouseEvent>, EventHandler<MouseEvent>> _eventHandlers = new HashMap<>();
   
   InteractiveShape(Engine engine, Pane pane) {
     _engine = engine;
     _pane = pane;
-
-    _cursor = new Circle();
-    _cursor.setFill(Color.TRANSPARENT);
-    _cursor.setRadius(5.0);
-    _cursor.setStroke(Color.GREEN);
-    _cursor.setStrokeWidth(2);
-    // _cursor.setVisible(false);
     
-    _pane.getChildren().add(_cursor);
   }
 
   public abstract void start();
@@ -60,10 +51,10 @@ public abstract class InteractiveShape {
   public abstract void deselect();
 
 
-  // TODO: replace this horrible think with methods
-  protected Circle Cursor() {
-    return _cursor;
-  }
+  // // TODO: replace this horrible think with methods
+  // protected Circle Cursor() {
+  //   return _cursor;
+  // }
 
   protected Pane Pane() {
     return _pane;
