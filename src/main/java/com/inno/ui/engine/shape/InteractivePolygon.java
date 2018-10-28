@@ -110,6 +110,8 @@ public class InteractivePolygon extends InteractiveShape {
     line.setStrokeWidth(2.0);
     line.setStroke(Color.KHAKI);
     line.setVisible(false);
+    line.setStartX(event.getX());
+    line.setStartY(event.getY());
     _lines.add(line);
     Pane().getChildren().add(line);
     
@@ -179,12 +181,12 @@ public class InteractivePolygon extends InteractiveShape {
     // } else if (Pane().get_cursor == Cursor.HAND)
     //   Pane().setCursor(Cursor.DEFAULT);
     
-    Circle lastPoint = _points.get(_points.size() - 1);
+    // Circle lastPoint = _points.get(_points.size() - 1);
     Line activeLine = _lines.get(_lines.size() - 1);
     activeLine.setVisible(true);
 
-    activeLine.setStartX(lastPoint.getCenterX());
-    activeLine.setStartY(lastPoint.getCenterY());
+    // activeLine.setStartX(lastPoint.getCenterX());
+    // activeLine.setStartY(lastPoint.getCenterY());
     activeLine.setEndX(event.getX());
     activeLine.setEndY(event.getY());
   }
@@ -192,38 +194,6 @@ public class InteractivePolygon extends InteractiveShape {
   private void select() {
     System.out.println("SHAPE" + this);
 
-    // for (Circle point : _points) {
-    //   point.setVisible(true);
-    //   point.toFront();
-
-    //   InteractivePolygon _this = this;
-    //   EventHandler<MouseEvent> mouseDragged = new EventHandler<MouseEvent>() {
-    //     public void handle(MouseEvent event) {
-    //       // for (Circle point : _points) {
-    //         // point.setcetner
-    //         // System.out.println(point.getCenterX() + " " + point.getCenterY());
-
-    //         System.out.println(event.getX() + " " + event.getY());
-    //         // point.setCenterX(event.getX());
-    //         // point.setCenterY(event.getY());
-    //         // ObservableList<Double> points = _polygon.getPoints();
-    //         // double[] pos = new double[points.size()];
-    //         // _polygon = new Polygon();
-
-    //         // _polygon.setFill(Color.DODGERBLUE);
-        
-    //         // for (Circle point : _points) {
-    //           // _polygon.getpoi
-    //           // _polygon.getPoints().addAll(new Double[] { point.getCenterX(), point.getCenterY() });
-    //         // }
-    //         // Pane().getChildren().add(_polygon);
-    //         // Engine().selected(_this);
-    //       // }
-    //     }
-    //   };
-    //   EventHandlers().put(MouseEvent.MOUSE_DRAGGED, mouseDragged);
-    //   point.addEventHandler(MouseEvent.MOUSE_DRAGGED, mouseDragged);
-    // }
     if (Engine().getSelectedShape() != this) {
       Pane().getChildren().addAll(_anchors);
       Engine().selected(this);
@@ -267,7 +237,7 @@ public class InteractivePolygon extends InteractiveShape {
     private final DoubleProperty x, y;
 
     Anchor(Color color, DoubleProperty x, DoubleProperty y) {
-      super(x.get(), y.get(), 10);
+      super(x.get(), y.get(), 5);
       setFill(color.deriveColor(1, 1, 1, 0.5));
       setStroke(color);
       setStrokeWidth(2);
