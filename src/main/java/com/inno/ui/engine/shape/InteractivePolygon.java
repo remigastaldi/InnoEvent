@@ -2,7 +2,7 @@
  * File Created: Sunday, 14th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Saturday, 27th October 2018
+ * Last Modified: Sunday, 28th October 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -25,19 +25,30 @@ import  javafx.scene.shape.Line;
 import  javafx.scene.shape.Circle;
 import  javafx.scene.shape.Polygon;
 import  javafx.scene.paint.Color;
+import  javafx.collections.ObservableList;
 import  javafx.event.EventHandler;
 import  javafx.event.EventType;
 
 import javafx.scene.ImageCursor;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.image.WritableImage;
+import javafx.collections.FXCollections;
+import javafx.scene.layout.AnchorPane;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.*;
+import javafx.scene.shape.StrokeType;
+// import java.lang.Number;
 
+// import javafx.scene.anchors.Anchor;
 
 public class InteractivePolygon extends InteractiveShape {
   private ArrayList<Circle> _points = new ArrayList<>();
   private ArrayList<Line> _lines = new ArrayList<>();
   private Polygon _polygon = null;
   private Circle _cursor = null;
+  private ObservableList<Anchor> _anchors = null;
 
   public InteractivePolygon(Engine engine, Pane pane) {
     super(engine, pane);
@@ -119,6 +130,9 @@ public class InteractivePolygon extends InteractiveShape {
       _polygon.getPoints().addAll(new Double[] { point.getCenterX(), point.getCenterY() });
     }
     Pane().getChildren().add(_polygon);
+    // createControlAnchorsFor(_polygon.getPoints());
+    _anchors = createControlAnchorsFor(_polygon.getPoints());
+    // Pane().getChildren().addAll(_anchors);
 
     for (Circle point : _points) {
       point.setVisible(false);
@@ -148,7 +162,8 @@ public class InteractivePolygon extends InteractiveShape {
     };
     EventHandlers().put(MouseEvent.MOUSE_CLICKED, mouseClick);
     _polygon.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseClick);
-      
+    
+    select();
     return;
   }
   
@@ -177,16 +192,130 @@ public class InteractivePolygon extends InteractiveShape {
   private void select() {
     System.out.println("SHAPE" + this);
 
-    for (Circle point : _points) {
-      point.setVisible(true);
-      point.toFront();
+    // for (Circle point : _points) {
+    //   point.setVisible(true);
+    //   point.toFront();
+
+    //   InteractivePolygon _this = this;
+    //   EventHandler<MouseEvent> mouseDragged = new EventHandler<MouseEvent>() {
+    //     public void handle(MouseEvent event) {
+    //       // for (Circle point : _points) {
+    //         // point.setcetner
+    //         // System.out.println(point.getCenterX() + " " + point.getCenterY());
+
+    //         System.out.println(event.getX() + " " + event.getY());
+    //         // point.setCenterX(event.getX());
+    //         // point.setCenterY(event.getY());
+    //         // ObservableList<Double> points = _polygon.getPoints();
+    //         // double[] pos = new double[points.size()];
+    //         // _polygon = new Polygon();
+
+    //         // _polygon.setFill(Color.DODGERBLUE);
+        
+    //         // for (Circle point : _points) {
+    //           // _polygon.getpoi
+    //           // _polygon.getPoints().addAll(new Double[] { point.getCenterX(), point.getCenterY() });
+    //         // }
+    //         // Pane().getChildren().add(_polygon);
+    //         // Engine().selected(_this);
+    //       // }
+    //     }
+    //   };
+    //   EventHandlers().put(MouseEvent.MOUSE_DRAGGED, mouseDragged);
+    //   point.addEventHandler(MouseEvent.MOUSE_DRAGGED, mouseDragged);
+    // }
+    if (Engine().getSelectedShape() != this) {
+      Pane().getChildren().addAll(_anchors);
+      Engine().selected(this);
     }
-    Engine().selected(this);
+  }
+
+  private ObservableList<Anchor> createControlAnchorsFor(final ObservableList<Double> points) {
+    ObservableList<Anchor> anchors = FXCollections.observableArrayList();
+
+    int j = 0;
+    for (int i = 0; i < points.size(); i+=2) {
+      final int idx = i;
+      final int idj = j;
+
+      DoubleProperty xProperty = new SimpleDoubleProperty(points.get(i));
+      DoubleProperty yProperty = new SimpleDoubleProperty(points.get(i + 1));
+
+      xProperty.addListener(new ChangeListener<Number>() {
+        @Override public void changed(ObservableValue<? extends Number> ov, Number oldX, Number x) {
+          points.set(idx, (double) x);
+          _lines.get(idj - 1 < 0 ? _lines.size() -1 : idj - 1).setEndX((double) x);
+          _lines.get(idj).setStartX((double) x);
+        }
+      });
+
+      yProperty.addListener(new ChangeListener<Number>() {
+        @Override public void changed(ObservableValue<? extends Number> ov, Number oldY, Number y) {
+          points.set(idx + 1, (double) y);
+          _lines.get(idj - 1 < 0 ? _lines.size() -1 : idj - 1).setEndY((double) y);
+          _lines.get(idj).setStartY((double) y);
+        }
+      });
+      j++;
+      anchors.add(new Anchor(Color.GOLD, xProperty, yProperty));
+    }
+
+    return anchors;
+  }
+
+  class Anchor extends Circle {
+    private final DoubleProperty x, y;
+
+    Anchor(Color color, DoubleProperty x, DoubleProperty y) {
+      super(x.get(), y.get(), 10);
+      setFill(color.deriveColor(1, 1, 1, 0.5));
+      setStroke(color);
+      setStrokeWidth(2);
+      setStrokeType(StrokeType.OUTSIDE);
+
+      this.x = x;
+      this.y = y;
+
+      x.bind(centerXProperty());
+      y.bind(centerYProperty());
+      enableDrag();
+    }
+
+    private void enableDrag() {
+      final Delta dragDelta = new Delta();
+      setOnMousePressed(new EventHandler<MouseEvent>() {
+        @Override public void handle(MouseEvent mouseEvent) {
+          // record a delta distance for the drag and drop operation.
+          dragDelta.x = getCenterX() - mouseEvent.getX();
+          dragDelta.y = getCenterY() - mouseEvent.getY();
+          getScene().setCursor(Cursor.MOVE);
+        }
+      });
+      // setOnMouseReleased(new EventHandler<MouseEvent>() {
+      //   @Override public void handle(MouseEvent mouseEvent) {
+      //     getScene().setCursor(Cursor.HAND);
+      //   }
+      // });
+      setOnMouseDragged(new EventHandler<MouseEvent>() {
+        @Override public void handle(MouseEvent mouseEvent) {
+          double newX = mouseEvent.getX() + dragDelta.x;
+          if (newX > 0 && newX < getScene().getWidth()) {
+            setCenterX(newX);
+          }
+          double newY = mouseEvent.getY() + dragDelta.y;
+          if (newY > 0 && newY < getScene().getHeight()) {
+            setCenterY(newY);
+          }
+        }
+      });
+    }
   }
 
   public void deselect() {
-    for (Circle point : _points) {
-      point.setVisible(false);
-    }
+    // for (Circle point : _points) {
+    //   point.setVisible(false);
+    // }
+    Pane().getChildren().removeAll(_anchors);
   }
+  private class Delta { double x, y; }
 }

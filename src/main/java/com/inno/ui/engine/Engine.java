@@ -2,7 +2,7 @@
  * File Created: Friday, 12th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Saturday, 27th October 2018
+ * Last Modified: Sunday, 28th October 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -24,29 +24,38 @@ import javafx.scene.paint.Color;
 import  javafx.event.EventType;
 import  javafx.event.EventHandler;
 import  javafx.scene.input.MouseEvent;
+import  javafx.scene.shape.Rectangle;
 
 public class Engine {
   private Pane  _pane = null;
   private ObservableList<Node> _nodes = null;
   private ArrayList<InteractiveShape> _shapes = new ArrayList<>();
   private Grid _grid = null;
+  private Rectangle _board = null;
   
-  
-  private boolean _shapeIgnorePane = false;
+  // private boolean _shapeIgnorePane = false;
   private InteractivePolygon _selectedShape = null;
 
   public Engine(Pane pane) {
     _pane = pane;
     _nodes = pane.getChildren();
 
+
+    _board = new Rectangle(0, 0, _pane.getPrefWidth(), _pane.getPrefHeight());
+    _board.setStrokeWidth(0.0);
+    _board.setFill(Color.TRANSPARENT);
+
+
+
     EventHandler<MouseEvent> mouseClick = new EventHandler<MouseEvent>() {
       public void handle(MouseEvent event) {
+        System.out.println("PANE");
         if (_selectedShape != null)  
           deselect();
-        // setSelected(true);
       }
     };
-    _pane.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseClick);
+    _board.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseClick);
+    _nodes.add(_board);
   }
 
   public void setBackgroundColor(Color color) {
@@ -78,7 +87,7 @@ public class Engine {
   }
 
   public void selected(InteractivePolygon selected) {
-    _shapeIgnorePane = true;
+    // _shapeIgnorePane = true;
 
     if (_selectedShape != null) {
       _selectedShape.deselect();
@@ -86,13 +95,17 @@ public class Engine {
     _selectedShape = selected;
   }
 
-  public void deselect() {
-    if (_shapeIgnorePane) {
-      _shapeIgnorePane = false;
-      return;
-    }
+  public InteractiveShape getSelectedShape() {
+    return _selectedShape;
+  }
 
-    System.out.println("PANE");
+  public void deselect() {
+    // if (_shapeIgnorePane) {
+      // _shapeIgnorePane = false;
+    //   return;
+    // }
+
+    // System.out.println("PANE");
     _selectedShape.deselect();
     _selectedShape = null;
   }
