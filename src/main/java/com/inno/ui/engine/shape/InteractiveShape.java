@@ -2,7 +2,7 @@
  * File Created: Sunday, 14th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Saturday, 27th October 2018
+ * Last Modified: Sunday, 28th October 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -22,6 +22,7 @@ import  javafx.event.EventType;
 import  javafx.event.EventHandler;
 import  javafx.scene.paint.Color;
 import  javafx.event.EventHandler;
+import  javafx.scene.shape.Shape;
 
 public abstract class InteractiveShape {
   private Engine  _engine = null;
@@ -49,7 +50,7 @@ public abstract class InteractiveShape {
   public boolean onMouseOnDragDetected(MouseEvent event) { return true; }
   public boolean onMouseOnDragDropped(MouseEvent event) { return true; }
   public abstract void deselect();
-
+  public abstract Shape getShape();
 
   // // TODO: replace this horrible think with methods
   // protected Circle Cursor() {

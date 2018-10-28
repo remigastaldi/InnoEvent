@@ -2,7 +2,7 @@
  * File Created: Friday, 12th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Saturday, 27th October 2018
+ * Last Modified: Sunday, 28th October 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -56,7 +56,6 @@ public class InnoEngine extends Engine {
 
   public void test() {
     InnoPolygon innoPoly = new InnoPolygon(this, getPane());
-    addInteractiveShape(innoPoly);
     innoPoly.start();
     // InnoPolygon pl = new InnoPolygon();
     // pl.start();

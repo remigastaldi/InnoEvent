@@ -39,6 +39,8 @@ import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.*;
 import javafx.scene.shape.StrokeType;
+import javafx.scene.shape.Shape;
+import javafx.scene.image.Image;
 // import java.lang.Number;
 
 // import javafx.scene.anchors.Anchor;
@@ -49,6 +51,7 @@ public class InteractivePolygon extends InteractiveShape {
   private Polygon _polygon = null;
   private Circle _cursor = null;
   private ObservableList<Anchor> _anchors = null;
+  private boolean _collisionDetected = false;
 
   public InteractivePolygon(Engine engine, Pane pane) {
     super(engine, pane);
@@ -66,11 +69,15 @@ public class InteractivePolygon extends InteractiveShape {
     // System cursor
     SnapshotParameters params = new SnapshotParameters();
     params.setFill(Color.TRANSPARENT);
-    // System.out.println(ImageCursor.getBestSize(5, 5));
-    WritableImage snapshot = _cursor.snapshot(params, null);
-    Pane().setCursor(new ImageCursor(snapshot,
-    snapshot.getWidth() / 2,
-    snapshot.getHeight() /2));
+    Image addIcon = new Image("icon/add.png");
+    Image closeIcon = new Image("icon/close.png");
+    ImageCursor addCursor = new ImageCursor(addIcon,
+                                            addIcon.getWidth() / 2,
+                                            addIcon.getHeight() /2);
+    ImageCursor closeCursor = new ImageCursor(closeIcon,
+                                            closeIcon.getWidth() / 2,
+                                            closeIcon.getHeight() /2);
+    Pane().setCursor(addCursor);
 
     _cursor.setVisible(false);
     // Pane().setCursor(Cursor.NONE);
@@ -81,7 +88,8 @@ public class InteractivePolygon extends InteractiveShape {
           if (_points.size() > 0 && _cursor.intersects(_points.get(0).getBoundsInParent())) {
             closeForm();
           } else {
-            addPoint(event);
+            if (!_collisionDetected)
+              addPoint(event);
           }
         }
       }
@@ -91,8 +99,21 @@ public class InteractivePolygon extends InteractiveShape {
 
     EventHandler<MouseEvent> mouseMovedEvent = new EventHandler<MouseEvent>() {
       public void handle(MouseEvent event) {
-        if (onMouseMoved(event))
+        if (onMouseMoved(event)) {
+          _collisionDetected = Engine().isObjectUnderCursor(_cursor);
+          updateCursor(event);
+          if (_collisionDetected) {
+            if (_lines.size() > 0)
+              _lines.get(_lines.size() - 1).setStroke(Color.RED);
+            Pane().setCursor(closeCursor);
+        
+          } else {
+            if (_lines.size() > 0)
+              _lines.get(_lines.size() - 1).setStroke(Color.KHAKI);
+            Pane().setCursor(addCursor);
+          }
           updateCurrentLine(event);
+        }
       }
     };
     EventHandlers().put(MouseEvent.MOUSE_MOVED, mouseMovedEvent);
@@ -165,14 +186,17 @@ public class InteractivePolygon extends InteractiveShape {
     EventHandlers().put(MouseEvent.MOUSE_CLICKED, mouseClick);
     _polygon.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseClick);
     
+    Engine().addInteractiveShape(this);
     select();
     return;
   }
   
-  private void updateCurrentLine(MouseEvent event) {
+  private void updateCursor(MouseEvent event) {
     _cursor.setCenterX(event.getX());
     _cursor.setCenterY(event.getY());
-    
+  }
+
+  private void updateCurrentLine(MouseEvent event) {
     if (_points.size() == 0)
       return;
   
@@ -288,4 +312,8 @@ public class InteractivePolygon extends InteractiveShape {
     Pane().getChildren().removeAll(_anchors);
   }
   private class Delta { double x, y; }
+
+  public Shape getShape() {
+    return _polygon;
+  }
 }

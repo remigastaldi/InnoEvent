@@ -25,6 +25,7 @@ import  javafx.event.EventType;
 import  javafx.event.EventHandler;
 import  javafx.scene.input.MouseEvent;
 import  javafx.scene.shape.Rectangle;
+import  javafx.scene.shape.Shape;
 
 public class Engine {
   private Pane  _pane = null;
@@ -32,8 +33,7 @@ public class Engine {
   private ArrayList<InteractiveShape> _shapes = new ArrayList<>();
   private Grid _grid = null;
   private Rectangle _board = null;
-  
-  // private boolean _shapeIgnorePane = false;
+  private boolean _collisions = true;
   private InteractivePolygon _selectedShape = null;
 
   public Engine(Pane pane) {
@@ -100,17 +100,23 @@ public class Engine {
   }
 
   public void deselect() {
-    // if (_shapeIgnorePane) {
-      // _shapeIgnorePane = false;
-    //   return;
-    // }
-
-    // System.out.println("PANE");
     _selectedShape.deselect();
     _selectedShape = null;
   }
 
   public Pane getPane() {
     return _pane;
+  }
+
+  public boolean isObjectUnderCursor(Shape cursor) {
+    for (InteractiveShape element : _shapes) {
+      Shape intersect = Shape.intersect(cursor, element.getShape());
+      if (intersect.getBoundsInLocal().getWidth() != -1) {
+        System.out.println("collision");
+        // collisionDetected = true;
+        return true;
+      }
+    }
+    return false;
   }
 }
