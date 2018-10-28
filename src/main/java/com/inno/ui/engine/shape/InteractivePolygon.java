@@ -52,6 +52,7 @@ public class InteractivePolygon extends InteractiveShape {
   private Circle _cursor = null;
   private ObservableList<Anchor> _anchors = null;
   private boolean _collisionDetected = false;
+  InteractivePolygon _this = this;
 
   public InteractivePolygon(Engine engine, Pane pane) {
     super(engine, pane);
@@ -101,18 +102,18 @@ public class InteractivePolygon extends InteractiveShape {
       public void handle(MouseEvent event) {
         if (onMouseMoved(event)) {
           _collisionDetected = Engine().isObjectUnderCursor(_cursor);
-          updateCursor(event);
           if (_collisionDetected) {
             if (_lines.size() > 0)
-              _lines.get(_lines.size() - 1).setStroke(Color.RED);
+            _lines.get(_lines.size() - 1).setStroke(Color.RED);
             Pane().setCursor(closeCursor);
-        
+            
           } else {
             if (_lines.size() > 0)
-              _lines.get(_lines.size() - 1).setStroke(Color.KHAKI);
+            _lines.get(_lines.size() - 1).setStroke(Color.KHAKI);
             Pane().setCursor(addCursor);
           }
-          updateCurrentLine(event);
+        updateCursor(event);
+        updateCurrentLine(event);
         }
       }
     };
@@ -282,7 +283,7 @@ public class InteractivePolygon extends InteractiveShape {
           // record a delta distance for the drag and drop operation.
           dragDelta.x = getCenterX() - mouseEvent.getX();
           dragDelta.y = getCenterY() - mouseEvent.getY();
-          getScene().setCursor(Cursor.MOVE);
+          // getScene().setCursor(Cursor.MOVE);
         }
       });
       // setOnMouseReleased(new EventHandler<MouseEvent>() {
@@ -293,12 +294,20 @@ public class InteractivePolygon extends InteractiveShape {
       setOnMouseDragged(new EventHandler<MouseEvent>() {
         @Override public void handle(MouseEvent mouseEvent) {
           double newX = mouseEvent.getX() + dragDelta.x;
-          if (newX > 0 && newX < getScene().getWidth()) {
-            setCenterX(newX);
-          }
-          double newY = mouseEvent.getY() + dragDelta.y;
-          if (newY > 0 && newY < getScene().getHeight()) {
-            setCenterY(newY);
+          updateCursor(mouseEvent);
+          _this._collisionDetected = _this.Engine().isObjectUnderCursor(_this.getCursor());
+          // _this._collisionDetected = _this.Engine().isObjectUnderCursor(_this.getShape());
+          if (_collisionDetected) {
+            setStroke(Color.RED);
+          } else {
+            setStroke(Color.GOLD);
+            if (newX > 0 && newX < getScene().getWidth()) {
+              setCenterX(newX);
+            }
+            double newY = mouseEvent.getY() + dragDelta.y;
+            if (newY > 0 && newY < getScene().getHeight()) {
+              setCenterY(newY);
+            }
           }
         }
       });
@@ -315,5 +324,9 @@ public class InteractivePolygon extends InteractiveShape {
 
   public Shape getShape() {
     return _polygon;
+  }
+
+  public Circle getCursor() {
+    return _cursor;
   }
 }

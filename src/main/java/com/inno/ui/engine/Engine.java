@@ -110,6 +110,9 @@ public class Engine {
 
   public boolean isObjectUnderCursor(Shape cursor) {
     for (InteractiveShape element : _shapes) {
+      if (element == _selectedShape)
+        continue;
+      System.out.println(cursor.getBoundsInLocal());
       Shape intersect = Shape.intersect(cursor, element.getShape());
       if (intersect.getBoundsInLocal().getWidth() != -1) {
         System.out.println("collision");
@@ -119,4 +122,17 @@ public class Engine {
     }
     return false;
   }
+
+  // public boolean isOtherShapeUnderCursor(Shape cursor) {
+  //   for (InteractiveShape element : _shapes) {
+  //     if (element == _selectedShape)
+  //     Shape intersect = Shape.intersect(cursor, element.getShape());
+  //     if (intersect.getBoundsInLocal().getWidth() != -1) {
+  //       System.out.println("collision");
+  //       // collisionDetected = true;
+  //       return true;
+  //     }
+  //   }
+  //   return false;
+  // }
 }
