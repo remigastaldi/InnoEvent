@@ -112,9 +112,11 @@ public class Engine {
     for (InteractiveShape element : _shapes) {
       if (element == _selectedShape)
         continue;
-      System.out.println(cursor.getBoundsInLocal());
+      // System.out.println(cursor.getBoundsInLocal());
       Shape intersect = Shape.intersect(cursor, element.getShape());
       if (intersect.getBoundsInLocal().getWidth() != -1) {
+        System.out.println(intersect.getBoundsInLocal().getMaxX() + " " +
+          intersect.getBoundsInLocal().getMaxX());
         System.out.println("collision");
         // collisionDetected = true;
         return true;

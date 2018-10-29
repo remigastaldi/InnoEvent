@@ -101,7 +101,8 @@ public class InteractivePolygon extends InteractiveShape {
     EventHandler<MouseEvent> mouseMovedEvent = new EventHandler<MouseEvent>() {
       public void handle(MouseEvent event) {
         if (onMouseMoved(event)) {
-          _collisionDetected = Engine().isObjectUnderCursor(_cursor);
+          _collisionDetected = Engine().isObjectUnderCursor(_cursor) ||
+            (_lines.size() > 0 ? Engine().isObjectUnderCursor(_lines.get(_lines.size() - 1)) : false);
           if (_collisionDetected) {
             if (_lines.size() > 0)
             _lines.get(_lines.size() - 1).setStroke(Color.RED);
@@ -276,6 +277,14 @@ public class InteractivePolygon extends InteractiveShape {
       enableDrag();
     }
 
+    public DoubleProperty getX() {
+      return this.x;
+    }
+
+    public DoubleProperty getY() {
+      return this.y;
+    }
+
     private void enableDrag() {
       final Delta dragDelta = new Delta();
       setOnMousePressed(new EventHandler<MouseEvent>() {
@@ -291,11 +300,16 @@ public class InteractivePolygon extends InteractiveShape {
       //     getScene().setCursor(Cursor.HAND);
       //   }
       // });
+      Anchor anchor = this;
       setOnMouseDragged(new EventHandler<MouseEvent>() {
         @Override public void handle(MouseEvent mouseEvent) {
           double newX = mouseEvent.getX() + dragDelta.x;
+          double newY = mouseEvent.getY() + dragDelta.y;
           updateCursor(mouseEvent);
-          _this._collisionDetected = _this.Engine().isObjectUnderCursor(_this.getCursor());
+          // _this._collisionDetected = _this.Engine().isObjectUnderCursor(_this.getCursor());
+          Circle tmp = new Circle(newX, newY, 5, Color.TRANSPARENT);
+          Pane().getChildren().add(tmp);
+          _collisionDetected = _this.Engine().isObjectUnderCursor(tmp);
           // _this._collisionDetected = _this.Engine().isObjectUnderCursor(_this.getShape());
           if (_collisionDetected) {
             setStroke(Color.RED);
@@ -304,10 +318,15 @@ public class InteractivePolygon extends InteractiveShape {
             if (newX > 0 && newX < getScene().getWidth()) {
               setCenterX(newX);
             }
-            double newY = mouseEvent.getY() + dragDelta.y;
+            // double newY = mouseEvent.getY() + dragDelta.y;
             if (newY > 0 && newY < getScene().getHeight()) {
               setCenterY(newY);
             }
+          }
+          if (_this.Engine().isObjectUnderCursor(_this.getShape())) {
+            _polygon.setFill(Color.RED);
+          } else {
+            _polygon.setFill(Color.GREEN);
           }
         }
       });
