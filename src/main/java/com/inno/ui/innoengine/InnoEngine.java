@@ -2,7 +2,7 @@
  * File Created: Friday, 12th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Sunday, 28th October 2018
+ * Last Modified: Tuesday, 30th October 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -19,6 +19,7 @@ import com.inno.ui.innoengine.shape.InnoPolygon;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import  javafx.scene.shape.Shape;
 
 
 public class InnoEngine extends Engine {
@@ -54,9 +55,10 @@ public class InnoEngine extends Engine {
     _state = State.ADD_IRREGULAR_SECTION;
   }
 
-  public void test() {
+  public InnoPolygon test() {
     InnoPolygon innoPoly = new InnoPolygon(this, getPane());
     innoPoly.start();
+    return innoPoly;
     // InnoPolygon pl = new InnoPolygon();
     // pl.start();
   }

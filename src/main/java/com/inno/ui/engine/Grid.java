@@ -2,7 +2,7 @@
  * File Created: Saturday, 13th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Saturday, 27th October 2018
+ * Last Modified: Monday, 29th October 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -80,5 +80,10 @@ public class Grid {
     for (Line line : _lines) {
       _pane.getChildren().remove(line);
     }
+  }
+
+  //TODO REMOVE THIS TEST FUNCTION
+  public ArrayList<Line> getLines() {
+    return _lines;
   }
 }

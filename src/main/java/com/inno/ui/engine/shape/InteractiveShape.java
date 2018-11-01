@@ -2,7 +2,7 @@
  * File Created: Sunday, 14th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Sunday, 28th October 2018
+ * Last Modified: Wednesday, 31st October 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -13,6 +13,7 @@ package com.inno.ui.engine.shape;
 
 import  javafx.scene.input.MouseEvent;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import  com.inno.ui.engine.Engine;
@@ -29,7 +30,10 @@ public abstract class InteractiveShape {
   private Pane  _pane = null;
   private boolean _collision = false;
   private HashMap<EventType<MouseEvent>, EventHandler<MouseEvent>> _eventHandlers = new HashMap<>();
-  
+  private ArrayList<Shape> _outBoundShapes = new ArrayList<>();
+
+  protected ArrayList<Shape> _extShapes = new ArrayList<>();
+
   InteractiveShape(Engine engine, Pane pane) {
     _engine = engine;
     _pane = pane;
@@ -52,10 +56,18 @@ public abstract class InteractiveShape {
   public abstract void deselect();
   public abstract Shape getShape();
 
-  // // TODO: replace this horrible think with methods
-  // protected Circle Cursor() {
-  //   return _cursor;
-  // }
+  protected void addOutboundShape(Shape shape) {
+    _outBoundShapes.add(shape);
+  }
+
+  public ArrayList<Shape> getOutBoundShapes() {
+    return _outBoundShapes;
+  }
+
+  //TODO remove this
+  public ArrayList<Shape> getExtShapes() {
+    return _extShapes;
+  }
 
   protected Pane Pane() {
     return _pane;

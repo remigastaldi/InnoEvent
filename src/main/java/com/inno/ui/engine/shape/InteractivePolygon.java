@@ -2,7 +2,7 @@
  * File Created: Sunday, 14th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Sunday, 28th October 2018
+ * Last Modified: Thursday, 1st November 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -12,6 +12,7 @@
 
 package com.inno.ui.engine.shape;
 
+import java.awt.Rectangle;
 import  java.util.ArrayList;
 import  java.util.HashMap;
 
@@ -41,9 +42,12 @@ import javafx.beans.value.*;
 import javafx.scene.shape.StrokeType;
 import javafx.scene.shape.Shape;
 import javafx.scene.image.Image;
+import javafx.scene.control.ScrollPane;
 // import java.lang.Number;
-
-// import javafx.scene.anchors.Anchor;
+import javafx.geometry.Bounds;
+import javafx.scene.control.ScrollBar;
+import javafx.scene.Group;
+import javafx.scene.Node;
 
 public class InteractivePolygon extends InteractiveShape {
   private ArrayList<Circle> _points = new ArrayList<>();
@@ -53,6 +57,7 @@ public class InteractivePolygon extends InteractiveShape {
   private ObservableList<Anchor> _anchors = null;
   private boolean _collisionDetected = false;
   InteractivePolygon _this = this;
+
 
   public InteractivePolygon(Engine engine, Pane pane) {
     super(engine, pane);
@@ -89,7 +94,7 @@ public class InteractivePolygon extends InteractiveShape {
           if (_points.size() > 0 && _cursor.intersects(_points.get(0).getBoundsInParent())) {
             closeForm();
           } else {
-            if (!_collisionDetected)
+            // if (!_collisionDetected)
               addPoint(event);
           }
         }
@@ -137,12 +142,14 @@ public class InteractivePolygon extends InteractiveShape {
     line.setStartY(event.getY());
     _lines.add(line);
     Pane().getChildren().add(line);
+    // TEST
+    addOutboundShape(line);
     
     Circle circle = new Circle(event.getX(), event.getY(), 5.0);
     circle.setFill(Color.GREEN);
     
     _points.add(circle);
-    Pane().getChildren().addAll(circle);
+    Pane().getChildren().add(circle);
   }
 
   private void closeForm() {
@@ -157,6 +164,9 @@ public class InteractivePolygon extends InteractiveShape {
     Pane().getChildren().add(_polygon);
     // createControlAnchorsFor(_polygon.getPoints());
     _anchors = createControlAnchorsFor(_polygon.getPoints());
+    for (Anchor anchor : _anchors) {
+      _extShapes.add(anchor.getShape());
+    }
     // Pane().getChildren().addAll(_anchors);
 
     for (Circle point : _points) {
@@ -189,7 +199,9 @@ public class InteractivePolygon extends InteractiveShape {
     _polygon.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseClick);
     
     Engine().addInteractiveShape(this);
+
     select();
+
     return;
   }
   
@@ -221,8 +233,8 @@ public class InteractivePolygon extends InteractiveShape {
     System.out.println("SHAPE" + this);
 
     if (Engine().getSelectedShape() != this) {
-      Pane().getChildren().addAll(_anchors);
       Engine().selected(this);
+      Pane().getChildren().addAll(_anchors);
     }
   }
 
@@ -300,7 +312,7 @@ public class InteractivePolygon extends InteractiveShape {
       //     getScene().setCursor(Cursor.HAND);
       //   }
       // });
-      Anchor anchor = this;
+      // Circle _circle = this;
       setOnMouseDragged(new EventHandler<MouseEvent>() {
         @Override public void handle(MouseEvent mouseEvent) {
           double newX = mouseEvent.getX() + dragDelta.x;
@@ -308,10 +320,44 @@ public class InteractivePolygon extends InteractiveShape {
           updateCursor(mouseEvent);
           // _this._collisionDetected = _this.Engine().isObjectUnderCursor(_this.getCursor());
           Circle tmp = new Circle(newX, newY, 5, Color.TRANSPARENT);
+          tmp.setStrokeWidth(2);
+          tmp.setStrokeType(StrokeType.OUTSIDE);    
           Pane().getChildren().add(tmp);
           _collisionDetected = _this.Engine().isObjectUnderCursor(tmp);
           // _this._collisionDetected = _this.Engine().isObjectUnderCursor(_this.getShape());
           if (_collisionDetected) {
+            Line element = (Line) _this.Engine().getObjectUnderCursor(tmp);
+            if (element != null) {
+              double x = Pane().getScaleX();
+              double y = Pane().getScaleY();
+              
+              Pane().setScaleX(1.0);
+              Pane().setScaleY(1.0);
+              Bounds bounds = Engine().scrlPane.getViewportBounds();
+              System.out.println("ScrollOffset ---> " + Pane().getParent().getLayoutX());
+              System.out.println("ScrollOffset ---> " + Pane().getParent().getLayoutY());
+              System.out.println("ScrollOffset ---> " + bounds);
+              // System.out.println("ScrollOffset ---> " + Engine().scrlPane.getParent().getParent().getParent().getParent().());
+              AnchorPane achPane = (AnchorPane) Engine().scrlPane.getParent().getParent().getParent().getParent().getParent().getParent();
+              System.out.println("ScrollOffset ---> " + achPane.getPadding());
+              // System.out.println("ScrollOffset ---> " + Engine().scrlPane.getViewportBounds());
+              // Point2D scrollOffset = _this.figureScrollOffset(_this.Pane(), _this.Engine().scrlPane);
+              Pane().setLayoutX(-Pane().getParent().getLayoutX() - bounds.getMinX());
+              Pane().setLayoutY(-Pane().getParent().getLayoutY()- bounds.getMinY() - achPane.getPadding().getTop());
+              Shape union = Shape.intersect(tmp, element);
+              Pane().setLayoutX(0.0);
+              Pane().setLayoutY(0.0);
+              Pane().setScaleX(x);
+              Pane().setScaleY(y);
+              Pane().getChildren().add(union);
+
+              double offsetX = 0.0; // Find why there is an offset
+              double offsetY = 0.0; // Find why there is an offset
+              setCenterX((union.getBoundsInParent().getMinX() + (union.getBoundsInParent().getMaxX() - union.getBoundsInParent().getMinX()) / 2) + offsetX);
+              setCenterY((union.getBoundsInParent().getMinY() + (union.getBoundsInParent().getMaxY() - union.getBoundsInParent().getMinY()) / 2 + offsetY));
+              union.setFill(Color.ORCHID);
+
+            }
             setStroke(Color.RED);
           } else {
             setStroke(Color.GOLD);
@@ -328,19 +374,41 @@ public class InteractivePolygon extends InteractiveShape {
           } else {
             _polygon.setFill(Color.GREEN);
           }
+          Pane().getChildren().remove(tmp);
         }
       });
     }
+    public Shape getShape() {
+      return (Circle) this;
+    }
   }
-
   public void deselect() {
-    // for (Circle point : _points) {
-    //   point.setVisible(false);
-    // }
+    for (Circle point : _points) {
+      point.setVisible(false);
+    }
+    System.out.println("DESELECTED");
     Pane().getChildren().removeAll(_anchors);
+    // ArrayList<Node> nodes = new ArrayList<>();
+    // for (InteractiveShape shape : Engine().getShapes()) {
+    //   nodes.add(shape.getShape());
+    //   for (Shape outBound : shape.getOutBoundShapes()) {
+    //     nodes.add(outBound);
+    //   }
+    //   if (shape == this && Engine().getSelectedShape() == null) {
+    //     for (Shape extShapes : shape.getExtShapes()) {
+    //       nodes.add(extShapes);
+    //     }
+    //   }
+    // }
+    // -----------
+    // Group group = new Group(nodes);
+    // Engine().getPane().getChildren().remove(Engine().getGroup());
+    // Engine().getPane().getChildren().add(group);
+    // Engine().setGroup(group);
   }
   private class Delta { double x, y; }
 
+  //TODO remove these
   public Shape getShape() {
     return _polygon;
   }
@@ -348,4 +416,43 @@ public class InteractivePolygon extends InteractiveShape {
   public Circle getCursor() {
     return _cursor;
   }
+
+
+  private Point2D figureScrollOffset(Node scrollContent, ScrollPane scroller) {
+    double extraWidth = scrollContent.getLayoutBounds().getWidth() - scroller.getViewportBounds().getWidth();
+    // System.out.println("_ " + extraWidth);
+    double hScrollProportion = (scroller.getHvalue() - scroller.getHmin()) / (scroller.getHmax() - scroller.getHmin());
+    // System.out.println("_ " + hScrollProportion);
+    double scrollXOffset = hScrollProportion * Math.max(0, extraWidth);
+    // System.out.println("_ " + scrollXOffset);
+    double extraHeight = scrollContent.getLayoutBounds().getHeight() - scroller.getViewportBounds().getHeight();
+    // System.out.println("_ " + extraHeight);
+    double vScrollProportion = (scroller.getVvalue() - scroller.getVmin()) / (scroller.getVmax() - scroller.getVmin());
+    // System.out.println("_ " + vScrollProportion);
+    double scrollYOffset = vScrollProportion * Math.max(0, extraHeight);
+    // System.out.println("_ " + scrollYOffset);
+    return new Point2D(scrollXOffset, scrollYOffset);
+  }
+
+  private void repositionScroller(Node scrollContent, ScrollPane scroller, double scaleFactor, Point2D scrollOffset) {
+    double scrollXOffset = scrollOffset.getX();
+    double scrollYOffset = scrollOffset.getY();
+    double extraWidth = scrollContent.getLayoutBounds().getWidth() - scroller.getViewportBounds().getWidth();
+    if (extraWidth > 0) {
+      double halfWidth = scroller.getViewportBounds().getWidth() / 2 ;
+      double newScrollXOffset = (scaleFactor - 1) *  halfWidth + scaleFactor * scrollXOffset;
+      scroller.setHvalue(scroller.getHmin() + newScrollXOffset * (scroller.getHmax() - scroller.getHmin()) / extraWidth);
+    } else {
+      scroller.setHvalue(scroller.getHmin());
+    }
+    double extraHeight = scrollContent.getLayoutBounds().getHeight() - scroller.getViewportBounds().getHeight();
+    if (extraHeight > 0) {
+      double halfHeight = scroller.getViewportBounds().getHeight() / 2 ;
+      double newScrollYOffset = (scaleFactor - 1) * halfHeight + scaleFactor * scrollYOffset;
+      scroller.setVvalue(scroller.getVmin() + newScrollYOffset * (scroller.getVmax() - scroller.getVmin()) / extraHeight);
+    } else {
+      scroller.setHvalue(scroller.getHmin());
+    }
+  }
+
 }

@@ -2,7 +2,7 @@
  * File Created: Friday, 12th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Sunday, 28th October 2018
+ * Last Modified: Thursday, 1st November 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -26,6 +26,10 @@ import  javafx.event.EventHandler;
 import  javafx.scene.input.MouseEvent;
 import  javafx.scene.shape.Rectangle;
 import  javafx.scene.shape.Shape;
+import  javafx.scene.shape.Line;
+import  javafx.scene.Group;
+
+import javafx.scene.control.ScrollPane;
 
 public class Engine {
   private Pane  _pane = null;
@@ -36,23 +40,24 @@ public class Engine {
   private boolean _collisions = true;
   private InteractivePolygon _selectedShape = null;
 
+  // private Group _group = null;
+
   public Engine(Pane pane) {
     _pane = pane;
     _nodes = pane.getChildren();
 
+    
+// _pane.setScaleX(2.0);
+// _pane.setScaleY(2.0);
 
-    _board = new Rectangle(0, 0, _pane.getPrefWidth(), _pane.getPrefHeight());
+    _board = new Rectangle(0, 0, 1000, 700);
     _board.setStrokeWidth(0.0);
     _board.setFill(Color.TRANSPARENT);
 
-
-
-    EventHandler<MouseEvent> mouseClick = new EventHandler<MouseEvent>() {
-      public void handle(MouseEvent event) {
-        System.out.println("PANE");
-        if (_selectedShape != null)  
-          deselect();
-      }
+    EventHandler<MouseEvent> mouseClick = event -> {
+      System.out.println("PANE");
+      if (_selectedShape != null)
+        deselect();
     };
     _board.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseClick);
     _nodes.add(_board);
@@ -112,19 +117,64 @@ public class Engine {
     for (InteractiveShape element : _shapes) {
       if (element == _selectedShape)
         continue;
-      // System.out.println(cursor.getBoundsInLocal());
+      for (Shape shape : element.getOutBoundShapes()) {
+        Shape intersect = Shape.intersect(cursor, shape);
+        if (intersect.getBoundsInParent().getWidth() != -1) {
+          System.out.println(" ++++++++++ Line collision ++++++++++");
+          return true;
+        }
+      }
+      // System.out.println(cursor.getBoundsInParent());
       Shape intersect = Shape.intersect(cursor, element.getShape());
-      if (intersect.getBoundsInLocal().getWidth() != -1) {
-        System.out.println(intersect.getBoundsInLocal().getMaxX() + " " +
-          intersect.getBoundsInLocal().getMaxX());
-        System.out.println("collision");
-        // collisionDetected = true;
+      if (intersect.getBoundsInParent().getWidth() != -1) {
+        // System.out.println(intersect.getBoundsInParent().getMaxX() + " : " +
+        //   intersect.getBoundsInParent().getMaxX());
+        // System.out.println("collision");
         return true;
       }
     }
-    return false;
+    // for (Shape shape : _grid.getLines()) {
+    //   System.out.println(" ========================= ");
+
+    //   Shape intersect = Shape.intersect(cursor, shape);
+    //   if (intersect.getBoundsInParent().getWidth() != -1) {
+    //     System.out.println(" ++++++++++ Line collision ++++++++++");
+    //     return true;
+    //   }
+    // }
+  return false;
   }
 
+  public Shape getObjectUnderCursor(Shape cursor) {
+    for (InteractiveShape element : _shapes) {
+      if (element == _selectedShape)
+        continue;
+      for (Shape shape : element.getOutBoundShapes()) {
+        Shape intersect = Shape.intersect(cursor, shape);
+        if (intersect.getBoundsInParent().getWidth() != -1) {
+          System.out.println(" ++++++++++ Stroke ++++++++++");        
+          return shape;
+        }
+      }
+      // System.out.println(cursor.getBoundsInLocal());
+      // Shape intersect = Shape.intersect(cursor, element.getShape());
+      // if (intersect.getBoundsInLocal().getWidth() != -1) {
+        //   System.out.println(intersect.getBoundsInParent().getMinX() + " : " +
+        //     intersect.getBoundsInLocal().getMaxX());
+        //   System.out.println("collision");
+        //   // collisionDetected = true;
+        //   return element.getShape();
+        // }
+      }
+      // for (Shape shape : _grid.getLines()) {
+      //   Shape intersect = Shape.intersect(cursor, shape);
+      //   if (intersect.getBoundsInParent().getWidth() != -1) {
+      //     System.out.println(" ++++++++++ Stroke ++++++++++");        
+      //     return shape;
+      //   }
+      // }
+    return null;
+  }
   // public boolean isOtherShapeUnderCursor(Shape cursor) {
   //   for (InteractiveShape element : _shapes) {
   //     if (element == _selectedShape)
@@ -136,5 +186,41 @@ public class Engine {
   //     }
   //   }
   //   return false;
+  // }
+
+  public Rectangle getBoard() {
+    return _board;
+  }
+
+
+  //TODO remove this
+  public ArrayList<InteractiveShape> getShapes() {
+    return _shapes;
+  };
+
+  public ArrayList<Shape> getAllShapes() {
+    ArrayList<Shape> shapes = new ArrayList<>();
+
+    for (InteractiveShape element : _shapes) {
+      shapes.add(element.getShape());
+      for (Shape shape : element.getOutBoundShapes()) {
+        shapes.add(shape);
+      }
+      for (Shape shape : element.getExtShapes()) {
+        shapes.add(shape);
+    }
+  }
+
+    return shapes;
+  }
+
+  public ScrollPane scrlPane = null;
+
+  // public Group getGroup() {
+  //   return _group;
+  // }
+
+  // public void setGroup(Group group) {
+  //   _group = group;
   // }
 }
