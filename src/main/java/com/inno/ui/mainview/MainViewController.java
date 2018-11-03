@@ -52,11 +52,11 @@ public class MainViewController extends ViewController {
   // @FXML
   private ScrollPane scrollPane;
 
-  // @FXML
-  // private AnchorPane anchorCanvas;
+  @FXML
+  private AnchorPane anchor_canvas;
 
   @FXML
-  private StackPane stackPane;
+  private StackPane stack_pane;
 
   // @FXML
   // private StackPane paneParent;
@@ -74,35 +74,10 @@ public class MainViewController extends ViewController {
 
     _pane = new Pane();
 
-    _pane.setPrefSize(1000, 700);
-    // _pane.setStyle("-fx-background-color: #e51975");
+    _pane.setPrefSize(1500, 800);
 
-    // Bounds parentBounds = _pane.getBoundsInParent();
-    // Point2D pos = new Point2D(
-    //   (parentBounds.getMinX() + (parentBounds.getMaxX() - parentBounds.getMinX()) / 2),
-    //   (parentBounds.getMinY() + (parentBounds.getMaxY() - parentBounds.getMinY()) / 2));
-
-    // Point2D pos2 = _pane.parentToLocal(pos.getX(), pos.getY());
-
-    // _pane.setLayoutX(500);
-    // _pane.setLayoutY(500);
-    // _pane.setOnDragDetected(evt -> {
-    //     Node target = (Node) evt.getTarget();
-    //     while (target != _pane && target != null) {
-    //         target = target.getParent();
-    //     }
-    //     if (target != null) {
-    //       target.startFullDrag();
-    //     }
-    //   });
-    // _pane.setStyle("-fx-background-color: #777A81");
-
-    // Group group = new Group(_pane);
     Group group = new Group(_pane);
     StackPane content = new StackPane(group);
-    // content.setPrefSize(500, 500);
-    // content.getChildren().add(group);
-    // stackPane.getChildren().add(content);
     content.setStyle("-fx-background-color: #1E1E1E");
 
     group.layoutBoundsProperty().addListener((observable, oldBounds, newBounds) -> {
@@ -113,7 +88,6 @@ public class MainViewController extends ViewController {
 
     scrollPane = new ScrollPane(content);
     scrollPane.setStyle("-fx-background-color: #1E1E1E");
-
 
     // scrollPane.setPannable(true);
     scrollPane.viewportBoundsProperty().addListener((observable, oldBounds, newBounds) -> {
@@ -127,7 +101,7 @@ public class MainViewController extends ViewController {
 
           final double zoomFactor = evt.getDeltaY() > 0 ? 1.2 : 1 / 1.2;
 
-          Bounds groupBounds = group.getLayoutBounds();
+          final Bounds groupBounds = group.getLayoutBounds();
           final Bounds viewportBounds = scrollPane.getViewportBounds();
 
           // calculate pixel offsets from [0, 1] range
@@ -153,20 +127,15 @@ public class MainViewController extends ViewController {
           scrollPane.setVvalue((valY + adjustment.getY()) / (groupBounds.getHeight() - viewportBounds.getHeight()));
       }
     });
-    // StackPane sp = new StackPane();
-    // sp.set
-    // System.out.println(stackPane.getPrefWidth() + " : " + stackPane.getPrefHeight());
-    // sp.setPrefSize(928, 600);
-    // Pane test = new Pane();
-    // test.setPrefSize(8000, 600);
-    // test.setStyle("-fx-background-color: #777A81");
-    // sp.getChildren().add(scrollPane);
-    // sp.getChildren().add(scrollPane);
-
-    stackPane.getChildren().add(scrollPane);
+    stack_pane.getChildren().add(scrollPane);
 
     View().createEngine(_pane);
     Engine().scrlPane = scrollPane;
+    
+    System.out.println("...>" + stack_pane.getWidth());
+    _pane.setScaleX(0.7);
+    _pane.setScaleY(0.7);
+
   }
 
   @FXML
@@ -174,8 +143,6 @@ public class MainViewController extends ViewController {
     System.out.println("Add section");
     if (evt.getText().compareTo("a") == 0)
       Engine().test();
-    // System.out.println("++++ " + scrollPane.viewportBoundsProperty());
-      // System.out.println(event.getKeyChar());
   }
 
   @FXML

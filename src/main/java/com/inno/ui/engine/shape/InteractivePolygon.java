@@ -509,7 +509,7 @@ public class InteractivePolygon extends InteractiveShape {
             Pane().setLayoutY(0.0);
             Pane().setScaleX(x);
             Pane().setScaleY(y);
-            Pane().getChildren().add(union);
+            // Pane().getChildren().add(union);
 
             Bounds unionBounds = union.getBoundsInParent();
             Point2D pos = new Point2D(
