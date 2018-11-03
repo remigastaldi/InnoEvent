@@ -2,7 +2,7 @@
  * File Created: Friday, 12th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Thursday, 1st November 2018
+ * Last Modified: Saturday, 3rd November 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -50,7 +50,7 @@ public class Engine {
 // _pane.setScaleX(2.0);
 // _pane.setScaleY(2.0);
 
-    _board = new Rectangle(0, 0, 1000, 700);
+    _board = new Rectangle(0, 0, _pane.getWidth(), _pane.getHeight());
     _board.setStrokeWidth(0.0);
     _board.setFill(Color.TRANSPARENT);
 

@@ -74,7 +74,18 @@ public class MainViewController extends ViewController {
 
     _pane = new Pane();
 
-    _pane.setPrefSize(1000, 1000);
+    _pane.setPrefSize(1000, 700);
+    // _pane.setStyle("-fx-background-color: #e51975");
+
+    // Bounds parentBounds = _pane.getBoundsInParent();
+    // Point2D pos = new Point2D(
+    //   (parentBounds.getMinX() + (parentBounds.getMaxX() - parentBounds.getMinX()) / 2),
+    //   (parentBounds.getMinY() + (parentBounds.getMaxY() - parentBounds.getMinY()) / 2));
+
+    // Point2D pos2 = _pane.parentToLocal(pos.getX(), pos.getY());
+
+    // _pane.setLayoutX(500);
+    // _pane.setLayoutY(500);
     // _pane.setOnDragDetected(evt -> {
     //     Node target = (Node) evt.getTarget();
     //     while (target != _pane && target != null) {
@@ -86,8 +97,12 @@ public class MainViewController extends ViewController {
     //   });
     // _pane.setStyle("-fx-background-color: #777A81");
 
+    // Group group = new Group(_pane);
     Group group = new Group(_pane);
     StackPane content = new StackPane(group);
+    // content.setPrefSize(500, 500);
+    // content.getChildren().add(group);
+    // stackPane.getChildren().add(content);
     content.setStyle("-fx-background-color: #1E1E1E");
 
     group.layoutBoundsProperty().addListener((observable, oldBounds, newBounds) -> {
@@ -134,20 +149,21 @@ public class MainViewController extends ViewController {
 
           // convert back to [0, 1] range
           // (too large/small values are automatically corrected by ScrollPane)
-          groupBounds = group.getLayoutBounds();
           scrollPane.setHvalue((valX + adjustment.getX()) / (groupBounds.getWidth() - viewportBounds.getWidth()));
           scrollPane.setVvalue((valY + adjustment.getY()) / (groupBounds.getHeight() - viewportBounds.getHeight()));
       }
     });
-    StackPane sp = new StackPane();
-    System.out.println(stackPane.getPrefWidth() + " : " + stackPane.getPrefHeight());
-    sp.setPrefSize(928, 600);
+    // StackPane sp = new StackPane();
+    // sp.set
+    // System.out.println(stackPane.getPrefWidth() + " : " + stackPane.getPrefHeight());
+    // sp.setPrefSize(928, 600);
     // Pane test = new Pane();
     // test.setPrefSize(8000, 600);
     // test.setStyle("-fx-background-color: #777A81");
-    sp.getChildren().add(scrollPane);
+    // sp.getChildren().add(scrollPane);
+    // sp.getChildren().add(scrollPane);
 
-    stackPane.getChildren().add(sp);
+    stackPane.getChildren().add(scrollPane);
 
     View().createEngine(_pane);
     Engine().scrlPane = scrollPane;
