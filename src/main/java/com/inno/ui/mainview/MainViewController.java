@@ -2,7 +2,7 @@
  * File Created: Wednesday, 26th September 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Thursday, 1st November 2018
+ * Last Modified: Saturday, 3rd November 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -42,6 +42,9 @@ import javafx.scene.input.KeyEvent;
 public class MainViewController extends ViewController {
   // @FXML
   // private Pane graphicsPane;
+
+  @FXML
+  private AnchorPane top_bar;
 
   @FXML
   private AnchorPane sidebarAnchor;
