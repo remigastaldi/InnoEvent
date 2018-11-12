@@ -2,7 +2,7 @@
  * File Created: Sunday, 14th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Saturday, 3rd November 2018
+ * Last Modified: Wednesday, 7th November 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -11,7 +11,6 @@
 
 package com.inno.ui.engine.shape;
 
-import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -43,7 +42,6 @@ import javafx.scene.shape.StrokeType;
 import javafx.scene.shape.Shape;
 import javafx.scene.image.Image;
 import javafx.scene.control.ScrollPane;
-// import java.lang.Number;
 import javafx.geometry.Bounds;
 import javafx.scene.control.ScrollBar;
 import javafx.scene.Group;
@@ -89,39 +87,35 @@ public class InteractivePolygon extends InteractiveShape {
     _cursor.setVisible(false);
     // Pane().setCursor(Cursor.NONE);
 
-    EventHandler<MouseEvent> mouseClickEvent = new EventHandler<MouseEvent>() {
-      public void handle(MouseEvent event) {
-        if (onMouseClicked(event)) {
-          if (_points.size() > 0 && _cursor.intersects(_points.get(0).getBoundsInParent())) {
-            closeForm();
-          } else {
-            // if (!_collisionDetected)
-            addPoint(event);
-          }
+    EventHandler<MouseEvent> mouseClickEvent = event -> {
+      if (onMouseClicked(event)) {
+        if (_points.size() > 0 && _cursor.intersects(_points.get(0).getBoundsInParent())) {
+          closeForm();
+        } else {
+          // if (!_collisionDetected)
+          addPoint(event);
         }
       }
     };
     EventHandlers().put(MouseEvent.MOUSE_RELEASED, mouseClickEvent);
     Pane().addEventHandler(MouseEvent.MOUSE_RELEASED, mouseClickEvent);
 
-    EventHandler<MouseEvent> mouseMovedEvent = new EventHandler<MouseEvent>() {
-      public void handle(MouseEvent event) {
-        if (onMouseMoved(event)) {
-          _collisionDetected = Engine().isObjectUnderCursor(_cursor)
-              || (_lines.size() > 0 ? Engine().isObjectUnderCursor(_lines.get(_lines.size() - 1)) : false);
-          if (_collisionDetected) {
-            if (_lines.size() > 0)
-              _lines.get(_lines.size() - 1).setStroke(Color.RED);
-            Pane().setCursor(closeCursor);
+    EventHandler<MouseEvent> mouseMovedEvent = event -> {
+      if (onMouseMoved(event)) {
+        _collisionDetected = Engine().isObjectUnderCursor(_cursor)
+            || (_lines.size() > 0 ? Engine().isObjectUnderCursor(_lines.get(_lines.size() - 1)) : false);
+        if (_collisionDetected) {
+          if (_lines.size() > 0)
+            _lines.get(_lines.size() - 1).setStroke(Color.RED);
+          Pane().setCursor(closeCursor);
 
-          } else {
-            if (_lines.size() > 0)
-              _lines.get(_lines.size() - 1).setStroke(Color.KHAKI);
-            Pane().setCursor(addCursor);
-          }
-          updateCursor(event);
-          updateCurrentLine(event);
+        } else {
+          if (_lines.size() > 0)
+            _lines.get(_lines.size() - 1).setStroke(Color.KHAKI);
+          Pane().setCursor(addCursor);
         }
+        updateCursor(event);
+        updateCurrentLine(event);
       }
     };
     EventHandlers().put(MouseEvent.MOUSE_MOVED, mouseMovedEvent);
@@ -138,7 +132,7 @@ public class InteractivePolygon extends InteractiveShape {
     double sum2 = 0;
     double sum3 = 0;
 
-    for (int i = 0; i < points.size(); i++) {
+    for (int i = 0; i < points.size(); ++i) {
       Point2D point1 = points.get(i);
       Point2D point2;
       if (i + 1 == points.size()) {
@@ -393,22 +387,16 @@ public class InteractivePolygon extends InteractiveShape {
       DoubleProperty xProperty = new SimpleDoubleProperty(points.get(i));
       DoubleProperty yProperty = new SimpleDoubleProperty(points.get(i + 1));
 
-      xProperty.addListener(new ChangeListener<Number>() {
-        @Override
-        public void changed(ObservableValue<? extends Number> ov, Number oldX, Number x) {
-          points.set(idx, (double) x);
-          _lines.get(idj - 1 < 0 ? _lines.size() - 1 : idj - 1).setEndX((double) x);
-          _lines.get(idj).setStartX((double) x);
-        }
+      xProperty.addListener((ChangeListener<Number>) (ov, oldX, x) -> {
+        points.set(idx, (double) x);
+        _lines.get(idj - 1 < 0 ? _lines.size() - 1 : idj - 1).setEndX((double) x);
+        _lines.get(idj).setStartX((double) x);
       });
 
-      yProperty.addListener(new ChangeListener<Number>() {
-        @Override
-        public void changed(ObservableValue<? extends Number> ov, Number oldY, Number y) {
-          points.set(idx + 1, (double) y);
-          _lines.get(idj - 1 < 0 ? _lines.size() - 1 : idj - 1).setEndY((double) y);
-          _lines.get(idj).setStartY((double) y);
-        }
+      yProperty.addListener((ChangeListener<Number>) (ov, oldY, y) -> {
+        points.set(idx + 1, (double) y);
+        _lines.get(idj - 1 < 0 ? _lines.size() - 1 : idj - 1).setEndY((double) y);
+        _lines.get(idj).setStartY((double) y);
       });
       j++;
       anchors.add(new Anchor(Color.GOLD, xProperty, yProperty));
@@ -488,6 +476,7 @@ public class InteractivePolygon extends InteractiveShape {
             double xLayout = Pane().getParent().getLayoutX();
             double yLayout = Pane().getParent().getLayoutY();
 
+
             Pane().setScaleX(1.0);
             Pane().setScaleY(1.0);
             Bounds bounds = Engine().scrlPane.getViewportBounds();
@@ -518,7 +507,8 @@ public class InteractivePolygon extends InteractiveShape {
             Point2D pos2 = group.parentToLocal(pos.getX(), pos.getY());
             setCenterX(pos2.getX());
             setCenterY(pos2.getY());
-            union.setFill(Color.ORCHID);
+            // union.setFill(Color.ORCHID);
+
             grabbed = true;
 
           }
@@ -581,43 +571,5 @@ public class InteractivePolygon extends InteractiveShape {
     return _cursor;
   }
 
-  private Point2D figureScrollOffset(Node scrollContent, ScrollPane scroller) {
-    double extraWidth = scrollContent.getLayoutBounds().getWidth() - scroller.getViewportBounds().getWidth();
-    // System.out.println("_ " + extraWidth);
-    double hScrollProportion = (scroller.getHvalue() - scroller.getHmin()) / (scroller.getHmax() - scroller.getHmin());
-    // System.out.println("_ " + hScrollProportion);
-    double scrollXOffset = hScrollProportion * Math.max(0, extraWidth);
-    // System.out.println("_ " + scrollXOffset);
-    double extraHeight = scrollContent.getLayoutBounds().getHeight() - scroller.getViewportBounds().getHeight();
-    // System.out.println("_ " + extraHeight);
-    double vScrollProportion = (scroller.getVvalue() - scroller.getVmin()) / (scroller.getVmax() - scroller.getVmin());
-    // System.out.println("_ " + vScrollProportion);
-    double scrollYOffset = vScrollProportion * Math.max(0, extraHeight);
-    // System.out.println("_ " + scrollYOffset);
-    return new Point2D(scrollXOffset, scrollYOffset);
-  }
-
-  private void repositionScroller(Node scrollContent, ScrollPane scroller, double scaleFactor, Point2D scrollOffset) {
-    double scrollXOffset = scrollOffset.getX();
-    double scrollYOffset = scrollOffset.getY();
-    double extraWidth = scrollContent.getLayoutBounds().getWidth() - scroller.getViewportBounds().getWidth();
-    if (extraWidth > 0) {
-      double halfWidth = scroller.getViewportBounds().getWidth() / 2;
-      double newScrollXOffset = (scaleFactor - 1) * halfWidth + scaleFactor * scrollXOffset;
-      scroller
-          .setHvalue(scroller.getHmin() + newScrollXOffset * (scroller.getHmax() - scroller.getHmin()) / extraWidth);
-    } else {
-      scroller.setHvalue(scroller.getHmin());
-    }
-    double extraHeight = scrollContent.getLayoutBounds().getHeight() - scroller.getViewportBounds().getHeight();
-    if (extraHeight > 0) {
-      double halfHeight = scroller.getViewportBounds().getHeight() / 2;
-      double newScrollYOffset = (scaleFactor - 1) * halfHeight + scaleFactor * scrollYOffset;
-      scroller
-          .setVvalue(scroller.getVmin() + newScrollYOffset * (scroller.getVmax() - scroller.getVmin()) / extraHeight);
-    } else {
-      scroller.setHvalue(scroller.getHmin());
-    }
-  }
   // ---------------
 }

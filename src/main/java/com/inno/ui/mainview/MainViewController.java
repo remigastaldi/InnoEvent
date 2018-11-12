@@ -2,7 +2,7 @@
  * File Created: Wednesday, 26th September 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Saturday, 3rd November 2018
+ * Last Modified: Monday, 12th November 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -11,70 +11,43 @@
 
 package com.inno.ui.mainview;
 
-import java.util.ArrayList;
-
 import com.inno.ui.ViewController;
-import com.inno.ui.engine.Engine;
-import com.inno.ui.engine.shape.InteractivePolygon;
-import com.inno.ui.engine.shape.InteractiveShape;
 
 import javafx.fxml.FXML;
+import javafx.geometry.Point2D;
+import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
-import javafx.application.Application;
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleObjectProperty;
-import javafx.beans.value.*;
-import javafx.event.*;
-import javafx.geometry.Bounds;
-import javafx.geometry.Point2D;
-import javafx.scene.*;
-import javafx.scene.control.*;
-import javafx.scene.image.*;
-import javafx.scene.input.*;
-import javafx.scene.layout.*;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.*;
-import javafx.stage.Stage;
-import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.StackPane;
 
 public class MainViewController extends ViewController {
-  // @FXML
-  // private Pane graphicsPane;
 
   @FXML
   private AnchorPane top_bar;
 
   @FXML
   private AnchorPane sidebarAnchor;
-
-  // @FXML
-  private ScrollPane scrollPane;
-
+  
   @FXML
   private AnchorPane anchor_canvas;
-
+  
   @FXML
   private StackPane stack_pane;
-
-  // @FXML
-  // private StackPane paneParent;
-
   
   @FXML
   private void initialize() {
   }
   
-  // Pane _pane =  new Pane();
-  Pane _pane = null;
-
+  private ScrollPane scrollPane;
+  
   public void init() {
     View().setSidebarFromFxmlFileName("sidebar_room.fxml", sidebarAnchor);
 
-    _pane = new Pane();
-
-    _pane.setPrefSize(1500, 800);
+    Pane _pane = new Pane();
+    _pane.setPrefSize(900, 700);
 
     Group group = new Group(_pane);
     StackPane content = new StackPane(group);
@@ -101,18 +74,21 @@ public class MainViewController extends ViewController {
 
           final double zoomFactor = evt.getDeltaY() > 0 ? 1.2 : 1 / 1.2;
 
-          final Bounds groupBounds = group.getLayoutBounds();
-          final Bounds viewportBounds = scrollPane.getViewportBounds();
+          // final Bounds groupBounds = group.getLayoutBounds();
+          // final Bounds viewportBounds = scrollPane.getViewportBounds();
 
           // calculate pixel offsets from [0, 1] range
-          double valX = scrollPane.getHvalue() * (groupBounds.getWidth() - viewportBounds.getWidth());
-          double valY = scrollPane.getVvalue() * (groupBounds.getHeight() - viewportBounds.getHeight());
+          // double valX = scrollPane.getHvalue() * (groupBounds.getWidth() - viewportBounds.getWidth());
+          // double valY = scrollPane.getVvalue() * (groupBounds.getHeight() - viewportBounds.getHeight());
 
           // convert content coordinates to zoomTarget coordinates
-          Point2D posInZoomTarget = _pane.parentToLocal(group.parentToLocal(new Point2D(evt.getX(), evt.getY())));
+          // Point2D posInZoomTarget = _pane.parentToLocal(group.parentToLocal(new Point2D(evt.getX(), evt.getY())));
 
           // calculate adjustment of scroll position (pixels)
-          Point2D adjustment = _pane.getLocalToParentTransform().deltaTransform(posInZoomTarget.multiply(zoomFactor - 1));
+          // Point2D adjustment = _pane.getLocalToParentTransform().deltaTransform(posInZoomTarget.multiply(zoomFactor - 1));
+          // System.out.println("adjustement => " + adjustment);
+
+          Point2D scrollOffset = figureScrollOffset(group, scrollPane);
 
           // do the resizing
           _pane.setScaleX(zoomFactor * _pane.getScaleX());
@@ -121,21 +97,17 @@ public class MainViewController extends ViewController {
           // refresh ScrollPane scroll positions & content bounds
           scrollPane.layout();
 
+          repositionScroller(group, scrollPane, zoomFactor, scrollOffset);
           // convert back to [0, 1] range
           // (too large/small values are automatically corrected by ScrollPane)
-          scrollPane.setHvalue((valX + adjustment.getX()) / (groupBounds.getWidth() - viewportBounds.getWidth()));
-          scrollPane.setVvalue((valY + adjustment.getY()) / (groupBounds.getHeight() - viewportBounds.getHeight()));
+          // scrollPane.setHvalue((valX + adjustment.getX()) / (groupBounds.getWidth() - viewportBounds.getWidth()));
+          // scrollPane.setVvalue((valY + adjustment.getY()) / (groupBounds.getHeight() - viewportBounds.getHeight()));
       }
     });
     stack_pane.getChildren().add(scrollPane);
 
     View().createEngine(_pane);
     Engine().scrlPane = scrollPane;
-    
-    System.out.println("...>" + stack_pane.getWidth());
-    _pane.setScaleX(0.7);
-    _pane.setScaleY(0.7);
-
   }
 
   @FXML
@@ -158,5 +130,38 @@ public class MainViewController extends ViewController {
   @FXML
   private void openSection() {
     View().setSidebarFromFxmlFileName("sidebar_section.fxml", sidebarAnchor);
+  }
+
+  private Point2D figureScrollOffset(Node scrollContent, ScrollPane scroller) {
+    double extraWidth = scrollContent.getLayoutBounds().getWidth() - scroller.getViewportBounds().getWidth();
+    double hScrollProportion = (scroller.getHvalue() - scroller.getHmin()) / (scroller.getHmax() - scroller.getHmin());
+    double scrollXOffset = hScrollProportion * Math.max(0, extraWidth);
+    double extraHeight = scrollContent.getLayoutBounds().getHeight() - scroller.getViewportBounds().getHeight();
+    double vScrollProportion = (scroller.getVvalue() - scroller.getVmin()) / (scroller.getVmax() - scroller.getVmin());
+    double scrollYOffset = vScrollProportion * Math.max(0, extraHeight);
+    return new Point2D(scrollXOffset, scrollYOffset);
+  }
+
+  private void repositionScroller(Node scrollContent, ScrollPane scroller, double scaleFactor, Point2D scrollOffset) {
+    double scrollXOffset = scrollOffset.getX();
+    double scrollYOffset = scrollOffset.getY();
+    double extraWidth = scrollContent.getLayoutBounds().getWidth() - scroller.getViewportBounds().getWidth();
+
+    if (extraWidth > 0) {
+      double halfWidth = scroller.getViewportBounds().getWidth() / 2;
+      double newScrollXOffset = (scaleFactor - 1) * halfWidth + scaleFactor * scrollXOffset;
+      scroller.setHvalue(scroller.getHmin() + newScrollXOffset * (scroller.getHmax() - scroller.getHmin()) / extraWidth);
+    } else {
+      scroller.setHvalue(scroller.getHmin());
+    }
+
+    double extraHeight = scrollContent.getLayoutBounds().getHeight() - scroller.getViewportBounds().getHeight();
+    if (extraHeight > 0) {
+      double halfHeight = scroller.getViewportBounds().getHeight() / 2;
+      double newScrollYOffset = (scaleFactor - 1) * halfHeight + scaleFactor * scrollYOffset;
+      scroller.setVvalue(scroller.getVmin() + newScrollYOffset * (scroller.getVmax() - scroller.getVmin()) / extraHeight);
+    } else {
+      scroller.setHvalue(scroller.getHmin());
+    }
   }
 }

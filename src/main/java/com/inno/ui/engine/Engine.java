@@ -46,10 +46,6 @@ public class Engine {
     _pane = pane;
     _nodes = pane.getChildren();
 
-    
-// _pane.setScaleX(2.0);
-// _pane.setScaleY(2.0);
-
     _board = new Rectangle(0, 0, _pane.getWidth(), _pane.getHeight());
     _board.setStrokeWidth(0.0);
     _board.setFill(Color.TRANSPARENT);
@@ -92,8 +88,6 @@ public class Engine {
   }
 
   public void selected(InteractivePolygon selected) {
-    // _shapeIgnorePane = true;
-
     if (_selectedShape != null) {
       _selectedShape.deselect();
     }
@@ -193,7 +187,7 @@ public class Engine {
   }
 
 
-  //TODO remove this
+  // ---------- TODO: remove this
   public ArrayList<InteractiveShape> getShapes() {
     return _shapes;
   };
@@ -223,4 +217,6 @@ public class Engine {
   // public void setGroup(Group group) {
   //   _group = group;
   // }
+
+  // ---------
 }
