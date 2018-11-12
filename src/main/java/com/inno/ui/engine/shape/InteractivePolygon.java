@@ -2,7 +2,7 @@
  * File Created: Sunday, 14th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Wednesday, 7th November 2018
+ * Last Modified: Monday, 12th November 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -50,6 +50,8 @@ import javafx.scene.transform.Scale;
 import javafx.scene.transform.Rotate;
 import javafx.geometry.Dimension2D;
 
+
+
 public class InteractivePolygon extends InteractiveShape {
   private ArrayList<Circle> _points = new ArrayList<>();
   private ArrayList<Line> _lines = new ArrayList<>();
@@ -83,8 +85,8 @@ public class InteractivePolygon extends InteractiveShape {
     Image closeIcon = new Image("icon/close.png");
     Dimension2D addSizes = ImageCursor.getBestSize(addIcon.getWidth(), addIcon.getHeight());
     Dimension2D closeSizes = ImageCursor.getBestSize(addIcon.getWidth(), addIcon.getHeight());
-    ImageCursor addCursor = new ImageCursor(addIcon, addSizes.getWidth() / 2, addSizes.getHeight() / 2);
-    ImageCursor closeCursor = new ImageCursor(closeIcon, closeSizes.getWidth() / 2, closeSizes.getHeight() / 2);
+    ImageCursor addCursor = new ImageCursor(addIcon, addIcon.getWidth() / 2, addIcon.getHeight() / 2);
+    ImageCursor closeCursor = new ImageCursor(closeIcon, closeIcon.getWidth() / 2, closeIcon.getHeight() / 2);
     Pane().setCursor(addCursor);
 
     _cursor.setVisible(false);
@@ -193,31 +195,14 @@ public class InteractivePolygon extends InteractiveShape {
       double x = point.getCenterX();
       double y = point.getCenterY();
 
-      // double ratio = y / x;
-      // double ratio = 0.2;
-      // System.out.println("RATIO " + y / x);
-      // if (x > center.getX())
-      // ratio
-      // x *= 1.02;
-      // else
-      // x *= 0.98;
-      // y = ratio * x;
-      // double nX = 1.2 * x + center.getX() * (1 - 1.2);
-      // double nY = 1.2 * y + center.getY() * (1 - 1.2);
       polyClone.getPoints().addAll(new Double[] { x, y });
     }
     double x = _points.get(0).getCenterX();
     double y = _points.get(0).getCenterY();
     polyClone.getPoints().addAll(new Double[] { x, y });
-    // double ratio = y / x;
-    double zoomFactor = 1.20;
-    // double deltaY = polyClone.getDeltaY();
-    // if (deltaY > 0) {
-    // zoomFactor = 2.0 - zoomFactor;
-    // }
 
-    // polyClone.setScaleX(zoomFactor); // Set new Width
-    // polyClone.setScaleY(zoomFactor); // Set new Height
+    // double zoomFactor = 1.20;
+
     double width = polyClone.getBoundsInLocal().getMaxX() - polyClone.getBoundsInLocal().getMinX();
     double height = polyClone.getBoundsInLocal().getMaxX() - polyClone.getBoundsInLocal().getMinY();
     double polygonW = _polygon.getBoundsInLocal().getMaxX() - _polygon.getBoundsInLocal().getMinX();
@@ -225,47 +210,28 @@ public class InteractivePolygon extends InteractiveShape {
     System.out.println("W " + width + " H " + height);
     System.out.println("W " + polygonW + " H " + polygonH);
     System.out.println("Center " + center.getX() + " " + center.getY());
-    System.out.println("W " + (center.getX() + (width * (1 - zoomFactor) / 2)) + " H "
-        + (center.getY() + (height * (1 - zoomFactor) / 2)));
-    // polyClone.setLayoutX(center.getX() + (width * (1 - zoomFactor) / 2)); // Set
-    // new X position
-    // polyClone.setLayoutY(center.getY() + (height * (1 - zoomFactor) / 2)); // Set
-    // new Y position
-    // polyClone.setLayoutX(center.getX() + (width * (1 - zoomFactor) / 2)); // Set
-    // new X position
-    // polyClone.setLayoutY(center.getY() + (height * (1 - zoomFactor) / 2)); // Set
-    // new Y position
-    // polyClone.setTranslateX(-(width * (1 - zoomFactor) / 2));
-    // polyClone.setTranslateY(-(height * (1 - zoomFactor) / 2));
-    Scale scale = new Scale();
-    scale.setX(1.2);
-    scale.setY(1.2);
-    scale.setPivotX(center.getX());
-    scale.setPivotY(center.getY());
-    polyClone.getTransforms().addAll(scale);
+    // System.out.println("W " + (center.getX() + (width * (1 - zoomFactor) / 2)) + " H "
+    //     + (center.getY() + (height * (1 - zoomFactor) / 2)));
 
-    // double nX = 1.2 * x + center.getX() * (1 - 1.2);
-    // double nY = 1.2 * y + center.getY() * (1 - 1.2);
-    // System.out.println("X: " + x + " " + nX);
-    // System.out.println("Y: " + y + " " + nY);
-    // double nY = 1.2 * x + C * (1 - 1.2);
-    // if (x > center.getX())
-    // x *= 1.02;
-    // else
-    // x *= 0.98;
-    // y = ratio * x;
-    // polyClone.setScaleX(1.2);
-    // polyClone.setScaleY(1.2);
-    // Pane().t
-    // polyClone.setFill(Color.TRANSPARENT);
+    // Scale scale = new Scale();
+    // scale.setX(1.2);
+    // scale.setY(1.2);
+    // scale.setPivotX(center.getX());
+    // scale.setPivotY(center.getY());
+    // polyClone.getTransforms().addAll(scale);
+
+    polyClone.setScaleX(1.2);
+    polyClone.setScaleY(1.2);
+    // polyClone.setTranslateX(-2);
+    polyClone.setTranslateY(2);
     polyClone.setStroke(Color.WHITE);
     polyClone.setStrokeWidth(0.1);
-    // polyClone.setLayoutX(_polygon.getBoundsInLocal().getMinX());
+    // polyClone.setLayoutX(_polygon.getBoundsInParent().getMinX());
     // polyClone.setTranslateY(polyClone.getLayoutY() *1.5);
     // polyClone.setVisible(false);
 
     // addOutboundShape(polyClone);
-    // Pane().getChildren().add(polyClone);
+    Pane().getChildren().add(polyClone);
     Pane().getChildren().add(_polygon);
     // createControlAnchorsFor(_polygon.getPoints());
     _anchors = createControlAnchorsFor(_polygon.getPoints());
@@ -327,7 +293,7 @@ public class InteractivePolygon extends InteractiveShape {
     }
     group = new Group(nodes);
     // Group group = new Group(testPane);
-    group.getTransforms().add(new Rotate(90, center.getX(), center.getY()));
+    // group.getTransforms().add(new Rotate(90, center.getX(), center.getY()));
     Pane().getChildren().add(group);
 
     // testPane.getChildren().remove(_polygon);
@@ -438,8 +404,8 @@ public class InteractivePolygon extends InteractiveShape {
       final Delta dragDelta = new Delta();
       setOnMousePressed(mouseEvent -> {
         // record a delta distance for the drag and drop operation.
-        dragDelta.x = getCenterX() - mouseEvent.getX();
-        dragDelta.y = getCenterY() - mouseEvent.getY();
+        // dragDelta.x = getCenterX() - mouseEvent.getX();
+        // dragDelta.y = getCenterY() - mouseEvent.getY();
         // getScene().setCursor(Cursor.MOVE);
       });
       // setOnMouseReleased(new EventHandler<MouseEvent>() {
@@ -459,62 +425,25 @@ public class InteractivePolygon extends InteractiveShape {
         updateCursor(mouseEvent);
         Circle tmp = null;
         if (grabbed) {
-          tmp = new Circle(newXCursor, newYCursor, 6, Color.TRANSPARENT);
-
+          tmp = new Circle(newXCursor, newYCursor, 6.5, Color.TRANSPARENT);
         } else {
           Point2D pos2 = group.localToParent(getCenterX(), getCenterY());
-          tmp = new Circle(pos2.getX(), pos2.getY(), 6, Color.TRANSPARENT);
+          tmp = new Circle(pos2.getX(), pos2.getY(), 6.5, Color.TRANSPARENT);
         }
         tmp.setStrokeWidth(1);
         tmp.setStroke(Color.WHITE);
         // tmp.setStrokeType(StrokeType.OUTSIDE);
         Pane().getChildren().add(tmp);
         // _collisionDetected = _this.Engine().isObjectUnderCursor(tmp);
-        _this._collisionDetected = _this.Engine().isObjectUnderCursor(tmp);
-        if (_collisionDetected) {
-          Shape element = _this.Engine().getObjectUnderCursor(tmp);
-          if (element != null) {
-            double x = Pane().getScaleX();
-            double y = Pane().getScaleY();
-            double xLayout = Pane().getParent().getLayoutX();
-            double yLayout = Pane().getParent().getLayoutY();
+        Shape element = _this.Engine().getObjectUnderCursor(tmp);
+        // _this._collisionDetected = _this.Engine().isObjectUnderCursor(tmp);
+        if (element != null) {
+          Point2D pos = Engine().getCollisionShape(tmp, element, group);
+          setCenterX(pos.getX());
+          setCenterY(pos.getY());
 
+          grabbed = true;
 
-            Pane().setScaleX(1.0);
-            Pane().setScaleY(1.0);
-            Bounds bounds = Engine().scrlPane.getViewportBounds();
-            System.out.println("Parent_XLayout ---> " + xLayout);
-            System.out.println("Parent_YLayout ---> " + yLayout);
-            System.out.println("ScrollPane Bounds ---> " + bounds);
-            // System.out.println("ScrollOffset ---> " +
-            // Engine().scrlPane.getParent().getParent().getParent().getParent().());
-            // AnchorPane achPane = (AnchorPane) Engine().scrlPane.getParent().getParent().getParent().getParent().getParent().getParent();
-            AnchorPane achPane = (AnchorPane) Engine().scrlPane.getParent().getParent().getParent().getParent().getParent();
-            System.out.println("Top Padding ---> " + achPane.getPadding());
-            // TODO: find where this padding come from
-            double xPadding = 2;
-            double yPadding = 2;
-            Pane().setLayoutX(-xLayout - bounds.getMinX() - xPadding);
-            Pane().setLayoutY(-yLayout - bounds.getMinY() - achPane.getPadding().getTop() - yPadding);
-            Shape union = Shape.intersect(tmp, element);
-            Pane().setLayoutX(0.0);
-            Pane().setLayoutY(0.0);
-            Pane().setScaleX(x);
-            Pane().setScaleY(y);
-            // Pane().getChildren().add(union);
-
-            Bounds unionBounds = union.getBoundsInParent();
-            Point2D pos = new Point2D(
-                (unionBounds.getMinX() + (unionBounds.getMaxX() - unionBounds.getMinX()) / 2),
-                (unionBounds.getMinY() + (unionBounds.getMaxY() - unionBounds.getMinY()) / 2));
-            Point2D pos2 = group.parentToLocal(pos.getX(), pos.getY());
-            setCenterX(pos2.getX());
-            setCenterY(pos2.getY());
-            // union.setFill(Color.ORCHID);
-
-            grabbed = true;
-
-          }
           setStroke(Color.GOLDENROD);
         } else {
           setStroke(Color.GOLD);

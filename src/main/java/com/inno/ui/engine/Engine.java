@@ -2,7 +2,7 @@
  * File Created: Friday, 12th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Saturday, 3rd November 2018
+ * Last Modified: Monday, 12th November 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -28,6 +28,11 @@ import  javafx.scene.shape.Rectangle;
 import  javafx.scene.shape.Shape;
 import  javafx.scene.shape.Line;
 import  javafx.scene.Group;
+import  javafx.geometry.Point2D;
+import javafx.geometry.Bounds;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.Group;
+
 
 import javafx.scene.control.ScrollPane;
 
@@ -169,6 +174,51 @@ public class Engine {
       // }
     return null;
   }
+
+  public Point2D getCollisionShape(Shape first, Shape second, Group group) {
+    double x = _pane.getScaleX();
+    double y = _pane.getScaleY();
+    double xLayout = _pane.getParent().getLayoutX();
+    double yLayout = _pane.getParent().getLayoutY();
+
+    _pane.setScaleX(1.0);
+    _pane.setScaleY(1.0);
+    Bounds bounds = scrlPane.getViewportBounds();
+    System.out.println("Parent_XLayout ---> " + xLayout);
+    System.out.println("Parent_YLayout ---> " + yLayout);
+    System.out.println("ScrollPane Bounds ---> " + bounds);
+    // System.out.println("ScrollOffset ---> " +
+    // Engine().scrlPane.getParent().getParent().getParent().getParent().());
+    // AnchorPane achPane = (AnchorPane) Engine().scrlPane.getParent().getParent().getParent().getParent().getParent().getParent();
+    AnchorPane achPane = (AnchorPane) scrlPane.getParent().getParent().getParent().getParent().getParent();
+    System.out.println("Top Padding ---> " + achPane.getPadding());
+    // TODO: find where this padding come from
+    double xPadding = 2;
+    double yPadding = 2;
+    _pane.setLayoutX(-xLayout - bounds.getMinX() - xPadding);
+    _pane.setLayoutY(-yLayout - bounds.getMinY() - achPane.getPadding().getTop() - yPadding);
+    Shape union = Shape.intersect(first, second);
+    _pane.setLayoutX(0.0);
+    _pane.setLayoutY(0.0);
+    _pane.setScaleX(x);
+    _pane.setScaleY(y);
+    // _pane.getChildren().add(union);
+
+    Bounds unionBounds = union.getBoundsInParent();
+    Point2D pos = new Point2D(
+        (unionBounds.getMinX() + (unionBounds.getMaxX() - unionBounds.getMinX()) / 2),
+        (unionBounds.getMinY() + (unionBounds.getMaxY() - unionBounds.getMinY()) / 2));
+
+    if (group != null)
+      pos = group.parentToLocal(pos.getX(), pos.getY());
+
+    return pos;
+  }
+
+  public Point2D getCollisionShape(Shape first, Shape second) {
+    return getCollisionShape(first, second);
+  }
+
   // public boolean isOtherShapeUnderCursor(Shape cursor) {
   //   for (InteractiveShape element : _shapes) {
   //     if (element == _selectedShape)
