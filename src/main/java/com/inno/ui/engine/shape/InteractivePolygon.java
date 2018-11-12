@@ -48,6 +48,7 @@ import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.transform.Scale;
 import javafx.scene.transform.Rotate;
+import javafx.geometry.Dimension2D;
 
 public class InteractivePolygon extends InteractiveShape {
   private ArrayList<Circle> _points = new ArrayList<>();
@@ -80,8 +81,10 @@ public class InteractivePolygon extends InteractiveShape {
     params.setFill(Color.TRANSPARENT);
     Image addIcon = new Image("icon/add.png");
     Image closeIcon = new Image("icon/close.png");
-    ImageCursor addCursor = new ImageCursor(addIcon, addIcon.getWidth() / 2, addIcon.getHeight() / 2);
-    ImageCursor closeCursor = new ImageCursor(closeIcon, closeIcon.getWidth() / 2, closeIcon.getHeight() / 2);
+    Dimension2D addSizes = ImageCursor.getBestSize(addIcon.getWidth(), addIcon.getHeight());
+    Dimension2D closeSizes = ImageCursor.getBestSize(addIcon.getWidth(), addIcon.getHeight());
+    ImageCursor addCursor = new ImageCursor(addIcon, addSizes.getWidth() / 2, addSizes.getHeight() / 2);
+    ImageCursor closeCursor = new ImageCursor(closeIcon, closeSizes.getWidth() / 2, closeSizes.getHeight() / 2);
     Pane().setCursor(addCursor);
 
     _cursor.setVisible(false);
