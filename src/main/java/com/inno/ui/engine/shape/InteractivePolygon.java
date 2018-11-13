@@ -440,8 +440,9 @@ public class InteractivePolygon extends InteractiveShape {
         // _this._collisionDetected = _this.Engine().isObjectUnderCursor(tmp);
         if (element != null) {
           Point2D pos = Engine().getCollisionShape(tmp, element, group);
-          Point2D pos2 = group.localToParent(getCenterX(), getCenterY());
-          Circle test = new Circle(pos2.getX(), pos2.getY(), 6.5, Color.TRANSPARENT);
+          // Point2D pos2 = group.localToParent(getCenterX(), getCenterY());
+          // Circle test = new Circle(pos2.getX(), pos2.getY(), 6.5, Color.TRANSPARENT);
+          Circle test = new Circle(newX, newY, 6.5, Color.TRANSPARENT);
 
           if (test.getCenterX() > pos.getX()) {
             setCenterX(pos.getX() + 1.5);
