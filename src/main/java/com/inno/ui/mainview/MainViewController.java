@@ -112,7 +112,6 @@ public class MainViewController extends ViewController {
 
   @FXML
   private void  keyAction(KeyEvent evt) {
-    System.out.println("Add section");
     if (evt.getText().compareTo("a") == 0)
       Engine().test();
   }

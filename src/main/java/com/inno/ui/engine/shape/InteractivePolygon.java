@@ -132,9 +132,22 @@ public class InteractivePolygon extends InteractiveShape {
     Pane().addEventHandler(MouseEvent.MOUSE_MOVED, mouseMovedEvent);
     EventHandlers().put(MouseEvent.MOUSE_DRAGGED, mouseMovedEvent);
     Pane().addEventHandler(MouseEvent.MOUSE_DRAGGED, mouseMovedEvent);
+  }
 
-    // canvas.removeEventHandler(MouseEvent.MOUSE_MOVED, this);
-    // Pane().getChildren().add(_polygon);
+  private void enableShadhow(Shape shape) {
+    int depth = 10;
+    DropShadow borderGlow = new DropShadow();
+    borderGlow.setOffsetY(0f);
+    borderGlow.setOffsetX(0f);
+    borderGlow.setColor(Color.GOLD);
+    borderGlow.setWidth(depth);
+    borderGlow.setHeight(depth);
+    
+    shape.setEffect(borderGlow);
+  }
+
+  private void disableShadow(Shape shape) {
+    shape.setEffect(null);
   }
 
   private void addPoint(MouseEvent event) {
@@ -175,16 +188,8 @@ public class InteractivePolygon extends InteractiveShape {
     for (Circle point : _points) {
       _polygon.getPoints().addAll(new Double[] { point.getCenterX(), point.getCenterY() });
     }
-    
-    int depth = 15;
-    DropShadow borderGlow= new DropShadow();
-    borderGlow.setOffsetY(0f);
-    borderGlow.setOffsetX(0f);
-    borderGlow.setColor(Color.GOLD);
-    borderGlow.setWidth(depth);
-    borderGlow.setHeight(depth);
-    
-    _polygon.setEffect(borderGlow);
+
+    enableShadhow(_polygon);
     _polygon.setOpacity(0.7);
 
     Pane().getChildren().add(_polygon);
@@ -206,9 +211,6 @@ public class InteractivePolygon extends InteractiveShape {
     Pane().removeEventHandler(MouseEvent.MOUSE_MOVED, mouseMovedEvent);
     EventHandler<MouseEvent> mouseRelesedEvent = EventHandlers().remove(MouseEvent.MOUSE_RELEASED);
     Pane().removeEventHandler(MouseEvent.MOUSE_RELEASED, mouseRelesedEvent);
-    // EventHandler<MouseEvent> mouseClickedEvent =
-    // EventHandlers().remove(MouseEvent.MOUSE_CLICKED);
-    // Pane().removeEventHandler(MouseEvent.MOUSE_CLICKED, mouseClickedEvent);
     EventHandler<MouseEvent> mouseDraggEvent = EventHandlers().remove(MouseEvent.MOUSE_DRAGGED);
     Pane().removeEventHandler(MouseEvent.MOUSE_DRAGGED, mouseDraggEvent);
 
@@ -225,27 +227,18 @@ public class InteractivePolygon extends InteractiveShape {
 
     Engine().addInteractiveShape(this);
 
-    select();
-    Circle centerCircle = new Circle(center.getX(), center.getY(), 2, Color.BLUEVIOLET);
-    Pane().getChildren().add(centerCircle);
-
     ArrayList<Node> nodes = new ArrayList<>();
-    // Pane testPane = new Pane();
     Pane().getChildren().remove(_polygon);
     nodes.add(_polygon);
-    // testPane.getChildren().add(_polygon);
     for (Shape outBound : getOutBoundShapes()) {
       Pane().getChildren().remove(outBound);
       nodes.add(outBound);
-      // testPane.getChildren().add(outBound);
     }
     for (Shape extShapes : getExtShapes()) {
       Pane().getChildren().remove(extShapes);
       nodes.add(extShapes);
-      // testPane.getChildren().add(extShapes);
     }
     group = new Group(nodes);
-    // Group group = new Group(testPane);
     group.getTransforms().add(new Rotate(90, center.getX(), center.getY()));
     Pane().getChildren().add(group);
     
@@ -254,8 +247,6 @@ public class InteractivePolygon extends InteractiveShape {
     group.setOnMousePressed(mouseEvent -> { 
       Point2D p = Pane().sceneToLocal(mouseEvent.getSceneX(), mouseEvent.getSceneY());
 
-      // orgSceneX = mouseEvent.getSceneX();
-      // orgSceneY = mouseEvent.getSceneY();
       orgSceneX = p.getX();
       orgSceneY = p.getY();
       orgTranslateX = ((Group)(group)).getTranslateX();
@@ -265,46 +256,20 @@ public class InteractivePolygon extends InteractiveShape {
 
     EventHandler<MouseEvent> mouseDragged = event -> {
       if (onMouseMoved(event)) {
-        // _collisionDetected = Engine().isObjectUnderCursor(_cursor)
-            // || (_lines.size() > 0 ? Engine().isObjectUnderCursor(_lines.get(_lines.size() - 1)) : false);
-        // if (_collisionDetected) {
-        //   if (_lines.size() > 0)
-        //     _lines.get(_lines.size() - 1).setStroke(Color.RED);
-
-        // } else {
-        //   if (_lines.size() > 0)
-        //     _lines.get(_lines.size() - 1).setStroke(Color.KHAKI);
-        // }
         Point2D p = Pane().sceneToLocal(event.getSceneX(), event.getSceneY());
         double offsetX = p.getX() - orgSceneX;
         double offsetY = p.getY() - orgSceneY;
-        // double offsetX = event.getSceneX() - orgSceneX;
-        // double offsetY = event.getSceneY() - orgSceneY;
         double newTranslateX = orgTranslateX + offsetX;
         double newTranslateY = orgTranslateY + offsetY;
         
         ((Group)(group)).setTranslateX(newTranslateX);
         ((Group)(group)).setTranslateY(newTranslateY);
-
-        // Point2D p = Pane().sceneToLocal(event.getSceneX(), event.getSceneY());
-
-        // group.setTranslateX(p.getX());
-        // group.setTranslateY(p.getY());
       }
     };
     EventHandlers().put(MouseEvent.MOUSE_DRAGGED, mouseDragged);
     _polygon.addEventHandler(MouseEvent.MOUSE_DRAGGED, mouseDragged);
 
-    // testPane.getChildren().remove(_polygon);
-    // Pane().getChildren().add(_polygon);
-    // for (Shape outBound : getOutBoundShapes()) {
-    // testPane.getChildren().remove(outBound);
-    // Pane().getChildren().add(outBound);
-    // }
-    // for (Shape extShapes : getExtShapes()) {
-    // testPane.getChildren().remove(extShapes);
-    // Pane().getChildren().add(extShapes);
-    // }
+    Engine().selected(this);
 
     return;
   }
@@ -329,19 +294,8 @@ public class InteractivePolygon extends InteractiveShape {
     Line activeLine = _lines.get(_lines.size() - 1);
     activeLine.setVisible(true);
 
-    // activeLine.setStartX(lastPoint.getCenterX());
-    // activeLine.setStartY(lastPoint.getCenterY());
     activeLine.setEndX(event.getX());
     activeLine.setEndY(event.getY());
-  }
-
-  private void select() {
-    System.out.println("SHAPE" + this + " SELECTED");
-    if (Engine().getSelectedShape() != this) {
-      System.out.println("SHAPE" + this + " SELECTED");
-      Engine().selected(this);
-      // Pane().getChildren().addAll(_anchors);
-    }
   }
 
   private ObservableList<Anchor> createControlAnchorsFor(final ObservableList<Double> points) {
@@ -407,12 +361,6 @@ public class InteractivePolygon extends InteractiveShape {
         // dragDelta.y = getCenterY() - mouseEvent.getY();
         // getScene().setCursor(Cursor.MOVE);
       // });
-      // setOnMouseReleased(new EventHandler<MouseEvent>() {
-      // @Override public void handle(MouseEvent mouseEvent) {
-      // getScene().setCursor(Cursor.HAND);
-      // }
-      // });
-      // Circle _circle = this;
       setOnMouseDragged(mouseEvent -> {
         Point2D p = Pane().sceneToLocal(mouseEvent.getSceneX(), mouseEvent.getSceneY());
         // System.out.println("Deltax " + dragDelta.x);
@@ -421,8 +369,9 @@ public class InteractivePolygon extends InteractiveShape {
         double newXCursor = p.getX();
         double newYCursor = p.getY();
 
-        updateCursor(mouseEvent);
-        Circle tmp = null;
+        // updateCursor(mouseEvent);
+        // Circle tmp = null;
+        Circle tmp = _cursor;
         if (grabbed) {
           tmp = new Circle(newXCursor, newYCursor, 6.5, Color.TRANSPARENT);
         } else {
@@ -482,25 +431,34 @@ public class InteractivePolygon extends InteractiveShape {
     }
   }
 
+  private void select() {
+    if (Engine().getSelectedShape() != this) {
+      enableShadhow(_polygon);
+      for (Shape outBound : getOutBoundShapes()) {
+        outBound.setVisible(true);
+      }
+      for (Shape extShapes : getExtShapes()) {
+        extShapes.setVisible(true);
+      }      
+      Engine().selected(this);
+      System.out.println("SHAPE" + this + " SELECTED");
+    }
+  }
+
   public void deselect() {
     for (Circle point : _points) {
       point.setVisible(false);
     }
+
+    for (Shape outBound : getOutBoundShapes()) {
+      outBound.setVisible(false);
+    }
+    for (Shape extShapes : getExtShapes()) {
+      extShapes.setVisible(false);
+    }
+
+    disableShadow(_polygon);
     System.out.println("DESELECTED");
-    // Pane().getChildren().removeAll(_anchors);
-    // ArrayList<Node> nodes = new ArrayList<>();
-    // for (InteractiveShape shape : Engine().getShapes()) {
-    // nodes.add(shape.getShape());
-    // for (Shape outBound : shape.getOutBoundShapes()) {
-    // nodes.add(outBound);
-    // }
-    // if (shape == this && Engine().getSelectedShape() == null) {
-    // for (Shape extShapes : shape.getExtShapes()) {
-    // nodes.add(extShapes);
-    // }
-    // }
-    // }
-    // -----------
   }
 
   private class Delta {

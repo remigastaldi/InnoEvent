@@ -216,7 +216,7 @@ public class Engine {
   }
 
   public Point2D getCollisionShape(Shape first, Shape second) {
-    return getCollisionShape(first, second);
+    return getCollisionShape(first, second, null);
   }
 
   // public boolean isOtherShapeUnderCursor(Shape cursor) {
