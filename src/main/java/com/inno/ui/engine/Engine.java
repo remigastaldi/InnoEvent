@@ -2,7 +2,7 @@
  * File Created: Friday, 12th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Monday, 12th November 2018
+ * Last Modified: Tuesday, 13th November 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -202,6 +202,7 @@ public class Engine {
     _pane.setLayoutY(0.0);
     _pane.setScaleX(x);
     _pane.setScaleY(y);
+    // union.setFill(Color.RED);
     // _pane.getChildren().add(union);
 
     Bounds unionBounds = union.getBoundsInParent();

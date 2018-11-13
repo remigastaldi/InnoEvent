@@ -2,7 +2,7 @@
  * File Created: Sunday, 14th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Monday, 12th November 2018
+ * Last Modified: Tuesday, 13th November 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -256,14 +256,69 @@ public class InteractivePolygon extends InteractiveShape {
 
     EventHandler<MouseEvent> mouseDragged = event -> {
       if (onMouseMoved(event)) {
+        // TODO: Magnetism between anchors and lines
+        // for (Anchor anchor : _anchors) {
+        //   Point2D pos = group.localToParent(anchor.getCenterX(), anchor.getCenterY());
+        //   Circle circle = new Circle(pos.getX(), pos.getY(), 6.5, Color.TRANSPARENT);
+        //   // circle.setStroke(Color.BLUEVIOLET);
+        //   circle.setStrokeWidth(1);
+        //   circle.setStrokeType(StrokeType.OUTSIDE);
+
+        //   Pane().getChildren().add(circle);
+
+        //   Shape element = _this.Engine().getObjectUnderCursor(circle);
+        //   if (element != null) {
+        //     // _this._collisionDetected = _this.Engine().isObjectUnderCursor(tmp);
+        //     if (element != null) {
+        //       System.out.println("=============>");
+        //       Point2D pos2 = Engine().getCollisionShape(circle, element);
+        //       // Point2D pos3 = group.localToParent(circle.getCenterX(), circle.getCenterY());
+              
+        //       double offsetX = pos2.getX() - circle.getCenterX();
+        //       double offsetY = pos2.getY() - circle.getCenterY();
+        //       Point2D p = Pane().sceneToLocal(offsetX, offsetY);
+        //       System.out.println(pos2.getX());
+        //       System.out.println(circle.getCenterX());
+        //       System.out.println("1- Offset X " + offsetX + " OffsetY " + offsetY);
+        //       System.out.println("2- Offset X " + p.getX() + " OffsetY " + p.getY());
+
+        //       ((Group)(group)).setTranslateX(10);
+        //       // ((Group)(group)).setTranslateY(offsetY);
+    
+        //       if (circle.getCenterX() > pos2.getX()) {
+                
+        //       } else {
+        //       }
+        //       if (circle.getCenterY() > pos2.getY()) {
+        //       } else {
+        //       }
+        //       return;
+  
+        //   }
+        // }
+
+        Polygon shape = new Polygon();
+        shape.setFill(Color.TRANSPARENT);
+        shape.setStroke(Color.WHITE);
+        shape.getPoints().addAll(_polygon.getPoints());
+        shape.getTransforms().add(group.getTransforms().get(0));
+  
         Point2D p = Pane().sceneToLocal(event.getSceneX(), event.getSceneY());
         double offsetX = p.getX() - orgSceneX;
         double offsetY = p.getY() - orgSceneY;
         double newTranslateX = orgTranslateX + offsetX;
         double newTranslateY = orgTranslateY + offsetY;
-        
-        ((Group)(group)).setTranslateX(newTranslateX);
-        ((Group)(group)).setTranslateY(newTranslateY);
+
+        Pane().getChildren().add(shape);
+        ((Shape)(shape)).setTranslateX(newTranslateX);
+        ((Shape)(shape)).setTranslateY(newTranslateY);
+        if (!Engine().isObjectUnderCursor(shape)) {
+          // ((Shape)(shape)).setTranslateX(-newTranslateX);
+          // ((Shape)(shape)).setTranslateY(-newTranslateY);
+          ((Group)(group)).setTranslateX(newTranslateX);
+          ((Group)(group)).setTranslateY(newTranslateY);
+        }
+          Pane().getChildren().remove(shape);
       }
     };
     EventHandlers().put(MouseEvent.MOUSE_DRAGGED, mouseDragged);
@@ -370,7 +425,6 @@ public class InteractivePolygon extends InteractiveShape {
         double newYCursor = p.getY();
 
         // updateCursor(mouseEvent);
-        // Circle tmp = null;
         Circle tmp = _cursor;
         if (grabbed) {
           tmp = new Circle(newXCursor, newYCursor, 6.5, Color.TRANSPARENT);
@@ -380,7 +434,6 @@ public class InteractivePolygon extends InteractiveShape {
         }
         tmp.setStrokeWidth(1);
         tmp.setStroke(Color.WHITE);
-        // tmp.setStrokeType(StrokeType.OUTSIDE);
         Pane().getChildren().add(tmp);
         // _collisionDetected = _this.Engine().isObjectUnderCursor(tmp);
         Shape element = _this.Engine().getObjectUnderCursor(tmp);
