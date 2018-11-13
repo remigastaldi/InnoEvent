@@ -49,8 +49,12 @@ import javafx.scene.Node;
 import javafx.scene.transform.Scale;
 import javafx.scene.transform.Rotate;
 import javafx.geometry.Dimension2D;
-
-
+import javafx.scene.layout.Border;
+import javafx.scene.layout.BorderStroke;
+import javafx.scene.layout.BorderStrokeStyle;
+import javafx.scene.layout.CornerRadii;
+import javafx.scene.layout.BorderWidths;
+import javafx.scene.effect.DropShadow;
 
 public class InteractivePolygon extends InteractiveShape {
   private ArrayList<Circle> _points = new ArrayList<>();
@@ -83,8 +87,9 @@ public class InteractivePolygon extends InteractiveShape {
     params.setFill(Color.TRANSPARENT);
     Image addIcon = new Image("icon/add.png");
     Image closeIcon = new Image("icon/close.png");
-    Dimension2D addSizes = ImageCursor.getBestSize(addIcon.getWidth(), addIcon.getHeight());
-    Dimension2D closeSizes = ImageCursor.getBestSize(addIcon.getWidth(), addIcon.getHeight());
+    //TODO: mac problem ??
+    // Dimension2D addSizes = ImageCursor.getBestSize(addIcon.getWidth(), addIcon.getHeight());
+    // Dimension2D closeSizes = ImageCursor.getBestSize(addIcon.getWidth(), addIcon.getHeight());
     ImageCursor addCursor = new ImageCursor(addIcon, addIcon.getWidth() / 2, addIcon.getHeight() / 2);
     ImageCursor closeCursor = new ImageCursor(closeIcon, closeIcon.getWidth() / 2, closeIcon.getHeight() / 2);
     Pane().setCursor(addCursor);
@@ -132,35 +137,10 @@ public class InteractivePolygon extends InteractiveShape {
     // Pane().getChildren().add(_polygon);
   }
 
-  public Point2D getCenterOfPoints(ArrayList<Point2D> points) {
-    double sum1 = 0;
-    double sum2 = 0;
-    double sum3 = 0;
-
-    for (int i = 0; i < points.size(); ++i) {
-      Point2D point1 = points.get(i);
-      Point2D point2;
-      if (i + 1 == points.size()) {
-        point2 = points.get(0);
-      } else {
-        point2 = points.get(i + 1);
-      }
-      double val1 = ((point1.getX() * point2.getY()) - (point2.getX() * point1.getY()));
-      double val2 = (val1 * (point1.getX() + point2.getX()));
-      double val3 = (val1 * (point1.getY() + point2.getY()));
-      sum1 += val1;
-      sum2 += val2;
-      sum3 += val3;
-    }
-
-    double air = (sum1 / 2);
-    return new Point2D((sum2 / (6 * air)), (sum3 / (6 * air)));
-  }
-
   private void addPoint(MouseEvent event) {
     Line line = new Line();
 
-    line.setStrokeWidth(2.0);
+    line.setStrokeWidth(1.0);
     line.setStroke(Color.KHAKI);
     line.setVisible(false);
     line.setStartX(event.getX());
@@ -177,68 +157,41 @@ public class InteractivePolygon extends InteractiveShape {
     Pane().getChildren().add(circle);
   }
 
+  double orgSceneX, orgSceneY;
+  double orgTranslateX, orgTranslateY;
+
   private void closeForm() {
     // Pane().setCursor(Cursor.HAND);
     System.out.println("close form");
     _polygon = new Polygon();
-    Polyline polyClone = new Polyline();
 
     ArrayList<Point2D> points = new ArrayList<>();
     for (Circle point : _points) {
       points.add(new Point2D(point.getCenterX(), point.getCenterY()));
     }
-    Point2D center = getCenterOfPoints(points);
+    Point2D center = Engine().getCenterOfPoints(points);
 
-    _polygon.setFill(Color.DODGERBLUE);
+    _polygon.setFill(Color.GOLDENROD);
     for (Circle point : _points) {
       _polygon.getPoints().addAll(new Double[] { point.getCenterX(), point.getCenterY() });
-      double x = point.getCenterX();
-      double y = point.getCenterY();
-
-      polyClone.getPoints().addAll(new Double[] { x, y });
     }
-    double x = _points.get(0).getCenterX();
-    double y = _points.get(0).getCenterY();
-    polyClone.getPoints().addAll(new Double[] { x, y });
+    
+    int depth = 15;
+    DropShadow borderGlow= new DropShadow();
+    borderGlow.setOffsetY(0f);
+    borderGlow.setOffsetX(0f);
+    borderGlow.setColor(Color.GOLD);
+    borderGlow.setWidth(depth);
+    borderGlow.setHeight(depth);
+    
+    _polygon.setEffect(borderGlow);
+    _polygon.setOpacity(0.7);
 
-    // double zoomFactor = 1.20;
-
-    double width = polyClone.getBoundsInLocal().getMaxX() - polyClone.getBoundsInLocal().getMinX();
-    double height = polyClone.getBoundsInLocal().getMaxX() - polyClone.getBoundsInLocal().getMinY();
-    double polygonW = _polygon.getBoundsInLocal().getMaxX() - _polygon.getBoundsInLocal().getMinX();
-    double polygonH = _polygon.getBoundsInLocal().getMaxX() - _polygon.getBoundsInLocal().getMinY();
-    System.out.println("W " + width + " H " + height);
-    System.out.println("W " + polygonW + " H " + polygonH);
-    System.out.println("Center " + center.getX() + " " + center.getY());
-    // System.out.println("W " + (center.getX() + (width * (1 - zoomFactor) / 2)) + " H "
-    //     + (center.getY() + (height * (1 - zoomFactor) / 2)));
-
-    // Scale scale = new Scale();
-    // scale.setX(1.2);
-    // scale.setY(1.2);
-    // scale.setPivotX(center.getX());
-    // scale.setPivotY(center.getY());
-    // polyClone.getTransforms().addAll(scale);
-
-    polyClone.setScaleX(1.2);
-    polyClone.setScaleY(1.2);
-    // polyClone.setTranslateX(-2);
-    polyClone.setTranslateY(2);
-    polyClone.setStroke(Color.WHITE);
-    polyClone.setStrokeWidth(0.1);
-    // polyClone.setLayoutX(_polygon.getBoundsInParent().getMinX());
-    // polyClone.setTranslateY(polyClone.getLayoutY() *1.5);
-    // polyClone.setVisible(false);
-
-    // addOutboundShape(polyClone);
-    Pane().getChildren().add(polyClone);
     Pane().getChildren().add(_polygon);
-    // createControlAnchorsFor(_polygon.getPoints());
     _anchors = createControlAnchorsFor(_polygon.getPoints());
     for (Anchor anchor : _anchors) {
       _extShapes.add(anchor.getShape());
     }
-    // Pane().getChildren().addAll(_anchors);
 
     for (Circle point : _points) {
       point.setVisible(false);
@@ -293,8 +246,54 @@ public class InteractivePolygon extends InteractiveShape {
     }
     group = new Group(nodes);
     // Group group = new Group(testPane);
-    // group.getTransforms().add(new Rotate(90, center.getX(), center.getY()));
+    group.getTransforms().add(new Rotate(90, center.getX(), center.getY()));
     Pane().getChildren().add(group);
+    
+
+
+    group.setOnMousePressed(mouseEvent -> { 
+      Point2D p = Pane().sceneToLocal(mouseEvent.getSceneX(), mouseEvent.getSceneY());
+
+      // orgSceneX = mouseEvent.getSceneX();
+      // orgSceneY = mouseEvent.getSceneY();
+      orgSceneX = p.getX();
+      orgSceneY = p.getY();
+      orgTranslateX = ((Group)(group)).getTranslateX();
+      orgTranslateY = ((Group)(group)).getTranslateY();
+    });
+
+
+    EventHandler<MouseEvent> mouseDragged = event -> {
+      if (onMouseMoved(event)) {
+        // _collisionDetected = Engine().isObjectUnderCursor(_cursor)
+            // || (_lines.size() > 0 ? Engine().isObjectUnderCursor(_lines.get(_lines.size() - 1)) : false);
+        // if (_collisionDetected) {
+        //   if (_lines.size() > 0)
+        //     _lines.get(_lines.size() - 1).setStroke(Color.RED);
+
+        // } else {
+        //   if (_lines.size() > 0)
+        //     _lines.get(_lines.size() - 1).setStroke(Color.KHAKI);
+        // }
+        Point2D p = Pane().sceneToLocal(event.getSceneX(), event.getSceneY());
+        double offsetX = p.getX() - orgSceneX;
+        double offsetY = p.getY() - orgSceneY;
+        // double offsetX = event.getSceneX() - orgSceneX;
+        // double offsetY = event.getSceneY() - orgSceneY;
+        double newTranslateX = orgTranslateX + offsetX;
+        double newTranslateY = orgTranslateY + offsetY;
+        
+        ((Group)(group)).setTranslateX(newTranslateX);
+        ((Group)(group)).setTranslateY(newTranslateY);
+
+        // Point2D p = Pane().sceneToLocal(event.getSceneX(), event.getSceneY());
+
+        // group.setTranslateX(p.getX());
+        // group.setTranslateY(p.getY());
+      }
+    };
+    EventHandlers().put(MouseEvent.MOUSE_DRAGGED, mouseDragged);
+    _polygon.addEventHandler(MouseEvent.MOUSE_DRAGGED, mouseDragged);
 
     // testPane.getChildren().remove(_polygon);
     // Pane().getChildren().add(_polygon);
@@ -381,7 +380,7 @@ public class InteractivePolygon extends InteractiveShape {
       super(x.get(), y.get(), 5);
       setFill(color.deriveColor(1, 1, 1, 0.5));
       setStroke(color);
-      setStrokeWidth(2);
+      setStrokeWidth(1);
       setStrokeType(StrokeType.OUTSIDE);
 
       this.x = x;
@@ -402,12 +401,12 @@ public class InteractivePolygon extends InteractiveShape {
 
     private void enableDrag() {
       final Delta dragDelta = new Delta();
-      setOnMousePressed(mouseEvent -> {
+      // setOnMousePressed(mouseEvent -> {
         // record a delta distance for the drag and drop operation.
         // dragDelta.x = getCenterX() - mouseEvent.getX();
         // dragDelta.y = getCenterY() - mouseEvent.getY();
         // getScene().setCursor(Cursor.MOVE);
-      });
+      // });
       // setOnMouseReleased(new EventHandler<MouseEvent>() {
       // @Override public void handle(MouseEvent mouseEvent) {
       // getScene().setCursor(Cursor.HAND);
@@ -439,8 +438,22 @@ public class InteractivePolygon extends InteractiveShape {
         // _this._collisionDetected = _this.Engine().isObjectUnderCursor(tmp);
         if (element != null) {
           Point2D pos = Engine().getCollisionShape(tmp, element, group);
-          setCenterX(pos.getX());
-          setCenterY(pos.getY());
+          Point2D pos2 = group.localToParent(getCenterX(), getCenterY());
+          Circle test = new Circle(pos2.getX(), pos2.getY(), 6.5, Color.TRANSPARENT);
+
+          if (test.getCenterX() > pos.getX()) {
+            setCenterX(pos.getX() + 1.5);
+          } else {
+            setCenterX(pos.getX() - 1.5);
+          }
+          if (test.getCenterY() > pos.getY()) {
+            setCenterY(pos.getY() + 1.5);
+          } else {
+            setCenterY(pos.getY() - 1.5);
+          }
+
+          // setCenterX(pos.getX());
+          // setCenterY(pos.getY());
 
           grabbed = true;
 
