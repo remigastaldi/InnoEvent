@@ -2,7 +2,7 @@
  * File Created: Sunday, 14th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Wednesday, 31st October 2018
+ * Last Modified: Tuesday, 13th November 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -32,7 +32,7 @@ public abstract class InteractiveShape {
   private HashMap<EventType<MouseEvent>, EventHandler<MouseEvent>> _eventHandlers = new HashMap<>();
   private ArrayList<Shape> _outBoundShapes = new ArrayList<>();
 
-  protected ArrayList<Shape> _extShapes = new ArrayList<>();
+  private ArrayList<Shape> _selectShapes = new ArrayList<>();
 
   InteractiveShape(Engine engine, Pane pane) {
     _engine = engine;
@@ -64,9 +64,8 @@ public abstract class InteractiveShape {
     return _outBoundShapes;
   }
 
-  //TODO remove this
-  public ArrayList<Shape> getExtShapes() {
-    return _extShapes;
+  public ArrayList<Shape> getSelectShapes() {
+    return _selectShapes;
   }
 
   protected Pane Pane() {

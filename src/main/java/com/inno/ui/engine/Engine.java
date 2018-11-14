@@ -2,7 +2,7 @@
  * File Created: Friday, 12th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Tuesday, 13th November 2018
+ * Last Modified: Wednesday, 14th November 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -76,6 +76,8 @@ public class Engine {
         _grid = new Grid(_pane);
         _grid.setColor(Color.valueOf("#777A81"));
         _grid.setLinesWidth(0.4);
+        _grid.setXSpacing(6);
+        _grid.setYSpacing(6);
         _grid.activate();
       }
     } else {
@@ -144,14 +146,20 @@ public class Engine {
   return false;
   }
 
+  Shape currentMagnetism = null;
   public Shape getObjectUnderCursor(Shape cursor) {
+    if (currentMagnetism != null && Shape.intersect(cursor, currentMagnetism).getBoundsInParent().getWidth()
+        != -1) {
+          return currentMagnetism;
+    }
     for (InteractiveShape element : _shapes) {
       if (element == _selectedShape)
         continue;
       for (Shape shape : element.getOutBoundShapes()) {
         Shape intersect = Shape.intersect(cursor, shape);
         if (intersect.getBoundsInParent().getWidth() != -1) {
-          System.out.println(" ++++++++++ Stroke ++++++++++");        
+          System.out.println(" ++++++++++ Stroke ++++++++++");
+          currentMagnetism = shape;
           return shape;
         }
       }
@@ -172,10 +180,11 @@ public class Engine {
       //     return shape;
       //   }
       // }
+      currentMagnetism = null;
     return null;
   }
 
-  public Point2D getCollisionShape(Shape first, Shape second, Group group) {
+  public Point2D getCollisionCenter(Shape first, Shape second, Group group) {
     double x = _pane.getScaleX();
     double y = _pane.getScaleY();
     double xLayout = _pane.getParent().getLayoutX();
@@ -184,14 +193,14 @@ public class Engine {
     _pane.setScaleX(1.0);
     _pane.setScaleY(1.0);
     Bounds bounds = scrlPane.getViewportBounds();
-    System.out.println("Parent_XLayout ---> " + xLayout);
-    System.out.println("Parent_YLayout ---> " + yLayout);
-    System.out.println("ScrollPane Bounds ---> " + bounds);
+    // System.out.println("Parent_XLayout ---> " + xLayout);
+    // System.out.println("Parent_YLayout ---> " + yLayout);
+    // System.out.println("ScrollPane Bounds ---> " + bounds);
     // System.out.println("ScrollOffset ---> " +
     // Engine().scrlPane.getParent().getParent().getParent().getParent().());
     // AnchorPane achPane = (AnchorPane) Engine().scrlPane.getParent().getParent().getParent().getParent().getParent().getParent();
     AnchorPane achPane = (AnchorPane) scrlPane.getParent().getParent().getParent().getParent().getParent();
-    System.out.println("Top Padding ---> " + achPane.getPadding());
+    // System.out.println("Top Padding ---> " + achPane.getPadding());
     // TODO: find where this padding come from
     double xPadding = 2;
     double yPadding = 2;
@@ -203,12 +212,19 @@ public class Engine {
     _pane.setScaleX(x);
     _pane.setScaleY(y);
     // union.setFill(Color.RED);
+    // union.setFill(Color.color(Math.random(), Math.random(), Math.random()));
     // _pane.getChildren().add(union);
 
     Bounds unionBounds = union.getBoundsInParent();
     Point2D pos = new Point2D(
         (unionBounds.getMinX() + (unionBounds.getMaxX() - unionBounds.getMinX()) / 2),
         (unionBounds.getMinY() + (unionBounds.getMaxY() - unionBounds.getMinY()) / 2));
+    // ArrayList<Point2D> test = new ArrayList<>();
+    // test.add(new Point2D(unionBounds.getMinX(), unionBounds.getMinY()));
+    // test.add(new Point2D(unionBounds.getMaxX(), unionBounds.getMinY()));
+    // test.add(new Point2D(unionBounds.getMaxX(), unionBounds.getMaxY()));
+    // test.add(new Point2D(unionBounds.getMinX(), unionBounds.getMaxY()));
+    // Point2D pos = getCenterOfPoints(test);
 
     if (group != null)
       pos = group.parentToLocal(pos.getX(), pos.getY());
@@ -216,8 +232,8 @@ public class Engine {
     return pos;
   }
 
-  public Point2D getCollisionShape(Shape first, Shape second) {
-    return getCollisionShape(first, second, null);
+  public Point2D getCollisionCenter(Shape first, Shape second) {
+    return getCollisionCenter(first, second, null);
   }
 
   // public boolean isOtherShapeUnderCursor(Shape cursor) {
@@ -243,21 +259,21 @@ public class Engine {
     return _shapes;
   };
 
-  public ArrayList<Shape> getAllShapes() {
-    ArrayList<Shape> shapes = new ArrayList<>();
+  // public ArrayList<Shape> getAllShapes() {
+  //   ArrayList<Shape> shapes = new ArrayList<>();
 
-    for (InteractiveShape element : _shapes) {
-      shapes.add(element.getShape());
-      for (Shape shape : element.getOutBoundShapes()) {
-        shapes.add(shape);
-      }
-      for (Shape shape : element.getExtShapes()) {
-        shapes.add(shape);
-    }
-  }
+  //   for (InteractiveShape element : _shapes) {
+  //     shapes.add(element.getShape());
+  //     for (Shape shape : element.getOutBoundShapes()) {
+  //       shapes.add(shape);
+  //     }
+  //     for (Shape shape : element.getExtShapes()) {
+  //       shapes.add(shape);
+  //   }
+  // }
 
-    return shapes;
-  }
+  //   return shapes;
+  // }
 
   public ScrollPane scrlPane = null;
 
