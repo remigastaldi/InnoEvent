@@ -1,50 +1,137 @@
 /*
- * File Created: Friday, 12th October 2018
- * Author: GASTALDI Rémi
+ * File Created: Saturday, 27th October 2018
+ * Author: HUBERT Léo
  * -----
- * Last Modified: Saturday, 27th October 2018
- * Modified By: GASTALDI Rémi
+ * Last Modified: Tuesday, 13th November 2018
+ * Modified By: HUBERT Léo
  * -----
- * Copyright - 2018 GASTALDI Rémi
+ * Copyright - 2018 HUBERT Léo
  * <<licensetext>>
  */
-
 
 package com.inno.service.pricing;
 
 import java.util.HashMap;
-import java.util.ArrayList;
 
-import javafx.scene.paint.Color;
+import com.inno.service.pricing.OfferData.ReductionType;
 
-import com.inno.service.pricing.Offer.ReductionType;
 
 public class Pricing {
-  public enum AttributionType {
-    SECTION,
-    ROW,
-    SEAT;
-  }
-  private HashMap<Double, Color> _colors = new HashMap<>();
-  private HashMap<Integer, HashMap<String, HashMap<Integer, PlaceRate>>> _prices = new HashMap<>(new HashMap<>(new HashMap<>()));
-  private HashMap<String, Offer> _offers = new HashMap<>();
+
+  private HashMap<String, PlaceRate> _places = new HashMap<String, PlaceRate>();
+  private HashMap<String, Offer> _offers = new HashMap<String, Offer>();
 
   public Pricing() {
   }
 
-  public void setColor(double price, Color color) {
+  public HashMap<String, PlaceRate> getPlaces() {
+    return this._places;
   }
 
-  public Color getColor(double price) {
-    return null;
+  public HashMap<String, Offer> getOffers() {
+    return this._offers;
+  }
+  /**
+   * Create PlaceRate with an id, color and price
+   * 
+   * @param id
+   * @param color
+   * @param price
+   * @return
+   */
+  public PlaceRateData createPlace(String id, String color, Double price) {
+    PlaceRate place = new PlaceRate(id, color, price);
+
+    this._places.put(id, place);
+    return place;
   }
 
-  public void addPrice(int section, String row, int seat, int price, ArrayList<String> listOffers) {
+  /**
+   * Remove PlaceRate by id 
+   * 
+   * @param id
+   */
+  public void deletePlaceRate(String id) {
+    this._places.remove(id);
   }
 
-  public void addOffer(double reduction, String description, ReductionType reductionType, String name, ArrayList<OfferCondition> listOfferCondition) {
+  /**
+   * Get PlaceRateData by id
+   * @param id
+   * @return
+   */
+  public PlaceRateData getPlaceRate(String id) {
+    return this._places.get(id);
   }
 
-  public void calculatePrice(int minPrice, int maxPrice, int total, AttributionType attributionType) {
+  /**
+   * Set PlaceRate price by id
+   * 
+   * @param id
+   * @param price
+   */
+  public void setPlaceRatePrice(String id, double price) {
+    PlaceRate place = this._places.get(id);
+
+    if (place == null) {
+      return;
+    }
+    place.setPrice(price);
   }
+  
+  /**
+   * Set PlaceRate color by id
+   * 
+   * @param id
+   * @param color
+   */
+  public void setPlaceRateColor(String id, String color) {
+    PlaceRate place = this._places.get(id);
+
+    if (place == null) {
+      return;
+    }
+    place.setColor(color);
+  }
+
+  /**
+   * Add PlaceRate offer
+   * 
+   * @param id
+   * @param offerName
+   */
+  public void addPlaceRateOffer(String id, String offerName) {
+    PlaceRate place = this._places.get(id);
+
+    if (place == null) {
+      return;
+    }
+
+    place.addOffer(offerName);
+  }
+
+  /**
+   * Remove PlaceRate offer
+   * 
+   * @param id
+   * @param offerName
+   */
+  public void removePlaceRateOffer(String id, String offerName) {
+    PlaceRate place = this._places.get(id);
+
+    if (place == null) {
+      return;
+    }
+
+    place.removeOffer(offerName);
+  }
+
+  public OfferData createOffer(String name, String description, double reduction, ReductionType reductionType) {
+    Offer offer = new Offer(name, description, reduction, reductionType);
+    
+    this._offers.put(name, offer);
+    
+    return offer;
+  }
+
 };

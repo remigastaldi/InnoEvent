@@ -2,8 +2,8 @@
  * File Created: Friday, 12th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Saturday, 27th October 2018
- * Modified By: GASTALDI Rémi
+ * Last Modified: Tuesday, 13th November 2018
+ * Modified By: HUBERT Léo
  * -----
  * Copyright - 2018 GASTALDI Rémi
  * <<licensetext>>
@@ -14,52 +14,38 @@ package com.inno.service.pricing;
 
 import java.util.ArrayList;
 
-public class Offer {
-  public enum ReductionType {
-    PERCENTAGE,
-    AMOUNT,
-    NONE;
-  }
-  private String _name = new String();
-  private double _reduction;
-  private String _description = new String();
-  private ReductionType _reductionType = ReductionType.NONE;
-  private ArrayList<OfferCondition> _listConditions = new ArrayList<>();
+public class Offer extends OfferData {
+ 
 
-  public Offer(String name, double reduction, String description, ReductionType reductionType, ArrayList<OfferCondition> condition) {
+  public Offer(String name, String description, double reduction, ReductionType reductionType) {
+    super(name, description, reduction, reductionType);
   }
 
   public void setName(String name) {
+    this._name = name;
   }
 
   public void setReduction(double reduction) {
+    this._reduction = reduction;
   }
 
   public void setDescription(String description) {
+    this._description = description;
   }
 
   public void setReductionType(ReductionType reductionType) {
+    this._reductionType = reductionType;
   }
 
   public void addCondition(OfferCondition offerCondition) {
+    this._offerConditions.add(offerCondition);
   }
 
   public void removeCondtion(OfferCondition offerCondition) {
-  }
-
-  public double getReduction() {
-    return this._reduction;
-  }
-
-  public String getDescription() {
-    return this._description;
-  }
-
-  public ReductionType getReductionType() {
-    return this._reductionType;
+    this._offerConditions.remove(offerCondition);
   }
 
   public ArrayList<OfferCondition> getOfferConditions() {
-    return this._listConditions;
+    return this._offerConditions;
   }
 };
