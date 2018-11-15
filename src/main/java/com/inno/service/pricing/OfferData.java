@@ -1,11 +1,11 @@
 /*
  * File Created: Friday, 12th October 2018
- * Author: GASTALDI Rémi
+ * Author: GASTALDI R??mi
  * -----
  * Last Modified: Wednesday, 14th November 2018
- * Modified By: HUBERT Léo
+ * Modified By: HUBERT L??o
  * -----
- * Copyright - 2018 GASTALDI Rémi
+ * Copyright - 2018 GASTALDI R??mi
  * <<licensetext>>
  */
 
