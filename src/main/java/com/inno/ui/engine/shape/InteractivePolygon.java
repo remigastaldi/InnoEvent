@@ -260,6 +260,7 @@ public class InteractivePolygon extends InteractiveShape {
 
     EventHandler<MouseEvent> mouseDragged = event -> {
       if (onMouseMoved(event)) {
+        select();
         // TODO: Magnetism between anchors and lines
         // for (Anchor anchor : _anchors) {
         //   Point2D pos = group.localToParent(anchor.getCenterX(), anchor.getCenterY());
