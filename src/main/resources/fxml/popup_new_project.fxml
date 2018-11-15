@@ -31,7 +31,7 @@
             <Text fill="WHITE" layoutX="26.0" layoutY="50.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Width " />
          </children>
       </AnchorPane>
-      <ButtonBar cache="true" layoutY="360.0" prefHeight="40.0" prefWidth="600.0" style="-fx-background-color: transparent;">
+      <ButtonBar cache="true" layoutY="360.0" prefHeight="40.0" prefWidth="600.0">
          <buttons>
             <Button fx:id="cancelButton" cancelButton="true" mnemonicParsing="false" onAction="#cancelButtonAction" prefHeight="22.0" prefWidth="90.0" text="Cancel">
                <font>

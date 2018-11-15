@@ -19,7 +19,7 @@
          <children>
             <AnchorPane fx:id="top_bar" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
                <children>
-                  <ButtonBar buttonMinWidth="0.0" centerShape="false" layoutY="29.0" prefWidth="1280.0" styleClass="dark" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                  <ButtonBar buttonMinWidth="0.0" centerShape="false" layoutY="29.0" prefWidth="1280.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
                      <buttons>
                         <Button maxHeight="25.0" maxWidth="25.0" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="25.0" prefWidth="25.0" ButtonBar.buttonData="LEFT">
                            <graphic>
@@ -68,18 +68,18 @@
                         </Button>
                         <Button maxHeight="25.0" maxWidth="25.0" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="25.0" prefWidth="25.0" text="+" ButtonBar.buttonData="LEFT" />
                         <Button maxHeight="25.0" maxWidth="25.0" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="25.0" prefWidth="25.0" text="+" ButtonBar.buttonData="LEFT" />
-                        <Button maxHeight="25.0" maxWidth="25.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="25.0" ButtonBar.buttonData="LEFT">
+                        <Button maxHeight="26.0" maxWidth="25.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="25.0" ButtonBar.buttonData="LEFT">
                            <graphic>
-                              <ImageView fitHeight="10.0" fitWidth="10.0" preserveRatio="true">
+                              <ImageView fitHeight="15.0" fitWidth="15.0" preserveRatio="true">
                                  <image>
-                                    <Image url="@../icon/dollar_symbol.png" />
+                                    <Image url="@../icon/price.png" />
                                  </image>
                               </ImageView>
                            </graphic>
                         </Button>
                         <Button maxHeight="25.0" maxWidth="25.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="25.0" ButtonBar.buttonData="LEFT">
                            <graphic>
-                              <ImageView fitHeight="10.0" fitWidth="10.0" preserveRatio="true">
+                              <ImageView fitHeight="15.0" fitWidth="15.0" preserveRatio="true">
                                  <image>
                                     <Image url="@../icon/magnet.png" />
                                  </image>
@@ -131,7 +131,7 @@
                         <StackPane fx:id="stack_pane" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                      </children>
                   </AnchorPane>
-                <AnchorPane fx:id="sidebarAnchor" maxWidth="500.0" minWidth="200.0" prefWidth="200.0" styleClass="dark" SplitPane.resizableWithParent="false" />
+                <AnchorPane fx:id="sidebarAnchor" maxWidth="500.0" minWidth="200.0" prefWidth="200.0" style="-fx-background-color: -fx-dark;" SplitPane.resizableWithParent="false" />
               </items>
             </SplitPane>
          </children>
