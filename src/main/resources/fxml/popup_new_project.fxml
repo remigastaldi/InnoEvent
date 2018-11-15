@@ -8,7 +8,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane id="AnchorPane" fx:id="anchorRoot" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" styleClass="dark" stylesheets="@../dark-theme.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.inno.ui.popup.StartupPopupNewProjectViewController">
+<AnchorPane id="AnchorPane" fx:id="anchorRoot" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@../dark-theme.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.inno.ui.popup.StartupPopupNewProjectViewController">
    <children>
       <TextField fx:id="projectNameInput" layoutX="187.0" layoutY="33.0" prefHeight="37.0" prefWidth="226.0" promptText="Project Name" styleClass="input" />
       <AnchorPane layoutX="139.0" layoutY="70.0" prefHeight="132.0" prefWidth="323.0">
@@ -33,14 +33,14 @@
       </AnchorPane>
       <ButtonBar cache="true" layoutY="360.0" prefHeight="40.0" prefWidth="600.0" style="-fx-background-color: transparent;">
          <buttons>
-            <Button fx:id="cancelButton" mnemonicParsing="false" onAction="#cancelButtonAction" prefHeight="22.0" prefWidth="90.0" style="-fx-background-color: white;" text="Cancel">
+            <Button fx:id="cancelButton" cancelButton="true" mnemonicParsing="false" onAction="#cancelButtonAction" prefHeight="22.0" prefWidth="90.0" text="Cancel">
                <font>
                   <Font size="11.0" />
                </font>
             </Button>
-            <Button fx:id="doneButton" mnemonicParsing="false" onAction="#doneButtonAction" prefHeight="22.0" prefWidth="90.0" style="-fx-background-color: rgb(87, 87, 87);" text="Done" textFill="WHITE">
+            <Button fx:id="doneButton" mnemonicParsing="false" onAction="#doneButtonAction" prefHeight="22.0" prefWidth="90.0" style=": black;" text="Done" textFill="WHITE">
                <font>
-                  <Font size="11.0" />
+                  <Font name="System Bold" size="11.0" />
                </font>
             </Button>
          </buttons>

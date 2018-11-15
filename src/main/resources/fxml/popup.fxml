@@ -41,12 +41,12 @@
                      <Image url="@../icon/folder.png" />
                   </image>
                </ImageView>
-               <Button fx:id="createNewProjectButton" layoutX="230.0" layoutY="203.0" mnemonicParsing="false" onAction="#createNewProjectButtonAction" prefHeight="27.0" prefWidth="146.0" styleClass="btn" text="Create New Project">
+               <Button fx:id="createNewProjectButton" alignment="TOP_LEFT" layoutX="230.0" layoutY="203.0" mnemonicParsing="false" onAction="#createNewProjectButtonAction" prefHeight="27.0" prefWidth="146.0" style="-fx-background-color: -fx-grey;" text="Create New Project">
                   <cursor>
                      <Cursor fx:constant="DEFAULT" />
                   </cursor>
                </Button>
-               <Button fx:id="openProjectButton" layoutX="230.0" layoutY="232.0" mnemonicParsing="false" onAction="#openProjectButtonAction" prefHeight="27.0" prefWidth="57.0" styleClass="btn" text="Open">
+               <Button fx:id="openProjectButton" alignment="TOP_LEFT" layoutX="230.0" layoutY="232.0" mnemonicParsing="false" onAction="#openProjectButtonAction" prefHeight="27.0" prefWidth="146.0" style="-fx-background-color: -fx-grey;" text="Open Project">
                   <cursor>
                      <Cursor fx:constant="DEFAULT" />
                   </cursor>

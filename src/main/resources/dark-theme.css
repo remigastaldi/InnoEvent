@@ -1,39 +1,57 @@
-.root * {}
+* {
+    -fx-grey: #2C2F33;
+    -fx-dark: #23272A;
+    -fx-light-grey: #bbbbbb;
+    -fx-light-dark: rgb(100, 100, 100);
+    -fx-primary: orange;
 
-
-.label {
-    -fx-text-fill: #bbbbbb;
 }
 
+
+.root {
+    -fx-background-color: -fx-grey;
+    -fx-text-fill: -fx-light-grey;
+}
+
+.label {
+    -fx-text-fill: -fx-light-grey;
+}
+
+
 .button {
-    -fx-background-color: #2C2F33;
-    -fx-text-fill: rgb(187, 187, 187);
+    -fx-background-color: -fx-grey;
+    -fx-text-fill: -fx-light-grey;
     -fx-border-color: transparent;
+    -fx-border-width: 0 0 0 0;
+}
+
+.text {
+    -fx-text-fill: -fx-light-grey;
 }
 
 .button:hover {
-    -fx-background-color: #23272A;
-    -fx-text-fill: orange;
+    -fx-background-color: -fx-dark;
+    -fx-text-fill: -fx-primary;
     -fx-cursor: hand;
 }
 
 .split-pane:horizontal .split-pane-divider {
-    -fx-background-color: #23272A;
+    -fx-background-color: -fx-dark;
 }
 
 
 .input {
-    -fx-background-color: #2C2F33;
-    -fx-text-fill: rgb(187, 187, 187);
-    -fx-border-color: rgb(100, 100, 100);
+    -fx-background-color: -fx-grey;
+    -fx-text-fill: -fx-light-grey;
+    -fx-border-color: -fx-light-dark;
 }
 
 .input:hover {
-    -fx-border-color: rgb(187, 187, 187);
+    -fx-border-color: -fx-light-grey;
 }
 
 .input:focused {
-    -fx-border-color: orange;
+    -fx-border-color: -fx-primary;
 }
 
 .split-pane {
@@ -41,11 +59,11 @@
 }
 
 .scroll-pane > .corner {
-    -fx-background-color: #2C2F33;
+    -fx-background-color: -fx-grey;
 }
 
 .scroll-pane {
-    -fx-background-color: #2C2F33;
+    -fx-background-color: -fx-grey;
 }
 
 .scroll-bar:horizontal, .scroll-bar:vertical{
@@ -54,35 +72,29 @@
 }
 
 .increment-button, .decrement-button {
-    -fx-background-color: #2C2F33;
-    -fx-border-color: #2C2F33;
+    -fx-background-color: -fx-grey;
+    -fx-border-color: -fx-grey;
 }
 
 .scroll-bar:horizontal .track,
 .scroll-bar:vertical .track{
-    -fx-background-color: #2C2F33;
+    -fx-background-color: -fx-grey;
     -fx-border-color: transparent;
     -fx-background-radius: 0em;
 }
 
 .scroll-bar:horizontal .thumb,
 .scroll-bar:vertical .thumb {
-    -fx-background-color: rgb(187, 187, 187);
+    -fx-background-color: -fx-light-grey;
     -fx-background-radius: 5em;
 }
 
+.button-bar {
+    -fx-background-color: -fx-grey;
+}
 
 .menu-bar {
-    -fx-background-color: #2C2F33;
-    -fx-border-color: orange;
+    -fx-background-color: -fx-dark;
+    -fx-border-color: -fx-primary;
     -fx-border-width: 0 0 1 0;
-}
-
-.dark {
-    -fx-background-color: #2C2F33;
-}
-
-.grey {
-   -fx-background-color: #23272A;
-   toto: red;
 }
