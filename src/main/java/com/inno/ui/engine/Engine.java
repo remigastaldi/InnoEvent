@@ -15,6 +15,7 @@ package com.inno.ui.engine;
 import java.util.ArrayList;
 
 import com.inno.ui.engine.shape.InteractivePolygon;
+import com.inno.ui.engine.shape.InteractiveRectangle;
 import com.inno.ui.engine.shape.InteractiveShape;
 
 import javafx.collections.ObservableList;
@@ -43,10 +44,9 @@ public class Engine {
   private Grid _grid = null;
   private Rectangle _board = null;
   private InteractivePolygon _selectedShape = null;
+  private Shape _currentMagnetism = null;
 
-  // private Group _group = null;
-
-  public Engine(Pane pane) {
+    public Engine(Pane pane) {
     _pane = pane;
     _nodes = pane.getChildren();
 
@@ -86,7 +86,15 @@ public class Engine {
   }
 
   public void createInteractivePolygon() {
-    _shapes.add(new InteractivePolygon(this, _pane));
+    InteractivePolygon shape = new InteractivePolygon(this, _pane);
+    shape.start();
+    _shapes.add(shape);
+  }
+
+  public void createInteractiveRectangle() {
+    InteractiveRectangle shape = new InteractiveRectangle(this, _pane);
+    shape.start();
+    _shapes.add(shape);
   }
 
   public void addInteractiveShape(InteractiveShape intShape) {
@@ -105,8 +113,10 @@ public class Engine {
   }
 
   public void deselect() {
-    _selectedShape.deselect();
-    _selectedShape = null;
+    if (_selectedShape != null) {
+      _selectedShape.deselect();
+      _selectedShape = null;
+    }
   }
 
   public Pane getPane() {
@@ -133,54 +143,35 @@ public class Engine {
         return true;
       }
     }
-    // for (Shape shape : _grid.getLines()) {
-    //   System.out.println(" ========================= ");
-
-    //   Shape intersect = Shape.intersect(cursor, shape);
-    //   if (intersect.getBoundsInParent().getWidth() != -1) {
-    //     System.out.println(" ++++++++++ Line collision ++++++++++");
-    //     return true;
-    //   }
-    // }
   return false;
   }
 
-  Shape currentMagnetism = null;
   public Shape getObjectUnderCursor(Shape cursor) {
-    if (currentMagnetism != null && Shape.intersect(cursor, currentMagnetism).getBoundsInParent().getWidth()
-        != -1) {
-          return currentMagnetism;
+    if (_currentMagnetism != null
+      && Shape.intersect(cursor, _currentMagnetism).getBoundsInParent().getWidth() != -1) {
+      return _currentMagnetism;
     }
     for (InteractiveShape element : _shapes) {
       if (element == _selectedShape)
-        continue;
+      continue;
       for (Shape shape : element.getOutBoundShapes()) {
         Shape intersect = Shape.intersect(cursor, shape);
         if (intersect.getBoundsInParent().getWidth() != -1) {
-          System.out.println(" ++++++++++ Stroke ++++++++++");
-          currentMagnetism = shape;
+          // System.out.println(" ++++++++++ Stroke ++++++++++");
+          _currentMagnetism = shape;
           return shape;
         }
       }
-    // System.out.println(cursor.getBoundsInLocal());
-    // Shape intersect = Shape.intersect(cursor, element.getShape());
-    // if (intersect.getBoundsInLocal().getWidth() != -1) {
-    //     System.out.println(intersect.getBoundsInParent().getMinX() + " : " +
-    //       intersect.getBoundsInLocal().getMaxX());
-    //     System.out.println("collision");
-    //     // collisionDetected = true;
-    //     return element.getShape();
-    //   }
     }
     for (Shape shape : _grid.getLines()) {
       Shape intersect = Shape.intersect(cursor, shape);
       if (intersect.getBoundsInParent().getWidth() != -1) {
-        System.out.println(" ++++++++++ Grid ++++++++++");        
-        currentMagnetism = shape;
+        // System.out.println(" ++++++++++ Grid ++++++++++");        
+        _currentMagnetism = shape;
         return shape;
       }
     }
-    currentMagnetism = null;
+    _currentMagnetism = null;
     return null;
   }
 
@@ -193,14 +184,7 @@ public class Engine {
     _pane.setScaleX(1.0);
     _pane.setScaleY(1.0);
     Bounds bounds = scrlPane.getViewportBounds();
-    // System.out.println("Parent_XLayout ---> " + xLayout);
-    // System.out.println("Parent_YLayout ---> " + yLayout);
-    // System.out.println("ScrollPane Bounds ---> " + bounds);
-    // System.out.println("ScrollOffset ---> " +
-    // Engine().scrlPane.getParent().getParent().getParent().getParent().());
-    // AnchorPane achPane = (AnchorPane) Engine().scrlPane.getParent().getParent().getParent().getParent().getParent().getParent();
     AnchorPane achPane = (AnchorPane) scrlPane.getParent().getParent().getParent().getParent().getParent();
-    // System.out.println("Top Padding ---> " + achPane.getPadding());
     // TODO: find where this padding come from
     double xPadding = 1;
     double yPadding = 1;
@@ -236,56 +220,11 @@ public class Engine {
     return getCollisionCenter(first, second, null);
   }
 
-  // public boolean isOtherShapeUnderCursor(Shape cursor) {
-  //   for (InteractiveShape element : _shapes) {
-  //     if (element == _selectedShape)
-  //     Shape intersect = Shape.intersect(cursor, element.getShape());
-  //     if (intersect.getBoundsInLocal().getWidth() != -1) {
-  //       System.out.println("collision");
-  //       // collisionDetected = true;
-  //       return true;
-  //     }
-  //   }
-  //   return false;
-  // }
-
   public Rectangle getBoard() {
     return _board;
   }
 
-
-  // ---------- TODO: remove this
-  public ArrayList<InteractiveShape> getShapes() {
-    return _shapes;
-  };
-
-  // public ArrayList<Shape> getAllShapes() {
-  //   ArrayList<Shape> shapes = new ArrayList<>();
-
-  //   for (InteractiveShape element : _shapes) {
-  //     shapes.add(element.getShape());
-  //     for (Shape shape : element.getOutBoundShapes()) {
-  //       shapes.add(shape);
-  //     }
-  //     for (Shape shape : element.getExtShapes()) {
-  //       shapes.add(shape);
-  //   }
-  // }
-
-  //   return shapes;
-  // }
-
   public ScrollPane scrlPane = null;
-
-  // public Group getGroup() {
-  //   return _group;
-  // }
-
-  // public void setGroup(Group group) {
-  //   _group = group;
-  // }
-
-  // ---------
 
   public Point2D getCenterOfPoints(ArrayList<Point2D> points) {
     double sum1 = 0;

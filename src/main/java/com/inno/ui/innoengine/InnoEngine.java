@@ -33,11 +33,13 @@ public class InnoEngine extends Engine {
   }
 
   public void createIrregularSection() {
+    deselect();
     InnoPolygon innoPoly = new InnoPolygon(this, getPane());
     innoPoly.start();
   }
 
   public void createRectangularSection() {
+    deselect();
     InnoRectangle innoPoly = new InnoRectangle(this, getPane());
     innoPoly.start();
   }

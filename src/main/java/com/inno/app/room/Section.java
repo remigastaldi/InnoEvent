@@ -1,34 +1,55 @@
 /*
- * File Created: Friday, 12th October 2018
- * Author: GASTALDI Rémi
+ * File Created: Tuesday, 13th November 2018
+ * Author: MAREL Maud
  * -----
- * Last Modified: Saturday, 27th October 2018
- * Modified By: GASTALDI Rémi
+ * Last Modified: Thursday, 15th November 2018
+ * Modified By: MAREL Maud
  * -----
- * Copyright - 2018 GASTALDI Rémi
+ * Copyright - 2018 MAREL Maud
  * <<licensetext>>
  */
 
-
 package com.inno.app.room;
 
-import java.util.ArrayList;
-import java.util.HashMap;
+public class Section implements ImmutableSection {
 
-import javafx.geometry.Point2D;
+  private String _name;
+  private double _elevation;
+  private int _idSection;
+  private double[] _points; //[3...*]
 
-public abstract class Section {
-  private HashMap<String, Row> _rows = new HashMap<>();
-  private ArrayList<Point2D> _points = new ArrayList<>();
-
-  public Section() {
+  public Section(String name, double elevation, int idSection, double[] points) {
+    this._name = name;
+    this._elevation = elevation;
+    this._idSection = idSection;
+    this._points = points;
   }
 
-  public void addPoint(Point2D point) {
-    _points.add(point);
+  public void setIdSection() {
+    //A FAIRE
   }
 
-  public ArrayList<Point2D> getPoints() {
-    return _points;
+  public void setName(String name) {
+    this._name = name;
   }
-};
+
+  public void setElevation(double elevation) {
+    this._elevation = elevation;
+  }
+
+  public void updatePosition(double[] points) {
+    this._points = points;
+  }
+
+  public String getName() {
+    return this._name;
+  }
+
+  public double getElevation() {
+    return this._elevation;
+  }
+
+  public double[] getPoints() {
+    return this._points;
+  }
+}
