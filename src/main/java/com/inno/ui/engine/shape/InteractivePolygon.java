@@ -79,15 +79,13 @@ public class InteractivePolygon extends InteractiveShape {
 
   public void start() {
     // Invisible cursor for collision check
-    _cursor = new Circle();
-    _cursor.setFill(Color.TRANSPARENT);
-    _cursor.setRadius(5.0);
+    java.awt.Point mouse = java.awt.MouseInfo.getPointerInfo().getLocation();
+    Point2D local = Pane().screenToLocal(mouse.x, mouse.y);
+
+    _cursor = new Circle(local.getX(), local.getY(), 5.0, Color.TRANSPARENT);
     _cursor.setStrokeWidth(1);
     _cursor.setStroke(Color.GREEN);
-    // TODO: Correct this ugly think
-    _cursor.setCenterX(10);
-    _cursor.setCenterY(10);
-    // _cursor.setStrokeWidth(2);
+
     Pane().getChildren().add(_cursor);
 
     // System cursor
@@ -240,6 +238,7 @@ public class InteractivePolygon extends InteractiveShape {
     Pane().removeEventHandler(MouseEvent.MOUSE_DRAGGED, mouseDraggEvent);
 
     Pane().setCursor(Cursor.DEFAULT);
+    _cursor.setVisible(false);
 
     // Add form selection callback
     EventHandler<MouseEvent> mouseClick = new EventHandler<MouseEvent>() {
@@ -264,7 +263,7 @@ public class InteractivePolygon extends InteractiveShape {
       nodes.add(selectShape);
     }
     group = new Group(nodes);
-    group.getTransforms().add(new Rotate(90, center.getX(), center.getY()));
+    // group.getTransforms().add(new Rotate(90, center.getX(), center.getY()));
     Pane().getChildren().add(group);
     
 
