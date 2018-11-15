@@ -2,7 +2,7 @@
  * File Created: Saturday, 27th October 2018
  * Author: HUBERT Léo
  * -----
- * Last Modified: Wednesday, 14th November 2018
+ * Last Modified: Thursday, 15th November 2018
  * Modified By: HUBERT Léo
  * -----
  * Copyright - 2018 HUBERT Léo
@@ -22,9 +22,10 @@ public class OfferConditionData {
     protected LogicalOperator _logicalOperator;
     protected ArrayList<OfferOperation> _offerOperations = new ArrayList<>();
 
-    public OfferConditionData(String name, String description) {
+    public OfferConditionData(String name, String description, LogicalOperator logicalOperator) {
         this._name = name;
         this._description = description;
+        this._logicalOperator = logicalOperator;
     }
 
     public String getName() {

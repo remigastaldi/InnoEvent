@@ -2,7 +2,7 @@
  * File Created: Friday, 12th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Tuesday, 13th November 2018
+ * Last Modified: Wednesday, 14th November 2018
  * Modified By: HUBERT Léo
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -12,7 +12,7 @@
 
 package com.inno.service.pricing;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 
 public class OfferData {
   public enum ReductionType {
@@ -24,7 +24,7 @@ public class OfferData {
   protected double _reduction;
   protected String _description;
   protected ReductionType _reductionType = ReductionType.NONE;
-  protected ArrayList<OfferCondition> _offerConditions = new ArrayList<OfferCondition>();
+  protected HashMap<String, OfferCondition> _offerConditions = new HashMap<String, OfferCondition>();
 
   public OfferData(String name, String description,  double reduction,  ReductionType reductionType) {
     this._name = name;
@@ -49,7 +49,7 @@ public class OfferData {
     return this._reductionType;
   }
 
-  public ArrayList<? extends OfferConditionData> getOfferConditions() {
+  public HashMap<String, ? extends OfferConditionData> getOfferConditions() {
     return this._offerConditions;
   }
 };

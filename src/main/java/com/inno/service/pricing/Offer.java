@@ -2,7 +2,7 @@
  * File Created: Friday, 12th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Tuesday, 13th November 2018
+ * Last Modified: Wednesday, 14th November 2018
  * Modified By: HUBERT Léo
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -12,7 +12,7 @@
 
 package com.inno.service.pricing;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Offer extends OfferData {
  
@@ -38,14 +38,14 @@ public class Offer extends OfferData {
   }
 
   public void addCondition(OfferCondition offerCondition) {
-    this._offerConditions.add(offerCondition);
+    this._offerConditions.put(offerCondition.getName(), offerCondition);
   }
 
-  public void removeCondtion(OfferCondition offerCondition) {
-    this._offerConditions.remove(offerCondition);
+  public void removeCondition(String offerConditionName) {
+    this._offerConditions.remove(offerConditionName);
   }
 
-  public ArrayList<OfferCondition> getOfferConditions() {
+  public HashMap<String, OfferCondition> getOfferConditions() {
     return this._offerConditions;
   }
 };

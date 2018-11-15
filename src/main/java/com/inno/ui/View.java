@@ -2,8 +2,8 @@
  * File Created: Wednesday, 10th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Saturday, 3rd November 2018
- * Modified By: GASTALDI Rémi
+ * Last Modified: Wednesday, 14th November 2018
+ * Modified By: HUBERT Léo
  * -----
  * Copyright - 2018 GASTALDI Rémi
  * <<licensetext>>
@@ -39,8 +39,8 @@ public class View extends Application {
   @Override
   public void start(Stage mainView) throws Exception {
     _mainView = mainView;
-    showMainView();
-    // showStartupPopup();
+   // showMainView();
+     showStartupPopup();
   }
 
   /**
