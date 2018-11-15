@@ -1,19 +1,69 @@
 /*
- * File Created: Friday, 12th October 2018
- * Author: GASTALDI Rémi
+ * File Created: Tuesday, 13th November 2018
+ * Author: MAREL Maud
  * -----
- * Last Modified: Saturday, 27th October 2018
- * Modified By: GASTALDI Rémi
+ * Last Modified: Thursday, 15th November 2018
+ * Modified By: MAREL Maud
  * -----
- * Copyright - 2018 GASTALDI Rémi
+ * Copyright - 2018 MAREL Maud
  * <<licensetext>>
  */
 
-
 package com.inno.app.room;
 
-public class SittingSection extends Section {
-  public SittingSection() {
+import java.util.ArrayList;
 
+public class SittingSection extends Section implements ImmutableSittingSection {
+
+  private boolean _autoDistrib;
+  private ArrayList<SittingRow> _rows = new ArrayList<SittingRow>();
+  private VitalSpace _vitalSpace;
+
+  public SittingSection(String name, int idSection, double elevation, boolean autoDistrib, VitalSpace vitalSpace, double[] points) {
+    super(name, elevation, idSection, points);
+    this._autoDistrib = autoDistrib;
+    //this._rows = ;
+    this._vitalSpace = vitalSpace;
+  }
+
+  public void setAutoDistribution(boolean autoDistrib) {
+    this._autoDistrib = autoDistrib;
+  }
+
+  public void deleteRow(String id) {
+    //A FAIRE
+  }
+
+  public void createSeat(int idRow, double[] pos) {
+    //A FAIRE
+  }
+
+  public void setVitalSpace(double height, double width) {
+    this._vitalSpace.setHeight(height);
+    this._vitalSpace.setWidth(width);
+  }
+
+  public ArrayList<SittingRow> getRows() {
+    return this._rows;
+  }
+
+  /*public ImmutableSittingRow createRow() {
+    //A FAIRE
+  }*/
+
+  public void addRow(String id) {
+    //A FAIRE
+  }
+
+  public boolean isAutoDistribution() {
+    return this._autoDistrib;
+  }
+  
+  public ArrayList<? extends ImmutableSittingRow> getImmutableSittingRow() {
+    return this._rows;
+  }
+  
+  public VitalSpace getVitalSpace() {
+    return this._vitalSpace;
   }
 }
