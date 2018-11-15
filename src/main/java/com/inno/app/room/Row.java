@@ -12,8 +12,12 @@
 
 package com.inno.app.room;
 
-public class StandingSection extends Section {
-  public StandingSection() {
+import java.util.HashMap;
+
+public class Row {
+  private HashMap<Integer, Seat> _seats = new HashMap<>();
+
+  public Row() {
 
   }
 }

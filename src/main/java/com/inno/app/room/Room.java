@@ -2,46 +2,29 @@
  * File Created: Friday, 12th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Thursday, 15th November 2018
- * Modified By: MAREL Maud
+ * Last Modified: Saturday, 27th October 2018
+ * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
  * <<licensetext>>
  */
 
+
 package com.inno.app.room;
 
-//import java.util.HashMap;
+import java.util.HashMap;
 
-public class Room implements ImmutableRoom {
-    
-    private String _name; //Name of the Room -> add to VP   
-    private double _height;
-    private double _width;
-    private Scene _scene;
-    //private HashMap<Integer, SittingSection> _sittingSections = new HashMap();
-    //private HashMap<Integer, StandingSection> _standingSections = new HashMap();
-    
-    public Room(String name, double height, double width) {
-        this._name = name;
-        this._height = height;
-        this._width = width;
-    }
+public class Room {
+  // private SectionHandler _sectionHandler = null;
+  private Scene _scene = null;
 
-    public String getName() {
-        return this._name;
-    }
+  private HashMap<Integer, Section> _sections = new HashMap<>();
 
-    public double getHeight() {
-        return this._height;
-    }
+  public Room(int height, int width){
+    // _sectionHandler = new SectionHandler();
+  }
 
-    public double getWidth() {
-        return this._width;
-    }
+  // public void addSection() {
 
-    public ImmutableScene getImmutableScene() {
-        return this._scene;
-    }
-
+  // }
 }
