@@ -2,7 +2,7 @@
  * File Created: Friday, 12th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Wednesday, 14th November 2018
+ * Last Modified: Thursday, 15th November 2018
  * Modified By: HUBERT Léo
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -19,8 +19,8 @@ import com.inno.service.pricing.OfferOperationData.LogicalOperator;
 public class OfferCondition extends OfferConditionData {
  
 
-  public OfferCondition(String name, String description) {
-    super(name, description);
+  public OfferCondition(String name, String description, LogicalOperator logicalOperator) {
+    super(name, description, logicalOperator);
   }
 
   public void setName(String name) {

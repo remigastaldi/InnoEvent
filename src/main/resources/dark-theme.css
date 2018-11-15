@@ -1,11 +1,11 @@
 .root * {}
 
 .dark {
-    -fx-background-color: rgb(57, 57, 57);
+    -fx-background-color: #23272A;
 }
 
 .grey {
-   -fx-background-color: rgb(69, 73, 74);
+   -fx-background-color: #2C2F33;
 }
 
 .btn {
@@ -19,7 +19,7 @@
 }
 
 .input {
-    -fx-background-color: rgb(69, 73, 74);
+    -fx-background-color: #2C2F33;
     -fx-text-fill: rgb(187, 187, 187);
     -fx-border-color: rgb(100, 100, 100);
 }
