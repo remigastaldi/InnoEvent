@@ -2,7 +2,7 @@
  * File Created: Sunday, 14th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Saturday, 27th October 2018
+ * Last Modified: Thursday, 15th November 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -25,7 +25,6 @@ public class InnoPolygon extends InteractivePolygon {
 
   @Override
   public boolean onMouseClicked(MouseEvent event) {
-    System.out.println("+++++++++++++++++++++++");
     return true;
   };
 
@@ -58,5 +57,4 @@ public class InnoPolygon extends InteractivePolygon {
   public boolean onMouseOnDragDetected(MouseEvent event) {
     return true;
   }
-
 }

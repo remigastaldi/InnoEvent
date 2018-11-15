@@ -2,7 +2,7 @@
  * File Created: Wednesday, 26th September 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Monday, 12th November 2018
+ * Last Modified: Thursday, 15th November 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -113,7 +113,7 @@ public class MainViewController extends ViewController {
   @FXML
   private void  keyAction(KeyEvent evt) {
     if (evt.getText().compareTo("a") == 0)
-      Engine().test();
+      Engine().createIrregularSection();
   }
 
   @FXML

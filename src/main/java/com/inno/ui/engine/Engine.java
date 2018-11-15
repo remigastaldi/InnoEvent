@@ -2,7 +2,7 @@
  * File Created: Friday, 12th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Wednesday, 14th November 2018
+ * Last Modified: Thursday, 15th November 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -42,7 +42,6 @@ public class Engine {
   private ArrayList<InteractiveShape> _shapes = new ArrayList<>();
   private Grid _grid = null;
   private Rectangle _board = null;
-  private boolean _collisions = true;
   private InteractivePolygon _selectedShape = null;
 
   // private Group _group = null;
@@ -121,7 +120,7 @@ public class Engine {
       for (Shape shape : element.getOutBoundShapes()) {
         Shape intersect = Shape.intersect(cursor, shape);
         if (intersect.getBoundsInParent().getWidth() != -1) {
-          System.out.println(" ++++++++++ Line collision ++++++++++");
+          // System.out.println(" ++++++++++ Line collision ++++++++++");
           return true;
         }
       }
@@ -163,24 +162,25 @@ public class Engine {
           return shape;
         }
       }
-      // System.out.println(cursor.getBoundsInLocal());
-      // Shape intersect = Shape.intersect(cursor, element.getShape());
-      // if (intersect.getBoundsInLocal().getWidth() != -1) {
-        //   System.out.println(intersect.getBoundsInParent().getMinX() + " : " +
-        //     intersect.getBoundsInLocal().getMaxX());
-        //   System.out.println("collision");
-        //   // collisionDetected = true;
-        //   return element.getShape();
-        // }
+    // System.out.println(cursor.getBoundsInLocal());
+    // Shape intersect = Shape.intersect(cursor, element.getShape());
+    // if (intersect.getBoundsInLocal().getWidth() != -1) {
+    //     System.out.println(intersect.getBoundsInParent().getMinX() + " : " +
+    //       intersect.getBoundsInLocal().getMaxX());
+    //     System.out.println("collision");
+    //     // collisionDetected = true;
+    //     return element.getShape();
+    //   }
+    }
+    for (Shape shape : _grid.getLines()) {
+      Shape intersect = Shape.intersect(cursor, shape);
+      if (intersect.getBoundsInParent().getWidth() != -1) {
+        System.out.println(" ++++++++++ Grid ++++++++++");        
+        currentMagnetism = shape;
+        return shape;
       }
-      // for (Shape shape : _grid.getLines()) {
-      //   Shape intersect = Shape.intersect(cursor, shape);
-      //   if (intersect.getBoundsInParent().getWidth() != -1) {
-      //     System.out.println(" ++++++++++ Stroke ++++++++++");        
-      //     return shape;
-      //   }
-      // }
-      currentMagnetism = null;
+    }
+    currentMagnetism = null;
     return null;
   }
 

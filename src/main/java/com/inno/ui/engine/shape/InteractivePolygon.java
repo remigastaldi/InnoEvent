@@ -58,6 +58,7 @@ import javafx.scene.effect.DropShadow;
 import javafx.scene.shape.StrokeLineJoin;
 import javafx.scene.shape.StrokeLineCap;
 import javafx.scene.shape.StrokeType;
+import java.awt.MouseInfo;
 
 public class InteractivePolygon extends InteractiveShape {
   private ArrayList<Circle> _points = new ArrayList<>();
@@ -77,11 +78,15 @@ public class InteractivePolygon extends InteractiveShape {
   }
 
   public void start() {
-    // Bound check cursor
+    // Invisible cursor for collision check
     _cursor = new Circle();
     _cursor.setFill(Color.TRANSPARENT);
     _cursor.setRadius(5.0);
-    // _cursor.setStroke(Color.GREEN);
+    _cursor.setStrokeWidth(1);
+    _cursor.setStroke(Color.GREEN);
+    // TODO: Correct this ugly think
+    _cursor.setCenterX(10);
+    _cursor.setCenterY(10);
     // _cursor.setStrokeWidth(2);
     Pane().getChildren().add(_cursor);
 
@@ -91,13 +96,13 @@ public class InteractivePolygon extends InteractiveShape {
     Image addIcon = new Image("icon/add.png");
     Image closeIcon = new Image("icon/close.png");
     //TODO: mac cursor size problem ??
-    Dimension2D addSizes = ImageCursor.getBestSize(addIcon.getWidth(), addIcon.getHeight());
-    Dimension2D closeSizes = ImageCursor.getBestSize(addIcon.getWidth(), addIcon.getHeight());
-    ImageCursor addCursor = new ImageCursor(addIcon, addSizes.getWidth() / 2, addSizes.getHeight() / 2);
-    ImageCursor closeCursor = new ImageCursor(closeIcon, closeSizes.getWidth() / 2, closeSizes.getHeight() / 2);
+    // Dimension2D addSizes = ImageCursor.getBestSize(addIcon.getWidth(), addIcon.getHeight());
+    // Dimension2D closeSizes = ImageCursor.getBestSize(addIcon.getWidth(), addIcon.getHeight());
+    ImageCursor addCursor = new ImageCursor(addIcon, addIcon.getWidth() / 2, addIcon.getHeight() / 2);
+    ImageCursor closeCursor = new ImageCursor(closeIcon, closeIcon.getWidth() / 2, closeIcon.getHeight() / 2);
     Pane().setCursor(addCursor);
 
-    _cursor.setVisible(false);
+    // _cursor.setVisible(false);
     // Pane().setCursor(Cursor.NONE);
 
     EventHandler<MouseEvent> mouseClickEvent = event -> {
@@ -106,7 +111,7 @@ public class InteractivePolygon extends InteractiveShape {
           closeForm();
         } else {
           // if (!_collisionDetected)
-          addPoint(event);
+          addPoint();
         }
       }
     };
@@ -115,6 +120,23 @@ public class InteractivePolygon extends InteractiveShape {
 
     EventHandler<MouseEvent> mouseMovedEvent = event -> {
       if (onMouseMoved(event)) {
+        // Point2D p = Pane().sceneToLocal(event.getSceneX(), event.getSceneY());
+        double newX = event.getX();
+        double newY = event.getY();
+        // double newXCursor = p.getX();
+        // double newYCursor = p.getY();
+
+        _cursor.setCenterX(newX);
+        _cursor.setCenterY(newY);
+        Shape element = Engine().getObjectUnderCursor(_cursor);
+        if (element != null) {
+          Point2D pos = Engine().getCollisionCenter(_cursor, element);
+          _cursor.setCenterX(pos.getX());
+          _cursor.setCenterY(pos.getY());
+        } else {
+          updateCursor(event);
+        }
+
         _collisionDetected = Engine().isObjectUnderCursor(_cursor)
             || (_lines.size() > 0 ? Engine().isObjectUnderCursor(_lines.get(_lines.size() - 1)) : false);
         if (_collisionDetected) {
@@ -127,8 +149,7 @@ public class InteractivePolygon extends InteractiveShape {
             _lines.get(_lines.size() - 1).setStroke(Color.KHAKI);
           Pane().setCursor(addCursor);
         }
-        updateCursor(event);
-        updateCurrentLine(event);
+        updateCurrentLine();
       }
     };
     EventHandlers().put(MouseEvent.MOUSE_MOVED, mouseMovedEvent);
@@ -153,20 +174,20 @@ public class InteractivePolygon extends InteractiveShape {
     shape.setEffect(null);
   }
 
-  private void addPoint(MouseEvent event) {
+  private void addPoint() {
     Line line = new Line();
 
     line.setStrokeWidth(1.0);
     line.setStroke(Color.KHAKI);
     line.setVisible(false);
-    line.setStartX(event.getX());
-    line.setStartY(event.getY());
+    line.setStartX(_cursor.getCenterX());
+    line.setStartY(_cursor.getCenterY());
     line.setStrokeLineCap(StrokeLineCap.ROUND);
     _lines.add(line);
     Pane().getChildren().add(line);
     addOutboundShape(line);
 
-    Circle circle = new Circle(event.getX(), event.getY(), 5.0);
+    Circle circle = new Circle(_cursor.getCenterX(), _cursor.getCenterY(), 5.0);
     circle.setFill(Color.GREEN);
 
     _points.add(circle);
@@ -333,21 +354,19 @@ public class InteractivePolygon extends InteractiveShape {
   }
 
   private void updateCursor(MouseEvent event) {
-    // System.out.println(event.getSceneX() + " " + event.getX());
-    // System.out.println(cet + " " + newY);
     _cursor.setCenterX(event.getX());
     _cursor.setCenterY(event.getY());
   }
 
-  private void updateCurrentLine(MouseEvent event) {
+  private void updateCurrentLine() {
     if (_points.size() == 0)
       return;
 
     Line activeLine = _lines.get(_lines.size() - 1);
     activeLine.setVisible(true);
 
-    activeLine.setEndX(event.getX());
-    activeLine.setEndY(event.getY());
+    activeLine.setEndX(_cursor.getCenterX());
+    activeLine.setEndY(_cursor.getCenterY());
   }
 
   private ObservableList<Anchor> createControlAnchorsFor(final ObservableList<Double> points) {
@@ -406,7 +425,7 @@ public class InteractivePolygon extends InteractiveShape {
     }
 
     private void enableDrag() {
-      final Delta dragDelta = new Delta();
+      // final Delta dragDelta = new Delta();
       // setOnMousePressed(mouseEvent -> {
         // record a delta distance for the drag and drop operation.
         // dragDelta.x = getCenterX() - mouseEvent.getX();
@@ -416,8 +435,8 @@ public class InteractivePolygon extends InteractiveShape {
       setOnMouseDragged(mouseEvent -> {
         Point2D p = Pane().sceneToLocal(mouseEvent.getSceneX(), mouseEvent.getSceneY());
         // System.out.println("Deltax " + dragDelta.x);
-        double newX = mouseEvent.getX() + dragDelta.x;
-        double newY = mouseEvent.getY() + dragDelta.y;
+        double newX = mouseEvent.getX();
+        double newY = mouseEvent.getY();
         double newXCursor = p.getX();
         double newYCursor = p.getY();
 
@@ -425,23 +444,21 @@ public class InteractivePolygon extends InteractiveShape {
         if (grabbed) {
           _cursor.setCenterX(newXCursor);
           _cursor.setCenterY(newYCursor);
-          // _cursor.setRadius(6.5);
           _cursor.setStroke(Color.TRANSPARENT);
         } else {
           Point2D pos2 = group.localToParent(getCenterX(), getCenterY());
           // _cursor = new Circle(pos2.getX(), pos2.getY(), 6.5, Color.TRANSPARENT);
           _cursor.setCenterX(pos2.getX());
           _cursor.setCenterY(pos2.getY());
-          // _cursor.setRadius(6.5);
           _cursor.setStroke(Color.TRANSPARENT);
         }
-        _cursor.setStrokeWidth(1);
-        _cursor.setStroke(Color.WHITE);
+        // _cursor.setStrokeWidth(1);
+        // _cursor.setStroke(Color.WHITE);
         Shape element = _this.Engine().getObjectUnderCursor(_cursor);
         // _this._collisionDetected = _this.Engine().isObjectUnderCursor(_cursor);
         if (element != null) {
-          // TODO: Collision offset
           Point2D pos = Engine().getCollisionCenter(_cursor, element, group);
+          // TODO: Collision offset
           // Point2D test = group.localToParent(pos.getX(), pos.getY());
           // Point2D test2 = group.localToParent(getCenterX(), getCenterY());
           // Pane().getChildren().add(new Circle(test.getX(), test.getY(), 0.3, Color.PINK));
@@ -529,9 +546,9 @@ public class InteractivePolygon extends InteractiveShape {
     System.out.println("DESELECTED");
   }
 
-  private class Delta {
-    double x, y;
-  }
+  // private class Delta {
+  //   double x, y;
+  // }
 
   // --------------- TODO remove theses
   public Shape getShape() {
