@@ -3,7 +3,7 @@
  * Author: GASTALDI Rémi
  * -----
  * Last Modified: Thursday, 15th November 2018
- * Modified By: GASTALDI Rémi
+ * Modified By: HUBERT Léo
  * -----
  * Copyright - 2018 GASTALDI Rémi
  * <<licensetext>>
@@ -202,8 +202,8 @@ public class Engine {
     AnchorPane achPane = (AnchorPane) scrlPane.getParent().getParent().getParent().getParent().getParent();
     // System.out.println("Top Padding ---> " + achPane.getPadding());
     // TODO: find where this padding come from
-    double xPadding = 2;
-    double yPadding = 2;
+    double xPadding = 1;
+    double yPadding = 1;
     _pane.setLayoutX(-xLayout - bounds.getMinX() - xPadding);
     _pane.setLayoutY(-yLayout - bounds.getMinY() - achPane.getPadding().getTop() - yPadding);
     Shape union = Shape.intersect(first, second);
