@@ -2,7 +2,7 @@
  * File Created: Sunday, 14th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Wednesday, 14th November 2018
+ * Last Modified: Thursday, 15th November 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -91,10 +91,10 @@ public class InteractivePolygon extends InteractiveShape {
     Image addIcon = new Image("icon/add.png");
     Image closeIcon = new Image("icon/close.png");
     //TODO: mac cursor size problem ??
-    // Dimension2D addSizes = ImageCursor.getBestSize(addIcon.getWidth(), addIcon.getHeight());
-    // Dimension2D closeSizes = ImageCursor.getBestSize(addIcon.getWidth(), addIcon.getHeight());
-    ImageCursor addCursor = new ImageCursor(addIcon, addIcon.getWidth() / 2, addIcon.getHeight() / 2);
-    ImageCursor closeCursor = new ImageCursor(closeIcon, closeIcon.getWidth() / 2, closeIcon.getHeight() / 2);
+    Dimension2D addSizes = ImageCursor.getBestSize(addIcon.getWidth(), addIcon.getHeight());
+    Dimension2D closeSizes = ImageCursor.getBestSize(addIcon.getWidth(), addIcon.getHeight());
+    ImageCursor addCursor = new ImageCursor(addIcon, addSizes.getWidth() / 2, addSizes.getHeight() / 2);
+    ImageCursor closeCursor = new ImageCursor(closeIcon, closeSizes.getWidth() / 2, closeSizes.getHeight() / 2);
     Pane().setCursor(addCursor);
 
     _cursor.setVisible(false);
@@ -460,7 +460,7 @@ public class InteractivePolygon extends InteractiveShape {
           // } else if (getCenterX() < pos.getX()) {
           //   setCenterX(pos.getX() - 1.5);
           // } else {
-          //   setCenterX(pos.getX());            
+          //   setCenterX(pos.getX());
           // }
           // if (getCenterY() > pos.getY()) {
           //   setCenterY(pos.getY() + 1.5);
