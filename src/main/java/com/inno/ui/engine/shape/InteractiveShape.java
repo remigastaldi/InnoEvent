@@ -2,7 +2,7 @@
  * File Created: Sunday, 14th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Tuesday, 13th November 2018
+ * Last Modified: Thursday, 15th November 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -28,7 +28,6 @@ import  javafx.scene.shape.Shape;
 public abstract class InteractiveShape {
   private Engine  _engine = null;
   private Pane  _pane = null;
-  private boolean _collision = false;
   private HashMap<EventType<MouseEvent>, EventHandler<MouseEvent>> _eventHandlers = new HashMap<>();
   private ArrayList<Shape> _outBoundShapes = new ArrayList<>();
 
@@ -40,11 +39,7 @@ public abstract class InteractiveShape {
     
   }
 
-  public abstract void start();
-  
-  public void enableCollision(boolean collision) { _collision = collision; 
-  }
-
+  // Callback
   public boolean onMouseEntered(MouseEvent event) { return true; }
   public boolean onMouseClicked(MouseEvent event) { return true; }
   public boolean onMouseExited(MouseEvent event)  { return true; }
@@ -53,6 +48,8 @@ public abstract class InteractiveShape {
   public boolean onMouseReleased(MouseEvent event) { return true; }
   public boolean onMouseOnDragDetected(MouseEvent event) { return true; }
   public boolean onMouseOnDragDropped(MouseEvent event) { return true; }
+
+  public abstract void start();
   public abstract void deselect();
   public abstract Shape getShape();
 
