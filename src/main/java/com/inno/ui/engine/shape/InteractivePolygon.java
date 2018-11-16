@@ -230,7 +230,6 @@ public class InteractivePolygon extends InteractiveShape {
     Engine().addInteractiveShape(this);
 
     ArrayList<Node> nodes = new ArrayList<>();
-    // Pane().getChildren().remove(_polygon);
     nodes.add(_polygon);
     for (Shape outBound : getOutBoundShapes()) {
       Pane().getChildren().remove(outBound);
@@ -243,8 +242,7 @@ public class InteractivePolygon extends InteractiveShape {
     _group = new Group(nodes);
     Pane().getChildren().add(_group);
     Point2D center = Engine().getCenterOfPoints(points);
-    // Point2D pos = _group.parentToLocal(center.getX(), center.getY());
-    _group.getTransforms().add(new Rotate(90, center.getX(), center.getY()));
+    _group.getTransforms().add(new Rotate(Math.random() * 360 + 1, center.getX(), center.getY()));
     
 
 
@@ -366,16 +364,8 @@ public class InteractivePolygon extends InteractiveShape {
     }
 
     private void enableDrag() {
-      // final Delta dragDelta = new Delta();
-      // setOnMousePressed(mouseEvent -> {
-        // record a delta distance for the drag and drop operation.
-        // dragDelta.x = getCenterX() - mouseEvent.getX();
-        // dragDelta.y = getCenterY() - mouseEvent.getY();
-        // getScene().setCursor(Cursor.MOVE);
-      // });
       setOnMouseDragged(mouseEvent -> {
         Point2D mousePos = Pane().sceneToLocal(mouseEvent.getSceneX(), mouseEvent.getSceneY());
-        // System.out.println("Deltax " + dragDelta.x);
 
         _cursor.setCenterX(mousePos.getX());
         _cursor.setCenterY(mousePos.getY());
@@ -416,9 +406,6 @@ public class InteractivePolygon extends InteractiveShape {
   private void select() {
     if (Engine().getSelectedShape() != this) {
       enableShadhow(_polygon);
-      // for (Shape outBound : getOutBoundShapes()) {
-      //   outBound.setVisible(true);
-      // }
       for (Shape selectShape : getSelectShapes()) {
         selectShape.toFront();
         selectShape.setVisible(true);
@@ -432,10 +419,6 @@ public class InteractivePolygon extends InteractiveShape {
     for (Circle point : _points) {
       point.setVisible(false);
     }
-
-    // for (Shape outBound : getOutBoundShapes()) {
-    //   outBound.setVisible(false);
-    // }
     for (Shape selectShape : getSelectShapes()) {
       selectShape.setVisible(false);
     }
@@ -444,18 +427,7 @@ public class InteractivePolygon extends InteractiveShape {
     System.out.println("DESELECTED");
   }
 
-  // private class Delta {
-  //   double x, y;
-  // }
-
-  // --------------- TODO remove theses
   public Shape getShape() {
     return _polygon;
   }
-
-  public Circle getCursor() {
-    return _cursor;
-  }
-
-  // ---------------
 }

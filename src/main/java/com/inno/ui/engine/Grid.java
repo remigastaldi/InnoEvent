@@ -2,7 +2,7 @@
  * File Created: Saturday, 13th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Thursday, 15th November 2018
+ * Last Modified: Friday, 16th November 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -19,6 +19,7 @@ import javafx.scene.Node;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
+import javafx.scene.shape.Shape;
 
 public class Grid {
   private Pane  _pane = null;
@@ -82,8 +83,14 @@ public class Grid {
     }
   }
 
-  // TODO REMOVE THIS TEST FUNCTION
-  public ArrayList<Line> getLines() {
-    return _lines;
+  public Shape checkGridIntersect(Shape cursor) {
+    for (Shape shape : _lines) {
+      Shape intersect = Shape.intersect(cursor, shape);
+      if (intersect.getBoundsInParent().getWidth() != -1) {
+        // System.out.println(" ++++++++++ Grid ++++++++++");        
+        return shape;
+      }
+    }
+    return null;
   }
 }

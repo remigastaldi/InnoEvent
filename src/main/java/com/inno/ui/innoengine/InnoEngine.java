@@ -2,7 +2,7 @@
  * File Created: Friday, 12th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Thursday, 15th November 2018
+ * Last Modified: Friday, 16th November 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -30,8 +30,8 @@ public class InnoEngine extends Engine {
   // TEST
   String statut = "";
 
-  public InnoEngine(View view, Pane pane, Point2D offset) {
-    super(pane, offset);
+  public InnoEngine(View view, Pane pane) {
+    super(pane);
 
     setBackgroundColor(Color.valueOf("#282C34"));
     activateGrid(true);

@@ -2,7 +2,7 @@
  * File Created: Wednesday, 10th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Thursday, 15th November 2018
+ * Last Modified: Friday, 16th November 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -195,8 +195,8 @@ public class View extends Application {
     Application.launch(View.class, args);
   }
 
-  public void createEngine(Pane pane, Point2D offset) {
-    _engine = new InnoEngine(this, pane, offset);
+  public void createEngine(Pane pane) {
+    _engine = new InnoEngine(this, pane);
   }
 
   public InnoEngine getEngine() {

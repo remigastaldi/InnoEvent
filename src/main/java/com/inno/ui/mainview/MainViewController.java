@@ -2,7 +2,7 @@
  * File Created: Wednesday, 26th September 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Thursday, 15th November 2018
+ * Last Modified: Friday, 16th November 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -77,20 +77,6 @@ public class MainViewController extends ViewController {
 
           final double zoomFactor = evt.getDeltaY() > 0 ? 1.2 : 1 / 1.2;
 
-          // final Bounds groupBounds = group.getLayoutBounds();
-          // final Bounds viewportBounds = scrollPane.getViewportBounds();
-
-          // calculate pixel offsets from [0, 1] range
-          // double valX = scrollPane.getHvalue() * (groupBounds.getWidth() - viewportBounds.getWidth());
-          // double valY = scrollPane.getVvalue() * (groupBounds.getHeight() - viewportBounds.getHeight());
-
-          // convert content coordinates to zoomTarget coordinates
-          // Point2D posInZoomTarget = _pane.parentToLocal(group.parentToLocal(new Point2D(evt.getX(), evt.getY())));
-
-          // calculate adjustment of scroll position (pixels)
-          // Point2D adjustment = _pane.getLocalToParentTransform().deltaTransform(posInZoomTarget.multiply(zoomFactor - 1));
-          // System.out.println("adjustement => " + adjustment);
-
           Point2D scrollOffset = figureScrollOffset(group, scrollPane);
 
           // do the resizing
@@ -101,16 +87,10 @@ public class MainViewController extends ViewController {
           scrollPane.layout();
 
           repositionScroller(group, scrollPane, zoomFactor, scrollOffset);
-          // convert back to [0, 1] range
-          // (too large/small values are automatically corrected by ScrollPane)
-          // scrollPane.setHvalue((valX + adjustment.getX()) / (groupBounds.getWidth() - viewportBounds.getWidth()));
-          // scrollPane.setVvalue((valY + adjustment.getY()) / (groupBounds.getHeight() - viewportBounds.getHeight()));
       }
     });
     stack_pane.getChildren().add(scrollPane);
-    View().createEngine(_pane,
-    new Point2D(0, 0));
-    Engine().scrlPane = scrollPane;
+    View().createEngine(_pane);
   }
 
   @FXML

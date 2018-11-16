@@ -44,11 +44,9 @@ public class Engine {
   private Rectangle _board = null;
   private InteractivePolygon _selectedShape = null;
   private Shape _currentMagnetism = null;
-  private Point2D _paneOffset = null;
 
-    public Engine(Pane pane, Point2D offset) {
+    public Engine(Pane pane) {
     _pane = pane;
-    _paneOffset = offset;
     _board = new Rectangle(0, 0, _pane.getWidth(), _pane.getHeight());
     _board.setStrokeWidth(0.0);
     _board.setFill(Color.TRANSPARENT);
@@ -162,19 +160,14 @@ public class Engine {
         }
       }
     }
-    for (Shape shape : _grid.getLines()) {
-      Shape intersect = Shape.intersect(cursor, shape);
-      if (intersect.getBoundsInParent().getWidth() != -1) {
-        // System.out.println(" ++++++++++ Grid ++++++++++");        
-        _currentMagnetism = shape;
-        return shape;
-      }
+    Shape gridShape = _grid.checkGridIntersect(cursor);
+    if (gridShape != null) {
+      _currentMagnetism = gridShape;
+      return gridShape;
     }
     _currentMagnetism = null;
     return null;
   }
-
-  public ScrollPane scrlPane = null;
 
   public Point2D getCollisionCenter(Shape first, Shape second, Group group) {
     Shape union = Shape.intersect(first, second);
