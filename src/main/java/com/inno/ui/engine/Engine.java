@@ -143,14 +143,31 @@ public class Engine {
   return false;
   }
 
+  public ArrayList<Shape> getObjectsUnderCursor(Shape cursor) {
+    ArrayList<Shape> shapes = new ArrayList<>();
+
+    for (InteractiveShape element : _shapes) {
+      if (element == _selectedShape)
+        continue;
+      for (Shape shape : element.getOutBoundShapes()) {
+        Shape intersect = Shape.intersect(cursor, shape);
+        if (intersect.getBoundsInParent().getWidth() != -1) {
+          shapes.add(shape);
+        }
+      }
+    }
+    return shapes;
+  }
+
   public Shape getObjectUnderCursor(Shape cursor) {
+    // TODO: Change this ligique with magnetism class
     if (_currentMagnetism != null
       && Shape.intersect(cursor, _currentMagnetism).getBoundsInParent().getWidth() != -1) {
       return _currentMagnetism;
     }
     for (InteractiveShape element : _shapes) {
       if (element == _selectedShape)
-      continue;
+        continue;
       for (Shape shape : element.getOutBoundShapes()) {
         Shape intersect = Shape.intersect(cursor, shape);
         if (intersect.getBoundsInParent().getWidth() != -1) {
