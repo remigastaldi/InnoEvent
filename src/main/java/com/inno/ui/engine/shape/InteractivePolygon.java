@@ -59,6 +59,7 @@ import javafx.scene.shape.StrokeLineJoin;
 import javafx.scene.shape.StrokeLineCap;
 import javafx.scene.shape.StrokeType;
 import java.awt.MouseInfo;
+import javafx.scene.transform.Transform;
 
 public class InteractivePolygon extends InteractiveShape {
   private ArrayList<Circle> _points = new ArrayList<>();
@@ -197,14 +198,14 @@ public class InteractivePolygon extends InteractiveShape {
 
   private void closeForm() {
     // Pane().setCursor(Cursor.HAND);
-    System.out.println("close form");
+    // System.out.println("close form");
     _polygon = new Polygon();
 
     ArrayList<Point2D> points = new ArrayList<>();
     for (Circle point : _points) {
       points.add(new Point2D(point.getCenterX(), point.getCenterY()));
     }
-    Point2D center = Engine().getCenterOfPoints(points);
+    // Point2D center = Engine().getCenterOfPoints(points);
 
     _polygon.setFill(Color.GOLDENROD);
     for (Circle point : _points) {
@@ -214,7 +215,7 @@ public class InteractivePolygon extends InteractiveShape {
     enableShadhow(_polygon);
     _polygon.setOpacity(0.7);
 
-    Pane().getChildren().add(_polygon);
+    // Pane().getChildren().add(_polygon);
     _anchors = createControlAnchorsFor(_polygon.getPoints());
 
     for (Anchor anchor : _anchors) {
@@ -252,7 +253,7 @@ public class InteractivePolygon extends InteractiveShape {
     Engine().addInteractiveShape(this);
 
     ArrayList<Node> nodes = new ArrayList<>();
-    Pane().getChildren().remove(_polygon);
+    // Pane().getChildren().remove(_polygon);
     nodes.add(_polygon);
     for (Shape outBound : getOutBoundShapes()) {
       Pane().getChildren().remove(outBound);
@@ -326,7 +327,9 @@ public class InteractivePolygon extends InteractiveShape {
         shape.setFill(Color.TRANSPARENT);
         shape.setStroke(Color.WHITE);
         shape.getPoints().addAll(_polygon.getPoints());
-        shape.getTransforms().add(group.getTransforms().get(0));
+        ObservableList<Transform> effect = group.getTransforms();
+        if (effect != null && effect.size() > 0)
+          shape.getTransforms().add(effect.get(0));
   
         Point2D p = Pane().sceneToLocal(event.getSceneX(), event.getSceneY());
         double offsetX = p.getX() - orgSceneX;
@@ -341,7 +344,7 @@ public class InteractivePolygon extends InteractiveShape {
           ((Group)(group)).setTranslateX(newTranslateX);
           ((Group)(group)).setTranslateY(newTranslateY);
         }
-          Pane().getChildren().remove(shape);
+        Pane().getChildren().remove(shape);
       }
     };
     EventHandlers().put(MouseEvent.MOUSE_DRAGGED, mouseDragged);

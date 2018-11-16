@@ -3,7 +3,7 @@
  * Author: GASTALDI Rémi
  * -----
  * Last Modified: Thursday, 15th November 2018
- * Modified By: HUBERT Léo
+ * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
  * <<licensetext>>
@@ -39,17 +39,16 @@ import javafx.scene.control.ScrollPane;
 
 public class Engine {
   private Pane  _pane = null;
-  private ObservableList<Node> _nodes = null;
   private ArrayList<InteractiveShape> _shapes = new ArrayList<>();
   private Grid _grid = null;
   private Rectangle _board = null;
   private InteractivePolygon _selectedShape = null;
   private Shape _currentMagnetism = null;
+  private Point2D _paneOffset = null;
 
-    public Engine(Pane pane) {
+    public Engine(Pane pane, Point2D offset) {
     _pane = pane;
-    _nodes = pane.getChildren();
-
+    _paneOffset = offset;
     _board = new Rectangle(0, 0, _pane.getWidth(), _pane.getHeight());
     _board.setStrokeWidth(0.0);
     _board.setFill(Color.TRANSPARENT);
@@ -60,7 +59,7 @@ public class Engine {
         deselect();
     };
     _board.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseClick);
-    _nodes.add(_board);
+    _pane.getChildren().add(_board);
   }
 
   public void setBackgroundColor(Color color) {
@@ -175,6 +174,8 @@ public class Engine {
     return null;
   }
 
+  public ScrollPane scrlPane = null;
+
   public Point2D getCollisionCenter(Shape first, Shape second, Group group) {
     double x = _pane.getScaleX();
     double y = _pane.getScaleY();
@@ -190,12 +191,18 @@ public class Engine {
     double yPadding = 1;
     _pane.setLayoutX(-xLayout - bounds.getMinX() - xPadding);
     _pane.setLayoutY(-yLayout - bounds.getMinY() - achPane.getPadding().getTop() - yPadding);
+    // System.out.println(xLayout + " " + bounds.getMinX() + " " + achPane.getPadding().getTop());
+
+    // _pane.setScaleX(1.0);
+    // _pane.setScaleY(1.0);
+    // // System.out.println("==> " + _paneOffset.getX() + " " + _paneOffset.getY());
+    // _pane.setLayoutX(_paneOffset.getX());
+    // _pane.setLayoutY(_paneOffset.getY());
     Shape union = Shape.intersect(first, second);
     _pane.setLayoutX(0.0);
     _pane.setLayoutY(0.0);
     _pane.setScaleX(x);
     _pane.setScaleY(y);
-    // union.setFill(Color.RED);
     // union.setFill(Color.color(Math.random(), Math.random(), Math.random()));
     // _pane.getChildren().add(union);
 
@@ -223,8 +230,6 @@ public class Engine {
   public Rectangle getBoard() {
     return _board;
   }
-
-  public ScrollPane scrlPane = null;
 
   public Point2D getCenterOfPoints(ArrayList<Point2D> points) {
     double sum1 = 0;

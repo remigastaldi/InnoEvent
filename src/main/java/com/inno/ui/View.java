@@ -2,8 +2,8 @@
  * File Created: Wednesday, 10th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Wednesday, 14th November 2018
- * Modified By: HUBERT Léo
+ * Last Modified: Thursday, 15th November 2018
+ * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
  * <<licensetext>>
@@ -25,7 +25,7 @@ import javafx.util.Duration;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
-
+import javafx.geometry.Point2D;
 import com.inno.ui.innoengine.InnoEngine;
 
 public class View extends Application {
@@ -39,8 +39,8 @@ public class View extends Application {
   @Override
   public void start(Stage mainView) throws Exception {
     _mainView = mainView;
-   // showMainView();
-     showStartupPopup();
+    showMainView();
+    //  showStartupPopup();
   }
 
   /**
@@ -195,8 +195,8 @@ public class View extends Application {
     Application.launch(View.class, args);
   }
 
-  public void createEngine(Pane pane) {
-    _engine = new InnoEngine(pane);
+  public void createEngine(Pane pane, Point2D offset) {
+    _engine = new InnoEngine(this, pane, offset);
   }
 
   public InnoEngine getEngine() {

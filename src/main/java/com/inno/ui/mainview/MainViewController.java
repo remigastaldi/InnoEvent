@@ -21,7 +21,10 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.Parent;
 import javafx.scene.layout.StackPane;
+import javafx.geometry.Insets;
+import javafx.geometry.Bounds;
 
 public class MainViewController extends ViewController {
 
@@ -105,8 +108,8 @@ public class MainViewController extends ViewController {
       }
     });
     stack_pane.getChildren().add(scrollPane);
-
-    View().createEngine(_pane);
+    View().createEngine(_pane,
+    new Point2D(0, 0));
     Engine().scrlPane = scrollPane;
   }
 

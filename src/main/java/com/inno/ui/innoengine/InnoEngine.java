@@ -13,6 +13,7 @@
 package com.inno.ui.innoengine;
 
 import com.inno.app.Core;
+import com.inno.ui.View;
 // import com.inno.ui.engine.room.StandingSection;
 import com.inno.ui.engine.Engine;
 import com.inno.ui.innoengine.shape.InnoPolygon;
@@ -22,11 +23,15 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import  javafx.scene.shape.Shape;
+import javafx.geometry.Point2D;
 
 
 public class InnoEngine extends Engine {
-  public InnoEngine(Pane pane) {
-    super(pane);
+  // TEST
+  String statut = "";
+
+  public InnoEngine(View view, Pane pane, Point2D offset) {
+    super(pane, offset);
 
     setBackgroundColor(Color.valueOf("#282C34"));
     activateGrid(true);
