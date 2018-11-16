@@ -12,6 +12,7 @@
 package com.inno.ui.mainview;
 
 import com.inno.app.room.ImmutableRoom;
+import com.inno.app.room.ImmutableScene;
 import com.inno.ui.ViewController;
 
 import javafx.fxml.FXML;
@@ -24,8 +25,10 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.Parent;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
 import javafx.geometry.Insets;
 import javafx.geometry.Bounds;
+import javafx.scene.shape.Rectangle;
 
 public class MainViewController extends ViewController {
   @FXML
@@ -47,9 +50,16 @@ public class MainViewController extends ViewController {
     View().setSidebarFromFxmlFileName("sidebar_room.fxml", sidebar_anchor);
 
     Pane _pane = new Pane();
-    ImmutableRoom room = Core().getImmutableRoom();
+    ImmutableRoom roomData = Core().getImmutableRoom();
+    ImmutableScene sceneData = Core().getImmutableScene();
 
-    _pane.setPrefSize(room.getWidth(), room.getHeight());
+    _pane.setPrefSize(roomData.getWidth(), roomData.getHeight());
+
+    Rectangle scene = new Rectangle(sceneData.getPositions()[0], sceneData.getPositions()[1],
+                                    sceneData.getWidth(), sceneData.getHeight());
+    scene.setFill(Color.CHARTREUSE);
+    scene.setOpacity(0.8);
+    _pane.getChildren().add(scene);
 
     Group group = new Group(_pane);
     StackPane content = new StackPane(group);
