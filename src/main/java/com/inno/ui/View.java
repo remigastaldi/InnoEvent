@@ -39,8 +39,8 @@ public class View extends Application {
   @Override
   public void start(Stage mainView) throws Exception {
     _mainView = mainView;
-    showMainView();
-    //  showStartupPopup();
+    // showMainView();
+     showStartupPopup();
   }
 
   /**
@@ -104,8 +104,8 @@ public class View extends Application {
     LEFT, RIGHT, TOP, BOTTOM
   }
 
-  public void openViewWithAnimation(String fxmlFileName, AnimationDirection animationTo, AnchorPane anchorRoot) {
-    StackPane parentContainer = (StackPane) anchorRoot.getScene().getRoot();
+  public void openViewWithAnimation(String fxmlFileName, AnimationDirection animationTo, AnchorPane anchor_root) {
+    StackPane parentContainer = (StackPane) anchor_root.getScene().getRoot();
     Scene scene = parentContainer.getScene();
     try {
       FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/" + fxmlFileName));
@@ -123,26 +123,26 @@ public class View extends Application {
         case LEFT:
           newAnchor.translateXProperty().set(scene.getWidth());
           kv = new KeyValue(newAnchor.translateXProperty(), 0, Interpolator.EASE_IN);
-          kv2 = new KeyValue(anchorRoot.translateXProperty(), -scene.getWidth(), Interpolator.EASE_IN);
+          kv2 = new KeyValue(anchor_root.translateXProperty(), -scene.getWidth(), Interpolator.EASE_IN);
           break;
         case RIGHT:
           newAnchor.translateXProperty().set(-scene.getWidth());
           kv = new KeyValue(newAnchor.translateXProperty(), 0, Interpolator.EASE_IN);
-          kv2 = new KeyValue(anchorRoot.translateXProperty(), scene.getWidth(), Interpolator.EASE_IN);
+          kv2 = new KeyValue(anchor_root.translateXProperty(), scene.getWidth(), Interpolator.EASE_IN);
           break;
         case TOP:
           newAnchor.translateYProperty().set(scene.getHeight());
           kv = new KeyValue(newAnchor.translateYProperty(), 0, Interpolator.EASE_IN);
-          kv2 = new KeyValue(anchorRoot.translateYProperty(), -scene.getHeight(), Interpolator.EASE_IN);
+          kv2 = new KeyValue(anchor_root.translateYProperty(), -scene.getHeight(), Interpolator.EASE_IN);
           break;
         case BOTTOM:
           newAnchor.translateYProperty().set(-scene.getHeight());
           kv = new KeyValue(newAnchor.translateYProperty(), 0, Interpolator.EASE_IN);
-          kv2 = new KeyValue(anchorRoot.translateYProperty(), scene.getHeight(), Interpolator.EASE_IN);
+          kv2 = new KeyValue(anchor_root.translateYProperty(), scene.getHeight(), Interpolator.EASE_IN);
           break;
         default:
           kv = new KeyValue(newAnchor.translateXProperty(), 0, Interpolator.EASE_IN);
-          kv2 = new KeyValue(anchorRoot.translateYProperty(), 0, Interpolator.EASE_IN);
+          kv2 = new KeyValue(anchor_root.translateYProperty(), 0, Interpolator.EASE_IN);
           break;
       }
 
@@ -156,7 +156,7 @@ public class View extends Application {
       timeline2.getKeyFrames().add(kf2);
       timeline.getKeyFrames().add(kf);
       timeline.setOnFinished(t -> {
-        parentContainer.getChildren().remove(anchorRoot);
+        parentContainer.getChildren().remove(anchor_root);
       });
 
       timeline.play();

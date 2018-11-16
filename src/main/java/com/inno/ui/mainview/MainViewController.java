@@ -11,6 +11,7 @@
 
 package com.inno.ui.mainview;
 
+import com.inno.app.room.ImmutableRoom;
 import com.inno.ui.ViewController;
 
 import javafx.fxml.FXML;
@@ -27,30 +28,28 @@ import javafx.geometry.Insets;
 import javafx.geometry.Bounds;
 
 public class MainViewController extends ViewController {
-
   @FXML
   private AnchorPane top_bar;
-
   @FXML
-  private AnchorPane sidebarAnchor;
-  
+  private AnchorPane sidebar_anchor;
   @FXML
   private AnchorPane anchor_canvas;
-  
   @FXML
   private StackPane stack_pane;
   
+  private ScrollPane scrollPane;
+
   @FXML
   private void initialize() {
   }
   
-  private ScrollPane scrollPane;
-  
   public void init() {
-    View().setSidebarFromFxmlFileName("sidebar_room.fxml", sidebarAnchor);
+    View().setSidebarFromFxmlFileName("sidebar_room.fxml", sidebar_anchor);
 
     Pane _pane = new Pane();
-    _pane.setPrefSize(900, 700);
+    ImmutableRoom room = Core().getImmutableRoom();
+
+    _pane.setPrefSize(room.getWidth(), room.getHeight());
 
     Group group = new Group(_pane);
     StackPane content = new StackPane(group);
@@ -97,6 +96,8 @@ public class MainViewController extends ViewController {
   private void  keyAction(KeyEvent evt) {
     if (evt.getText().compareTo("a") == 0)
       Engine().createIrregularSection();
+    // else if (evt.getText().compareTo("s") == 0)
+
   }
 
   @FXML
@@ -106,12 +107,12 @@ public class MainViewController extends ViewController {
 
   @FXML
   private void openRoom() {
-    View().setSidebarFromFxmlFileName("sidebar_room.fxml", sidebarAnchor);
+    View().setSidebarFromFxmlFileName("sidebar_room.fxml", sidebar_anchor);
   }
 
   @FXML
   private void openSection() {
-    View().setSidebarFromFxmlFileName("sidebar_section.fxml", sidebarAnchor);
+    View().setSidebarFromFxmlFileName("sidebar_section.fxml", sidebar_anchor);
   }
 
   private Point2D figureScrollOffset(Node scrollContent, ScrollPane scroller) {

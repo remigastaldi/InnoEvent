@@ -3,7 +3,7 @@
  * Author: GASTALDI Rémi
  * -----
  * Last Modified: Friday, 16th November 2018
- * Modified By: MAREL Maud
+ * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
  * <<licensetext>>
@@ -11,7 +11,6 @@
 
 package com.inno.app;
 
-import com.google.errorprone.annotations.Immutable;
 import com.inno.app.InnoSave;
 import com.inno.app.room.*;
 import com.inno.service.pricing.Pricing;
@@ -83,6 +82,4 @@ public class Core {
   public void setScenePositions(double[] positions) {
     this._room.setScenePositions(positions);
   }
-
-
 };

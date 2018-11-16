@@ -2,7 +2,7 @@
  * File Created: Friday, 12th October 2018
  * Author: HUBERT Léo
  * -----
- * Last Modified: Saturday, 27th October 2018
+ * Last Modified: Friday, 16th November 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 HUBERT Léo
@@ -28,25 +28,24 @@ import javafx.geometry.Point2D;
 
 
 public class StartupPopupNewProjectViewController extends ViewController {
-
   @FXML
-  private Button cancelButton;
+  private Button cancel_button;
   @FXML
-  private Button doneButton;
+  private Button done_button;
   @FXML
-  private AnchorPane anchorRoot;
+  private AnchorPane anchor_root;
   @FXML
-  private TextField projectNameInput;
+  private TextField project_name_input;
   @FXML
-  private TextField roomHeightInput;
+  private TextField room_width_input;
   @FXML
-  private TextField roomWidthInput;
+  private TextField room_height_input;
   @FXML
-  private TextField sceneHeightInput;
+  private TextField scene_width_input;
   @FXML
-  private TextField sceneWidthInput;
+  private TextField scene_height_input;
   @FXML
-  private TextField vitalSpaceInput;
+  private TextField vital_space_input;
 
   public void init() {
   }
@@ -57,26 +56,34 @@ public class StartupPopupNewProjectViewController extends ViewController {
 
   @FXML
   private void doneButtonAction() {
+    System.out.println(project_name_input.getText());
 
-    Vector<Point2D> points = new Vector<Point2D>();
+    Double roomWidth = Double.parseDouble(room_width_input.getText());
+    Double roomHeight = Double.parseDouble(room_height_input.getText());
+    Double sceneWidth = Double.parseDouble(scene_width_input.getText());
+    Double sceneHeight = Double.parseDouble(scene_height_input.getText());
 
-    points.add(new Point2D(-1, 2));
-    points.add(new Point2D(7, 5));
-    points.add(new Point2D(4, 3));
-    points.add(new Point2D(6, -1));
-    points.add(new Point2D(3, 1));
+    System.out.println(roomWidth);
+    double[] scenePos = { roomWidth / 2 - sceneWidth / 2,
+                          roomHeight / 2 - sceneHeight / 2,
+                          roomWidth / 2 + sceneWidth / 2,
+                          roomHeight / 2 - sceneHeight / 2,
+                          roomWidth / 2 + sceneWidth / 2,
+                          roomHeight / 2 + roomHeight / 2,
+                          roomWidth / 2 - sceneWidth / 2,
+                          roomHeight / 2 + roomHeight / 2 };
 
-    // Point2D test = InnoCore().Utils().getCenterOfPoints(points);
-
-    // System.out.println("X => " + test.getX() + " Y => " + test.getY());
-
-    System.out.println(projectNameInput.getText());
+    Core().createRoom(project_name_input.getText(), roomWidth, roomHeight);
+    
+    Core().createScene(sceneWidth, sceneHeight, scenePos);
+    
+      // Core().setVitalS(Integer.parseInt(room_height_input.getText()));
 
     View().showMainView();
   }
 
   @FXML
   private void cancelButtonAction() {
-    View().openViewWithAnimation("popup.fxml", AnimationDirection.RIGHT, anchorRoot);
+    View().openViewWithAnimation("popup.fxml", AnimationDirection.RIGHT, anchor_root);
   }
 }
