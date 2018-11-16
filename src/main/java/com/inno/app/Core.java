@@ -2,8 +2,8 @@
  * File Created: Tuesday, 9th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Saturday, 27th October 2018
- * Modified By: GASTALDI Rémi
+ * Last Modified: Friday, 16th November 2018
+ * Modified By: MAREL Maud
  * -----
  * Copyright - 2018 GASTALDI Rémi
  * <<licensetext>>
@@ -11,8 +11,9 @@
 
 package com.inno.app;
 
+import com.google.errorprone.annotations.Immutable;
 import com.inno.app.InnoSave;
-import com.inno.app.room.Room;
+import com.inno.app.room.*;
 import com.inno.service.pricing.Pricing;
 
 public class Core {
@@ -36,4 +37,52 @@ public class Core {
 
     return _instance;
   }
+
+  //Room methods
+  public void createRoom(String name, double width, double height) {
+    this._room = new Room(name, height, width);
+  }
+
+  public ImmutableRoom getImmutableRoom() {
+    return this._room;
+  }
+
+  public void setRoomName(String name) {
+    this._room.setName(name);
+  }
+
+  public void setRoomHeight(double height) {
+    this._room.setHeight(height);
+  }
+
+  public void setRoomWidth(double width) {
+    this._room.setWidth(width);
+  }
+
+  //Scene methods
+  public void createScene(double width, double height, double[] positions) {
+    this._room.createScene(width, height, positions);
+  }
+
+  public void deleteScene() {
+    this._room.deleteScene();
+  }
+
+  public ImmutableScene getImmutableScene() {
+    return this._room.getImmutableScene();
+  }
+
+  public void setSceneWidth(double width) {
+    this._room.setSceneWidth(width);
+  }
+
+  public void setSceneHeight(double height) {
+    this._room.setSceneHeight(height);
+  }
+
+  public void setScenePositions(double[] positions) {
+    this._room.setScenePositions(positions);
+  }
+
+
 };
