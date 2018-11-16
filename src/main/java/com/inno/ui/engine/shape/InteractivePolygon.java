@@ -2,7 +2,7 @@
  * File Created: Sunday, 14th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Thursday, 15th November 2018
+ * Last Modified: Friday, 16th November 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -12,54 +12,33 @@
 package com.inno.ui.engine.shape;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import com.inno.ui.engine.Engine;
 
-import javafx.scene.layout.Pane;
-import javafx.geometry.Point2D;
-import javafx.scene.Cursor;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.shape.Line;
-import javafx.scene.shape.Circle;
-import javafx.scene.shape.Polygon;
-import javafx.scene.shape.Polyline;
-import javafx.scene.paint.Color;
-import javafx.collections.ObservableList;
-import javafx.event.EventHandler;
-import javafx.event.EventType;
-
-import javafx.scene.ImageCursor;
-import javafx.scene.SnapshotParameters;
-import javafx.scene.image.WritableImage;
-import javafx.collections.FXCollections;
-import javafx.scene.layout.AnchorPane;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.value.ChangeListener;
-import javafx.beans.value.*;
-import javafx.scene.shape.StrokeType;
-import javafx.scene.shape.Shape;
-import javafx.scene.image.Image;
-import javafx.scene.control.ScrollPane;
-import javafx.geometry.Bounds;
-import javafx.scene.control.ScrollBar;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
+import javafx.geometry.Point2D;
+import javafx.scene.Cursor;
 import javafx.scene.Group;
+import javafx.scene.ImageCursor;
 import javafx.scene.Node;
-import javafx.scene.transform.Scale;
-import javafx.scene.transform.Rotate;
-import javafx.geometry.Dimension2D;
-import javafx.scene.layout.Border;
-import javafx.scene.layout.BorderStroke;
-import javafx.scene.layout.BorderStrokeStyle;
-import javafx.scene.layout.CornerRadii;
-import javafx.scene.layout.BorderWidths;
+import javafx.scene.SnapshotParameters;
 import javafx.scene.effect.DropShadow;
-import javafx.scene.shape.StrokeLineJoin;
+import javafx.scene.image.Image;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
+import javafx.scene.shape.Line;
+import javafx.scene.shape.Polygon;
+import javafx.scene.shape.Shape;
 import javafx.scene.shape.StrokeLineCap;
-import javafx.scene.shape.StrokeType;
-import java.awt.MouseInfo;
 import javafx.scene.transform.Transform;
+import javafx.scene.transform.Rotate;
 
 public class InteractivePolygon extends InteractiveShape {
   private ArrayList<Circle> _points = new ArrayList<>();
@@ -68,11 +47,7 @@ public class InteractivePolygon extends InteractiveShape {
   private Circle _cursor = null;
   private ObservableList<Anchor> _anchors = null;
   private boolean _collisionDetected = false;
-  InteractivePolygon _this = this;
-
-  private Group group;
-
-  private boolean grabbed = false;
+  private Group _group;
 
   public InteractivePolygon(Engine engine, Pane pane) {
     super(engine, pane);
@@ -94,9 +69,11 @@ public class InteractivePolygon extends InteractiveShape {
     params.setFill(Color.TRANSPARENT);
     Image addIcon = new Image("icon/add.png");
     Image closeIcon = new Image("icon/close.png");
-    //TODO: mac cursor size problem ??
-    // Dimension2D addSizes = ImageCursor.getBestSize(addIcon.getWidth(), addIcon.getHeight());
-    // Dimension2D closeSizes = ImageCursor.getBestSize(addIcon.getWidth(), addIcon.getHeight());
+    // TODO: mac cursor size problem ??
+    // Dimension2D addSizes = ImageCursor.getBestSize(addIcon.getWidth(),
+    // addIcon.getHeight());
+    // Dimension2D closeSizes = ImageCursor.getBestSize(addIcon.getWidth(),
+    // addIcon.getHeight());
     ImageCursor addCursor = new ImageCursor(addIcon, addIcon.getWidth() / 2, addIcon.getHeight() / 2);
     ImageCursor closeCursor = new ImageCursor(closeIcon, closeIcon.getWidth() / 2, closeIcon.getHeight() / 2);
     Pane().setCursor(addCursor);
@@ -128,8 +105,10 @@ public class InteractivePolygon extends InteractiveShape {
         _cursor.setCenterX(newX);
         _cursor.setCenterY(newY);
         Shape element = Engine().getObjectUnderCursor(_cursor);
-        if (element != null) {
+        if (element != null) {          
           Point2D pos = Engine().getCollisionCenter(_cursor, element);
+
+          pos = Pane().sceneToLocal(pos.getX(), pos.getY());
           _cursor.setCenterX(pos.getX());
           _cursor.setCenterY(pos.getY());
         } else {
@@ -205,7 +184,6 @@ public class InteractivePolygon extends InteractiveShape {
     for (Circle point : _points) {
       points.add(new Point2D(point.getCenterX(), point.getCenterY()));
     }
-    // Point2D center = Engine().getCenterOfPoints(points);
 
     _polygon.setFill(Color.GOLDENROD);
     for (Circle point : _points) {
@@ -215,7 +193,6 @@ public class InteractivePolygon extends InteractiveShape {
     enableShadhow(_polygon);
     _polygon.setOpacity(0.7);
 
-    // Pane().getChildren().add(_polygon);
     _anchors = createControlAnchorsFor(_polygon.getPoints());
 
     for (Anchor anchor : _anchors) {
@@ -263,71 +240,33 @@ public class InteractivePolygon extends InteractiveShape {
       Pane().getChildren().remove(selectShape);
       nodes.add(selectShape);
     }
-    group = new Group(nodes);
-    // group.getTransforms().add(new Rotate(90, center.getX(), center.getY()));
-    Pane().getChildren().add(group);
+    _group = new Group(nodes);
+    Pane().getChildren().add(_group);
+    Point2D center = Engine().getCenterOfPoints(points);
+    // Point2D pos = _group.parentToLocal(center.getX(), center.getY());
+    _group.getTransforms().add(new Rotate(90, center.getX(), center.getY()));
     
 
 
-    group.setOnMousePressed(mouseEvent -> { 
+    _group.setOnMousePressed(mouseEvent -> { 
       Point2D p = Pane().sceneToLocal(mouseEvent.getSceneX(), mouseEvent.getSceneY());
 
       orgSceneX = p.getX();
       orgSceneY = p.getY();
-      orgTranslateX = ((Group)(group)).getTranslateX();
-      orgTranslateY = ((Group)(group)).getTranslateY();
+      orgTranslateX = ((Group)(_group)).getTranslateX();
+      orgTranslateY = ((Group)(_group)).getTranslateY();
     });
-
 
     EventHandler<MouseEvent> mouseDragged = event -> {
       if (onMouseMoved(event)) {
         select();
         // TODO: Magnetism between anchors and lines
-        // for (Anchor anchor : _anchors) {
-        //   Point2D pos = group.localToParent(anchor.getCenterX(), anchor.getCenterY());
-        //   Circle circle = new Circle(pos.getX(), pos.getY(), 6.5, Color.TRANSPARENT);
-        //   // circle.setStroke(Color.BLUEVIOLET);
-        //   circle.setStrokeWidth(1);
-        //   circle.setStrokeType(StrokeType.OUTSIDE);
-
-        //   Pane().getChildren().add(circle);
-
-        //   Shape element = _this.Engine().getObjectUnderCursor(circle);
-        //   if (element != null) {
-        //     // _this._collisionDetected = _this.Engine().isObjectUnderCursor(tmp);
-        //     if (element != null) {
-        //       System.out.println("=============>");
-        //       Point2D pos2 = Engine().getCollisionShape(circle, element);
-        //       // Point2D pos3 = group.localToParent(circle.getCenterX(), circle.getCenterY());
-              
-        //       double offsetX = pos2.getX() - circle.getCenterX();
-        //       double offsetY = pos2.getY() - circle.getCenterY();
-        //       Point2D p = Pane().sceneToLocal(offsetX, offsetY);
-        //       System.out.println(pos2.getX());
-        //       System.out.println(circle.getCenterX());
-        //       System.out.println("1- Offset X " + offsetX + " OffsetY " + offsetY);
-        //       System.out.println("2- Offset X " + p.getX() + " OffsetY " + p.getY());
-
-        //       ((Group)(group)).setTranslateX(10);
-        //       // ((Group)(group)).setTranslateY(offsetY);
-    
-        //       if (circle.getCenterX() > pos2.getX()) {
-                
-        //       } else {
-        //       }
-        //       if (circle.getCenterY() > pos2.getY()) {
-        //       } else {
-        //       }
-        //       return;
-  
-        //   }
-        // }
 
         Polygon shape = new Polygon();
         shape.setFill(Color.TRANSPARENT);
         shape.setStroke(Color.WHITE);
         shape.getPoints().addAll(_polygon.getPoints());
-        ObservableList<Transform> effect = group.getTransforms();
+        ObservableList<Transform> effect = _group.getTransforms();
         if (effect != null && effect.size() > 0)
           shape.getTransforms().add(effect.get(0));
   
@@ -338,11 +277,11 @@ public class InteractivePolygon extends InteractiveShape {
         double newTranslateY = orgTranslateY + offsetY;
 
         Pane().getChildren().add(shape);
-        ((Shape)(shape)).setTranslateX(newTranslateX);
-        ((Shape)(shape)).setTranslateY(newTranslateY);
+        shape.setTranslateX(newTranslateX);
+        shape.setTranslateY(newTranslateY);
         if (!Engine().isObjectUnderCursor(shape)) {
-          ((Group)(group)).setTranslateX(newTranslateX);
-          ((Group)(group)).setTranslateY(newTranslateY);
+          _group.setTranslateX(newTranslateX);
+          _group.setTranslateY(newTranslateY);
         }
         Pane().getChildren().remove(shape);
       }
@@ -435,76 +374,33 @@ public class InteractivePolygon extends InteractiveShape {
         // getScene().setCursor(Cursor.MOVE);
       // });
       setOnMouseDragged(mouseEvent -> {
-        Point2D p = Pane().sceneToLocal(mouseEvent.getSceneX(), mouseEvent.getSceneY());
+        Point2D mousePos = Pane().sceneToLocal(mouseEvent.getSceneX(), mouseEvent.getSceneY());
         // System.out.println("Deltax " + dragDelta.x);
-        double newX = mouseEvent.getX();
-        double newY = mouseEvent.getY();
-        double newXCursor = p.getX();
-        double newYCursor = p.getY();
 
-        // updateCursor(mouseEvent);
-        if (grabbed) {
-          _cursor.setCenterX(newXCursor);
-          _cursor.setCenterY(newYCursor);
-          _cursor.setStroke(Color.TRANSPARENT);
-        } else {
-          Point2D pos2 = group.localToParent(getCenterX(), getCenterY());
-          // _cursor = new Circle(pos2.getX(), pos2.getY(), 6.5, Color.TRANSPARENT);
-          _cursor.setCenterX(pos2.getX());
-          _cursor.setCenterY(pos2.getY());
-          _cursor.setStroke(Color.TRANSPARENT);
-        }
-        // _cursor.setStrokeWidth(1);
-        // _cursor.setStroke(Color.WHITE);
-        Shape element = _this.Engine().getObjectUnderCursor(_cursor);
-        // _this._collisionDetected = _this.Engine().isObjectUnderCursor(_cursor);
+        _cursor.setCenterX(mousePos.getX());
+        _cursor.setCenterY(mousePos.getY());
+
+        Shape element = Engine().getObjectUnderCursor(_cursor);
         if (element != null) {
-          Point2D pos = Engine().getCollisionCenter(_cursor, element, group);
-          // TODO: Collision offset
-          // Point2D test = group.localToParent(pos.getX(), pos.getY());
-          // Point2D test2 = group.localToParent(getCenterX(), getCenterY());
-          // Pane().getChildren().add(new Circle(test.getX(), test.getY(), 0.3, Color.PINK));
-          // Pane().getChildren().add(new Circle(test2.getX(), test2.getY(), 0.3, Color.RED));
-          // Point2D pos2 = group.localToParent(getCenterX(), getCenterY());
-          // Circle test = new Circle(pos2.getX(), pos2.getY(), 6.5, Color.TRANSPARENT);
-          // Circle test = new Circle(newX, newY, 6.5Technology, Color.TRANSPARENT);
-          
+          Point2D pos = Engine().getCollisionCenter(_cursor, element, _group);
 
-          // System.out.println("========================");
-          // System.out.println("X => " + getCenterX() + " " + pos.getX());
-          // System.out.println("Y => " + getCenterY() + " " + pos.getY());
-          // System.out.println("XParent => " + test2.getX() + " " + test.getX());
-          // System.out.println("YParent => " + test2.getY() + " " + test.getY());
-          // if (getCenterX() > pos.getX()) {
-          //   setCenterX(pos.getX() + 1.5);
-          // } else if (getCenterX() < pos.getX()) {
-          //   setCenterX(pos.getX() - 1.5);
-          // } else {
-          //   setCenterX(pos.getX());
-          // }
-          // if (getCenterY() > pos.getY()) {
-          //   setCenterY(pos.getY() + 1.5);
-          // } else if (getCenterY() > pos.getY()) {
-          //   setCenterY(pos.getY() - 1.5);
-          // } else {
-          //   setCenterY(pos.getY());
-          // }
+          // TODO: Collision offset
+          
           setCenterX(pos.getX());
           setCenterY(pos.getY());
-          grabbed = true;
-
-          setStroke(Color.GOLDENROD);
+          
+          // pos = _group.localToParent(pos.getX(), pos.getY());
+          // Circle circle = new Circle(pos.getX(), pos.getY(), 5, Color.TRANSPARENT);
+          // circle.setStroke(Color.ALICEBLUE);
+          // circle.setStrokeWidth(1);
+          // Pane().getChildren().add(circle);
         } else {
-          setStroke(Color.GOLD);
-          // if (newX > 0 && newX < getScene().getWidth()) {
-          setCenterX(newX);
-          // }
-          // if (newY > 0 && newY < getScene().getHeight()) {
-          setCenterY(newY);
-          // }
-          grabbed = false;
+          Point2D groupMouse = _group.parentToLocal(mousePos.getX(), mousePos.getY());
+          setCenterX(groupMouse.getX());
+          setCenterY(groupMouse.getY());
         }
-        if (_this.Engine().isObjectUnderCursor(_this.getShape())) {
+ 
+        if (Engine().isObjectUnderCursor(getShape())) {
           _polygon.setFill(Color.RED);
         } else {
           _polygon.setFill(Color.GREEN);

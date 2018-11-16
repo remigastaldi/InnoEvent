@@ -2,7 +2,7 @@
  * File Created: Friday, 12th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Thursday, 15th November 2018
+ * Last Modified: Friday, 16th November 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -177,48 +177,17 @@ public class Engine {
   public ScrollPane scrlPane = null;
 
   public Point2D getCollisionCenter(Shape first, Shape second, Group group) {
-    double x = _pane.getScaleX();
-    double y = _pane.getScaleY();
-    double xLayout = _pane.getParent().getLayoutX();
-    double yLayout = _pane.getParent().getLayoutY();
-
-    _pane.setScaleX(1.0);
-    _pane.setScaleY(1.0);
-    Bounds bounds = scrlPane.getViewportBounds();
-    AnchorPane achPane = (AnchorPane) scrlPane.getParent().getParent().getParent().getParent().getParent();
-    // TODO: find where this padding come from
-    double xPadding = 1;
-    double yPadding = 1;
-    _pane.setLayoutX(-xLayout - bounds.getMinX() - xPadding);
-    _pane.setLayoutY(-yLayout - bounds.getMinY() - achPane.getPadding().getTop() - yPadding);
-    // System.out.println(xLayout + " " + bounds.getMinX() + " " + achPane.getPadding().getTop());
-
-    // _pane.setScaleX(1.0);
-    // _pane.setScaleY(1.0);
-    // // System.out.println("==> " + _paneOffset.getX() + " " + _paneOffset.getY());
-    // _pane.setLayoutX(_paneOffset.getX());
-    // _pane.setLayoutY(_paneOffset.getY());
     Shape union = Shape.intersect(first, second);
-    _pane.setLayoutX(0.0);
-    _pane.setLayoutY(0.0);
-    _pane.setScaleX(x);
-    _pane.setScaleY(y);
-    // union.setFill(Color.color(Math.random(), Math.random(), Math.random()));
-    // _pane.getChildren().add(union);
-
     Bounds unionBounds = union.getBoundsInParent();
-    Point2D pos = new Point2D(
-        (unionBounds.getMinX() + (unionBounds.getMaxX() - unionBounds.getMinX()) / 2),
-        (unionBounds.getMinY() + (unionBounds.getMaxY() - unionBounds.getMinY()) / 2));
-    // ArrayList<Point2D> test = new ArrayList<>();
-    // test.add(new Point2D(unionBounds.getMinX(), unionBounds.getMinY()));
-    // test.add(new Point2D(unionBounds.getMaxX(), unionBounds.getMinY()));
-    // test.add(new Point2D(unionBounds.getMaxX(), unionBounds.getMaxY()));
-    // test.add(new Point2D(unionBounds.getMinX(), unionBounds.getMaxY()));
-    // Point2D pos = getCenterOfPoints(test);
+    Point2D pos = null;
 
-    if (group != null)
-      pos = group.parentToLocal(pos.getX(), pos.getY());
+    if (group != null) {
+      pos = group.sceneToLocal((unionBounds.getMinX() + (unionBounds.getMaxX() - unionBounds.getMinX()) / 2),
+        (unionBounds.getMinY() + (unionBounds.getMaxY() - unionBounds.getMinY()) / 2));    
+    } else {
+      pos = new Point2D((unionBounds.getMinX() + (unionBounds.getMaxX() - unionBounds.getMinX()) / 2),
+      (unionBounds.getMinY() + (unionBounds.getMaxY() - unionBounds.getMinY()) / 2));
+    }
 
     return pos;
   }
