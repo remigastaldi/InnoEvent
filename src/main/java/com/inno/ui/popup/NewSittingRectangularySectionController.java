@@ -40,8 +40,8 @@ public class NewSittingRectangularySectionController extends ViewController {
       return;
     }
     try {      
-      rectangle.setWidth(Double.parseDouble(rangeInput.getText()));
-      rectangle.setHeight(Double.parseDouble(columnsInput.getText()));
+      rectangle.setWidth(Double.parseDouble(columnsInput.getText()));
+      rectangle.setHeight(Double.parseDouble(rangeInput.getText()));
     } catch (Exception e) {
       System.out.println(e);
     }
