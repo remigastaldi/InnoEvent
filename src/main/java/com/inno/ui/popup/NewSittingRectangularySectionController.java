@@ -17,7 +17,13 @@ import com.inno.ui.innoengine.shape.InnoRectangle;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.StringProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.util.StringConverter;
+import javafx.util.converter.NumberStringConverter;
+import javafx.beans.binding.Bindings;
 
 public class NewSittingRectangularySectionController extends ViewController {
   @FXML
@@ -25,6 +31,8 @@ public class NewSittingRectangularySectionController extends ViewController {
   @FXML
   private TextField rangeInput;
 
+  private StringProperty _width = new SimpleStringProperty();
+  private StringProperty _height = new SimpleStringProperty();
   
   public NewSittingRectangularySectionController() {
   }
@@ -49,6 +57,19 @@ public class NewSittingRectangularySectionController extends ViewController {
     }
   }
 
+  @FXML
+  public void doneButtonAction() {
+    Stage stage = (Stage) rangeInput.getScene().getWindow();
+    stage.close();
+  }
+  
+  @FXML
+  public void cancelButtonAction() {
+    Stage stage = (Stage) rangeInput.getScene().getWindow();
+    Engine().deleteSelectedShape();
+    stage.close();
+  }
+  
   @Override
   public void init() {
     InnoRectangle rectangle = (InnoRectangle) getIntent();
@@ -59,18 +80,11 @@ public class NewSittingRectangularySectionController extends ViewController {
     }
     columnsInput.setText(Double.toString(rectangle.getWidth()));
     rangeInput.setText(Double.toString(rectangle.getHeight()));
-  }
+    columnsInput.textProperty().bindBidirectional(rectangle.getWidthProperty(), new NumberStringConverter());
+    rangeInput.textProperty().bindBidirectional(rectangle.getHeightProperty(), new NumberStringConverter());
+    // StringConverter<Number> converter = new NumberStringConverter();
+    // Bindings.bindBidirectional(_width, rectangle.getMaxXProperty(), converter);
+    // Bindings.bindBidirectional(_height, rectangle.getMaxXProperty(), converter);
 
-  @FXML
-  public void doneButtonAction() {
-    Stage stage = (Stage) rangeInput.getScene().getWindow();
-    stage.close();
-  }
-
-  @FXML
-  public void cancelButtonAction() {
-    Stage stage = (Stage) rangeInput.getScene().getWindow();
-    Engine().deleteSelectedShape();
-    stage.close();
   }
 }
