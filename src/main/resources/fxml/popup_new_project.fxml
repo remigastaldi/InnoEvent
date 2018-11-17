@@ -5,7 +5,6 @@
 <?import javafx.scene.control.ButtonBar?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
 <AnchorPane id="AnchorPane" fx:id="anchor_root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@../dark-theme.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.inno.ui.popup.StartupPopupNewProjectViewController">
@@ -31,18 +30,10 @@
          </children>
       </AnchorPane>
       <TextField fx:id="vital_space_input" layoutX="217.0" layoutY="309.0" promptText="Vital Space" />
-      <ButtonBar cache="true" layoutY="360.0" prefHeight="40.0" prefWidth="600.0">
+      <ButtonBar cache="true" layoutY="352.0" prefHeight="48.0" prefWidth="600.0">
          <buttons>
-            <Button fx:id="cancel_button" mnemonicParsing="false" onAction="#cancelButtonAction" prefHeight="22.0" prefWidth="90.0" text="Cancel">
-               <font>
-                  <Font size="11.0" />
-               </font>
-            </Button>
-            <Button fx:id="done_button" mnemonicParsing="false" onAction="#doneButtonAction" prefHeight="22.0" prefWidth="90.0" style=": black;" text="Done" textFill="WHITE">
-               <font>
-                  <Font name="System Bold" size="11.0" />
-               </font>
-            </Button>
+            <Button fx:id="cancel_button" cancelButton="true" mnemonicParsing="false" onAction="#cancelButtonAction" prefWidth="100.0" text="Cancel" />
+            <Button fx:id="done_button" mnemonicParsing="false" onAction="#doneButtonAction" prefWidth="100.0" text="Done" />
          </buttons>
          <opaqueInsets>
             <Insets />

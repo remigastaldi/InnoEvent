@@ -16,8 +16,8 @@
       <TextField fx:id="rangeInput" layoutX="197.0" layoutY="129.0" onKeyReleased="#onKeyReleasedAction" prefHeight="29.0" prefWidth="212.0" />
       <ButtonBar layoutY="170.0" prefHeight="40.0" prefWidth="499.0">
         <buttons>
-            <Button mnemonicParsing="false" text="Cancel" />
-          <Button mnemonicParsing="false" onAction="#doneButtonAction" text="Done" />
+            <Button cancelButton="true" mnemonicParsing="false" text="Cancel" />
+          <Button fx:id="closeButton" mnemonicParsing="false" onAction="#doneButtonAction" text="Done" />
         </buttons>
          <padding>
             <Insets left="20.0" right="20.0" />

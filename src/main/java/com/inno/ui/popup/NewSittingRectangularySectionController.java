@@ -66,4 +66,9 @@ public class NewSittingRectangularySectionController extends ViewController {
     Stage stage = (Stage) rangeInput.getScene().getWindow();
     stage.close();
   }
+
+  @FXML
+  public void cancelButtonAction() {
+
+  }
 }
