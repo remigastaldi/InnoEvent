@@ -3,7 +3,7 @@
  * Author: GASTALDI Rémi
  * -----
  * Last Modified: Saturday, 17th November 2018
- * Modified By: GASTALDI Rémi
+ * Modified By: HUBERT Léo
  * -----
  * Copyright - 2018 GASTALDI Rémi
  * <<licensetext>>
@@ -33,6 +33,7 @@ import com.inno.ui.innoengine.InnoEngine;
 public class View extends Application {
 
   private Stage _mainView;
+  private Stage _popupView;
   private InnoEngine _engine = null;
 
   public View() {
@@ -74,19 +75,17 @@ public class View extends Application {
   }
 
   public void openPopup(String fxmlFileName, Object intent) {
-    Popup popup = new Popup();
-    FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/popup/" + fxmlFileName));
     try {
-      Pane scene = loader.load();
-      // loader.setController(loader.getController());
+      FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/popup/" + fxmlFileName));
+      Scene scene = new Scene(loader.load());
+      Stage stage = new Stage();
       ViewController view = loader.getController();
       view.addIntent(intent);
       view.init();
-      popup.getContent().add(scene);
-      popup.show(_mainView, 100, 300);
+      stage.setScene(scene);
+      stage.show();
     } catch (Exception e) {
       System.out.println("Error with open popup => " + e.getMessage());
-
     }
   }
 
