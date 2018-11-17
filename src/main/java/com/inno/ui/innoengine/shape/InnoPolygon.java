@@ -18,8 +18,8 @@ import  com.inno.ui.engine.shape.InteractivePolygon;
 import  javafx.scene.layout.Pane;
 import  javafx.scene.input.MouseEvent;
 
-public class IrregularSection extends InteractivePolygon {
-  public IrregularSection(Engine engine, Pane pane) {
+public class InnoPolygon extends InteractivePolygon {
+  public InnoPolygon(Engine engine, Pane pane) {
     super(engine, pane);
   }
 

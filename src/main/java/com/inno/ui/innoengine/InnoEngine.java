@@ -16,8 +16,8 @@ import com.inno.app.Core;
 import com.inno.ui.View;
 // import com.inno.ui.engine.room.StandingSection;
 import com.inno.ui.engine.Engine;
-import com.inno.ui.innoengine.shape.IrregularSection;
-import com.inno.ui.innoengine.shape.RectangularSection;
+import com.inno.ui.innoengine.shape.InnoPolygon;
+import com.inno.ui.innoengine.shape.InnoRectangle;
 
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
@@ -39,17 +39,17 @@ public class InnoEngine extends Engine {
 
   public void createIrregularSection() {
     deselect();
-    IrregularSection innoPoly = new IrregularSection(this, getPane());
+    InnoPolygon innoPoly = new InnoPolygon(this, getPane());
     innoPoly.start();
   }
 
   public void createRectangularSection() {
     deselect();
-    RectangularSection innoPoly = new RectangularSection(this, getPane());
+    InnoRectangle innoPoly = new InnoRectangle(this, getPane());
     innoPoly.start();
   }
 
   public void createScene(double[] pos) {
-    // IrregularSection
+    // InnoPolygon
   }
 }

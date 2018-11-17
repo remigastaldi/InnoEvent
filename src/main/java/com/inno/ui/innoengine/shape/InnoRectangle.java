@@ -18,8 +18,8 @@ import  com.inno.ui.engine.shape.InteractiveRectangle;
 import  javafx.scene.layout.Pane;
 import  javafx.scene.input.MouseEvent;
 
-public class RectangularSection extends InteractiveRectangle {
-  public RectangularSection(Engine engine, Pane pane) {
+public class InnoRectangle extends InteractiveRectangle {
+  public InnoRectangle(Engine engine, Pane pane) {
     super(engine, pane);
   }
 

@@ -53,13 +53,12 @@ public class MainViewController extends ViewController {
     ImmutableRoom roomData = Core().getImmutableRoom();
     ImmutableScene sceneData = Core().getImmutableScene();
 
-    _pane.setPrefSize(roomData.getWidth(), roomData.getHeight());
-
     Rectangle scene = new Rectangle(sceneData.getPositions()[0], sceneData.getPositions()[1],
                                     sceneData.getWidth(), sceneData.getHeight());
     scene.setFill(Color.CHARTREUSE);
     scene.setOpacity(0.8);
     _pane.getChildren().add(scene);
+    _pane.setPrefSize(roomData.getWidth(), roomData.getHeight());
 
     Group group = new Group(_pane);
     StackPane content = new StackPane(group);
@@ -106,8 +105,8 @@ public class MainViewController extends ViewController {
   private void  keyAction(KeyEvent evt) {
     if (evt.getText().compareTo("a") == 0)
       Engine().createIrregularSection();
-    // else if (evt.getText().compareTo("s") == 0)
-
+    else if (evt.getText().compareTo("s") == 0)
+      Engine().createRectangularSection();
   }
 
   @FXML
