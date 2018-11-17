@@ -17,7 +17,7 @@
       <ButtonBar layoutY="170.0" prefHeight="40.0" prefWidth="499.0">
         <buttons>
             <Button mnemonicParsing="false" text="Cancel" />
-          <Button mnemonicParsing="false" text="Done" />
+          <Button mnemonicParsing="false" onAction="#doneButtonAction" text="Done" />
         </buttons>
          <padding>
             <Insets left="20.0" right="20.0" />
