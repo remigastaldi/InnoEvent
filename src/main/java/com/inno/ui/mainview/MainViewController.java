@@ -3,7 +3,7 @@
  * Author: GASTALDI Rémi
  * -----
  * Last Modified: Saturday, 17th November 2018
- * Modified By: HUBERT Léo
+ * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
  * <<licensetext>>
@@ -20,6 +20,7 @@ import javafx.geometry.Point2D;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
@@ -107,6 +108,8 @@ public class MainViewController extends ViewController {
       Engine().createIrregularSection();
     else if (evt.getText().compareTo("s") == 0)
       Engine().createRectangularSection();
+    else if (evt.getCode() == KeyCode.DELETE)
+      Engine().deleteSelectedShape();
   }
 
   @FXML
