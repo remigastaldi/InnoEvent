@@ -36,21 +36,21 @@
 }
 
 .split-pane:horizontal .split-pane-divider {
-    -fx-background-color: -fx-dark;
+    -fx-background-color: -fx-light-dark;
 }
 
 
-.input {
+.text-input {
     -fx-background-color: -fx-grey;
     -fx-text-fill: -fx-light-grey;
     -fx-border-color: -fx-light-dark;
 }
 
-.input:hover {
+.text-input:hover {
     -fx-border-color: -fx-light-grey;
 }
 
-.input:focused {
+.text-input:focused {
     -fx-border-color: -fx-primary;
 }
 

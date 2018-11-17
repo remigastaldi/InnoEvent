@@ -3,12 +3,11 @@
  * Author: GASTALDI Rémi
  * -----
  * Last Modified: Saturday, 17th November 2018
- * Modified By: GASTALDI Rémi
+ * Modified By: HUBERT Léo
  * -----
  * Copyright - 2018 GASTALDI Rémi
  * <<licensetext>>
  */
-
 
 package com.inno.ui.engine.shape;
 
@@ -16,6 +15,7 @@ import java.util.ArrayList;
 
 import com.inno.app.Core;
 import com.inno.app.room.ImmutableScene;
+import com.inno.ui.View;
 import com.inno.ui.engine.Engine;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
@@ -91,7 +91,7 @@ public class InteractiveRectangle extends InteractiveShape {
         _cursor.setCenterX(newX);
         _cursor.setCenterY(newY);
         Shape element = Engine().getObjectUnderCursor(_cursor);
-        if (element != null) {          
+        if (element != null) {
           Point2D pos = Engine().getCollisionCenter(_cursor, element);
 
           pos = Pane().sceneToLocal(pos.getX(), pos.getY());
@@ -134,6 +134,7 @@ public class InteractiveRectangle extends InteractiveShape {
   }
 
   double currentX, currentY, currentWidth, currentHeight;
+
   private ObservableList<Anchor> createControlAnchorsFor() {
     ObservableList<Anchor> anchors = FXCollections.observableArrayList();
 
@@ -143,11 +144,10 @@ public class InteractiveRectangle extends InteractiveShape {
     DoubleProperty widthProperty = new SimpleDoubleProperty();
     DoubleProperty heightProperty = new SimpleDoubleProperty();
 
-
     xProperty.set(_rectangle.getX());
     yProperty.set(_rectangle.getY());
     widthProperty.set(_rectangle.getX() + _rectangle.getWidth());
-    heightProperty.set(_rectangle.getY() + _rectangle.getHeight());    
+    heightProperty.set(_rectangle.getY() + _rectangle.getHeight());
     Anchor resizeHandleRU = new Anchor(Color.GOLD, widthProperty, yProperty);
     Anchor resizeHandleLU = new Anchor(Color.GOLD, xProperty, yProperty);
     Anchor resizeHandleRD = new Anchor(Color.GOLD, widthProperty, heightProperty);
@@ -155,16 +155,15 @@ public class InteractiveRectangle extends InteractiveShape {
     resizeHandleLU.centerXProperty().addListener((ChangeListener<Number>) (ov, oldX, newX) -> {
       double width = _rectangle.getWidth() + (double) oldX - (double) newX;
       _rectangle.setWidth((double) width);
-      _rectangle.xProperty().set((double)newX);
+      _rectangle.xProperty().set((double) newX);
     });
-  
+
     resizeHandleLU.centerYProperty().addListener((ChangeListener<Number>) (ov, oldY, newY) -> {
       double ySize = _rectangle.getHeight() + (double) oldY - (double) newY;
       _rectangle.setHeight((double) ySize);
-      _rectangle.yProperty().set((double)newY);
+      _rectangle.yProperty().set((double) newY);
     });
 
-    
     resizeHandleRD.centerXProperty().addListener((ChangeListener<Number>) (ov, oldX, newX) -> {
       _rectangle.setWidth(_rectangle.getWidth() + (double) newX - (double) oldX);
     });
@@ -172,7 +171,6 @@ public class InteractiveRectangle extends InteractiveShape {
       _rectangle.setHeight(_rectangle.getHeight() + (double) newY - (double) oldY);
     });
 
-    
     widthProperty.bind(_rectangle.xProperty());
     resizeHandleRU.centerXProperty().addListener((ChangeListener<Number>) (ov, oldX, newX) -> {
       _rectangle.setWidth(_rectangle.getWidth() + (double) newX - (double) oldX);
@@ -181,33 +179,36 @@ public class InteractiveRectangle extends InteractiveShape {
       _rectangle.setHeight(_rectangle.getHeight() + (double) newY - (double) oldY);
     });
 
-    // _rectangle.yProperty().addListener((ChangeListener<Number>) (ov, oldY, y) -> {
-    //   currentY = (double) y;
-    //   // double ySize = _rectangle.getHeight() + (double) oldY - (double) y;
-    //   // _rectangle.heightProperty().set((double) ySize);
-    //   // _rectangle.yProperty().set((double) y);
-    //   // _lines.get(idj - 1 < 0 ? _lines.size() - 1 : idj - 1).setEndY((double) y);
-    //   // _lines.get(idj).setStartY((double) y);
+    // _rectangle.yProperty().addListener((ChangeListener<Number>) (ov, oldY, y) ->
+    // {
+    // currentY = (double) y;
+    // // double ySize = _rectangle.getHeight() + (double) oldY - (double) y;
+    // // _rectangle.heightProperty().set((double) ySize);
+    // // _rectangle.yProperty().set((double) y);
+    // // _lines.get(idj - 1 < 0 ? _lines.size() - 1 : idj - 1).setEndY((double) y);
+    // // _lines.get(idj).setStartY((double) y);
     // });
-    // _rectangle.widthProperty().addListener((ChangeListener<Number>) (ov, oldX, x) -> {
-    //   currentWidth = (double) x;
-    //   // double xSize = _rectangle.getWidth() + (double) oldX - (double) x;
-    //   // _rectangle.widthProperty().set((double) xSize);
-    //   // _lines.get(idj - 1 < 0 ? _lines.size() - 1 : idj - 1).setEndX((double) x);
-    //   // _lines.get(idj).setStartX((double) x);
-    // });
-    
-    // _rectangle.heightProperty().addListener((ChangeListener<Number>) (ov, oldY, y) -> {
-    //   currentHeight = (double) y;
-    //   // double ySize = _rectangle.getHeight() + (double) oldY - (double) y;
-    //   // _rectangle.heightProperty().set((double) ySize);
-    //   // _rectangle.yProperty().set((double) y);
-    //   // _lines.get(idj - 1 < 0 ? _lines.size() - 1 : idj - 1).setEndY((double) y);
-    //   // _lines.get(idj).setStartY((double) y);
+    // _rectangle.widthProperty().addListener((ChangeListener<Number>) (ov, oldX, x)
+    // -> {
+    // currentWidth = (double) x;
+    // // double xSize = _rectangle.getWidth() + (double) oldX - (double) x;
+    // // _rectangle.widthProperty().set((double) xSize);
+    // // _lines.get(idj - 1 < 0 ? _lines.size() - 1 : idj - 1).setEndX((double) x);
+    // // _lines.get(idj).setStartX((double) x);
     // });
 
-      // DoubleProperty xProperty = new SimpleDoubleProperty(points.get(i));
-      // DoubleProperty yProperty = new SimpleDoubleProperty(points.get(i + 1));
+    // _rectangle.heightProperty().addListener((ChangeListener<Number>) (ov, oldY,
+    // y) -> {
+    // currentHeight = (double) y;
+    // // double ySize = _rectangle.getHeight() + (double) oldY - (double) y;
+    // // _rectangle.heightProperty().set((double) ySize);
+    // // _rectangle.yProperty().set((double) y);
+    // // _lines.get(idj - 1 < 0 ? _lines.size() - 1 : idj - 1).setEndY((double) y);
+    // // _lines.get(idj).setStartY((double) y);
+    // });
+
+    // DoubleProperty xProperty = new SimpleDoubleProperty(points.get(i));
+    // DoubleProperty yProperty = new SimpleDoubleProperty(points.get(i + 1));
 
     anchors.add(resizeHandleLU);
     anchors.add(resizeHandleRU);
@@ -226,7 +227,6 @@ public class InteractiveRectangle extends InteractiveShape {
       setStrokeWidth(1);
       // setStrokeType(StrokeType.OUTSIDE);
 
-    
       // this.x = x;
       // this.y = y;
 
@@ -236,26 +236,28 @@ public class InteractiveRectangle extends InteractiveShape {
     }
 
     // Anchor(Color color, double x, double y,
-    //     DoubleProperty width, DoubleProperty height, DoubleProperty xProperty, DoubleProperty yProperty) {
-    //   super(_rectangle.getX() + _rectangle.getWidth(), _rectangle.getY() + _rectangle.getHeight(), 5);
-    //   setFill(color.deriveColor(1, 1, 1, 0.5));
-    //   setStroke(color);
-    //   setStrokeWidth(1);
-    //   // setStrokeType(StrokeType.OUTSIDE);
-      
-    //   // this.x = x;
-    //   // this.y = y;
-    //   width.bindBidirectional(xProperty);
-    //   height.bindBidirectional(yProperty);
-    //   enableDrag();
+    // DoubleProperty width, DoubleProperty height, DoubleProperty xProperty,
+    // DoubleProperty yProperty) {
+    // super(_rectangle.getX() + _rectangle.getWidth(), _rectangle.getY() +
+    // _rectangle.getHeight(), 5);
+    // setFill(color.deriveColor(1, 1, 1, 0.5));
+    // setStroke(color);
+    // setStrokeWidth(1);
+    // // setStrokeType(StrokeType.OUTSIDE);
+
+    // // this.x = x;
+    // // this.y = y;
+    // width.bindBidirectional(xProperty);
+    // height.bindBidirectional(yProperty);
+    // enableDrag();
     // }
 
     // public DoubleProperty getX() {
-    //   return this.x;
+    // return this.x;
     // }
 
     // public DoubleProperty getY() {
-    //   return this.y;
+    // return this.y;
     // }
 
     private void enableDrag() {
@@ -270,10 +272,10 @@ public class InteractiveRectangle extends InteractiveShape {
           Point2D pos = Engine().getCollisionCenter(_cursor, element, _group);
 
           // TODO: Collision offset
-          
+
           setCenterX(pos.getX());
           setCenterY(pos.getY());
-          
+
           // pos = _group.localToParent(pos.getX(), pos.getY());
           // Circle circle = new Circle(pos.getX(), pos.getY(), 5, Color.TRANSPARENT);
           // circle.setStroke(Color.ALICEBLUE);
@@ -284,7 +286,7 @@ public class InteractiveRectangle extends InteractiveShape {
           setCenterX(groupMouse.getX());
           setCenterY(groupMouse.getY());
         }
- 
+
         if (Engine().isObjectUnderCursor(getShape())) {
           _rectangle.setFill(Color.RED);
         } else {
@@ -334,11 +336,9 @@ public class InteractiveRectangle extends InteractiveShape {
   private void closeForm(MouseEvent event) {
     // Pane().setCursor(Cursor.HAND);
     // System.out.println("close form");
-    _rectangle = new Rectangle(event.getX(), event.getY(),
-                                        20, 20);
+    _rectangle = new Rectangle(event.getX(), event.getY(), 20, 20);
     _rectangle.setFill(Color.ROYALBLUE);
     _rectangle.setOpacity(0.7);
-
 
     enableShadhow(_rectangle);
 
@@ -349,17 +349,17 @@ public class InteractiveRectangle extends InteractiveShape {
     }
 
     // for (int i = 0; i < 4; ++i) {
-    //   Line line = new Line();
-  
-    //   line.setStrokeWidth(1.0);
-    //   line.setStroke(Color.KHAKI);
-    //   line.setVisible(false);
-    //   line.setStartX();
-    //   line.setStartY(_cursor.getCenterY());
-    //   line.setStrokeLineCap(StrokeLineCap.ROUND);
-    //   _lines.add(line);
-    //   Pane().getChildren().add(line);
-    //   addOutboundShape(line);
+    // Line line = new Line();
+
+    // line.setStrokeWidth(1.0);
+    // line.setStroke(Color.KHAKI);
+    // line.setVisible(false);
+    // line.setStartX();
+    // line.setStartY(_cursor.getCenterY());
+    // line.setStrokeLineCap(StrokeLineCap.ROUND);
+    // _lines.add(line);
+    // Pane().getChildren().add(line);
+    // addOutboundShape(line);
     // }
 
     // Line activeLine = _lines.get(_lines.size() - 1);
@@ -399,21 +399,20 @@ public class InteractiveRectangle extends InteractiveShape {
     }
     _group = new Group(nodes);
     Pane().getChildren().add(_group);
-    _group.getTransforms().add(new Rotate(Math.random() * 360 + 1,_rectangle.getX() + _rectangle.getWidth() / 2,
-                       _rectangle.getY() + _rectangle.getHeight() / 2));
+    _group.getTransforms().add(new Rotate(Math.random() * 360 + 1, _rectangle.getX() + _rectangle.getWidth() / 2,
+        _rectangle.getY() + _rectangle.getHeight() / 2));
 
     // Point2D center = Engine().getCenterOfPoints(points);
-    // _group.getTransforms().add(new Rotate(Math.random() * 360 + 1, center.getX(), center.getY()));
-    
+    // _group.getTransforms().add(new Rotate(Math.random() * 360 + 1, center.getX(),
+    // center.getY()));
 
-
-    _group.setOnMousePressed(mouseEvent -> { 
+    _group.setOnMousePressed(mouseEvent -> {
       Point2D p = Pane().sceneToLocal(mouseEvent.getSceneX(), mouseEvent.getSceneY());
 
       orgSceneX = p.getX();
       orgSceneY = p.getY();
-      orgTranslateX = ((Group)(_group)).getTranslateX();
-      orgTranslateY = ((Group)(_group)).getTranslateY();
+      orgTranslateX = ((Group) (_group)).getTranslateX();
+      orgTranslateY = ((Group) (_group)).getTranslateY();
     });
 
     EventHandler<MouseEvent> mouseDragged = mouseEvent -> {
@@ -428,7 +427,7 @@ public class InteractiveRectangle extends InteractiveShape {
         ObservableList<Transform> effect = _group.getTransforms();
         if (effect != null && effect.size() > 0)
           shape.getTransforms().add(effect.get(0));
-  
+
         Point2D p = Pane().sceneToLocal(mouseEvent.getSceneX(), mouseEvent.getSceneY());
         double offsetX = p.getX() - orgSceneX;
         double offsetY = p.getY() - orgSceneY;
@@ -466,7 +465,7 @@ public class InteractiveRectangle extends InteractiveShape {
     borderGlow.setColor(Color.GOLD);
     borderGlow.setWidth(depth);
     borderGlow.setHeight(depth);
-    
+
     shape.setEffect(borderGlow);
   }
 

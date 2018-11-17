@@ -14,7 +14,7 @@
    <AnchorPane fx:id="anchor_root" prefHeight="200.0" prefWidth="200.0">
       <children>
       
-          <Pane prefHeight="406.0" prefWidth="600.0">
+          <Pane prefHeight="406.0" prefWidth="600.0" stylesheets="@../dark-theme.css">
           <children>
                <ImageView fitHeight="94.0" fitWidth="90.0" layoutX="255.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
                   <image>

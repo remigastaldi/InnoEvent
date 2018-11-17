@@ -2,8 +2,8 @@
  * File Created: Wednesday, 10th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Friday, 16th November 2018
- * Modified By: GASTALDI Rémi
+ * Last Modified: Saturday, 17th November 2018
+ * Modified By: HUBERT Léo
  * -----
  * Copyright - 2018 GASTALDI Rémi
  * <<licensetext>>
@@ -21,8 +21,10 @@ import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.scene.Parent;
+import javafx.stage.Popup;
 import javafx.util.Duration;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.geometry.Point2D;
@@ -31,7 +33,7 @@ import com.inno.ui.innoengine.InnoEngine;
 public class View extends Application {
 
   private Stage _mainView;
-  private InnoEngine  _engine = null;
+  private InnoEngine _engine = null;
 
   public View() {
   }
@@ -40,7 +42,7 @@ public class View extends Application {
   public void start(Stage mainView) throws Exception {
     _mainView = mainView;
     // showMainView();
-     showStartupPopup();
+    showStartupPopup();
   }
 
   /**
@@ -55,13 +57,13 @@ public class View extends Application {
     }
     try {
       FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/" + fxmlFileName));
- 
+
       // Parent parent = (Parent) fxmlLoader.load();
       Scene scene = new Scene(fxmlLoader.load());
       ViewController viewController = fxmlLoader.<ViewController>getController();
       viewController.setView(this);
       viewController.init();
-      
+
       view.setTitle("InnoEvent");
       view.setScene(scene);
       view.show();
@@ -69,6 +71,20 @@ public class View extends Application {
       System.out.println("Error when load new view => " + e.getMessage());
     }
     return view;
+  }
+
+  public void openPopup(String fxmlFileName) {
+    Popup popup = new Popup();
+    FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/popup/" + fxmlFileName));
+    try {
+      Pane scene = loader.load();
+      loader.setController(loader.getController());
+      popup.getContent().add(scene);
+      popup.show(_mainView, 100, 300);
+    } catch (Exception e) {
+      System.out.println("Error with open popup => " + e.getMessage());
+
+    }
   }
 
   /**
@@ -109,7 +125,7 @@ public class View extends Application {
     Scene scene = parentContainer.getScene();
     try {
       FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/" + fxmlFileName));
-      
+
       Parent newAnchor = (Parent) fxmlLoader.load();
 
       ViewController viewController = fxmlLoader.<ViewController>getController();
@@ -120,30 +136,30 @@ public class View extends Application {
       KeyValue kv2;
 
       switch (animationTo) {
-        case LEFT:
-          newAnchor.translateXProperty().set(scene.getWidth());
-          kv = new KeyValue(newAnchor.translateXProperty(), 0, Interpolator.EASE_IN);
-          kv2 = new KeyValue(anchor_root.translateXProperty(), -scene.getWidth(), Interpolator.EASE_IN);
-          break;
-        case RIGHT:
-          newAnchor.translateXProperty().set(-scene.getWidth());
-          kv = new KeyValue(newAnchor.translateXProperty(), 0, Interpolator.EASE_IN);
-          kv2 = new KeyValue(anchor_root.translateXProperty(), scene.getWidth(), Interpolator.EASE_IN);
-          break;
-        case TOP:
-          newAnchor.translateYProperty().set(scene.getHeight());
-          kv = new KeyValue(newAnchor.translateYProperty(), 0, Interpolator.EASE_IN);
-          kv2 = new KeyValue(anchor_root.translateYProperty(), -scene.getHeight(), Interpolator.EASE_IN);
-          break;
-        case BOTTOM:
-          newAnchor.translateYProperty().set(-scene.getHeight());
-          kv = new KeyValue(newAnchor.translateYProperty(), 0, Interpolator.EASE_IN);
-          kv2 = new KeyValue(anchor_root.translateYProperty(), scene.getHeight(), Interpolator.EASE_IN);
-          break;
-        default:
-          kv = new KeyValue(newAnchor.translateXProperty(), 0, Interpolator.EASE_IN);
-          kv2 = new KeyValue(anchor_root.translateYProperty(), 0, Interpolator.EASE_IN);
-          break;
+      case LEFT:
+        newAnchor.translateXProperty().set(scene.getWidth());
+        kv = new KeyValue(newAnchor.translateXProperty(), 0, Interpolator.EASE_IN);
+        kv2 = new KeyValue(anchor_root.translateXProperty(), -scene.getWidth(), Interpolator.EASE_IN);
+        break;
+      case RIGHT:
+        newAnchor.translateXProperty().set(-scene.getWidth());
+        kv = new KeyValue(newAnchor.translateXProperty(), 0, Interpolator.EASE_IN);
+        kv2 = new KeyValue(anchor_root.translateXProperty(), scene.getWidth(), Interpolator.EASE_IN);
+        break;
+      case TOP:
+        newAnchor.translateYProperty().set(scene.getHeight());
+        kv = new KeyValue(newAnchor.translateYProperty(), 0, Interpolator.EASE_IN);
+        kv2 = new KeyValue(anchor_root.translateYProperty(), -scene.getHeight(), Interpolator.EASE_IN);
+        break;
+      case BOTTOM:
+        newAnchor.translateYProperty().set(-scene.getHeight());
+        kv = new KeyValue(newAnchor.translateYProperty(), 0, Interpolator.EASE_IN);
+        kv2 = new KeyValue(anchor_root.translateYProperty(), scene.getHeight(), Interpolator.EASE_IN);
+        break;
+      default:
+        kv = new KeyValue(newAnchor.translateXProperty(), 0, Interpolator.EASE_IN);
+        kv2 = new KeyValue(anchor_root.translateYProperty(), 0, Interpolator.EASE_IN);
+        break;
       }
 
       parentContainer.getChildren().add(newAnchor);

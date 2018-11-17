@@ -10,27 +10,27 @@
 
 <AnchorPane id="AnchorPane" fx:id="anchor_root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@../dark-theme.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.inno.ui.popup.StartupPopupNewProjectViewController">
    <children>
-      <TextField fx:id="project_name_input" layoutX="187.0" layoutY="33.0" prefHeight="37.0" prefWidth="226.0" promptText="Project Name" styleClass="input" />
+      <TextField fx:id="project_name_input" layoutX="187.0" layoutY="33.0" prefHeight="37.0" prefWidth="226.0" promptText="Project Name" />
       <AnchorPane layoutX="139.0" layoutY="70.0" prefHeight="132.0" prefWidth="323.0">
          <children>
             <Text fill="WHITE" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Room : " />
-            <TextField fx:id="room_width_input" layoutX="75.0" layoutY="31.0" promptText="Room Width" styleClass="input" />
+            <TextField fx:id="room_width_input" layoutX="75.0" layoutY="31.0" promptText="Room Width" />
             <Text fill="WHITE" layoutX="24.0" layoutY="88.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Height " />
             <Text fill="WHITE" layoutX="26.0" layoutY="50.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Width " />
-            <TextField fx:id="room_height_input" layoutX="75.0" layoutY="69.0" promptText="Room Height" styleClass="input" />
+            <TextField fx:id="room_height_input" layoutX="75.0" layoutY="69.0" promptText="Room Height" />
          </children>
       </AnchorPane>
       <Text fill="WHITE" layoutX="134.0" layoutY="327.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Vital Space " />
       <AnchorPane layoutX="139.0" layoutY="177.0" prefHeight="132.0" prefWidth="323.0">
          <children>
             <Text fill="WHITE" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Scene : " />
-            <TextField fx:id="scene_width_input" layoutX="75.0" layoutY="31.0" promptText="Room Width" styleClass="input" />
-            <TextField fx:id="scene_height_input" layoutX="75.0" layoutY="69.0" promptText="Room Height" styleClass="input" />
+            <TextField fx:id="scene_width_input" layoutX="75.0" layoutY="31.0" promptText="Room Width" />
+            <TextField fx:id="scene_height_input" layoutX="75.0" layoutY="69.0" promptText="Room Height" />
             <Text fill="WHITE" layoutX="24.0" layoutY="88.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Height " />
             <Text fill="WHITE" layoutX="26.0" layoutY="50.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Width " />
          </children>
       </AnchorPane>
-      <TextField fx:id="vital_space_input" layoutX="217.0" layoutY="309.0" promptText="Vital Space" styleClass="input" />
+      <TextField fx:id="vital_space_input" layoutX="217.0" layoutY="309.0" promptText="Vital Space" />
       <ButtonBar cache="true" layoutY="360.0" prefHeight="40.0" prefWidth="600.0">
          <buttons>
             <Button fx:id="cancel_button" mnemonicParsing="false" onAction="#cancelButtonAction" prefHeight="22.0" prefWidth="90.0" text="Cancel">
