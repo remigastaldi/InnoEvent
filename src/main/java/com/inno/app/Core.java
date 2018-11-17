@@ -2,7 +2,7 @@
  * File Created: Tuesday, 9th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Friday, 16th November 2018
+ * Last Modified: Saturday, 17th November 2018
  * Modified By: MAREL Maud
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -84,5 +84,33 @@ public class Core {
     this._room.setScenePositions(positions);
   }
 
+  //Section methods
+  public void setSectionName(String idSection, String name) {
+    this._room.setSectionId(idSection, name);
+  }
 
+  public void setSectionElevation(String idSection, double elevation) {
+    this._room.setSectionElevation(idSection, elevation);
+  }
+
+  public void updateSectionPositions(String idSection, double[] positions) {
+    this._room.updateSectionPositions(idSection, positions);
+  }
+
+  public void deleteSection(String idSection) {
+    this._room.deleteSection(idSection);
+  }
+
+    //standingSection Methods
+  public ImmutableStandingSection createStandingSection(double elevation, int nbPeople, double[] positions) {
+    return this._room.createStandingSection(elevation, nbPeople, positions);
+  }
+
+  /*public ImmutableStandingSection getImmutableStandingSection(int idSection) {
+    return this;
+  }*/
+
+  public void setStandingNbPeople(String idSection, int nbPeople) {
+    this._room.setStandingNbPeople(idSection, nbPeople);
+  }
 };
