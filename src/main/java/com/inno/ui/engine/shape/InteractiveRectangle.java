@@ -140,84 +140,96 @@ public class InteractiveRectangle extends InteractiveShape {
     // top left resize handle:
     DoubleProperty xProperty = new SimpleDoubleProperty();
     DoubleProperty yProperty = new SimpleDoubleProperty();
-    DoubleProperty widthProperty = new SimpleDoubleProperty();
-    DoubleProperty heightProperty = new SimpleDoubleProperty();
+    DoubleProperty maxXPropertyU = new SimpleDoubleProperty();
+    DoubleProperty maxXPropertyD = new SimpleDoubleProperty();
+    DoubleProperty maxYProperty = new SimpleDoubleProperty();
 
     xProperty.set(_rectangle.getX());
     yProperty.set(_rectangle.getY());
-    widthProperty.set(_rectangle.getX() + _rectangle.getWidth());
-    heightProperty.set(_rectangle.getY() + _rectangle.getHeight());
-    Anchor resizeHandleRU = new Anchor(Color.GOLD, widthProperty, yProperty);
-    Anchor resizeHandleRD = new Anchor(Color.GOLD, widthProperty, heightProperty);
+    maxXPropertyU.set(_rectangle.getX() + _rectangle.getWidth());
+    maxXPropertyD.set(_rectangle.getX() + _rectangle.getWidth());
+    maxYProperty.set(_rectangle.getY() + _rectangle.getHeight());
     Anchor resizeHandleLU = new Anchor(Color.GOLD, xProperty, yProperty);
-    Anchor resizeHandleLD = new Anchor(Color.GOLD, xProperty, heightProperty);
+    Anchor resizeHandleRU = new Anchor(Color.GOLD, maxXPropertyU, yProperty);
+    Anchor resizeHandleRD = new Anchor(Color.GOLD, maxXPropertyD, maxYProperty);
+    Anchor resizeHandleLD = new Anchor(Color.GOLD, xProperty, maxYProperty);
 
     resizeHandleLU.centerXProperty().addListener((ChangeListener<Number>) (ov, oldX, newX) -> {
-      double width = _rectangle.getWidth() + (double) oldX - (double) newX;
-      _rectangle.setWidth((double) width);
+      xProperty.set((double) newX);
+      _rectangle.setWidth(_rectangle.getWidth() + (double) oldX - (double) newX);
       _rectangle.setX((double) newX);
     });
-
     resizeHandleLU.centerYProperty().addListener((ChangeListener<Number>) (ov, oldY, newY) -> {
-      double ySize = _rectangle.getHeight() + (double) oldY - (double) newY;
-      _rectangle.setHeight((double) ySize);
+      yProperty.set((double) newY);
+      _rectangle.setHeight(_rectangle.getHeight() + (double) oldY - (double) newY);
       _rectangle.setY((double) newY);
     });
 
     resizeHandleRU.centerXProperty().addListener((ChangeListener<Number>) (ov, oldX, newX) -> {
+      maxXPropertyD.set((double) newX);
       _rectangle.setWidth(_rectangle.getWidth() + (double) newX - (double) oldX);
     });
     resizeHandleRU.centerYProperty().addListener((ChangeListener<Number>) (ov, oldY, newY) -> {
-      _rectangle.setHeight(_rectangle.getHeight() + (double) oldY - (double) newY);
-      _rectangle.setY((double) newY);
+      // maxYProperty.set(_rectangle.getHeight() + (double) oldY - (double) newY);
+      // _rectangle.setHeight(_rectangle.getHeight() + (double) oldY - (double) newY);
+      // yProperty.set((double) newY);
+      // _rectangle.setY((double) newY);
     });
 
     resizeHandleRD.centerXProperty().addListener((ChangeListener<Number>) (ov, oldX, newX) -> {
-      _rectangle.setWidth(_rectangle.getWidth() + (double) newX - (double) oldX);
+      maxXPropertyU.set((double) newX);
+      // _rectangle.setWidth(_rectangle.getWidth() + (double) newX - (double) oldX);
     });
     resizeHandleRD.centerYProperty().addListener((ChangeListener<Number>) (ov, oldY, newY) -> {
+      maxYProperty.set((double) newY);
       _rectangle.setHeight(_rectangle.getHeight() + (double) newY - (double) oldY);
     });
 
-    resizeHandleRU.centerXProperty().addListener((ChangeListener<Number>) (ov, oldX, newX) -> {
-      _rectangle.setWidth(_rectangle.getWidth() + (double) newX - (double) oldX);
-    });
-    resizeHandleRU.centerYProperty().addListener((ChangeListener<Number>) (ov, oldY, newY) -> {
-      _rectangle.setHeight(_rectangle.getHeight() + (double) oldY - (double) newY);
-      _rectangle.setY((double) newY);
-    });
+    // resizeHandleRU.centerXProperty().addListener((ChangeListener<Number>) (ov, oldX, newX) -> {
+    //   maxXProperty.set(_rectangle.getWidth() + (double) newX - (double) oldX);
+    //   // _rectangle.setWidth(_rectangle.getWidth() + (double) newX - (double) oldX);
+    // });
+    // resizeHandleRU.centerYProperty().addListener((ChangeListener<Number>) (ov, oldY, newY) -> {
+    //   maxYProperty.set(_rectangle.getHeight() + (double) oldY - (double) newY);
+    //   yProperty.set((double) newY);
+    //   // _rectangle.setHeight(_rectangle.getHeight() + (double) oldY - (double) newY);
+    //   // _rectangle.setY((double) newY);
+    // });
 
-    resizeHandleLD.centerXProperty().addListener((ChangeListener<Number>) (ov, oldX, newX) -> {
-      _rectangle.setX((double) newX);
-      _rectangle.setWidth((double) _rectangle.getWidth() + (double) oldX - (double) newX);
-    });
-    resizeHandleLD.centerYProperty().addListener((ChangeListener<Number>) (ov, oldY, newY) -> {
-      _rectangle.setHeight(_rectangle.getHeight() + (double) newY - (double) oldY);
-    });
+    // resizeHandleLD.centerXProperty().addListener((ChangeListener<Number>) (ov, oldX, newX) -> {
+    //   maxXProperty.set(_rectangle.getWidth() + (double) oldX - (double) newX);
+    //   xProperty.set((double) newX);
+    //   // _rectangle.setWidth((double) _rectangle.getWidth() + (double) oldX - (double) newX);
+    //   // _rectangle.setX((double) newX);
+    // });
+    // resizeHandleLD.centerYProperty().addListener((ChangeListener<Number>) (ov, oldY, newY) -> {
+    //   maxYProperty.set(_rectangle.getHeight() + (double) newY - (double) oldY);
+    //   // _rectangle.setHeight(_rectangle.getHeight() + (double) newY - (double) oldY);
+    // });
 
     // _rectangle.yProperty().addListener((ChangeListener<Number>) (ov, oldY, y) ->
     // {
     // currentY = (double) y;
     // // double ySize = _rectangle.getHeight() + (double) oldY - (double) y;
-    // // _rectangle.heightProperty().set((double) ySize);
+    // // _rectangle.maxYProperty().set((double) ySize);
     // // _rectangle.yProperty().set((double) y);
     // // _lines.get(idj - 1 < 0 ? _lines.size() - 1 : idj - 1).setEndY((double) y);
     // // _lines.get(idj).setStartY((double) y);
     // });
-    // _rectangle.widthProperty().addListener((ChangeListener<Number>) (ov, oldX, x)
+    // _rectangle.maxXProperty().addListener((ChangeListener<Number>) (ov, oldX, x)
     // -> {
     // currentWidth = (double) x;
     // // double xSize = _rectangle.getWidth() + (double) oldX - (double) x;
-    // // _rectangle.widthProperty().set((double) xSize);
+    // // _rectangle.maxXProperty().set((double) xSize);
     // // _lines.get(idj - 1 < 0 ? _lines.size() - 1 : idj - 1).setEndX((double) x);
     // // _lines.get(idj).setStartX((double) x);
     // });
 
-    // _rectangle.heightProperty().addListener((ChangeListener<Number>) (ov, oldY,
+    // _rectangle.maxYProperty().addListener((ChangeListener<Number>) (ov, oldY,
     // y) -> {
     // currentHeight = (double) y;
     // // double ySize = _rectangle.getHeight() + (double) oldY - (double) y;
-    // // _rectangle.heightProperty().set((double) ySize);
+    // // _rectangle.maxYProperty().set((double) ySize);
     // // _rectangle.yProperty().set((double) y);
     // // _lines.get(idj - 1 < 0 ? _lines.size() - 1 : idj - 1).setEndY((double) y);
     // // _lines.get(idj).setStartY((double) y);
@@ -247,8 +259,10 @@ public class InteractiveRectangle extends InteractiveShape {
       // this.x = x;
       // this.y = y;
 
-      x.bind(centerXProperty());
-      y.bind(centerYProperty());
+      centerXProperty().bindBidirectional(x);
+      centerYProperty().bindBidirectional(y);
+      // x.bind(centerXProperty());
+      // y.bind(centerYProperty());
       enableDrag();
     }
 
@@ -433,7 +447,7 @@ public class InteractiveRectangle extends InteractiveShape {
     _group = new Group(nodes);
     Pane().getChildren().add(_group);
     // _group.getTransforms().add(new Rotate(Math.random() * 360 + 1, _rectangle.getX() + _rectangle.getWidth() / 2,
-    //     _rectangle.getY() + _rectangle.getHeight() / 2));
+        // _rectangle.getY() + _rectangle.getHeight() / 2));
 
     // Point2D center = Engine().getCenterOfPoints(points);
     // _group.getTransforms().add(new Rotate(Math.random() * 360 + 1, center.getX(),
