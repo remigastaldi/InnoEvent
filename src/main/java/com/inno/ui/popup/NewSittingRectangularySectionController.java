@@ -3,7 +3,7 @@
  * Author: GASTALDI Rémi
  * -----
  * Last Modified: Saturday, 17th November 2018
- * Modified By: HUBERT Léo
+ * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
  * <<licensetext>>
@@ -69,6 +69,8 @@ public class NewSittingRectangularySectionController extends ViewController {
 
   @FXML
   public void cancelButtonAction() {
-
+    Stage stage = (Stage) rangeInput.getScene().getWindow();
+    Engine().deleteSelectedShape();
+    stage.close();
   }
 }

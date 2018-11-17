@@ -51,6 +51,7 @@ public abstract class InteractiveShape {
 
   public abstract void start();
   public abstract void deselect();
+  public abstract void destroy();
   public abstract Shape getShape();
 
   protected void addOutboundShape(Shape shape) {

@@ -234,5 +234,12 @@ public class Engine {
     double air = (sum1 / 2);
     return new Point2D((sum2 / (6 * air)), (sum3 / (6 * air)));
   }
+
+  public void deleteSelectedShape() {
+    if (_selectedShape == null)
+      return;
+    _selectedShape.destroy();
+    _selectedShape = null;
+  }
 }
 

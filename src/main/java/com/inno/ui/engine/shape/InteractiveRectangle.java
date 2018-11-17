@@ -153,7 +153,7 @@ public class InteractiveRectangle extends InteractiveShape {
     Anchor resizeHandleRU = new Anchor(Color.GOLD, maxXPropertyU, yProperty);
     Anchor resizeHandleRD = new Anchor(Color.GOLD, maxXPropertyD, maxYProperty);
     Anchor resizeHandleLD = new Anchor(Color.GOLD, xProperty, maxYProperty);
-
+    
     resizeHandleLU.centerXProperty().addListener((ChangeListener<Number>) (ov, oldX, newX) -> {
       xProperty.set((double) newX);
       _rectangle.setWidth(_rectangle.getWidth() + (double) oldX - (double) newX);
@@ -170,73 +170,15 @@ public class InteractiveRectangle extends InteractiveShape {
       _rectangle.setWidth(_rectangle.getWidth() + (double) newX - (double) oldX);
     });
     resizeHandleRU.centerYProperty().addListener((ChangeListener<Number>) (ov, oldY, newY) -> {
-      // maxYProperty.set(_rectangle.getHeight() + (double) oldY - (double) newY);
-      // _rectangle.setHeight(_rectangle.getHeight() + (double) oldY - (double) newY);
-      // yProperty.set((double) newY);
-      // _rectangle.setY((double) newY);
     });
 
     resizeHandleRD.centerXProperty().addListener((ChangeListener<Number>) (ov, oldX, newX) -> {
       maxXPropertyU.set((double) newX);
-      // _rectangle.setWidth(_rectangle.getWidth() + (double) newX - (double) oldX);
     });
     resizeHandleRD.centerYProperty().addListener((ChangeListener<Number>) (ov, oldY, newY) -> {
       maxYProperty.set((double) newY);
       _rectangle.setHeight(_rectangle.getHeight() + (double) newY - (double) oldY);
     });
-
-    // resizeHandleRU.centerXProperty().addListener((ChangeListener<Number>) (ov, oldX, newX) -> {
-    //   maxXProperty.set(_rectangle.getWidth() + (double) newX - (double) oldX);
-    //   // _rectangle.setWidth(_rectangle.getWidth() + (double) newX - (double) oldX);
-    // });
-    // resizeHandleRU.centerYProperty().addListener((ChangeListener<Number>) (ov, oldY, newY) -> {
-    //   maxYProperty.set(_rectangle.getHeight() + (double) oldY - (double) newY);
-    //   yProperty.set((double) newY);
-    //   // _rectangle.setHeight(_rectangle.getHeight() + (double) oldY - (double) newY);
-    //   // _rectangle.setY((double) newY);
-    // });
-
-    // resizeHandleLD.centerXProperty().addListener((ChangeListener<Number>) (ov, oldX, newX) -> {
-    //   maxXProperty.set(_rectangle.getWidth() + (double) oldX - (double) newX);
-    //   xProperty.set((double) newX);
-    //   // _rectangle.setWidth((double) _rectangle.getWidth() + (double) oldX - (double) newX);
-    //   // _rectangle.setX((double) newX);
-    // });
-    // resizeHandleLD.centerYProperty().addListener((ChangeListener<Number>) (ov, oldY, newY) -> {
-    //   maxYProperty.set(_rectangle.getHeight() + (double) newY - (double) oldY);
-    //   // _rectangle.setHeight(_rectangle.getHeight() + (double) newY - (double) oldY);
-    // });
-
-    // _rectangle.yProperty().addListener((ChangeListener<Number>) (ov, oldY, y) ->
-    // {
-    // currentY = (double) y;
-    // // double ySize = _rectangle.getHeight() + (double) oldY - (double) y;
-    // // _rectangle.maxYProperty().set((double) ySize);
-    // // _rectangle.yProperty().set((double) y);
-    // // _lines.get(idj - 1 < 0 ? _lines.size() - 1 : idj - 1).setEndY((double) y);
-    // // _lines.get(idj).setStartY((double) y);
-    // });
-    // _rectangle.maxXProperty().addListener((ChangeListener<Number>) (ov, oldX, x)
-    // -> {
-    // currentWidth = (double) x;
-    // // double xSize = _rectangle.getWidth() + (double) oldX - (double) x;
-    // // _rectangle.maxXProperty().set((double) xSize);
-    // // _lines.get(idj - 1 < 0 ? _lines.size() - 1 : idj - 1).setEndX((double) x);
-    // // _lines.get(idj).setStartX((double) x);
-    // });
-
-    // _rectangle.maxYProperty().addListener((ChangeListener<Number>) (ov, oldY,
-    // y) -> {
-    // currentHeight = (double) y;
-    // // double ySize = _rectangle.getHeight() + (double) oldY - (double) y;
-    // // _rectangle.maxYProperty().set((double) ySize);
-    // // _rectangle.yProperty().set((double) y);
-    // // _lines.get(idj - 1 < 0 ? _lines.size() - 1 : idj - 1).setEndY((double) y);
-    // // _lines.get(idj).setStartY((double) y);
-    // });
-
-    // DoubleProperty xProperty = new SimpleDoubleProperty(points.get(i));
-    // DoubleProperty yProperty = new SimpleDoubleProperty(points.get(i + 1));
 
     anchors.add(resizeHandleLU);
     anchors.add(resizeHandleRU);
@@ -520,4 +462,8 @@ public class InteractiveRectangle extends InteractiveShape {
     shape.setEffect(null);
   }
 
+  public void destroy() {
+    System.out.println("DELETE");
+    Pane().getChildren().remove(_group);
+  }
 }

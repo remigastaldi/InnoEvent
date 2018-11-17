@@ -3,7 +3,7 @@
  * Author: GASTALDI Rémi
  * -----
  * Last Modified: Saturday, 17th November 2018
- * Modified By: HUBERT Léo
+ * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
  * <<licensetext>>
@@ -76,6 +76,7 @@ public class View extends Application {
       Scene scene = new Scene(loader.load());
       Stage stage = new Stage();
       ViewController view = loader.getController();
+      view.setView(this);
       view.addIntent(intent);
       view.init();
       stage.setScene(scene);

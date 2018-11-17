@@ -422,12 +422,16 @@ public class InteractivePolygon extends InteractiveShape {
     for (Shape selectShape : getSelectShapes()) {
       selectShape.setVisible(false);
     }
-
+    
     disableShadow(_polygon);
     System.out.println("DESELECTED");
   }
-
+  
   public Shape getShape() {
     return _polygon;
+  }
+
+  public void destroy() {
+    Pane().getChildren().remove(_group);
   }
 }
