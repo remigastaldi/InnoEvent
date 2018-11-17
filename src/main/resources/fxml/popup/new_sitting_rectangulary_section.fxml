@@ -12,8 +12,8 @@
       <Text layoutX="56.0" layoutY="134.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: -fx-light-grey;" text="Number of columns" wrappingWidth="135.2060546875" />
       <Text layoutX="56.0" layoutY="173.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: -fx-light-grey;" text="Number of range" wrappingWidth="135.2060617171228" />
       <Text layoutX="56.0" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" style="-fx-fill: -fx-light-grey;" text="Un message d'amour enver l'utilisateur pour lui dire quoi faire avec cette magnifique popup en armamonie avec notre projet  ( Maud je me moque des fôte ) " textAlignment="CENTER" wrappingWidth="386.2060546875" />
-      <TextField layoutX="191.0" layoutY="116.0" prefHeight="29.0" prefWidth="212.0" />
-      <TextField layoutX="191.0" layoutY="155.0" prefHeight="29.0" prefWidth="212.0" />
+      <TextField fx:id="columnsInput" layoutX="191.0" layoutY="116.0" onKeyPressed="#onKeyPressedAction" prefHeight="29.0" prefWidth="212.0" />
+      <TextField fx:id="rangeInput" layoutX="191.0" layoutY="155.0" onKeyPressed="#onKeyPressedAction" prefHeight="29.0" prefWidth="212.0" />
       <ButtonBar layoutY="245.0" prefHeight="40.0" prefWidth="499.0">
         <buttons>
             <Button mnemonicParsing="false" text="Cancel" />

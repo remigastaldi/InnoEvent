@@ -121,7 +121,7 @@ public class MainViewController extends ViewController {
 
   @FXML
   private void openSection() {
-    Engine().createRectangularSection();
+    View().openPopup("new_sitting_rectangulary_section.fxml");    
     View().setSidebarFromFxmlFileName("sidebar_section.fxml", sidebar_anchor);
   }
 
