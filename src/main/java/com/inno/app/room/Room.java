@@ -2,7 +2,7 @@
  * File Created: Friday, 12th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Thursday, 15th November 2018
+ * Last Modified: Saturday, 17th November 2018
  * Modified By: MAREL Maud
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -11,7 +11,8 @@
 
 package com.inno.app.room;
 
-//import java.util.HashMap;
+import java.util.HashMap;
+import java.util.ArrayList;
 
 public class Room implements ImmutableRoom {
     
@@ -19,13 +20,16 @@ public class Room implements ImmutableRoom {
     private double _height;
     private double _width;
     private Scene _scene;
-    //private HashMap<Integer, SittingSection> _sittingSections = new HashMap();
-    //private HashMap<Integer, StandingSection> _standingSections = new HashMap();
+    private HashMap<String, SittingSection> _sittingSections = new HashMap<String, SittingSection>();
+    private HashMap<String, StandingSection> _standingSections = new HashMap<String, StandingSection>();
+    private ArrayList<Integer> _idSection = new ArrayList<Integer>();
+    private Integer _idSectionMax;
     
     public Room(String name, double height, double width) {
         this._name = name;
         this._height = height;
         this._width = width;
+        this._idSectionMax = 0;
     }
 
     // Room Methods
@@ -80,5 +84,66 @@ public class Room implements ImmutableRoom {
 
     public ImmutableScene getImmutableScene() {
         return this._scene;
+    }
+
+    //Section Methods
+    public Section getSectionById(String idSection) {
+        Section section;
+        if ((section = this._sittingSections.get(idSection)) != null) {
+            return section;
+        }
+        else if ((section = this._standingSections.get(idSection)) != null) {
+            return section;
+        }
+        return section;
+    }
+
+    public void setSectionId(String oldIdSection, String newIdSection) {
+        Section section = getSectionById(oldIdSection);
+        section.setIdSection(newIdSection);
+    }
+
+    public void setSectionElevation(String idSection, double elevation) {
+        Section section = getSectionById(idSection);
+        section.setElevation(elevation);
+    }
+
+    public void updateSectionPositions(String idSection, double[] positions) {
+        Section section = getSectionById(idSection);
+        section.updatePosition(positions);
+    }
+
+    public void deleteSection(String idSection) {
+        this._sittingSections.remove(idSection);
+        this._standingSections.remove(idSection);
+    }
+
+    public String findFreeId() {
+        int idSection = 0;
+
+        if (this._idSection.size() != 0) {
+            idSection = this._idSection.remove(0);
+        }
+        else {
+            this._idSectionMax += 1;
+            idSection = this._idSectionMax;
+        }
+        return Integer.toString(idSection);
+    }
+
+        //standingSection Methods
+    public ImmutableStandingSection createStandingSection(double elevation, int nbPeople, double[] positions) {
+        String id = findFreeId();
+        StandingSection standingSection = new StandingSection(id, elevation, positions, nbPeople);
+        return standingSection;
+    }
+
+    /*public ImmutableStandingSection getImmutableStandingSection(int idSection) {
+
+    }*/
+
+    public void setStandingNbPeople(String idSection, int nbPeople) {
+        StandingSection standingSection = this._standingSections.get(idSection);
+        standingSection.setNbPeople(nbPeople);
     }
 }

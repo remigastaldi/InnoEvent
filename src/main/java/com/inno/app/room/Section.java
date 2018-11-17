@@ -2,7 +2,7 @@
  * File Created: Tuesday, 13th November 2018
  * Author: MAREL Maud
  * -----
- * Last Modified: Thursday, 15th November 2018
+ * Last Modified: Friday, 16th November 2018
  * Modified By: MAREL Maud
  * -----
  * Copyright - 2018 MAREL Maud
@@ -13,43 +13,37 @@ package com.inno.app.room;
 
 public class Section implements ImmutableSection {
 
-  private String _name;
+  private String _idSection;
   private double _elevation;
-  private int _idSection;
-  private double[] _points; //[3...*]
+  private double[] _positions; //[3...*]
 
-  public Section(String name, double elevation, int idSection, double[] points) {
-    this._name = name;
-    this._elevation = elevation;
+  public Section(String idSection, double elevation, double[] positions) {
     this._idSection = idSection;
-    this._points = points;
+    this._elevation = elevation;
+    this._positions = positions;
   }
 
-  public void setIdSection() {
-    //A FAIRE
-  }
-
-  public void setName(String name) {
-    this._name = name;
+  public void setIdSection(String idSection) {
+    this._idSection = idSection;
   }
 
   public void setElevation(double elevation) {
     this._elevation = elevation;
   }
 
-  public void updatePosition(double[] points) {
-    this._points = points;
+  public void updatePosition(double[] positions) {
+    this._positions = positions;
   }
 
-  public String getName() {
-    return this._name;
+  public String getIdSection() {
+    return this._idSection;
   }
 
   public double getElevation() {
     return this._elevation;
   }
 
-  public double[] getPoints() {
-    return this._points;
+  public double[] getPositions() {
+    return this._positions;
   }
 }
