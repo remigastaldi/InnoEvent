@@ -3,7 +3,7 @@
  * Author: GASTALDI Rémi
  * -----
  * Last Modified: Saturday, 17th November 2018
- * Modified By: GASTALDI Rémi
+ * Modified By: HUBERT Léo
  * -----
  * Copyright - 2018 GASTALDI Rémi
  * <<licensetext>>
@@ -80,6 +80,7 @@ public class View extends Application {
       view.addIntent(intent);
       view.init();
       stage.setScene(scene);
+      stage.setAlwaysOnTop(true);
       stage.show();
     } catch (Exception e) {
       System.out.println("Error with open popup => " + e.getMessage());
