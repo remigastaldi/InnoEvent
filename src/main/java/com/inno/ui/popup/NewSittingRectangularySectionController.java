@@ -38,8 +38,8 @@ public class NewSittingRectangularySectionController extends ViewController {
 
     @FXML
     public void onKeyPressedAction() {
-        System.out.println(rangeInput.getText());
-        System.out.println(columnsInput.getText());
+        System.out.println(Double.parseDouble(rangeInput.getText()));
+        System.out.println(Double.parseDouble(columnsInput.getText()));
     }
    
   }
