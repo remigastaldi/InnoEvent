@@ -3,7 +3,7 @@
  * Author: GASTALDI Rémi
  * -----
  * Last Modified: Saturday, 17th November 2018
- * Modified By: HUBERT Léo
+ * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
  * <<licensetext>>
@@ -117,11 +117,10 @@ public class InteractiveRectangle extends InteractiveShape {
       }
     };
     EventHandler<MouseEvent> mouseReleasedEvent = event -> {
+      if (_collisionDetected)
+        return;
+      closeForm(event);
       if (onMouseReleased(event)) {
-        if (_collisionDetected)
-          return;
-        // ImmutableScene sceneData = Core.get().getImmutableScene();
-        closeForm(event);
       }
     };
 
@@ -152,32 +151,32 @@ public class InteractiveRectangle extends InteractiveShape {
     Anchor resizeHandleLU = new Anchor(Color.GOLD, xProperty, yProperty);
     Anchor resizeHandleRD = new Anchor(Color.GOLD, widthProperty, heightProperty);
 
-    resizeHandleLU.centerXProperty().addListener((ChangeListener<Number>) (ov, oldX, newX) -> {
-      double width = _rectangle.getWidth() + (double) oldX - (double) newX;
-      _rectangle.setWidth((double) width);
-      _rectangle.xProperty().set((double) newX);
-    });
+    // resizeHandleLU.centerXProperty().addListener((ChangeListener<Number>) (ov, oldX, newX) -> {
+    //   double width = _rectangle.getWidth() + (double) oldX - (double) newX;
+    //   _rectangle.setWidth((double) width);
+    //   _rectangle.xProperty().set((double) newX);
+    // });
 
-    resizeHandleLU.centerYProperty().addListener((ChangeListener<Number>) (ov, oldY, newY) -> {
-      double ySize = _rectangle.getHeight() + (double) oldY - (double) newY;
-      _rectangle.setHeight((double) ySize);
-      _rectangle.yProperty().set((double) newY);
-    });
+    // resizeHandleLU.centerYProperty().addListener((ChangeListener<Number>) (ov, oldY, newY) -> {
+    //   double ySize = _rectangle.getHeight() + (double) oldY - (double) newY;
+    //   _rectangle.setHeight((double) ySize);
+    //   _rectangle.yProperty().set((double) newY);
+    // });
 
-    resizeHandleRD.centerXProperty().addListener((ChangeListener<Number>) (ov, oldX, newX) -> {
-      _rectangle.setWidth(_rectangle.getWidth() + (double) newX - (double) oldX);
-    });
-    resizeHandleRD.centerYProperty().addListener((ChangeListener<Number>) (ov, oldY, newY) -> {
-      _rectangle.setHeight(_rectangle.getHeight() + (double) newY - (double) oldY);
-    });
+    // resizeHandleRD.centerXProperty().addListener((ChangeListener<Number>) (ov, oldX, newX) -> {
+    //   _rectangle.setWidth(_rectangle.getWidth() + (double) newX - (double) oldX);
+    // });
+    // resizeHandleRD.centerYProperty().addListener((ChangeListener<Number>) (ov, oldY, newY) -> {
+    //   _rectangle.setHeight(_rectangle.getHeight() + (double) newY - (double) oldY);
+    // });
 
-    widthProperty.bind(_rectangle.xProperty());
-    resizeHandleRU.centerXProperty().addListener((ChangeListener<Number>) (ov, oldX, newX) -> {
-      _rectangle.setWidth(_rectangle.getWidth() + (double) newX - (double) oldX);
-    });
-    resizeHandleRU.centerYProperty().addListener((ChangeListener<Number>) (ov, oldY, newY) -> {
-      _rectangle.setHeight(_rectangle.getHeight() + (double) newY - (double) oldY);
-    });
+    // widthProperty.bind(_rectangle.xProperty());
+    // resizeHandleRU.centerXProperty().addListener((ChangeListener<Number>) (ov, oldX, newX) -> {
+    //   _rectangle.setWidth(_rectangle.getWidth() + (double) newX - (double) oldX);
+    // });
+    // resizeHandleRU.centerYProperty().addListener((ChangeListener<Number>) (ov, oldY, newY) -> {
+    //   _rectangle.setHeight(_rectangle.getHeight() + (double) newY - (double) oldY);
+    // });
 
     // _rectangle.yProperty().addListener((ChangeListener<Number>) (ov, oldY, y) ->
     // {
@@ -210,9 +209,9 @@ public class InteractiveRectangle extends InteractiveShape {
     // DoubleProperty xProperty = new SimpleDoubleProperty(points.get(i));
     // DoubleProperty yProperty = new SimpleDoubleProperty(points.get(i + 1));
 
-    anchors.add(resizeHandleLU);
-    anchors.add(resizeHandleRU);
-    anchors.add(resizeHandleRD);
+    // anchors.add(resizeHandleLU);
+    // anchors.add(resizeHandleRU);
+    // anchors.add(resizeHandleRD);
 
     return anchors;
   }
@@ -330,6 +329,22 @@ public class InteractiveRectangle extends InteractiveShape {
     _rectangle.setHeight(height);
   }
 
+  public void setWidth(double width) {
+    _rectangle.setWidth(width);
+  }
+
+  public void setHeight(double height) {
+    _rectangle.setHeight(height);
+  }
+
+  public double getWidth() {
+    return _rectangle.getWidth();
+  }
+
+  public double getHeight() {
+    return _rectangle.getHeight();
+  }
+
   double orgSceneX, orgSceneY;
   double orgTranslateX, orgTranslateY;
 
@@ -399,8 +414,8 @@ public class InteractiveRectangle extends InteractiveShape {
     }
     _group = new Group(nodes);
     Pane().getChildren().add(_group);
-    _group.getTransforms().add(new Rotate(Math.random() * 360 + 1, _rectangle.getX() + _rectangle.getWidth() / 2,
-        _rectangle.getY() + _rectangle.getHeight() / 2));
+    // _group.getTransforms().add(new Rotate(Math.random() * 360 + 1, _rectangle.getX() + _rectangle.getWidth() / 2,
+    //     _rectangle.getY() + _rectangle.getHeight() / 2));
 
     // Point2D center = Engine().getCenterOfPoints(points);
     // _group.getTransforms().add(new Rotate(Math.random() * 360 + 1, center.getX(),

@@ -2,7 +2,7 @@
  * File Created: Friday, 12th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Friday, 16th November 2018
+ * Last Modified: Saturday, 17th November 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -29,10 +29,12 @@ import javafx.geometry.Point2D;
 public class InnoEngine extends Engine {
   // TEST
   String statut = "";
+  View _view = null;
 
   public InnoEngine(View view, Pane pane) {
     super(pane);
 
+    _view = view;
     setBackgroundColor(Color.valueOf("#282C34"));
     activateGrid(true);
   }
@@ -51,5 +53,9 @@ public class InnoEngine extends Engine {
 
   public void createScene(double[] pos) {
     // InnoPolygon
+  }
+
+  public View getView() {
+    return _view;
   }
 }

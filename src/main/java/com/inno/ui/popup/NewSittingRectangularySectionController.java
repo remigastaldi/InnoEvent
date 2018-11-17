@@ -3,7 +3,7 @@
  * Author: GASTALDI Rémi
  * -----
  * Last Modified: Saturday, 17th November 2018
- * Modified By: HUBERT Léo
+ * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
  * <<licensetext>>
@@ -12,34 +12,50 @@
 package com.inno.ui.popup;
 
 import com.inno.ui.ViewController;
+import com.inno.ui.innoengine.shape.InnoRectangle;
+
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 
-
 public class NewSittingRectangularySectionController extends ViewController {
+  @FXML
+  private TextField columnsInput;
+  @FXML
+  private TextField rangeInput;
 
-
-    @FXML
-    private TextField columnsInput;
-
-    @FXML
-    private TextField rangeInput;
   
-    public NewSittingRectangularySectionController() {
-    }
-  
-    @FXML
-    private void initialize() {
-    }
-  
-    public void init() {
-
-    }
-
-    @FXML
-    public void onKeyPressedAction() {
-        System.out.println(Double.parseDouble(rangeInput.getText()));
-        System.out.println(Double.parseDouble(columnsInput.getText()));
-    }
-   
+  public NewSittingRectangularySectionController() {
   }
+  
+  @FXML
+  private void initialize() {
+  }
+  
+  @FXML
+  public void onKeyReleasedAction() {
+    InnoRectangle rectangle = (InnoRectangle) getIntent();
+
+    if (rectangle == null) {
+      System.out.println("Rectangle is null");
+      return;
+    }
+    try {      
+      rectangle.setWidth(Double.parseDouble(rangeInput.getText()));
+      rectangle.setHeight(Double.parseDouble(columnsInput.getText()));
+    } catch (Exception e) {
+      System.out.println(e);
+    }
+  }
+
+  @Override
+  public void init() {
+    InnoRectangle rectangle = (InnoRectangle) getIntent();
+
+    if (rectangle == null) {
+      System.out.println("Rectangle is null");
+      return;
+    }
+    columnsInput.setText(Double.toString(rectangle.getWidth()));
+    rangeInput.setText(Double.toString(rectangle.getHeight()));
+  }
+}

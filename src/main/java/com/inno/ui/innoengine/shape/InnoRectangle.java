@@ -2,7 +2,7 @@
  * File Created: Monday, 15th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Friday, 16th November 2018
+ * Last Modified: Saturday, 17th November 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -12,14 +12,14 @@
 
 package com.inno.ui.innoengine.shape;
 
-import  com.inno.ui.engine.Engine;
+import  com.inno.ui.innoengine.InnoEngine;
 import  com.inno.ui.engine.shape.InteractiveRectangle;
 
 import  javafx.scene.layout.Pane;
 import  javafx.scene.input.MouseEvent;
 
 public class InnoRectangle extends InteractiveRectangle {
-  public InnoRectangle(Engine engine, Pane pane) {
+  public InnoRectangle(InnoEngine engine, Pane pane) {
     super(engine, pane);
   }
 
@@ -50,6 +50,8 @@ public class InnoRectangle extends InteractiveRectangle {
 
   @Override
   public boolean onMouseReleased(MouseEvent event) {
+    InnoEngine engine = (InnoEngine)Engine();
+    engine.getView().openPopup("new_sitting_rectangulary_section.fxml", this);
     return true;
   }
 

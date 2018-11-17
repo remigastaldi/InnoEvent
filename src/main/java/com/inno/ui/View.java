@@ -3,7 +3,7 @@
  * Author: GASTALDI Rémi
  * -----
  * Last Modified: Saturday, 17th November 2018
- * Modified By: HUBERT Léo
+ * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
  * <<licensetext>>
@@ -73,18 +73,25 @@ public class View extends Application {
     return view;
   }
 
-  public void openPopup(String fxmlFileName) {
+  public void openPopup(String fxmlFileName, Object intent) {
     Popup popup = new Popup();
     FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/popup/" + fxmlFileName));
     try {
       Pane scene = loader.load();
-      loader.setController(loader.getController());
+      // loader.setController(loader.getController());
+      ViewController view = loader.getController();
+      view.addIntent(intent);
+      view.init();
       popup.getContent().add(scene);
       popup.show(_mainView, 100, 300);
     } catch (Exception e) {
       System.out.println("Error with open popup => " + e.getMessage());
 
     }
+  }
+
+  public void openPopup(String fxmFileName) {
+    openPopup(fxmFileName, null);
   }
 
   /**
