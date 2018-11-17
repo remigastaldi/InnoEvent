@@ -2,7 +2,7 @@
  * File Created: Sunday, 14th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Thursday, 15th November 2018
+ * Last Modified: Saturday, 17th November 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -12,14 +12,14 @@
 
 package com.inno.ui.innoengine.shape;
 
-import  com.inno.ui.engine.Engine;
+import  com.inno.ui.innoengine.InnoEngine;
 import  com.inno.ui.engine.shape.InteractivePolygon;
 
 import  javafx.scene.layout.Pane;
 import  javafx.scene.input.MouseEvent;
 
 public class InnoPolygon extends InteractivePolygon {
-  public InnoPolygon(Engine engine, Pane pane) {
+  public InnoPolygon(InnoEngine engine, Pane pane) {
     super(engine, pane);
   }
 

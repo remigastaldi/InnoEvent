@@ -2,7 +2,7 @@
  * File Created: Sunday, 14th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Friday, 16th November 2018
+ * Last Modified: Saturday, 17th November 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -81,8 +81,8 @@ public class InteractivePolygon extends InteractiveShape {
     // _cursor.setVisible(false);
     // Pane().setCursor(Cursor.NONE);
 
-    EventHandler<MouseEvent> mouseClickEvent = event -> {
-      if (onMouseClicked(event)) {
+    EventHandler<MouseEvent> mouseReleasedEvent = event -> {
+      if (onMouseReleased(event)) {
         if (_points.size() > 0 && _cursor.intersects(_points.get(0).getBoundsInParent())) {
           closeForm();
         } else {
@@ -91,8 +91,8 @@ public class InteractivePolygon extends InteractiveShape {
         }
       }
     };
-    EventHandlers().put(MouseEvent.MOUSE_RELEASED, mouseClickEvent);
-    Pane().addEventHandler(MouseEvent.MOUSE_RELEASED, mouseClickEvent);
+    EventHandlers().put(MouseEvent.MOUSE_RELEASED, mouseReleasedEvent);
+    Pane().addEventHandler(MouseEvent.MOUSE_RELEASED, mouseReleasedEvent);
 
     EventHandler<MouseEvent> mouseMovedEvent = event -> {
       if (onMouseMoved(event)) {

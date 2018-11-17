@@ -2,7 +2,7 @@
  * File Created: Saturday, 27th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Saturday, 27th October 2018
+ * Last Modified: Saturday, 17th November 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -17,6 +17,7 @@ import  com.inno.ui.innoengine.InnoEngine;
 
 public abstract class ViewController {
   private View _view = null;
+  private Object _intent = null;
 
   public void setView(final View view) {
     _view = view;
@@ -38,6 +39,14 @@ public abstract class ViewController {
       System.out.println("Engine is not set");
     }
     return _view.getEngine();
+  }
+
+  public void addIntent(Object intent) {
+    _intent = intent;
+  }
+
+  public Object getIntent() {
+    return _intent;
   }
 
   public abstract void init();

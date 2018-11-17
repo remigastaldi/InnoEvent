@@ -2,8 +2,13 @@
  * File Created: Tuesday, 9th October 2018
  * Author: GASTALDI Rémi
  * -----
+<<<<<<< HEAD
  * Last Modified: Saturday, 17th November 2018
  * Modified By: MAREL Maud
+=======
+ * Last Modified: Saturday, 17th November 2018
+ * Modified By: MAREL Maud
+>>>>>>> 48b748e3abad99a1ce323fd43efd054cd522dd77
  * -----
  * Copyright - 2018 GASTALDI Rémi
  * <<licensetext>>
@@ -11,7 +16,6 @@
 
 package com.inno.app;
 
-import com.google.errorprone.annotations.Immutable;
 import com.inno.app.InnoSave;
 import com.inno.app.room.*;
 import com.inno.service.pricing.Pricing;

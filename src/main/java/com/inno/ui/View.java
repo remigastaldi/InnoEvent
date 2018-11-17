@@ -2,8 +2,8 @@
  * File Created: Wednesday, 10th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Friday, 16th November 2018
- * Modified By: GASTALDI Rémi
+ * Last Modified: Saturday, 17th November 2018
+ * Modified By: HUBERT Léo
  * -----
  * Copyright - 2018 GASTALDI Rémi
  * <<licensetext>>
@@ -23,15 +23,14 @@ import javafx.animation.Timeline;
 import javafx.scene.Parent;
 import javafx.util.Duration;
 import javafx.scene.layout.StackPane;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
-import javafx.geometry.Point2D;
+import javafx.scene.layout.AnchorPane;
 import com.inno.ui.innoengine.InnoEngine;
 
 public class View extends Application {
 
   private Stage _mainView;
-  private InnoEngine  _engine = null;
+  private InnoEngine _engine = null;
 
   public View() {
   }
@@ -39,8 +38,8 @@ public class View extends Application {
   @Override
   public void start(Stage mainView) throws Exception {
     _mainView = mainView;
-    showMainView();
-    //  showStartupPopup();
+    // showMainView();
+    showStartupPopup();
   }
 
   /**
@@ -55,13 +54,13 @@ public class View extends Application {
     }
     try {
       FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/" + fxmlFileName));
- 
+
       // Parent parent = (Parent) fxmlLoader.load();
       Scene scene = new Scene(fxmlLoader.load());
       ViewController viewController = fxmlLoader.<ViewController>getController();
       viewController.setView(this);
       viewController.init();
-      
+
       view.setTitle("InnoEvent");
       view.setScene(scene);
       view.show();
@@ -69,6 +68,25 @@ public class View extends Application {
       System.out.println("Error when load new view => " + e.getMessage());
     }
     return view;
+  }
+
+  public void openPopup(String fxmlFileName, Object intent) {
+    try {
+      FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/popup/" + fxmlFileName));
+      Scene scene = new Scene(loader.load());
+      Stage stage = new Stage();
+      ViewController view = loader.getController();
+      view.addIntent(intent);
+      view.init();
+      stage.setScene(scene);
+      stage.show();
+    } catch (Exception e) {
+      System.out.println("Error with open popup => " + e.getMessage());
+    }
+  }
+
+  public void openPopup(String fxmFileName) {
+    openPopup(fxmFileName, null);
   }
 
   /**
@@ -104,12 +122,12 @@ public class View extends Application {
     LEFT, RIGHT, TOP, BOTTOM
   }
 
-  public void openViewWithAnimation(String fxmlFileName, AnimationDirection animationTo, AnchorPane anchorRoot) {
-    StackPane parentContainer = (StackPane) anchorRoot.getScene().getRoot();
+  public void openViewWithAnimation(String fxmlFileName, AnimationDirection animationTo, AnchorPane anchor_root) {
+    StackPane parentContainer = (StackPane) anchor_root.getScene().getRoot();
     Scene scene = parentContainer.getScene();
     try {
       FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/" + fxmlFileName));
-      
+
       Parent newAnchor = (Parent) fxmlLoader.load();
 
       ViewController viewController = fxmlLoader.<ViewController>getController();
@@ -120,30 +138,30 @@ public class View extends Application {
       KeyValue kv2;
 
       switch (animationTo) {
-        case LEFT:
-          newAnchor.translateXProperty().set(scene.getWidth());
-          kv = new KeyValue(newAnchor.translateXProperty(), 0, Interpolator.EASE_IN);
-          kv2 = new KeyValue(anchorRoot.translateXProperty(), -scene.getWidth(), Interpolator.EASE_IN);
-          break;
-        case RIGHT:
-          newAnchor.translateXProperty().set(-scene.getWidth());
-          kv = new KeyValue(newAnchor.translateXProperty(), 0, Interpolator.EASE_IN);
-          kv2 = new KeyValue(anchorRoot.translateXProperty(), scene.getWidth(), Interpolator.EASE_IN);
-          break;
-        case TOP:
-          newAnchor.translateYProperty().set(scene.getHeight());
-          kv = new KeyValue(newAnchor.translateYProperty(), 0, Interpolator.EASE_IN);
-          kv2 = new KeyValue(anchorRoot.translateYProperty(), -scene.getHeight(), Interpolator.EASE_IN);
-          break;
-        case BOTTOM:
-          newAnchor.translateYProperty().set(-scene.getHeight());
-          kv = new KeyValue(newAnchor.translateYProperty(), 0, Interpolator.EASE_IN);
-          kv2 = new KeyValue(anchorRoot.translateYProperty(), scene.getHeight(), Interpolator.EASE_IN);
-          break;
-        default:
-          kv = new KeyValue(newAnchor.translateXProperty(), 0, Interpolator.EASE_IN);
-          kv2 = new KeyValue(anchorRoot.translateYProperty(), 0, Interpolator.EASE_IN);
-          break;
+      case LEFT:
+        newAnchor.translateXProperty().set(scene.getWidth());
+        kv = new KeyValue(newAnchor.translateXProperty(), 0, Interpolator.EASE_IN);
+        kv2 = new KeyValue(anchor_root.translateXProperty(), -scene.getWidth(), Interpolator.EASE_IN);
+        break;
+      case RIGHT:
+        newAnchor.translateXProperty().set(-scene.getWidth());
+        kv = new KeyValue(newAnchor.translateXProperty(), 0, Interpolator.EASE_IN);
+        kv2 = new KeyValue(anchor_root.translateXProperty(), scene.getWidth(), Interpolator.EASE_IN);
+        break;
+      case TOP:
+        newAnchor.translateYProperty().set(scene.getHeight());
+        kv = new KeyValue(newAnchor.translateYProperty(), 0, Interpolator.EASE_IN);
+        kv2 = new KeyValue(anchor_root.translateYProperty(), -scene.getHeight(), Interpolator.EASE_IN);
+        break;
+      case BOTTOM:
+        newAnchor.translateYProperty().set(-scene.getHeight());
+        kv = new KeyValue(newAnchor.translateYProperty(), 0, Interpolator.EASE_IN);
+        kv2 = new KeyValue(anchor_root.translateYProperty(), scene.getHeight(), Interpolator.EASE_IN);
+        break;
+      default:
+        kv = new KeyValue(newAnchor.translateXProperty(), 0, Interpolator.EASE_IN);
+        kv2 = new KeyValue(anchor_root.translateYProperty(), 0, Interpolator.EASE_IN);
+        break;
       }
 
       parentContainer.getChildren().add(newAnchor);
@@ -156,7 +174,7 @@ public class View extends Application {
       timeline2.getKeyFrames().add(kf2);
       timeline.getKeyFrames().add(kf);
       timeline.setOnFinished(t -> {
-        parentContainer.getChildren().remove(anchorRoot);
+        parentContainer.getChildren().remove(anchor_root);
       });
 
       timeline.play();

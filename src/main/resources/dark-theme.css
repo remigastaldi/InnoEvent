@@ -1,6 +1,7 @@
 * {
     -fx-grey: #2C2F33;
     -fx-dark: #23272A;
+    -fx-intermediate: rgb(43, 48, 51);
     -fx-light-grey: #bbbbbb;
     -fx-light-dark: rgb(100, 100, 100);
     -fx-primary: orange;
@@ -25,32 +26,35 @@
     -fx-border-width: 0 0 0 0;
 }
 
-.text {
-    -fx-text-fill: -fx-light-grey;
-}
-
 .button:hover {
     -fx-background-color: -fx-dark;
     -fx-text-fill: -fx-primary;
     -fx-cursor: hand;
 }
 
-.split-pane:horizontal .split-pane-divider {
-    -fx-background-color: -fx-dark;
+.button:cancel {
+    -fx-effect:  dropshadow(three-pass-box, -fx-primary, 1, 0, 0, 0);
 }
 
+.split-pane:horizontal .split-pane-divider {
+    -fx-background-color: -fx-light-dark;
+}
 
-.input {
+.text {
+    -fx-text-fill: -fx-light-grey;
+}
+
+.text-input {
     -fx-background-color: -fx-grey;
     -fx-text-fill: -fx-light-grey;
     -fx-border-color: -fx-light-dark;
 }
 
-.input:hover {
+.text-input:hover {
     -fx-border-color: -fx-light-grey;
 }
 
-.input:focused {
+.text-input:focused {
     -fx-border-color: -fx-primary;
 }
 
@@ -97,4 +101,9 @@
     -fx-background-color: -fx-dark;
     -fx-border-color: -fx-primary;
     -fx-border-width: 0 0 1 0;
+}
+
+
+.slider .track {
+    -fx-background-image: url("https://i.imgur.com/SwDjIg7.png");
 }

@@ -2,8 +2,8 @@
  * File Created: Wednesday, 26th September 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Friday, 16th November 2018
- * Modified By: GASTALDI Rémi
+ * Last Modified: Saturday, 17th November 2018
+ * Modified By: HUBERT Léo
  * -----
  * Copyright - 2018 GASTALDI Rémi
  * <<licensetext>>
@@ -11,6 +11,8 @@
 
 package com.inno.ui.mainview;
 
+import com.inno.app.room.ImmutableRoom;
+import com.inno.app.room.ImmutableScene;
 import com.inno.ui.ViewController;
 
 import javafx.fxml.FXML;
@@ -23,34 +25,40 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.Parent;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
 import javafx.geometry.Insets;
 import javafx.geometry.Bounds;
+import javafx.scene.shape.Rectangle;
 
 public class MainViewController extends ViewController {
-
   @FXML
   private AnchorPane top_bar;
-
   @FXML
-  private AnchorPane sidebarAnchor;
-  
+  private AnchorPane sidebar_anchor;
   @FXML
   private AnchorPane anchor_canvas;
-  
   @FXML
   private StackPane stack_pane;
   
+  private ScrollPane scrollPane;
+
   @FXML
   private void initialize() {
   }
   
-  private ScrollPane scrollPane;
-  
   public void init() {
-    View().setSidebarFromFxmlFileName("sidebar_room.fxml", sidebarAnchor);
+    View().setSidebarFromFxmlFileName("sidebar_room.fxml", sidebar_anchor);
 
     Pane _pane = new Pane();
-    _pane.setPrefSize(900, 700);
+    ImmutableRoom roomData = Core().getImmutableRoom();
+    ImmutableScene sceneData = Core().getImmutableScene();
+
+    Rectangle scene = new Rectangle(sceneData.getPositions()[0], sceneData.getPositions()[1],
+                                    sceneData.getWidth(), sceneData.getHeight());
+    scene.setFill(Color.CHARTREUSE);
+    scene.setOpacity(0.8);
+    _pane.getChildren().add(scene);
+    _pane.setPrefSize(roomData.getWidth(), roomData.getHeight());
 
     Group group = new Group(_pane);
     StackPane content = new StackPane(group);
@@ -97,6 +105,8 @@ public class MainViewController extends ViewController {
   private void  keyAction(KeyEvent evt) {
     if (evt.getText().compareTo("a") == 0)
       Engine().createIrregularSection();
+    else if (evt.getText().compareTo("s") == 0)
+      Engine().createRectangularSection();
   }
 
   @FXML
@@ -106,12 +116,13 @@ public class MainViewController extends ViewController {
 
   @FXML
   private void openRoom() {
-    View().setSidebarFromFxmlFileName("sidebar_room.fxml", sidebarAnchor);
+    View().setSidebarFromFxmlFileName("sidebar_room.fxml", sidebar_anchor);
   }
 
   @FXML
   private void openSection() {
-    View().setSidebarFromFxmlFileName("sidebar_section.fxml", sidebarAnchor);
+    View().openPopup("new_sitting_rectangulary_section.fxml");    
+    View().setSidebarFromFxmlFileName("sidebar_section.fxml", sidebar_anchor);
   }
 
   private Point2D figureScrollOffset(Node scrollContent, ScrollPane scroller) {

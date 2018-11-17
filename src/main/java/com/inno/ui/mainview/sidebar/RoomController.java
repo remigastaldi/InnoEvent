@@ -2,7 +2,7 @@
  * File Created: Wednesday, 26th September 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Saturday, 27th October 2018
+ * Last Modified: Friday, 16th November 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -25,7 +25,7 @@ public class RoomController extends ViewController {
   @FXML
   private Button createNewProjectButton;
   @FXML
-  private AnchorPane anchorRoot;
+  private AnchorPane anchor_root;
   @FXML
   private StackPane parentContainer;
 

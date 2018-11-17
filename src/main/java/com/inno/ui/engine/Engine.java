@@ -2,7 +2,7 @@
  * File Created: Friday, 12th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Friday, 16th November 2018
+ * Last Modified: Saturday, 17th November 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -42,7 +42,7 @@ public class Engine {
   private ArrayList<InteractiveShape> _shapes = new ArrayList<>();
   private Grid _grid = null;
   private Rectangle _board = null;
-  private InteractivePolygon _selectedShape = null;
+  private InteractiveShape _selectedShape = null;
   private Shape _currentMagnetism = null;
 
     public Engine(Pane pane) {
@@ -98,11 +98,11 @@ public class Engine {
     _shapes.add(intShape);
   }
 
-  public void selected(InteractivePolygon selected) {
+  public void selected(InteractiveShape selected) {
     if (_selectedShape != null) {
       _selectedShape.deselect();
     }
-    _selectedShape = selected;
+    _selectedShape =  selected;
   }
 
   public InteractiveShape getSelectedShape() {

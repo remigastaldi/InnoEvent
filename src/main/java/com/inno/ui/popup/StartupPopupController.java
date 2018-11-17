@@ -2,8 +2,8 @@
  * File Created: Wednesday, 26th September 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Saturday, 27th October 2018
- * Modified By: GASTALDI Rémi
+ * Last Modified: Saturday, 17th November 2018
+ * Modified By: HUBERT Léo
  * -----
  * Copyright - 2018 GASTALDI Rémi
  * <<licensetext>>
@@ -26,7 +26,7 @@ import javafx.scene.layout.StackPane;
 public class StartupPopupController extends ViewController {
 
   @FXML
-  private AnchorPane anchorRoot;
+  private AnchorPane anchor_root;
   @FXML
   private StackPane parentContainer;
 
@@ -54,6 +54,6 @@ public class StartupPopupController extends ViewController {
 
   @FXML
   private void createNewProjectButtonAction() {
-    View().openViewWithAnimation("popup_new_project.fxml", AnimationDirection.LEFT, anchorRoot);
+    View().openViewWithAnimation("popup_new_project.fxml", AnimationDirection.LEFT, anchor_root);
   }
 }
