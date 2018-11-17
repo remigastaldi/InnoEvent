@@ -50,8 +50,6 @@ public class InnoPolygon extends InteractivePolygon {
 
   @Override
   public boolean onMouseReleased(MouseEvent event) {
-    InnoEngine engine = (InnoEngine) Engine();
-    engine.getView().openPopup("new_sitting_rectangulary_section.fxml");
     return true;
   }
 
