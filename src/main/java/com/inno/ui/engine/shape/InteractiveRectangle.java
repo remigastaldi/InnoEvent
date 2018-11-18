@@ -56,8 +56,7 @@ public class InteractiveRectangle extends InteractiveShape {
   private DoubleProperty yProperty = null;
   private DoubleProperty widthProperty = null;
   private DoubleProperty heightProperty = null;
-  private DoubleProperty xPropertyRU = null;
-  private DoubleProperty xPropertyRD = null;
+  private DoubleProperty maxXProperty = null;
   private DoubleProperty maxYProperty = null;
 
 
@@ -148,28 +147,27 @@ public class InteractiveRectangle extends InteractiveShape {
 
     xProperty = new SimpleDoubleProperty();
     yProperty = new SimpleDoubleProperty();
-    xPropertyRU = new SimpleDoubleProperty();
-    xPropertyRD = new SimpleDoubleProperty();
+    maxXProperty = new SimpleDoubleProperty();
     maxYProperty = new SimpleDoubleProperty();
     widthProperty = new SimpleDoubleProperty();
     heightProperty = new SimpleDoubleProperty();
 
     xProperty.set(_rectangle.getX());
     yProperty.set(_rectangle.getY());
-    xPropertyRU.set(_rectangle.getX() + _rectangle.getWidth());
-    xPropertyRD.set(_rectangle.getX() + _rectangle.getWidth());
+    maxXProperty.set(_rectangle.getX() + _rectangle.getWidth());
     maxYProperty.set(_rectangle.getY() + _rectangle.getHeight());
     widthProperty.set(_rectangle.getWidth());
     heightProperty.set(_rectangle.getHeight());
 
     Anchor resizeHandleLU = new Anchor(Color.GOLD, xProperty, yProperty);
-    Anchor resizeHandleRU = new Anchor(Color.GOLD, xPropertyRU, yProperty);
-    Anchor resizeHandleRD = new Anchor(Color.GOLD, xPropertyRD, maxYProperty);
+    Anchor resizeHandleRU = new Anchor(Color.GOLD, maxXProperty, yProperty);
+    Anchor resizeHandleRD = new Anchor(Color.GOLD, maxXProperty, maxYProperty);
     Anchor resizeHandleLD = new Anchor(Color.GOLD, xProperty, maxYProperty);
 
     widthProperty.addListener((ChangeListener<Number>) (ov, oldX, newX) -> {
-      if ((double) newX != _rectangle.getWidth())
-        xPropertyRU.set(_rectangle.getX() + (double) newX);
+      if ((double) newX != _rectangle.getWidth()) {
+        maxXProperty.set(_rectangle.getX() + (double) newX);
+      }
     });
 
     heightProperty.addListener((ChangeListener<Number>) (ov, oldY, newY) -> {
@@ -180,30 +178,25 @@ public class InteractiveRectangle extends InteractiveShape {
     resizeHandleLU.centerXProperty().addListener((ChangeListener<Number>) (ov, oldX, newX) -> {
       xProperty.set((double) newX);
       _rectangle.setX((double) newX);
-      _rectangle.setWidth(_rectangle.getWidth() + (double) oldX - (double) newX);
+      _rectangle.setWidth(_rectangle.getWidth() + ((double) oldX - (double) newX));
       widthProperty.set(_rectangle.getWidth());
     });
     resizeHandleLU.centerYProperty().addListener((ChangeListener<Number>) (ov, oldY, newY) -> {
       yProperty.set((double) newY);
       _rectangle.setY((double) newY);
-      _rectangle.setHeight(_rectangle.getHeight() + (double) oldY - (double) newY);
+      _rectangle.setHeight(_rectangle.getHeight() + ((double) oldY - (double) newY));
       heightProperty.set(_rectangle.getHeight());
     });
 
     resizeHandleRU.centerXProperty().addListener((ChangeListener<Number>) (ov, oldX, newX) -> {
-      xPropertyRD.set((double) newX);
-      _rectangle.setWidth(_rectangle.getWidth() + (double) newX - (double) oldX);
+      _rectangle.setWidth(_rectangle.getWidth() + ((double) newX - (double) oldX));
+      resizeHandleRD.centerXProperty().set((double) newX);
       widthProperty.set(_rectangle.getWidth());
     });
-    // resizeHandleRU.centerYProperty().addListener((ChangeListener<Number>) (ov, oldY, newY) -> {
-    // });
 
-    resizeHandleRD.centerXProperty().addListener((ChangeListener<Number>) (ov, oldX, newX) -> {
-      xPropertyRU.set((double) newX);
-    });
     resizeHandleRD.centerYProperty().addListener((ChangeListener<Number>) (ov, oldY, newY) -> {
       maxYProperty.set((double) newY);
-      _rectangle.setHeight(_rectangle.getHeight() + (double) newY - (double) oldY);
+      _rectangle.setHeight(_rectangle.getHeight() + ((double) newY - (double) oldY));
       heightProperty.set(_rectangle.getHeight());
     });
 
@@ -223,42 +216,14 @@ public class InteractiveRectangle extends InteractiveShape {
       setFill(color.deriveColor(1, 1, 1, 0.5));
       setStroke(color);
       setStrokeWidth(1);
-      // setStrokeType(StrokeType.OUTSIDE);
 
       // this.x = x;
       // this.y = y;
 
       centerXProperty().bindBidirectional(x);
       centerYProperty().bindBidirectional(y);
-      // x.bind(centerXProperty());
-      // y.bind(centerYProperty());
       enableDrag();
     }
-
-    // Anchor(Color color, double x, double y,
-    // DoubleProperty width, DoubleProperty height, DoubleProperty xProperty,
-    // DoubleProperty yProperty) {
-    // super(_rectangle.getX() + _rectangle.getWidth(), _rectangle.getY() +
-    // _rectangle.getHeight(), 5);
-    // setFill(color.deriveColor(1, 1, 1, 0.5));
-    // setStroke(color);
-    // setStrokeWidth(1);
-    // // setStrokeType(StrokeType.OUTSIDE);
-
-    // // this.x = x;
-    // // this.y = y;
-    // width.bindBidirectional(xProperty);
-    // height.bindBidirectional(yProperty);
-    // enableDrag();
-    // }
-
-    // public DoubleProperty getX() {
-    // return this.x;
-    // }
-
-    // public DoubleProperty getY() {
-    // return this.y;
-    // }
 
     private void enableDrag() {
       setOnMouseDragged(mouseEvent -> {
@@ -355,7 +320,7 @@ public class InteractiveRectangle extends InteractiveShape {
   }
 
   public DoubleProperty getMaxXProperty() {
-    return xPropertyRU;
+    return maxXProperty;
   }
 
   public DoubleProperty getMaxYProperty() {
@@ -440,7 +405,7 @@ public class InteractiveRectangle extends InteractiveShape {
     _group = new Group(nodes);
     Pane().getChildren().add(_group);
     // _group.getTransforms().add(new Rotate(Math.random() * 360 + 1, _rectangle.getX() + _rectangle.getWidth() / 2,
-        // _rectangle.getY() + _rectangle.getHeight() / 2));
+    //     _rectangle.getY() + _rectangle.getHeight() / 2));
 
     // Point2D center = Engine().getCenterOfPoints(points);
     // _group.getTransforms().add(new Rotate(Math.random() * 360 + 1, center.getX(),
