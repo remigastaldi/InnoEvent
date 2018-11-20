@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Slider?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.paint.LinearGradient?>
 <?import javafx.scene.paint.Stop?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="597.0" prefWidth="356.0" style="-fx-background-color: -fx-dark;" stylesheets="@../../dark-theme.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="597.0" prefWidth="250.0" style="-fx-background-color: -fx-dark;" stylesheets="@../../dark-theme.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <AnchorPane prefWidth="367.0" style="-fx-border-color: orange; -fx-border-width: 0 0 1 0; -fx-background-color: -fx-grey;" styleClass="grey" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -26,9 +27,16 @@
             </Label>
          </children>
       </AnchorPane>
-      <AnchorPane layoutY="51.0" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="51.0">
+      <AnchorPane layoutY="51.0" prefHeight="200.0" prefWidth="252.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="51.0">
          <children>
-            <Slider layoutX="114.0" layoutY="206.0" />
+            <AnchorPane prefHeight="125.0" prefWidth="356.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <children>
+                  <Text fill="WHITE" layoutX="15.0" layoutY="33.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Number of colmuns" wrappingWidth="125.00000333786011" AnchorPane.leftAnchor="15.0" />
+                  <TextField layoutX="160.0" layoutY="14.0" prefHeight="29.0" prefWidth="75.0" AnchorPane.rightAnchor="15.0" />
+                  <Text fill="WHITE" layoutX="14.0" layoutY="76.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Number of rows" wrappingWidth="109.00000676512718" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="215.9999966621399" />
+                  <TextField layoutX="160.0" layoutY="57.0" prefHeight="29.0" prefWidth="75.0" AnchorPane.rightAnchor="15.0" />
+               </children>
+            </AnchorPane>
          </children>
       </AnchorPane>
    </children>

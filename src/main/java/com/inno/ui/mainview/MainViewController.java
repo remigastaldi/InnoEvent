@@ -3,7 +3,7 @@
  * Author: GASTALDI Rémi
  * -----
  * Last Modified: Tuesday, 20th November 2018
- * Modified By: MAREL Maud
+ * Modified By: HUBERT Léo
  * -----
  * Copyright - 2018 GASTALDI Rémi
  * <<licensetext>>
@@ -24,11 +24,8 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
-import javafx.scene.Parent;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
-import javafx.geometry.Insets;
-import javafx.geometry.Bounds;
 import javafx.scene.shape.Rectangle;
 
 public class MainViewController extends ViewController {
@@ -124,7 +121,6 @@ public class MainViewController extends ViewController {
 
   @FXML
   private void openSection() {
-    View().openPopup("new_sitting_rectangulary_section.fxml");    
     View().setSidebarFromFxmlFileName("sidebar_section.fxml", sidebar_anchor);
   }
 
