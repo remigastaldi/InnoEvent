@@ -16,8 +16,6 @@ public interface ImmutableRoom {
     public String getName();
     public double getHeight();
     public double getWidth();
-    public double getHeightVitalSpace();
-    public double getWidthVitalSpace();
     public ImmutableScene getImmutableScene();
     public Section getSectionById(String idSection);
     public ImmutableVitalSpace getImmutableVitalSpace();

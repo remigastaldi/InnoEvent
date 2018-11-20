@@ -109,8 +109,8 @@ public class Core {
   }
 
     //standingSection Methods
-  public ImmutableStandingSection createStandingSection(double elevation, int nbPeople, double[] positions) {
-    return this._room.createStandingSection(elevation, nbPeople, positions);
+  public ImmutableStandingSection createStandingSection(double elevation, int nbPeople, double[] positions, double rotation) {
+    return this._room.createStandingSection(elevation, nbPeople, positions, rotation);
   }
 
   /*public ImmutableStandingSection getImmutableStandingSection(int idSection) {

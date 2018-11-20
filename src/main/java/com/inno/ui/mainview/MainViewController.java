@@ -2,8 +2,8 @@
  * File Created: Wednesday, 26th September 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Saturday, 17th November 2018
- * Modified By: GASTALDI Rémi
+ * Last Modified: Tuesday, 20th November 2018
+ * Modified By: MAREL Maud
  * -----
  * Copyright - 2018 GASTALDI Rémi
  * <<licensetext>>
@@ -52,7 +52,7 @@ public class MainViewController extends ViewController {
 
     Pane _pane = new Pane();
     ImmutableRoom roomData = Core().getImmutableRoom();
-    ImmutableScene sceneData = Core().getImmutableScene();
+    ImmutableScene sceneData = roomData.getImmutableScene();
 
     Rectangle scene = new Rectangle(sceneData.getPositions()[0], sceneData.getPositions()[1],
                                     sceneData.getWidth(), sceneData.getHeight());

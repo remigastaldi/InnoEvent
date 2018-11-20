@@ -67,7 +67,7 @@ public class Room implements ImmutableRoom {
         this._vitalSpace.setWidth(width);
     }
 
-    public ImmutableVitalSpace getVitalSpace() {
+    public ImmutableVitalSpace getImmutableVitalSpace() {
         return this._vitalSpace;
     }
 
@@ -169,9 +169,9 @@ public class Room implements ImmutableRoom {
     }
 
         //standingSection Methods
-    public ImmutableStandingSection createStandingSection(double elevation, int nbPeople, double[] positions) {
+    public ImmutableStandingSection createStandingSection(double elevation, int nbPeople, double[] positions, double rotation) {
         String id = findFreeId();
-        StandingSection standingSection = new StandingSection(id, elevation, positions, nbPeople);
+        StandingSection standingSection = new StandingSection(id, elevation, positions, nbPeople, rotation);
         this._standingSections.put(id, standingSection);
         return standingSection;
     }
