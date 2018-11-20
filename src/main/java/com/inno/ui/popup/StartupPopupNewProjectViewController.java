@@ -3,7 +3,7 @@
  * Author: HUBERT Léo
  * -----
  * Last Modified: Tuesday, 20th November 2018
- * Modified By: MAREL Maud
+ * Modified By: HUBERT Léo
  * -----
  * Copyright - 2018 HUBERT Léo
  * <<licensetext>>
@@ -13,18 +13,13 @@ package com.inno.ui.popup;
 
 import javafx.fxml.FXML;
 
-import javafx.stage.Stage;
 
 import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.control.TextField;
 
-import java.util.Vector;
-
 import com.inno.ui.ViewController;
 import com.inno.ui.View.AnimationDirection;
-
-import javafx.geometry.Point2D;
 
 
 public class StartupPopupNewProjectViewController extends ViewController {

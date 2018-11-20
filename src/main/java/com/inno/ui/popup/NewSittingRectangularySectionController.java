@@ -17,13 +17,10 @@ import com.inno.ui.innoengine.shape.InnoRectangle;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.StringProperty;
 import javafx.beans.property.SimpleStringProperty;
-import javafx.util.StringConverter;
 import javafx.util.converter.NumberStringConverter;
-import javafx.beans.binding.Bindings;
 import javafx.beans.value.ChangeListener;
 
 public class NewSittingRectangularySectionController extends ViewController {

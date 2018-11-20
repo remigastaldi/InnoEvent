@@ -145,7 +145,7 @@
                         <StackPane fx:id="stack_pane" style="-fx-background-color: -fx-dark;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                      </children>
                   </AnchorPane>
-                <AnchorPane fx:id="sidebar_anchor" maxWidth="500.0" minWidth="200.0" prefWidth="200.0" style="-fx-background-color: -fx-grey;" SplitPane.resizableWithParent="false" />
+                <AnchorPane fx:id="sidebar_anchor" maxWidth="500.0" minWidth="250.0" prefWidth="250.0" style="-fx-background-color: -fx-grey;" SplitPane.resizableWithParent="false" />
               </items>
             </SplitPane>
          </children>
