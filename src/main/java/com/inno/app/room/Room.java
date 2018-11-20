@@ -63,16 +63,12 @@ public class Room implements ImmutableRoom {
         this._vitalSpace.setHeight(height);
     }
 
-    public double getHeightVitalSpace() {
-        return this._vitalSpace.getHeight();
-    }
-
     public void setWidthVitalSpace(double width) {
         this._vitalSpace.setWidth(width);
     }
 
-    public double getWidthVitalSpace() {
-        return this._vitalSpace.getWidth();
+    public ImmutableVitalSpace getVitalSpace() {
+        return this._vitalSpace;
     }
 
     // Scene Methods

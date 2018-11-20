@@ -75,10 +75,6 @@ public class Core {
     this._room.deleteScene();
   }
 
-  public ImmutableScene getImmutableScene() {
-    return this._room.getImmutableScene();
-  }
-
   public void setSceneWidth(double width) {
     this._room.setSceneWidth(width);
   }

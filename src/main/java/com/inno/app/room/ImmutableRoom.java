@@ -20,4 +20,5 @@ public interface ImmutableRoom {
     public double getWidthVitalSpace();
     public ImmutableScene getImmutableScene();
     public Section getSectionById(String idSection);
+    public ImmutableVitalSpace getImmutableVitalSpace();
 }
