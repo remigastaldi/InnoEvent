@@ -10,7 +10,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<StackPane fx:id="parentContainer" prefHeight="400.0" prefWidth="600.0" styleClass="dark" stylesheets="@../dark-theme.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.inno.ui.popup.StartupPopupController">
+<StackPane fx:id="parentContainer" prefHeight="470.0" prefWidth="600.0" styleClass="dark" stylesheets="@../dark-theme.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.inno.ui.popup.StartupPopupController">
    <AnchorPane fx:id="anchor_root" prefHeight="200.0" prefWidth="200.0">
       <children>
       

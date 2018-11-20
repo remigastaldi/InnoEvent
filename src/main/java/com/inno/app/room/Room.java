@@ -2,7 +2,7 @@
  * File Created: Friday, 12th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Saturday, 17th November 2018
+ * Last Modified: Tuesday, 20th November 2018
  * Modified By: MAREL Maud
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -20,16 +20,18 @@ public class Room implements ImmutableRoom {
     private double _height;
     private double _width;
     private Scene _scene;
+    private VitalSpace _vitalSpace;
     private HashMap<String, SittingSection> _sittingSections = new HashMap<String, SittingSection>();
     private HashMap<String, StandingSection> _standingSections = new HashMap<String, StandingSection>();
     private ArrayList<Integer> _idSection = new ArrayList<Integer>();
     private Integer _idSectionMax;
     
-    public Room(String name, double height, double width) {
+    public Room(String name, double height, double width, double heightVitalSpace, double widthVitalSpace) {
         this._name = name;
         this._height = height;
         this._width = width;
         this._idSectionMax = 0;
+        this._vitalSpace = new VitalSpace(heightVitalSpace, widthVitalSpace);
     }
 
     // Room Methods
@@ -55,6 +57,22 @@ public class Room implements ImmutableRoom {
 
     public double getWidth() {
         return this._width;
+    }
+
+    public void setHeightVitalSpace(double height) {
+        this._vitalSpace.setHeight(height);
+    }
+
+    public double getHeightVitalSpace() {
+        return this._vitalSpace.getHeight();
+    }
+
+    public void setWidthVitalSpace(double width) {
+        this._vitalSpace.setWidth(width);
+    }
+
+    public double getWidthVitalSpace() {
+        return this._vitalSpace.getWidth();
     }
 
     // Scene Methods
