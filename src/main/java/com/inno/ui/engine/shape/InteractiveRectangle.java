@@ -45,17 +45,13 @@ import javafx.scene.transform.Rotate;
 import javafx.beans.binding.DoubleBinding;
 
 public class InteractiveRectangle extends InteractiveShape {
-  private ArrayList<Line> _lines = new ArrayList<>();
+  // private ArrayList<Line> _lines = new ArrayList<>();
   private Rectangle _rectangle = null;
   private Circle _cursor = null;
   private ObservableList<Anchor> _anchors = null;
   private boolean _collisionDetected = false;
   private Group _group;
 
-  // private DoubleProperty xProperty = null;
-  // private DoubleProperty yProperty = null;
-  // private DoubleProperty widthProperty = null;
-  // private DoubleProperty heightProperty = null;
   private DoubleProperty maxXProperty = null;
   private DoubleProperty maxYProperty = null;
 

@@ -2,8 +2,8 @@
  * File Created: Friday, 26th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Monday, 19th November 2018
- * Modified By: GASTALDI Rémi
+ * Last Modified: Tuesday, 20th November 2018
+ * Modified By: HUBERT Léo
  * -----
  * Copyright - 2018 GASTALDI Rémi
  * <<licensetext>>
@@ -31,6 +31,10 @@ public class NewSittingRectangularySectionController extends ViewController {
   private TextField columnsInput;
   @FXML
   private TextField rangeInput;
+  @FXML
+  private TextField heightVitalSpaceInput;
+  @FXML
+  private TextField widthVitalSpaceInput;
 
   private StringProperty _width = new SimpleStringProperty();
   private StringProperty _height = new SimpleStringProperty();

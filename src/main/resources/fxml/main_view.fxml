@@ -66,8 +66,22 @@
                               </ImageView>
                            </graphic>
                         </Button>
-                        <Button maxHeight="25.0" maxWidth="25.0" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="25.0" prefWidth="25.0" text="+" ButtonBar.buttonData="LEFT" />
-                        <Button maxHeight="25.0" maxWidth="25.0" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="25.0" prefWidth="25.0" text="+" ButtonBar.buttonData="LEFT" />
+                        <Button maxHeight="25.0" maxWidth="25.0" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="25.0" prefWidth="25.0" ButtonBar.buttonData="LEFT">
+                           <graphic>
+                              <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../icon/rectangle.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic></Button>
+                        <Button maxHeight="25.0" maxWidth="25.0" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="25.0" prefWidth="25.0" ButtonBar.buttonData="LEFT">
+                           <graphic>
+                              <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../icon/hexagon.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic></Button>
                         <Button maxHeight="26.0" maxWidth="25.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="25.0" ButtonBar.buttonData="LEFT">
                            <graphic>
                               <ImageView fitHeight="15.0" fitWidth="15.0" preserveRatio="true">

@@ -14,43 +14,47 @@
    <AnchorPane fx:id="anchor_root" prefHeight="200.0" prefWidth="200.0">
       <children>
       
-          <Pane prefHeight="406.0" prefWidth="600.0" stylesheets="@../dark-theme.css">
+          <Pane prefHeight="406.0" prefWidth="600.0" stylesheets="@../dark-theme.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
           <children>
-               <ImageView fitHeight="94.0" fitWidth="90.0" layoutX="255.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
+               <ImageView fitHeight="124.0" fitWidth="118.0" layoutX="242.0" layoutY="38.0" pickOnBounds="true" preserveRatio="true">
                   <image>
                      <Image url="@../icon/logo.png" />
                   </image>
                </ImageView>
-              <Text fill="#bbbbbb" layoutX="193.0" layoutY="146.0" strokeType="OUTSIDE" strokeWidth="0.0" text="InnoEvent" textAlignment="CENTER" wrappingWidth="214.2060546875">
+              <Text fill="#bbbbbb" layoutX="193.0" layoutY="211.0" strokeType="OUTSIDE" strokeWidth="0.0" text="InnoEvent" textAlignment="CENTER" wrappingWidth="214.2060546875">
                   <font>
                       <Font size="41.0" />
                   </font>
               </Text>
-              <Text fill="#bababaa3" layoutX="193.0" layoutY="167.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Verion 2018.2.4" textAlignment="CENTER" wrappingWidth="214.2060546875">
+              <Text fill="#bababaa3" layoutX="193.0" layoutY="232.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Verion 2018.2.4" textAlignment="CENTER" wrappingWidth="214.2060546875">
                   <font>
                       <Font name="System Italic" size="13.0" />
                   </font>
               </Text>
-               <ImageView fitHeight="17.0" fitWidth="18.0" layoutX="206.0" layoutY="208.0" pickOnBounds="true" preserveRatio="true">
-                  <image>
-                     <Image url="@../icon/plus.png" />
-                  </image>
-               </ImageView>
-               <ImageView fitHeight="17.0" fitWidth="18.0" layoutX="206.0" layoutY="237.0" pickOnBounds="true" preserveRatio="true">
-                  <image>
-                     <Image url="@../icon/folder.png" />
-                  </image>
-               </ImageView>
-               <Button fx:id="createNewProjectButton" alignment="TOP_LEFT" layoutX="230.0" layoutY="203.0" mnemonicParsing="false" onAction="#createNewProjectButtonAction" prefHeight="27.0" prefWidth="146.0" style="-fx-background-color: -fx-grey;" text="Create New Project">
-                  <cursor>
-                     <Cursor fx:constant="DEFAULT" />
-                  </cursor>
-               </Button>
-               <Button fx:id="openProjectButton" alignment="TOP_LEFT" layoutX="230.0" layoutY="232.0" mnemonicParsing="false" onAction="#openProjectButtonAction" prefHeight="27.0" prefWidth="146.0" style="-fx-background-color: -fx-grey;" text="Open Project">
-                  <cursor>
-                     <Cursor fx:constant="DEFAULT" />
-                  </cursor>
-               </Button>
+               <AnchorPane layoutX="121.0" layoutY="249.0" prefHeight="152.0" prefWidth="361.0">
+                  <children>
+                     <ImageView fitHeight="17.0" fitWidth="18.0" layoutX="99.0" layoutY="51.0" pickOnBounds="true" preserveRatio="true">
+                        <image>
+                           <Image url="@../icon/plus.png" />
+                        </image>
+                     </ImageView>
+                     <ImageView fitHeight="17.0" fitWidth="18.0" layoutX="99.0" layoutY="85.0" pickOnBounds="true" preserveRatio="true">
+                        <image>
+                           <Image url="@../icon/folder.png" />
+                        </image>
+                     </ImageView>
+                     <Button fx:id="createNewProjectButton" alignment="TOP_LEFT" layoutX="116.0" layoutY="46.0" mnemonicParsing="false" onAction="#createNewProjectButtonAction" prefHeight="27.0" prefWidth="146.0" style="-fx-background-color: -fx-grey;" text="Create New Project">
+                        <cursor>
+                           <Cursor fx:constant="DEFAULT" />
+                        </cursor>
+                     </Button>
+                     <Button fx:id="openProjectButton" alignment="TOP_LEFT" layoutX="116.0" layoutY="80.0" mnemonicParsing="false" onAction="#openProjectButtonAction" prefHeight="27.0" prefWidth="146.0" style="-fx-background-color: -fx-grey;" text="Open Project">
+                        <cursor>
+                           <Cursor fx:constant="DEFAULT" />
+                        </cursor>
+                     </Button>
+                  </children>
+               </AnchorPane>
           </children>
           </Pane>
       </children>
