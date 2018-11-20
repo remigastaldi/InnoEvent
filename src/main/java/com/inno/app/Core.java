@@ -2,13 +2,8 @@
  * File Created: Tuesday, 9th October 2018
  * Author: GASTALDI Rémi
  * -----
-<<<<<<< HEAD
- * Last Modified: Saturday, 17th November 2018
- * Modified By: MAREL Maud
-=======
- * Last Modified: Saturday, 17th November 2018
- * Modified By: MAREL Maud
->>>>>>> 48b748e3abad99a1ce323fd43efd054cd522dd77
+ * Last Modified: Monday, 19th November 2018
+ * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
  * <<licensetext>>

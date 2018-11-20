@@ -2,7 +2,7 @@
  * File Created: Monday, 15th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Saturday, 17th November 2018
+ * Last Modified: Monday, 19th November 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -52,13 +52,17 @@ public class InteractiveRectangle extends InteractiveShape {
   private boolean _collisionDetected = false;
   private Group _group;
 
-  private DoubleProperty xProperty = null;
-  private DoubleProperty yProperty = null;
-  private DoubleProperty widthProperty = null;
-  private DoubleProperty heightProperty = null;
+  // private DoubleProperty xProperty = null;
+  // private DoubleProperty yProperty = null;
+  // private DoubleProperty widthProperty = null;
+  // private DoubleProperty heightProperty = null;
   private DoubleProperty maxXProperty = null;
   private DoubleProperty maxYProperty = null;
 
+  // TMP
+  private ChangeListener<Number> listenerX = null;
+  private ChangeListener<Number> listenerY = null;
+  private boolean dragged = false;
 
   public InteractiveRectangle(Engine engine, Pane pane) {
     super(engine, pane);
@@ -90,6 +94,7 @@ public class InteractiveRectangle extends InteractiveShape {
 
     EventHandler<MouseEvent> mouseMovedEvent = event -> {
       if (onMouseMoved(event)) {
+        dragged = false;
         // Point2D p = Pane().sceneToLocal(event.getSceneX(), event.getSceneY());
         double newX = event.getX();
         double newY = event.getY();
@@ -108,96 +113,133 @@ public class InteractiveRectangle extends InteractiveShape {
         } else {
           updateCursor(event);
         }
+      }
+    };
+    
+    EventHandler<MouseEvent> mouseDraggedEvent = event -> {
+      if (onMouseOnDragDetected(event)) {
+        dragged = true;
+        // System.out.println("DRAGG");
+        // Point2D p = Pane().sceneToLocal(event.getSceneX(), event.getSceneY());
+        double newX = event.getX();
+        double newY = event.getY();
+        // double newXCursor = p.getX();
+        // double newYCursor = p.getY();
 
-        _collisionDetected = Engine().isObjectUnderCursor(_cursor)
-            || (_lines.size() > 0 ? Engine().isObjectUnderCursor(_lines.get(_lines.size() - 1)) : false);
-        if (_collisionDetected) {
-          if (_lines.size() > 0)
-            _lines.get(_lines.size() - 1).setStroke(Color.RED);
-          Pane().setCursor(closeCursor);
+        _cursor.setCenterX(newX);
+        _cursor.setCenterY(newY);
+        Shape element = Engine().getObjectUnderCursor(_cursor);
+        if (element != null) {
+          Point2D pos = Engine().getCollisionCenter(_cursor, element);
 
+          pos = Pane().sceneToLocal(pos.getX(), pos.getY());
+          _cursor.setCenterX(pos.getX());
+          _cursor.setCenterY(pos.getY());
+
+          // widthProperty.set(pos.getX());
+          // heightProperty.set(pos.getY());
         } else {
-          if (_lines.size() > 0)
-            _lines.get(_lines.size() - 1).setStroke(Color.KHAKI);
-          Pane().setCursor(addCursor);
+          updateCursor(event);
         }
-        // updateCurrentLine();
       }
     };
     EventHandler<MouseEvent> mouseReleasedEvent = event -> {
       if (_collisionDetected)
         return;
+      EventHandler<MouseEvent> mouseDraggEvent = EventHandlers().remove(MouseEvent.MOUSE_DRAGGED);
+      Pane().removeEventHandler(MouseEvent.MOUSE_DRAGGED, mouseDraggEvent);
+      EventHandler<MouseEvent> mouseReleaseEvent = EventHandlers().remove(MouseEvent.MOUSE_RELEASED);
+      Pane().removeEventHandler(MouseEvent.MOUSE_RELEASED, mouseReleaseEvent);
+      _cursor.centerXProperty().removeListener(listenerX);
+      _cursor.centerYProperty().removeListener(listenerY);
+      // _cursor.centerYProperty().removeListener(listener);
+      // closeForm(event);
+      // if (onMouseReleased(event)) {
+      // }
+    };
+    EventHandler<MouseEvent> mousePressedEvent = event -> {
+      if (_collisionDetected)
+        return;
       closeForm(event);
-      if (onMouseReleased(event)) {
+      // maxXProperty.set(event.getX());
+      // maxYProperty.set(event.getY());
+      // listenerX = (ChangeListener<Number>) (ov, oldX, newX) -> {
+      //   maxXProperty.set(_cursor.getCenterX());
+      // };
+      // _cursor.centerXProperty().addListener(listenerX);
+      
+      // listenerY = (ChangeListener<Number>) (ov, oldY, newY) -> {
+      //   maxYProperty.set(_cursor.getCenterY());
+      // };
+      // _cursor.centerYProperty().addListener(listenerY);
+      if (!onFormComplete())
+        return;
+    //   _cursor.centerYProperty().addListener((ChangeListener<Number>) (ov, oldY, newY) -> {
+    // });
+      if (onMouseClicked(event)) {
       }
     };
+    // EventHandler<MouseEvent> mouseClickedEvent = event -> {
+    //   closeForm(event);
+    //   if (onMouseClicked(event)) {
+    //   }
+    // };
+
 
     EventHandlers().put(MouseEvent.MOUSE_MOVED, mouseMovedEvent);
     Pane().addEventHandler(MouseEvent.MOUSE_MOVED, mouseMovedEvent);
-    EventHandlers().put(MouseEvent.MOUSE_DRAGGED, mouseMovedEvent);
-    Pane().addEventHandler(MouseEvent.MOUSE_DRAGGED, mouseMovedEvent);
+    EventHandlers().put(MouseEvent.MOUSE_DRAGGED, mouseDraggedEvent);
+    Pane().addEventHandler(MouseEvent.MOUSE_DRAGGED, mouseDraggedEvent);
     EventHandlers().put(MouseEvent.MOUSE_RELEASED, mouseReleasedEvent);
     Pane().addEventHandler(MouseEvent.MOUSE_RELEASED, mouseReleasedEvent);
+    EventHandlers().put(MouseEvent.MOUSE_PRESSED, mousePressedEvent);
+    Pane().addEventHandler(MouseEvent.MOUSE_PRESSED, mousePressedEvent);
+    // EventHandlers().put(MouseEvent.MOUSE_CLICKED, mouseClickedEvent);
+    // Pane().addEventHandler(MouseEvent.MOUSE_CLICKED, mouseClickedEvent);
   }
-
-  double currentX, currentY, currentWidth, currentHeight;
 
   private ObservableList<Anchor> createControlAnchorsFor() {
     ObservableList<Anchor> anchors = FXCollections.observableArrayList();
 
-    xProperty = new SimpleDoubleProperty();
-    yProperty = new SimpleDoubleProperty();
     maxXProperty = new SimpleDoubleProperty();
     maxYProperty = new SimpleDoubleProperty();
-    widthProperty = new SimpleDoubleProperty();
-    heightProperty = new SimpleDoubleProperty();
 
-    xProperty.set(_rectangle.getX());
-    yProperty.set(_rectangle.getY());
     maxXProperty.set(_rectangle.getX() + _rectangle.getWidth());
     maxYProperty.set(_rectangle.getY() + _rectangle.getHeight());
-    widthProperty.set(_rectangle.getWidth());
-    heightProperty.set(_rectangle.getHeight());
 
-    Anchor resizeHandleLU = new Anchor(Color.GOLD, xProperty, yProperty);
-    Anchor resizeHandleRU = new Anchor(Color.GOLD, maxXProperty, yProperty);
+    Anchor resizeHandleLU = new Anchor(Color.GOLD, _rectangle.xProperty(), _rectangle.yProperty());
+    Anchor resizeHandleRU = new Anchor(Color.GOLD, maxXProperty, _rectangle.yProperty());
     Anchor resizeHandleRD = new Anchor(Color.GOLD, maxXProperty, maxYProperty);
-    Anchor resizeHandleLD = new Anchor(Color.GOLD, xProperty, maxYProperty);
+    Anchor resizeHandleLD = new Anchor(Color.GOLD, _rectangle.xProperty(), maxYProperty);
 
-    widthProperty.addListener((ChangeListener<Number>) (ov, oldX, newX) -> {
-      if ((double) newX != _rectangle.getWidth()) {
+    _rectangle.widthProperty().addListener((ChangeListener<Number>) (ov, oldX, newX) -> {
+        // System.out.println("Change maxX " + _rectangle.getX() + " " + (double) newX);
+      if (_rectangle.getX() + (double) newX != maxXProperty.get()) {
+        System.out.println("Change maxX " + _rectangle.getX() + " " + (double) newX);
         maxXProperty.set(_rectangle.getX() + (double) newX);
       }
     });
-
-    heightProperty.addListener((ChangeListener<Number>) (ov, oldY, newY) -> {
-      if ((double) newY != _rectangle.getHeight())
+    
+    _rectangle.heightProperty().addListener((ChangeListener<Number>) (ov, oldY, newY) -> {
+      if (_rectangle.getY() + (double) newY != maxYProperty.get())
         maxYProperty.set(_rectangle.getY() + (double) newY);
     });
 
     resizeHandleLU.centerXProperty().addListener((ChangeListener<Number>) (ov, oldX, newX) -> {
-      xProperty.set((double) newX);
       _rectangle.setX((double) newX);
-      _rectangle.setWidth(_rectangle.getWidth() + ((double) oldX - (double) newX));
-      widthProperty.set(_rectangle.getWidth());
+      _rectangle.setWidth(maxXProperty.get() - _rectangle.getX());
     });
     resizeHandleLU.centerYProperty().addListener((ChangeListener<Number>) (ov, oldY, newY) -> {
-      yProperty.set((double) newY);
       _rectangle.setY((double) newY);
-      _rectangle.setHeight(_rectangle.getHeight() + ((double) oldY - (double) newY));
-      heightProperty.set(_rectangle.getHeight());
+      _rectangle.setHeight(maxYProperty.get() - _rectangle.getY());
     });
 
     resizeHandleRU.centerXProperty().addListener((ChangeListener<Number>) (ov, oldX, newX) -> {
-      _rectangle.setWidth(_rectangle.getWidth() + ((double) newX - (double) oldX));
-      resizeHandleRD.centerXProperty().set((double) newX);
-      widthProperty.set(_rectangle.getWidth());
+      _rectangle.setWidth(maxXProperty.get() - _rectangle.getX());
     });
 
     resizeHandleRD.centerYProperty().addListener((ChangeListener<Number>) (ov, oldY, newY) -> {
-      maxYProperty.set((double) newY);
-      _rectangle.setHeight(_rectangle.getHeight() + ((double) newY - (double) oldY));
-      heightProperty.set(_rectangle.getHeight());
+      _rectangle.setHeight(maxYProperty.get() - _rectangle.getY());
     });
 
     anchors.add(resizeHandleLU);
@@ -312,11 +354,11 @@ public class InteractiveRectangle extends InteractiveShape {
   }
 
   public DoubleProperty getXProperty() {
-    return xProperty;
+    return _rectangle.xProperty();
   }
 
   public DoubleProperty getYProperty() {
-    return yProperty;
+    return _rectangle.yProperty();
   }
 
   public DoubleProperty getMaxXProperty() {
@@ -328,11 +370,11 @@ public class InteractiveRectangle extends InteractiveShape {
   }
 
   public DoubleProperty getWidthProperty() {
-    return widthProperty;
+    return _rectangle.widthProperty();
   }
 
   public DoubleProperty getHeightProperty() {
-    return heightProperty;
+    return _rectangle.heightProperty();
   }
 
   double orgSceneX, orgSceneY;
@@ -341,7 +383,7 @@ public class InteractiveRectangle extends InteractiveShape {
   private void closeForm(MouseEvent event) {
     // Pane().setCursor(Cursor.HAND);
     // System.out.println("close form");
-    _rectangle = new Rectangle(event.getX(), event.getY(), 20, 20);
+    _rectangle = new Rectangle(event.getX(), event.getY(), 1, 1);
     _rectangle.setFill(Color.ROYALBLUE);
     _rectangle.setOpacity(0.7);
 
@@ -375,8 +417,8 @@ public class InteractiveRectangle extends InteractiveShape {
     Pane().removeEventHandler(MouseEvent.MOUSE_MOVED, mouseMovedEvent);
     EventHandler<MouseEvent> mouseRelesedEvent = EventHandlers().remove(MouseEvent.MOUSE_RELEASED);
     Pane().removeEventHandler(MouseEvent.MOUSE_RELEASED, mouseRelesedEvent);
-    EventHandler<MouseEvent> mouseDraggEvent = EventHandlers().remove(MouseEvent.MOUSE_DRAGGED);
-    Pane().removeEventHandler(MouseEvent.MOUSE_DRAGGED, mouseDraggEvent);
+    EventHandler<MouseEvent> mousePressedEvent = EventHandlers().remove(MouseEvent.MOUSE_PRESSED);
+    Pane().removeEventHandler(MouseEvent.MOUSE_PRESSED, mousePressedEvent);
 
     Pane().setCursor(Cursor.DEFAULT);
     _cursor.setVisible(false);

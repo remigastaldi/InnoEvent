@@ -2,7 +2,7 @@
  * File Created: Sunday, 14th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Saturday, 17th November 2018
+ * Last Modified: Monday, 19th November 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -48,6 +48,7 @@ public abstract class InteractiveShape {
   public boolean onMouseReleased(MouseEvent event) { return true; }
   public boolean onMouseOnDragDetected(MouseEvent event) { return true; }
   public boolean onMouseOnDragDropped(MouseEvent event) { return true; }
+  public boolean onFormComplete() { return true; }
 
   public abstract void start();
   public abstract void deselect();

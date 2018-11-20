@@ -2,7 +2,7 @@
  * File Created: Friday, 12th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Saturday, 17th November 2018
+ * Last Modified: Monday, 19th November 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -44,6 +44,7 @@ public class Engine {
   private Rectangle _board = null;
   private InteractiveShape _selectedShape = null;
   private Shape _currentMagnetism = null;
+  private double _scale = 10.0;
 
     public Engine(Pane pane) {
     _pane = pane;
@@ -240,6 +241,14 @@ public class Engine {
       return;
     _selectedShape.destroy();
     _selectedShape = null;
+  }
+
+  public double pixelToMeter(double pixel) {
+    return pixel / _scale;
+  }
+
+  public double meterToPixel(double meter) {
+    return meter * _scale;
   }
 }
 

@@ -2,7 +2,7 @@
  * File Created: Friday, 26th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Saturday, 17th November 2018
+ * Last Modified: Monday, 19th November 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -24,6 +24,7 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.util.StringConverter;
 import javafx.util.converter.NumberStringConverter;
 import javafx.beans.binding.Bindings;
+import javafx.beans.value.ChangeListener;
 
 public class NewSittingRectangularySectionController extends ViewController {
   @FXML
@@ -49,9 +50,11 @@ public class NewSittingRectangularySectionController extends ViewController {
       System.out.println("Rectangle is null");
       return;
     }
-    try {      
-      rectangle.setWidth(Double.parseDouble(columnsInput.getText()));
-      rectangle.setHeight(Double.parseDouble(rangeInput.getText()));
+    try {
+      rectangle.setColumnNumber(Integer.parseInt(columnsInput.getText()));
+      rectangle.setRowNumber(Integer.parseInt(rangeInput.getText()));
+      // rectangle.setWidth(Double.parseDouble(columnsInput.getText()));
+      // rectangle.setHeight(Double.parseDouble(rangeInput.getText()));
     } catch (Exception e) {
       System.out.println(e);
     }
@@ -78,10 +81,35 @@ public class NewSittingRectangularySectionController extends ViewController {
       System.out.println("Rectangle is null");
       return;
     }
-    columnsInput.setText(Double.toString(rectangle.getWidth()));
-    rangeInput.setText(Double.toString(rectangle.getHeight()));
-    columnsInput.textProperty().bindBidirectional(rectangle.getWidthProperty(), new NumberStringConverter());
-    rangeInput.textProperty().bindBidirectional(rectangle.getHeightProperty(), new NumberStringConverter());
+    SimpleDoubleProperty widthInput = new SimpleDoubleProperty();
+    SimpleDoubleProperty heightInput = new SimpleDoubleProperty();
+
+    // columnsInput.setText(Double.toString(rectangle.getWidth()));
+    // rangeInput.setText(Double.toString(rectangle.getHeight()));
+    
+    columnsInput.textProperty().bindBidirectional(widthInput, new NumberStringConverter());
+    rangeInput.textProperty().bindBidirectional(heightInput, new NumberStringConverter());
+    widthInput.set(rectangle.getColumnNumber());
+    heightInput.set(rectangle.getRowNumber());
+    rectangle.getWidthProperty().addListener((ChangeListener<Number>) (ov, oldX, newX) -> {
+      if (widthInput.get() != rectangle.getColumnNumber())
+        widthInput.set(rectangle.getColumnNumber());
+    });
+    rectangle.getHeightProperty().addListener((ChangeListener<Number>) (ov, oldY, newY) -> {
+      if (heightInput.get() != rectangle.getRowNumber())
+        heightInput.set(rectangle.getRowNumber());
+    });
+    widthInput.addListener((ChangeListener<Number>) (ov, oldX, newX) -> {
+      if (rectangle.getColumnNumber() != newX.intValue())
+        rectangle.setColumnNumber(newX.intValue());
+      // rectangle.getWidthProperty().set(Engine().meterToPixel( newX * 1.5));
+    });
+    heightInput.addListener((ChangeListener<Number>) (ov, oldY, newY) -> {
+      // Double y = (Double) newY;
+      if (rectangle.getRowNumber() != newY.intValue())
+        rectangle.setRowNumber(newY.intValue());
+      // rectangle.getHeightProperty().set(Engine().meterToPixel( newY * 1.5));
+    });
     // StringConverter<Number> converter = new NumberStringConverter();
     // Bindings.bindBidirectional(_width, rectangle.getMaxXProperty(), converter);
     // Bindings.bindBidirectional(_height, rectangle.getMaxXProperty(), converter);
