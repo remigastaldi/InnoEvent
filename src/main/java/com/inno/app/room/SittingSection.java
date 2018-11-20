@@ -19,11 +19,11 @@ public class SittingSection extends Section implements ImmutableSittingSection {
   private ArrayList<SittingRow> _rows = new ArrayList<SittingRow>();
   private VitalSpace _vitalSpace;
 
-  public SittingSection(String idSection, double elevation, boolean autoDistrib, VitalSpace vitalSpace, double[] points, double rotation) {
+  public SittingSection(String idSection, double elevation, double[] points, double rotation, double vitalSpaceHeight, double vitalSpaceWidth) {
     super(idSection, elevation, points, rotation);
-    this._autoDistrib = autoDistrib;
+    this._autoDistrib = true;
     //this._rows = ;
-    this._vitalSpace = vitalSpace;
+    this._vitalSpace = new VitalSpace(vitalSpaceHeight, vitalSpaceWidth);
   }
 
   public void setAutoDistribution(boolean autoDistrib) {

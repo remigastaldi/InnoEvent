@@ -120,4 +120,9 @@ public class Core {
   public void setStandingNbPeople(String idSection, int nbPeople) {
     this._room.setStandingNbPeople(idSection, nbPeople);
   }
+
+    //sittingSection Methods
+    public ImmutableSittingSection createSittingSection(double elevation, double[] positions, double rotation) {
+      return this._room.createSittingSection(elevation, positions, rotation);
+    }
 };

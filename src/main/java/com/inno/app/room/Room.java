@@ -184,4 +184,14 @@ public class Room implements ImmutableRoom {
         StandingSection standingSection = this._standingSections.get(idSection);
         standingSection.setNbPeople(nbPeople);
     }
+
+        //sittingSection Methods
+    public ImmutableSittingSection createSittingSection(double elevation, double[] positions, double rotation) {
+        String id = findFreeId();
+        double vitalSpaceHeight = this.getImmutableVitalSpace().getHeight();
+        double vitalSpaceWidth = this.getImmutableVitalSpace().getWidth();
+        SittingSection sittingSection = new SittingSection(id, elevation, positions, rotation, vitalSpaceHeight, vitalSpaceWidth);
+        this._sittingSections.put(id, sittingSection);
+        return sittingSection;
+    }
 }
