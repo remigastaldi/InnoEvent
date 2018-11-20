@@ -108,6 +108,10 @@ public class Core {
     this._room.deleteSection(idSection);
   }
 
+  public void setSectionRotation(String idSection, double rotation) {
+    this._room.setSectionRotation(idSection, rotation);
+  }
+
     //standingSection Methods
   public ImmutableStandingSection createStandingSection(double elevation, int nbPeople, double[] positions) {
     return this._room.createStandingSection(elevation, nbPeople, positions);

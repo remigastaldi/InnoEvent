@@ -106,7 +106,7 @@ public class Room implements ImmutableRoom {
 
     //Section Methods
     public Section getSectionById(String idSection) {
-        Section section;
+        Section section = null;
         if ((section = this._sittingSections.get(idSection)) != null) {
             return section;
         }
@@ -117,8 +117,25 @@ public class Room implements ImmutableRoom {
     }
 
     public void setSectionId(String oldIdSection, String newIdSection) {
-        Section section = getSectionById(oldIdSection);
-        section.setIdSection(newIdSection);
+        SittingSection sittingSection = null;
+        StandingSection standingSection = null;
+
+        if ((sittingSection = this._sittingSections.remove(oldIdSection)) != null) {
+            this._sittingSections.put(newIdSection, sittingSection);
+            sittingSection.setIdSection(newIdSection);
+        }
+        else {
+            standingSection = this._standingSections.remove(oldIdSection);
+            this._standingSections.put(newIdSection, standingSection);
+            standingSection.setIdSection(newIdSection);
+        }
+        try {
+            Integer.parseInt(oldIdSection);
+            this._idSection.add(Integer.parseInt(oldIdSection));
+        }
+        catch(NumberFormatException e) {
+            System.out.println("OldSectionId not an integer, don't need to add in arraylist");
+        }
     }
 
     public void setSectionElevation(String idSection, double elevation) {
@@ -131,9 +148,15 @@ public class Room implements ImmutableRoom {
         section.updatePosition(positions);
     }
 
+    public void setSectionRotation(String idSection, double rotation) {
+        Section section = getSectionById(idSection);
+        section.setRotation(rotation);
+    }
+
     public void deleteSection(String idSection) {
         this._sittingSections.remove(idSection);
         this._standingSections.remove(idSection);
+        this._idSection.add(Integer.parseInt(idSection));
     }
 
     public String findFreeId() {
@@ -153,6 +176,7 @@ public class Room implements ImmutableRoom {
     public ImmutableStandingSection createStandingSection(double elevation, int nbPeople, double[] positions) {
         String id = findFreeId();
         StandingSection standingSection = new StandingSection(id, elevation, positions, nbPeople);
+        this._standingSections.put(id, standingSection);
         return standingSection;
     }
 
