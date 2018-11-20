@@ -62,7 +62,6 @@ public class InteractiveRectangle extends InteractiveShape {
   // TMP
   private ChangeListener<Number> listenerX = null;
   private ChangeListener<Number> listenerY = null;
-  private boolean dragged = false;
 
   public InteractiveRectangle(Engine engine, Pane pane) {
     super(engine, pane);
@@ -94,7 +93,6 @@ public class InteractiveRectangle extends InteractiveShape {
 
     EventHandler<MouseEvent> mouseMovedEvent = event -> {
       if (onMouseMoved(event)) {
-        dragged = false;
         // Point2D p = Pane().sceneToLocal(event.getSceneX(), event.getSceneY());
         double newX = event.getX();
         double newY = event.getY();
@@ -118,7 +116,6 @@ public class InteractiveRectangle extends InteractiveShape {
     
     EventHandler<MouseEvent> mouseDraggedEvent = event -> {
       if (onMouseOnDragDetected(event)) {
-        dragged = true;
         // System.out.println("DRAGG");
         // Point2D p = Pane().sceneToLocal(event.getSceneX(), event.getSceneY());
         double newX = event.getX();
@@ -144,18 +141,22 @@ public class InteractiveRectangle extends InteractiveShape {
       }
     };
     EventHandler<MouseEvent> mouseReleasedEvent = event -> {
-      if (_collisionDetected)
-        return;
-      EventHandler<MouseEvent> mouseDraggEvent = EventHandlers().remove(MouseEvent.MOUSE_DRAGGED);
-      Pane().removeEventHandler(MouseEvent.MOUSE_DRAGGED, mouseDraggEvent);
-      EventHandler<MouseEvent> mouseReleaseEvent = EventHandlers().remove(MouseEvent.MOUSE_RELEASED);
-      Pane().removeEventHandler(MouseEvent.MOUSE_RELEASED, mouseReleaseEvent);
-      _cursor.centerXProperty().removeListener(listenerX);
-      _cursor.centerYProperty().removeListener(listenerY);
-      // _cursor.centerYProperty().removeListener(listener);
-      // closeForm(event);
-      // if (onMouseReleased(event)) {
-      // }
+      if (onMouseReleased(event)) {
+        if (_collisionDetected)
+          return;
+        EventHandler<MouseEvent> mouseDraggEvent = EventHandlers().remove(MouseEvent.MOUSE_DRAGGED);
+        Pane().removeEventHandler(MouseEvent.MOUSE_DRAGGED, mouseDraggEvent);
+        EventHandler<MouseEvent> mouseReleaseEvent = EventHandlers().remove(MouseEvent.MOUSE_RELEASED);
+        Pane().removeEventHandler(MouseEvent.MOUSE_RELEASED, mouseReleaseEvent);
+        _cursor.centerXProperty().removeListener(listenerX);
+        _cursor.centerYProperty().removeListener(listenerY);
+        // _cursor.centerYProperty().removeListener(listener);
+        // closeForm(event);
+        // if (onMouseReleased(event)) {
+        // }
+        if (!onFormComplete())
+          return;
+      }
     };
     EventHandler<MouseEvent> mousePressedEvent = event -> {
       if (_collisionDetected)
@@ -163,21 +164,19 @@ public class InteractiveRectangle extends InteractiveShape {
       closeForm(event);
       // maxXProperty.set(event.getX());
       // maxYProperty.set(event.getY());
-      // listenerX = (ChangeListener<Number>) (ov, oldX, newX) -> {
-      //   maxXProperty.set(_cursor.getCenterX());
-      // };
-      // _cursor.centerXProperty().addListener(listenerX);
+      listenerX = (ChangeListener<Number>) (ov, oldX, newX) -> {
+        maxXProperty.set(_cursor.getCenterX());
+      };
+      _cursor.centerXProperty().addListener(listenerX);
       
-      // listenerY = (ChangeListener<Number>) (ov, oldY, newY) -> {
-      //   maxYProperty.set(_cursor.getCenterY());
-      // };
-      // _cursor.centerYProperty().addListener(listenerY);
-      if (!onFormComplete())
-        return;
+      listenerY = (ChangeListener<Number>) (ov, oldY, newY) -> {
+        maxYProperty.set(_cursor.getCenterY());
+      };
+      _cursor.centerYProperty().addListener(listenerY);
+      // if (!onFormComplete())
+      //   return;
     //   _cursor.centerYProperty().addListener((ChangeListener<Number>) (ov, oldY, newY) -> {
     // });
-      if (onMouseClicked(event)) {
-      }
     };
     // EventHandler<MouseEvent> mouseClickedEvent = event -> {
     //   closeForm(event);
@@ -213,9 +212,7 @@ public class InteractiveRectangle extends InteractiveShape {
     Anchor resizeHandleLD = new Anchor(Color.GOLD, _rectangle.xProperty(), maxYProperty);
 
     _rectangle.widthProperty().addListener((ChangeListener<Number>) (ov, oldX, newX) -> {
-        // System.out.println("Change maxX " + _rectangle.getX() + " " + (double) newX);
       if (_rectangle.getX() + (double) newX != maxXProperty.get()) {
-        System.out.println("Change maxX " + _rectangle.getX() + " " + (double) newX);
         maxXProperty.set(_rectangle.getX() + (double) newX);
       }
     });
@@ -415,8 +412,8 @@ public class InteractiveRectangle extends InteractiveShape {
 
     EventHandler<MouseEvent> mouseMovedEvent = EventHandlers().remove(MouseEvent.MOUSE_MOVED);
     Pane().removeEventHandler(MouseEvent.MOUSE_MOVED, mouseMovedEvent);
-    EventHandler<MouseEvent> mouseRelesedEvent = EventHandlers().remove(MouseEvent.MOUSE_RELEASED);
-    Pane().removeEventHandler(MouseEvent.MOUSE_RELEASED, mouseRelesedEvent);
+    // EventHandler<MouseEvent> mouseRelesedEvent = EventHandlers().remove(MouseEvent.MOUSE_RELEASED);
+    // Pane().removeEventHandler(MouseEvent.MOUSE_RELEASED, mouseRelesedEvent);
     EventHandler<MouseEvent> mousePressedEvent = EventHandlers().remove(MouseEvent.MOUSE_PRESSED);
     Pane().removeEventHandler(MouseEvent.MOUSE_PRESSED, mousePressedEvent);
 
