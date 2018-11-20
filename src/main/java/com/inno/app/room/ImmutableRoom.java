@@ -2,7 +2,7 @@
  * File Created: Thursday, 8th November 2018
  * Author: MAREL Maud
  * -----
- * Last Modified: Friday, 16th November 2018
+ * Last Modified: Tuesday, 20th November 2018
  * Modified By: MAREL Maud
  * -----
  * Copyright - 2018 MAREL Maud
@@ -16,6 +16,8 @@ public interface ImmutableRoom {
     public String getName();
     public double getHeight();
     public double getWidth();
+    public double getHeightVitalSpace();
+    public double getWidthVitalSpace();
     public ImmutableScene getImmutableScene();
     public Section getSectionById(String idSection);
 }

@@ -2,8 +2,8 @@
  * File Created: Tuesday, 9th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Monday, 19th November 2018
- * Modified By: GASTALDI Rémi
+ * Last Modified: Tuesday, 20th November 2018
+ * Modified By: MAREL Maud
  * -----
  * Copyright - 2018 GASTALDI Rémi
  * <<licensetext>>
@@ -38,8 +38,8 @@ public class Core {
   }
 
   //Room methods
-  public void createRoom(String name, double width, double height) {
-    this._room = new Room(name, height, width);
+  public void createRoom(String name, double width, double height, double heightVitalSpace, double widthVitalSpace) {
+    this._room = new Room(name, height, width, heightVitalSpace, widthVitalSpace);
   }
 
   public ImmutableRoom getImmutableRoom() {
@@ -56,6 +56,14 @@ public class Core {
 
   public void setRoomWidth(double width) {
     this._room.setWidth(width);
+  }
+
+  public void setRoomVitalSpaceHeight(double height) {
+    this._room.setHeightVitalSpace(height);
+  }
+
+  public void setRoomVitalSpaceWidth(double width) {
+    this._room.setWidthVitalSpace(width);
   }
 
   //Scene methods

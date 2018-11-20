@@ -2,8 +2,8 @@
  * File Created: Friday, 12th October 2018
  * Author: HUBERT Léo
  * -----
- * Last Modified: Friday, 16th November 2018
- * Modified By: GASTALDI Rémi
+ * Last Modified: Tuesday, 20th November 2018
+ * Modified By: MAREL Maud
  * -----
  * Copyright - 2018 HUBERT Léo
  * <<licensetext>>
@@ -45,7 +45,10 @@ public class StartupPopupNewProjectViewController extends ViewController {
   @FXML
   private TextField scene_height_input;
   @FXML
-  private TextField vital_space_input;
+  private TextField vital_space_width_input;
+  @FXML
+  private TextField vital_space_height_input;
+  
 
   public void init() {
   }
@@ -62,6 +65,8 @@ public class StartupPopupNewProjectViewController extends ViewController {
     Double roomHeight = Double.parseDouble(room_height_input.getText());
     Double sceneWidth = Double.parseDouble(scene_width_input.getText());
     Double sceneHeight = Double.parseDouble(scene_height_input.getText());
+    Double vitalSpaceWidth = Double.parseDouble(vital_space_width_input.getText());
+    Double vitalSpaceHeight = Double.parseDouble(vital_space_height_input.getText());
 
     System.out.println(roomWidth);
     double[] scenePos = { roomWidth / 2 - sceneWidth / 2,
@@ -73,7 +78,7 @@ public class StartupPopupNewProjectViewController extends ViewController {
                           roomWidth / 2 - sceneWidth / 2,
                           roomHeight / 2 + roomHeight / 2 };
 
-    Core().createRoom(project_name_input.getText(), roomWidth, roomHeight);
+    Core().createRoom(project_name_input.getText(), roomWidth, roomHeight, vitalSpaceWidth, vitalSpaceHeight);
     
     Core().createScene(sceneWidth, sceneHeight, scenePos);
     
