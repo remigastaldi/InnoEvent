@@ -2,7 +2,7 @@
  * File Created: Sunday, 14th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Saturday, 17th November 2018
+ * Last Modified: Tuesday, 20th November 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -277,10 +277,16 @@ public class InteractivePolygon extends InteractiveShape {
         Pane().getChildren().add(shape);
         shape.setTranslateX(newTranslateX);
         shape.setTranslateY(newTranslateY);
+
+        // TMP
+      _group.setTranslateX(newTranslateX);
+        _group.setTranslateY(newTranslateY);
         if (!Engine().isObjectUnderCursor(shape)) {
-          _group.setTranslateX(newTranslateX);
-          _group.setTranslateY(newTranslateY);
-        }
+          // _group.setTranslateX(newTranslateX);
+          // _group.setTranslateY(newTranslateY);
+          _polygon.setFill(Color.ROYALBLUE);
+        } else
+        _polygon.setFill(Color.RED);
         Pane().getChildren().remove(shape);
       }
     };

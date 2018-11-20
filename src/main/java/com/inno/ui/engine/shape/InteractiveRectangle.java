@@ -2,7 +2,7 @@
  * File Created: Monday, 15th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Monday, 19th November 2018
+ * Last Modified: Tuesday, 20th November 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -244,7 +244,25 @@ public class InteractiveRectangle extends InteractiveShape {
     anchors.add(resizeHandleRD);
     anchors.add(resizeHandleLD);
 
+    createLine(resizeHandleLU, resizeHandleRU);
+    createLine(resizeHandleRU, resizeHandleRD);
+    createLine(resizeHandleRD, resizeHandleLD);
+    createLine(resizeHandleLD, resizeHandleLU);
+
     return anchors;
+  }
+
+  void createLine(Anchor first, Anchor second) {
+    Line line = new Line();
+    line.setStrokeWidth(1.0);
+    line.setStroke(Color.KHAKI);
+    line.startXProperty().bind(first.centerXProperty());
+    line.startYProperty().bind(first.centerYProperty());
+    line.endXProperty().bind(second.centerXProperty());
+    line.endYProperty().bind(second.centerYProperty());
+
+    Pane().getChildren().add(line);
+    addOutboundShape(line);
   }
 
   class Anchor extends Circle {
@@ -392,24 +410,6 @@ public class InteractiveRectangle extends InteractiveShape {
       getSelectShapes().add(anchor.getShape());
     }
 
-    // for (int i = 0; i < 4; ++i) {
-    // Line line = new Line();
-
-    // line.setStrokeWidth(1.0);
-    // line.setStroke(Color.KHAKI);
-    // line.setVisible(false);
-    // line.setStartX();
-    // line.setStartY(_cursor.getCenterY());
-    // line.setStrokeLineCap(StrokeLineCap.ROUND);
-    // _lines.add(line);
-    // Pane().getChildren().add(line);
-    // addOutboundShape(line);
-    // }
-
-    // Line activeLine = _lines.get(_lines.size() - 1);
-    // activeLine.setEndX(firstPoint.getCenterX());
-    // activeLine.setEndY(firstPoint.getCenterY());
-
     EventHandler<MouseEvent> mouseMovedEvent = EventHandlers().remove(MouseEvent.MOUSE_MOVED);
     Pane().removeEventHandler(MouseEvent.MOUSE_MOVED, mouseMovedEvent);
     // EventHandler<MouseEvent> mouseRelesedEvent = EventHandlers().remove(MouseEvent.MOUSE_RELEASED);
@@ -429,7 +429,6 @@ public class InteractiveRectangle extends InteractiveShape {
     EventHandlers().put(MouseEvent.MOUSE_CLICKED, mouseClick);
     _rectangle.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseClick);
 
-    Engine().addInteractiveShape(this);
 
     ArrayList<Node> nodes = new ArrayList<>();
     nodes.add(_rectangle);
@@ -464,10 +463,10 @@ public class InteractiveRectangle extends InteractiveShape {
         select();
         // TODO: Magnetism between anchors and lines
 
-        Polygon shape = new Polygon();
+        Rectangle shape = new Rectangle(_rectangle.getX(), _rectangle.getY(),
+                                        _rectangle.getWidth(), _rectangle.getHeight());
         shape.setFill(Color.TRANSPARENT);
         shape.setStroke(Color.WHITE);
-        // shape.getPoints().addAll(_rectangle.getPoints());
         ObservableList<Transform> effect = _group.getTransforms();
         if (effect != null && effect.size() > 0)
           shape.getTransforms().add(effect.get(0));
@@ -481,16 +480,23 @@ public class InteractiveRectangle extends InteractiveShape {
         Pane().getChildren().add(shape);
         shape.setTranslateX(newTranslateX);
         shape.setTranslateY(newTranslateY);
+
+        // TMP
+      _group.setTranslateX(newTranslateX);
+        _group.setTranslateY(newTranslateY);
         if (!Engine().isObjectUnderCursor(shape)) {
-          _group.setTranslateX(newTranslateX);
-          _group.setTranslateY(newTranslateY);
-        }
+          // _group.setTranslateX(newTranslateX);
+          // _group.setTranslateY(newTranslateY);
+          _rectangle.setFill(Color.ROYALBLUE);
+        } else
+          _rectangle.setFill(Color.RED);
         Pane().getChildren().remove(shape);
       }
     };
     EventHandlers().put(MouseEvent.MOUSE_DRAGGED, mouseDragged);
     _rectangle.addEventHandler(MouseEvent.MOUSE_DRAGGED, mouseDragged);
 
+    Engine().addInteractiveShape(this);
     Engine().selected(this);
 
     return;
