@@ -63,7 +63,7 @@ public class SittingSection extends Section implements ImmutableSittingSection {
     return this._rows;
   }
   
-  public VitalSpace getVitalSpace() {
+  public ImmutableVitalSpace getImmutableVitalSpace() {
     return this._vitalSpace;
   }
 }

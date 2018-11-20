@@ -125,4 +125,9 @@ public class Core {
     public ImmutableSittingSection createSittingSection(double elevation, double[] positions, double rotation) {
       return this._room.createSittingSection(elevation, positions, rotation);
     }
+
+    public void setSittingSectionVitalSpace(String idSection, double height, double width) {
+      this._room.setSittingSectionVitalSpace(idSection, height, width);
+    }
+  
 };

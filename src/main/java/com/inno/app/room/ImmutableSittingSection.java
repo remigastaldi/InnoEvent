@@ -2,7 +2,7 @@
  * File Created: Tuesday, 13th November 2018
  * Author: MAREL Maud
  * -----
- * Last Modified: Friday, 16th November 2018
+ * Last Modified: Tuesday, 20th November 2018
  * Modified By: MAREL Maud
  * -----
  * Copyright - 2018 MAREL Maud
@@ -20,5 +20,5 @@ public interface ImmutableSittingSection {
     public double[] getPositions();
     public boolean isAutoDistribution();
     public ArrayList<? extends ImmutableSittingRow> getImmutableSittingRow();
-    public VitalSpace getVitalSpace();
+    public ImmutableVitalSpace getImmutableVitalSpace();
 }
