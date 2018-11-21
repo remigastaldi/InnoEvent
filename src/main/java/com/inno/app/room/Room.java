@@ -206,8 +206,8 @@ public class Room implements ImmutableRoom {
         return sittingSection;
     }
 
-    public void setSittingSectionVitalSpace(String sectionId, double height, double width) {
+    public void setSittingSectionVitalSpace(String sectionId, double width, double height) {
         SittingSection sittingSection = this._sittingSections.get(sectionId);
-        sittingSection.setVitalSpace(height, width);
+        sittingSection.setVitalSpace(width, height);
     }
 }
