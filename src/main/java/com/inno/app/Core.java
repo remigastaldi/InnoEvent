@@ -2,8 +2,8 @@
  * File Created: Tuesday, 9th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Tuesday, 20th November 2018
- * Modified By: MAREL Maud
+ * Last Modified: Wednesday, 21st November 2018
+ * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
  * <<licensetext>>
@@ -26,7 +26,7 @@ public class Core {
   // Inno Class
   private Room  _room = null;
 
-  public Core() {
+  private Core() {
   }
 
   public static Core get() {
@@ -126,8 +126,8 @@ public class Core {
       return this._room.createSittingSection(elevation, positions, rotation);
     }
 
-    public void setSittingSectionVitalSpace(String idSection, double height, double width) {
-      this._room.setSittingSectionVitalSpace(idSection, height, width);
+    public void setSittingSectionVitalSpace(String idSection, double width, double height) {
+      this._room.setSittingSectionVitalSpace(idSection, width, height);
     }
   
 };
