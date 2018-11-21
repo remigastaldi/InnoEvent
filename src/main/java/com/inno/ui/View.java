@@ -82,7 +82,6 @@ public class View extends Application {
       view.init();
       stage.setResizable(false);
       stage.setScene(scene);
-      stage.initModality(Modality.APPLICATION_MODAL);
       stage.setAlwaysOnTop(true);
       stage.show();
     } catch (Exception e) {

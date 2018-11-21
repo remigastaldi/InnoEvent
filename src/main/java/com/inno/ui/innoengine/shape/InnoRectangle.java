@@ -13,8 +13,8 @@
 package com.inno.ui.innoengine.shape;
 
 import  com.inno.ui.innoengine.InnoEngine;
-import com.inno.app.Core;
-import com.inno.app.room.ImmutableSittingSection;
+import  com.inno.app.Core;
+import  com.inno.app.room.ImmutableSittingSection;
 import  com.inno.ui.engine.shape.InteractiveRectangle;
 
 import  javafx.scene.layout.Pane;
@@ -23,7 +23,6 @@ import  javafx.scene.input.MouseEvent;
 public class InnoRectangle extends InteractiveRectangle {
   private double _xVitalSpace = 0.0;
   private double _yVitalSpace = 0.0;
-  private boolean _dragged = false;
   private ImmutableSittingSection _sectionData = null;
 
   public InnoRectangle(InnoEngine engine, Pane pane) {
@@ -50,7 +49,6 @@ public class InnoRectangle extends InteractiveRectangle {
 
   @Override
   public boolean onMouseMoved(MouseEvent event) {
-    _dragged = false;
     return true;
   }
 
@@ -71,17 +69,15 @@ public class InnoRectangle extends InteractiveRectangle {
                     getMaxXProperty().get(), getMaxYProperty().get(),
                     getX(), getMaxYProperty().get() };
     _sectionData = Core.get().createSittingSection(0, pos, 0);
-    
-    if (!_dragged) {
-      InnoEngine engine = (InnoEngine)Engine();
-      engine.getView().openPopup("new_sitting_rectangulary_section.fxml", this);
-    }
+
+    InnoEngine engine = (InnoEngine)Engine();
+    engine.getView().openPopup("new_sitting_rectangulary_section.fxml", this);
+
     return true;
   }
 
   @Override
   public boolean onMouseOnDragDetected(MouseEvent event) {
-    _dragged = true;
     return true;
   }
 
