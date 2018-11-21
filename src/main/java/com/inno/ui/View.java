@@ -2,8 +2,8 @@
  * File Created: Wednesday, 10th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Saturday, 17th November 2018
- * Modified By: HUBERT Léo
+ * Last Modified: Wednesday, 21st November 2018
+ * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
  * <<licensetext>>
@@ -215,8 +215,8 @@ public class View extends Application {
     Application.launch(View.class, args);
   }
 
-  public void createEngine(Pane pane) {
-    _engine = new InnoEngine(this, pane);
+  public void createEngine(StackPane stackPane) {
+    _engine = new InnoEngine(this, stackPane);
   }
 
   public InnoEngine getEngine() {

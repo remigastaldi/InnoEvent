@@ -2,7 +2,7 @@
  * File Created: Friday, 12th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Tuesday, 20th November 2018
+ * Last Modified: Wednesday, 21st November 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -14,6 +14,9 @@ package com.inno.ui.engine;
 
 import java.util.ArrayList;
 
+import com.inno.app.Core;
+import com.inno.app.room.ImmutableRoom;
+import com.inno.app.room.ImmutableScene;
 import com.inno.ui.engine.shape.InteractivePolygon;
 import com.inno.ui.engine.shape.InteractiveRectangle;
 import com.inno.ui.engine.shape.InteractiveShape;
@@ -33,6 +36,7 @@ import  javafx.geometry.Point2D;
 import javafx.geometry.Bounds;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.Group;
+import javafx.scene.layout.StackPane;
 
 
 import javafx.scene.control.ScrollPane;
@@ -46,8 +50,62 @@ public class Engine {
   private Shape _currentMagnetism = null;
   private double _scale = 10.0;
 
-    public Engine(Pane pane) {
-    _pane = pane;
+  private ScrollPane scrollPane;
+
+
+  public Engine(StackPane stackPane) {
+    // Pane _pane = new Pane();
+    _pane = new Pane();
+    ImmutableRoom roomData = Core.get().getImmutableRoom();
+    ImmutableScene sceneData = roomData.getImmutableScene();
+
+    Rectangle scene = new Rectangle(sceneData.getPositions()[0], sceneData.getPositions()[1],
+                                    sceneData.getWidth(), sceneData.getHeight());
+    scene.setFill(Color.CHARTREUSE);
+    scene.setOpacity(0.8);
+    _pane.getChildren().add(scene);
+    _pane.setPrefSize(roomData.getWidth(), roomData.getHeight());
+
+    Group group = new Group(_pane);
+    StackPane content = new StackPane(group);
+    content.setStyle("-fx-background-color: #1E1E1E");
+
+    group.layoutBoundsProperty().addListener((observable, oldBounds, newBounds) -> {
+      // keep it at least as large as the content
+      content.setMinWidth(newBounds.getWidth());
+      content.setMinHeight(newBounds.getHeight());
+    });
+
+    scrollPane = new ScrollPane(content);
+    scrollPane.setStyle("-fx-background-color: #1E1E1E");
+
+    // scrollPane.setPannable(true);
+    scrollPane.viewportBoundsProperty().addListener((observable, oldBounds, newBounds) -> {
+        // use vieport size, if not too small for zoomTarget
+        content.setPrefSize(newBounds.getWidth(), newBounds.getHeight());
+    });
+
+    content.setOnScroll(evt -> {
+      if (evt.isControlDown()) {
+          evt.consume();
+
+          final double zoomFactor = evt.getDeltaY() > 0 ? 1.2 : 1 / 1.2;
+
+          Point2D scrollOffset = figureScrollOffset(group, scrollPane);
+
+          // do the resizing
+          _pane.setScaleX(zoomFactor * _pane.getScaleX());
+          _pane.setScaleY(zoomFactor * _pane.getScaleY());
+
+          // refresh ScrollPane scroll positions & content bounds
+          scrollPane.layout();
+
+          repositionScroller(group, scrollPane, zoomFactor, scrollOffset);
+      }
+    });
+    stackPane.getChildren().add(scrollPane);
+  
+    // _pane = pane;
     _board = new Rectangle(0, 0, _pane.getWidth(), _pane.getHeight());
     _board.setStrokeWidth(0.0);
     _board.setFill(Color.TRANSPARENT);
@@ -66,6 +124,40 @@ public class Engine {
 
     _pane.setStyle("-fx-background-color: #" + val);
   }
+
+  private Point2D figureScrollOffset(Node scrollContent, ScrollPane scroller) {
+    double extraWidth = scrollContent.getLayoutBounds().getWidth() - scroller.getViewportBounds().getWidth();
+    double hScrollProportion = (scroller.getHvalue() - scroller.getHmin()) / (scroller.getHmax() - scroller.getHmin());
+    double scrollXOffset = hScrollProportion * Math.max(0, extraWidth);
+    double extraHeight = scrollContent.getLayoutBounds().getHeight() - scroller.getViewportBounds().getHeight();
+    double vScrollProportion = (scroller.getVvalue() - scroller.getVmin()) / (scroller.getVmax() - scroller.getVmin());
+    double scrollYOffset = vScrollProportion * Math.max(0, extraHeight);
+    return new Point2D(scrollXOffset, scrollYOffset);
+  }
+
+  private void repositionScroller(Node scrollContent, ScrollPane scroller, double scaleFactor, Point2D scrollOffset) {
+    double scrollXOffset = scrollOffset.getX();
+    double scrollYOffset = scrollOffset.getY();
+    double extraWidth = scrollContent.getLayoutBounds().getWidth() - scroller.getViewportBounds().getWidth();
+
+    if (extraWidth > 0) {
+      double halfWidth = scroller.getViewportBounds().getWidth() / 2;
+      double newScrollXOffset = (scaleFactor - 1) * halfWidth + scaleFactor * scrollXOffset;
+      scroller.setHvalue(scroller.getHmin() + newScrollXOffset * (scroller.getHmax() - scroller.getHmin()) / extraWidth);
+    } else {
+      scroller.setHvalue(scroller.getHmin());
+    }
+
+    double extraHeight = scrollContent.getLayoutBounds().getHeight() - scroller.getViewportBounds().getHeight();
+    if (extraHeight > 0) {
+      double halfHeight = scroller.getViewportBounds().getHeight() / 2;
+      double newScrollYOffset = (scaleFactor - 1) * halfHeight + scaleFactor * scrollYOffset;
+      scroller.setVvalue(scroller.getVmin() + newScrollYOffset * (scroller.getVmax() - scroller.getVmin()) / extraHeight);
+    } else {
+      scroller.setHvalue(scroller.getHmin());
+    }
+  }
+
 
   public void activateGrid(boolean val) {
     if (val) {

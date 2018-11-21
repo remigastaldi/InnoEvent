@@ -13,6 +13,7 @@ package com.inno.app;
 
 import com.inno.app.InnoSave;
 import com.inno.app.room.*;
+import com.inno.service.Save;
 import com.inno.service.pricing.Pricing;
 
 public class Core {
@@ -20,7 +21,8 @@ public class Core {
   private static Core _instance = null;
 
   // Services
-  private InnoSave  _saveService = new InnoSave();
+  // private InnoSave  _saveService = new InnoSave();
+  private Save<ImmutableRoom>  _saveService = new Save<ImmutableRoom>();
   private Pricing _pricing = new Pricing();
 
   // Inno Class
@@ -121,13 +123,15 @@ public class Core {
     this._room.setStandingNbPeople(idSection, nbPeople);
   }
 
-    //sittingSection Methods
-    public ImmutableSittingSection createSittingSection(double elevation, double[] positions, double rotation) {
-      return this._room.createSittingSection(elevation, positions, rotation);
-    }
+  //sittingSection Methods
+  public ImmutableSittingSection createSittingSection(double elevation, double[] positions, double rotation) {
+    return this._room.createSittingSection(elevation, positions, rotation);
+  }
 
-    public void setSittingSectionVitalSpace(String idSection, double width, double height) {
-      this._room.setSittingSectionVitalSpace(idSection, width, height);
-    }
+  public void setSittingSectionVitalSpace(String idSection, double width, double height) {
+    this._room.setSittingSectionVitalSpace(idSection, width, height);
+  }
+
   
+  // Save Methods
 };

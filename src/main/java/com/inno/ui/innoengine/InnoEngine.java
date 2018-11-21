@@ -2,7 +2,7 @@
  * File Created: Friday, 12th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Saturday, 17th November 2018
+ * Last Modified: Wednesday, 21st November 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -21,6 +21,7 @@ import com.inno.ui.innoengine.shape.InnoRectangle;
 
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import  javafx.scene.shape.Shape;
 import javafx.geometry.Point2D;
@@ -31,8 +32,8 @@ public class InnoEngine extends Engine {
   String statut = "";
   View _view = null;
 
-  public InnoEngine(View view, Pane pane) {
-    super(pane);
+  public InnoEngine(View view, StackPane stackPane) {
+    super(stackPane);
 
     _view = view;
     setBackgroundColor(Color.valueOf("#282C34"));
