@@ -7,6 +7,14 @@
     -fx-primary: orange;
 }
 
+.error {
+    -fx-border-color: red !important;
+}
+
+.success {
+    -fx-border-color: green !important;
+}
+
 .root {
     -fx-background-color: -fx-grey;
     -fx-text-fill: -fx-light-grey;
@@ -97,8 +105,9 @@
     -fx-border-color: -fx-primary;
     -fx-border-width: 0 0 1 0;
 }
+
 .menu {
-    -fx-background-color: -fx-dark;    
+    -fx-background-color: -fx-dark;
 }
 
 .menu:hover {
@@ -117,10 +126,6 @@
 .menu-item, .context-menu {
     -fx-background-color: -fx-grey;
 }
-
-
-
-
 
 .slider .track {
     -fx-background-image: url("https://i.imgur.com/SwDjIg7.png");
