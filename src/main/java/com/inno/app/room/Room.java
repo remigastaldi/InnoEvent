@@ -2,7 +2,7 @@
  * File Created: Friday, 12th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Tuesday, 20th November 2018
+ * Last Modified: Wednesday, 21st November 2018
  * Modified By: MAREL Maud
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -101,8 +101,8 @@ public class Room implements ImmutableRoom {
     }
 
     //Section Methods
-    public Section getSectionById(String idSection) {
-        Section section = null;
+    public ImmutableSection getImmutableSectionById(String idSection) {
+        ImmutableSection section = null;
         if ((section = this._sittingSections.get(idSection)) != null) {
             return section;
         }
@@ -132,6 +132,17 @@ public class Room implements ImmutableRoom {
         catch(NumberFormatException e) {
             System.out.println("OldSectionId not an integer, don't need to add in arraylist");
         }
+    }
+
+    public Section getSectionById(String idSection) {
+        Section section = null;
+        if ((section = this._sittingSections.get(idSection)) != null) {
+            return section;
+        }
+        else if ((section = this._standingSections.get(idSection)) != null) {
+            return section;
+        }
+        return section;
     }
 
     public void setSectionElevation(String idSection, double elevation) {
