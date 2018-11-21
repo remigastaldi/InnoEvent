@@ -2,7 +2,7 @@
  * File Created: Friday, 12th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Monday, 19th November 2018
+ * Last Modified: Tuesday, 20th November 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -239,6 +239,7 @@ public class Engine {
   public void deleteSelectedShape() {
     if (_selectedShape == null)
       return;
+    _shapes.remove(_selectedShape);
     _selectedShape.destroy();
     _selectedShape = null;
   }

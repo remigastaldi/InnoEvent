@@ -146,33 +146,32 @@ public class InteractiveRectangle extends InteractiveShape {
         Pane().removeEventHandler(MouseEvent.MOUSE_RELEASED, mouseReleaseEvent);
         _cursor.centerXProperty().removeListener(listenerX);
         _cursor.centerYProperty().removeListener(listenerY);
-        // _cursor.centerYProperty().removeListener(listener);
-        // closeForm(event);
-        // if (onMouseReleased(event)) {
-        // }
+
         if (!onFormComplete())
           return;
       }
     };
     EventHandler<MouseEvent> mousePressedEvent = event -> {
-      if (_collisionDetected)
-        return;
-      closeForm(event);
-      // maxXProperty.set(event.getX());
-      // maxYProperty.set(event.getY());
-      listenerX = (ChangeListener<Number>) (ov, oldX, newX) -> {
-        maxXProperty.set(_cursor.getCenterX());
-      };
-      _cursor.centerXProperty().addListener(listenerX);
-      
-      listenerY = (ChangeListener<Number>) (ov, oldY, newY) -> {
-        maxYProperty.set(_cursor.getCenterY());
-      };
-      _cursor.centerYProperty().addListener(listenerY);
-      // if (!onFormComplete())
-      //   return;
-    //   _cursor.centerYProperty().addListener((ChangeListener<Number>) (ov, oldY, newY) -> {
-    // });
+      if (onMousePressed(event)) {
+        if (_collisionDetected)
+          return;
+        closeForm(event);
+        // maxXProperty.set(event.getX());
+        // maxYProperty.set(event.getY());
+        listenerX = (ChangeListener<Number>) (ov, oldX, newX) -> {
+          maxXProperty.set(_cursor.getCenterX());
+        };
+        _cursor.centerXProperty().addListener(listenerX);
+        
+        listenerY = (ChangeListener<Number>) (ov, oldY, newY) -> {
+          maxYProperty.set(_cursor.getCenterY());
+        };
+        _cursor.centerYProperty().addListener(listenerY);
+        // if (!onFormComplete())
+        //   return;
+      //   _cursor.centerYProperty().addListener((ChangeListener<Number>) (ov, oldY, newY) -> {
+      // });
+      }
     };
     // EventHandler<MouseEvent> mouseClickedEvent = event -> {
     //   closeForm(event);
@@ -341,6 +340,14 @@ public class InteractiveRectangle extends InteractiveShape {
 
   public Shape getShape() {
     return _rectangle;
+  }
+
+  public double getX() {
+    return _rectangle.getX();
+  }
+
+  public double getY() {
+    return _rectangle.getY();
   }
 
   public void setSize(double width, double height) {

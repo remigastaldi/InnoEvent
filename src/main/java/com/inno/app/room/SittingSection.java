@@ -3,7 +3,7 @@
  * Author: MAREL Maud
  * -----
  * Last Modified: Tuesday, 20th November 2018
- * Modified By: MAREL Maud
+ * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 MAREL Maud
  * <<licensetext>>
@@ -38,9 +38,9 @@ public class SittingSection extends Section implements ImmutableSittingSection {
     //A FAIRE
   }
 
-  public void setVitalSpace(double height, double width) {
-    this._vitalSpace.setHeight(height);
+  public void setVitalSpace(double width, double height) {
     this._vitalSpace.setWidth(width);
+    this._vitalSpace.setHeight(height);
   }
 
   public ArrayList<SittingRow> getRows() {

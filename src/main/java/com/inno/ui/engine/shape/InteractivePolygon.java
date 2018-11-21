@@ -241,8 +241,8 @@ public class InteractivePolygon extends InteractiveShape {
     }
     _group = new Group(nodes);
     Pane().getChildren().add(_group);
-    Point2D center = Engine().getCenterOfPoints(points);
-    _group.getTransforms().add(new Rotate(Math.random() * 360 + 1, center.getX(), center.getY()));
+    // Point2D center = Engine().getCenterOfPoints(points);
+    // _group.getTransforms().add(new Rotate(Math.random() * 360 + 1, center.getX(), center.getY()));
     
 
 
