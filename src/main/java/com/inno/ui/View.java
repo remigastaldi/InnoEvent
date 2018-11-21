@@ -26,6 +26,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.AnchorPane;
 import com.inno.ui.innoengine.InnoEngine;
+import javafx.stage.Modality;
 
 public class View extends Application {
 
@@ -79,7 +80,9 @@ public class View extends Application {
       view.setView(this);
       view.addIntent(intent);
       view.init();
+      stage.setResizable(false);
       stage.setScene(scene);
+      stage.initModality(Modality.APPLICATION_MODAL);
       stage.setAlwaysOnTop(true);
       stage.show();
     } catch (Exception e) {
