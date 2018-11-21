@@ -5,9 +5,7 @@
     -fx-light-grey: #bbbbbb;
     -fx-light-dark: rgb(100, 100, 100);
     -fx-primary: orange;
-
 }
-
 
 .root {
     -fx-background-color: -fx-grey;
@@ -17,7 +15,6 @@
 .label {
     -fx-text-fill: -fx-light-grey;
 }
-
 
 .button {
     -fx-background-color: -fx-grey;
@@ -33,7 +30,7 @@
 }
 
 .button:cancel {
-    -fx-effect:  dropshadow(three-pass-box, -fx-primary, 1, 0, 0, 0);
+    -fx-effect: dropshadow(three-pass-box, -fx-primary, 1, 0, 0, 0);
 }
 
 .split-pane:horizontal .split-pane-divider {
@@ -62,7 +59,7 @@
     -fx-padding: 0;
 }
 
-.scroll-pane > .corner {
+.scroll-pane>.corner {
     -fx-background-color: -fx-grey;
 }
 
@@ -70,8 +67,8 @@
     -fx-background-color: -fx-grey;
 }
 
-.scroll-bar:horizontal, .scroll-bar:vertical{
-    -fx-background-color:transparent;
+.scroll-bar:horizontal, .scroll-bar:vertical {
+    -fx-background-color: transparent;
     -fx-font-size: 4px;
 }
 
@@ -80,15 +77,13 @@
     -fx-border-color: -fx-grey;
 }
 
-.scroll-bar:horizontal .track,
-.scroll-bar:vertical .track{
+.scroll-bar:horizontal .track, .scroll-bar:vertical .track {
     -fx-background-color: -fx-grey;
     -fx-border-color: transparent;
     -fx-background-radius: 0em;
 }
 
-.scroll-bar:horizontal .thumb,
-.scroll-bar:vertical .thumb {
+.scroll-bar:horizontal .thumb, .scroll-bar:vertical .thumb {
     -fx-background-color: -fx-light-grey;
     -fx-background-radius: 5em;
 }
@@ -102,6 +97,29 @@
     -fx-border-color: -fx-primary;
     -fx-border-width: 0 0 1 0;
 }
+.menu {
+    -fx-background-color: -fx-dark;    
+}
+
+.menu:hover {
+    -fx-background-color: -fx-grey;
+}
+
+.menu-item:hover {
+    -fx-background-color: -fx-dark;
+}
+
+.context-menu {
+    -fx-padding: 0 0 0 0;
+    -fx-border-radius: 5px;
+}
+
+.menu-item, .context-menu {
+    -fx-background-color: -fx-grey;
+}
+
+
+
 
 
 .slider .track {
