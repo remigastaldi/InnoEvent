@@ -36,15 +36,19 @@
                         <Font size="21.0" />
                      </font>
                   </Text>
-                  <TextField layoutX="160.0" layoutY="47.0" prefHeight="29.0" prefWidth="75.0" />
                   <Text fill="WHITE" layoutX="55.0" layoutY="129.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Width" wrappingWidth="42.00000333786011" AnchorPane.leftAnchor="55.0" />
-                  <TextField layoutX="160.0" layoutY="110.0" prefHeight="29.0" prefWidth="75.0" AnchorPane.rightAnchor="15.0" />
                   <Text fill="WHITE" layoutX="55.0" layoutY="172.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Height" wrappingWidth="42.00000315904617" AnchorPane.leftAnchor="55.0" AnchorPane.rightAnchor="152.99999684095383" />
-                  <TextField layoutX="160.0" layoutY="153.0" prefHeight="29.0" prefWidth="75.0" AnchorPane.rightAnchor="15.0" />
                   <Text fill="WHITE" layoutX="25.0" layoutY="220.0" strokeType="OUTSIDE" strokeWidth="0.0" text="VitalSpace Width" wrappingWidth="125.00000333786011" />
-                  <TextField layoutX="160.0" layoutY="201.0" prefHeight="29.0" prefWidth="75.0" />
                   <Text fill="WHITE" layoutX="26.0" layoutY="263.0" strokeType="OUTSIDE" strokeWidth="0.0" text="VitalSpace Height" wrappingWidth="117.00000676512718" />
-                  <TextField layoutX="160.0" layoutY="244.0" prefHeight="29.0" prefWidth="75.0" />
+                  <AnchorPane layoutX="160.0" layoutY="47.0" AnchorPane.leftAnchor="160.0" AnchorPane.rightAnchor="15.0">
+                     <children>
+                        <TextField prefHeight="29.0" prefWidth="75.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                        <TextField layoutY="63.0" prefHeight="29.0" prefWidth="75.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+                        <TextField layoutY="106.0" prefHeight="29.0" prefWidth="75.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+                        <TextField layoutY="154.0" prefHeight="29.0" prefWidth="75.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+                        <TextField layoutY="197.0" prefHeight="29.0" prefWidth="75.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+                     </children>
+                  </AnchorPane>
                </children>
             </AnchorPane>
          </children>
