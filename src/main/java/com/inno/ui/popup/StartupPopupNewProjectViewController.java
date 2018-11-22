@@ -16,6 +16,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.control.TextField;
+import javafx.application.Platform;
 
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -48,6 +49,7 @@ public class StartupPopupNewProjectViewController extends ViewController {
   private TextField vital_space_height_input;
 
   public void init() {
+    Platform.runLater(() -> project_name_input.requestFocus());
   }
 
   @FXML
@@ -58,7 +60,6 @@ public class StartupPopupNewProjectViewController extends ViewController {
   private void doneButtonAction() {
 
     if (checkInputs(true) == false) {
-      System.out.println("EEEE");
       return;
     }
     System.out.println(project_name_input.getText());
@@ -93,21 +94,21 @@ public class StartupPopupNewProjectViewController extends ViewController {
     boolean valid = true;
 
     HashMap<TextField, String> fields = new LinkedHashMap<>();
-    fields.put(project_name_input, required ? "required|" : "" + "max:30");
-    fields.put(room_width_input, required ? "required|" : "" + "numeric");
-    fields.put(room_height_input, required ? "required|" : "" + "numeric");
-    fields.put(scene_width_input, required ? "required|" : "" + "numeric");
-    fields.put(scene_height_input, required ? "required|" : "" + "numeric");
-    fields.put(vital_space_width_input, required ? "required|" : "" + "numeric");
-    fields.put(vital_space_height_input, required ? "required|" : "" + "numeric");
+    fields.put(project_name_input, (required == true ? "required|" : "") + "max:30");
+    fields.put(room_width_input, (required == true ? "required|" : "") + "numeric");
+    fields.put(room_height_input, (required == true ? "required|" : "") + "numeric");
+    fields.put(scene_width_input, (required == true ? "required|" : "") + "numeric");
+    fields.put(scene_height_input, (required == true ? "required|" : "") + "numeric");
+    fields.put(vital_space_width_input, (required == true ? "required|" : "") + "numeric");
+    fields.put(vital_space_height_input, (required == true ? "required|" : "") + "numeric");
 
     for (Map.Entry<TextField, String> entry : fields.entrySet()) {
       TextField field = entry.getKey();
       String validator = entry.getValue();
       if ((required || field.isFocused()) && !Validator.validate(field.getText(), validator)) {
-        valid = false;
         if (!field.getStyleClass().contains("error"))
           field.getStyleClass().add("error");
+        valid = false;
       } else if (field.isFocused()) {
         if (field.getStyleClass().contains("error"))
           field.getStyleClass().remove("error");

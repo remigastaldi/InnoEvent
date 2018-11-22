@@ -6,48 +6,53 @@ public class Validator {
     }
 
     public static boolean validate(String var, String validators) {
+        boolean valid = true;
         if (!validators.contains("required") && var.trim().length() == 0) {
             return true;
         }
         String[] validatorsData = validators.split("\\|", -1);
-        for (int i = 0; i < validatorsData.length; i++) {
-            String[] validatorData = validatorsData[i].split("\\:", -1);
-            switch (validatorData[0]) {
-            case "required":
-                if (var.trim().length() == 0) {
-                    return false;
+        for (String data : validatorsData) {
+            if (data.trim().length() != 0) {
+                String[] validatorData = data.split("\\:", -1);
+                switch (validatorData[0]) {
+                case "required":
+                    if (var.length() == 0 || var.trim().length() == 0) {
+                        valid = false;
+                    }
+                    break;
+                case "numeric":
+                    if (!isNumeric(var)) {
+                        valid = false;
+                    }
+                    break;
+                case "double":
+                    if (!isDouble(var)) {
+                        valid = false;
+                    }
+                    break;
+                case "integer":
+                    if (!isInteger(var)) {
+                        valid = false;
+                    }
+                    break;
+                case "max":
+                    if (validatorData.length <= 1 || !isInteger(validatorData[1])
+                            || var.length() > new Integer(validatorData[1])) {
+                        valid = false;
+                    }
+                    break;
+                case "min":
+                    if (validatorData.length <= 1 || !isInteger(validatorData[1])
+                            || var.length() < new Integer(validatorData[1])) {
+                        valid = false;
+                    }
+                    break;
+                default:
+                    break;
                 }
-                break;
-            case "numeric":
-                if (!isNumeric(var)) {
-                    return false;
-                }
-                break;
-            case "double":
-                if (!isDouble(var)) {
-                    return false;
-                }
-                break;
-            case "integer":
-                if (!isInteger(var)) {
-                    return false;
-                }
-                break;
-            case "max":
-                if (validatorData.length <= 1 || !isInteger(validatorData[1])
-                        || var.length() > new Integer(validatorData[1])) {
-                    return false;
-                }
-                break;
-            case "min":
-                if (validatorData.length <= 1 || !isInteger(validatorData[1])
-                        || var.length() < new Integer(validatorData[1])) {
-                    return false;
-                }
-                break;
             }
         }
-        return true;
+        return valid;
     }
 
     public static boolean isNumeric(String var) {
