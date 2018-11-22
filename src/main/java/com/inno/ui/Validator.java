@@ -45,6 +45,12 @@ public class Validator {
                 Integer newN = new Integer(n);
                 return isInferiorOf(v, newN, !validators.contains("numeric"));
             });
+            checkers.put("min", (v, n) -> {
+                if (n == null || !isInteger(n))
+                    return false;
+                Integer newN = new Integer(n);
+                return isSuperiorOf(v, newN, !validators.contains("numeric"));
+            });
 
             String[] validatorsTab = validators.split("\\|", -1);
             for (String validator : validatorsTab) {
@@ -60,11 +66,28 @@ public class Validator {
         return true;
     }
 
+    public static boolean isSuperiorOf(String var, Integer minValue, boolean isString) {
+        if (isString && var.length() < minValue) {
+            return false;
+        } else if (!isString && isDouble(var)) {
+            Double newVar = Double.parseDouble(var);
+            if (newVar < minValue) {
+                return false;
+            }
+        } else if (!isString && isInteger(var)) {
+            Integer newVar = Integer.parseInt(var);
+            if (newVar < minValue) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     public static boolean isInferiorOf(String var, Integer maxValue, boolean isString) {
         if (isString && var.length() > maxValue) {
             return false;
-        } else if (!isString && isNumeric(var)) {
-            Integer newVar = new Integer(var);
+        } else if (!isString && isDouble(var)) {
+            Double newVar = Double.parseDouble(var);
             if (newVar > maxValue) {
                 return false;
             }
