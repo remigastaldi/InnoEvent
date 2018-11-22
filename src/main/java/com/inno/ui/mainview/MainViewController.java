@@ -3,7 +3,7 @@
  * Author: GASTALDI Rémi
  * -----
  * Last Modified: Wednesday, 21st November 2018
- * Modified By: GASTALDI Rémi
+ * Modified By: MAREL Maud
  * -----
  * Copyright - 2018 GASTALDI Rémi
  * <<licensetext>>
@@ -75,5 +75,10 @@ public class MainViewController extends ViewController {
   @FXML
   private void openSection() {
     View().setSidebarFromFxmlFileName("sidebar_section.fxml", sidebar_anchor);
+  }
+
+  @FXML
+  private void openScene() {
+    View().setSidebarFromFxmlFileName("sidebar_scene.fxml", sidebar_anchor);
   }
 }
