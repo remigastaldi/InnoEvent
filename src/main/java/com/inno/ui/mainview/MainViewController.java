@@ -2,7 +2,7 @@
  * File Created: Wednesday, 26th September 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Wednesday, 21st November 2018
+ * Last Modified: Thursday, 22nd November 2018
  * Modified By: MAREL Maud
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -73,8 +73,18 @@ public class MainViewController extends ViewController {
   }
 
   @FXML
-  private void openSection() {
-    View().setSidebarFromFxmlFileName("sidebar_section.fxml", sidebar_anchor);
+  private void openRegularSittingSection() {
+    View().setSidebarFromFxmlFileName("sidebar_regular_sitting_section.fxml", sidebar_anchor);
+  }
+
+  @FXML
+  private void openIrregularSittingSection() {
+    View().setSidebarFromFxmlFileName("sidebar_irregular_sitting_section.fxml", sidebar_anchor);
+  }
+
+  @FXML
+  private void openStandingSection() {
+    View().setSidebarFromFxmlFileName("sidebar_standing_section.fxml", sidebar_anchor);
   }
 
   @FXML

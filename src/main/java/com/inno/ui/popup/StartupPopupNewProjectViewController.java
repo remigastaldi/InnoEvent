@@ -2,8 +2,8 @@
  * File Created: Friday, 12th October 2018
  * Author: HUBERT Léo
  * -----
- * Last Modified: Wednesday, 21st November 2018
- * Modified By: HUBERT Léo
+ * Last Modified: Thursday, 22nd November 2018
+ * Modified By: MAREL Maud
  * -----
  * Copyright - 2018 HUBERT Léo
  * <<licensetext>>
