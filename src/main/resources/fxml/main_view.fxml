@@ -128,8 +128,9 @@
                               <Tooltip text="Magnet" />
                            </tooltip>
                         </Button>
-                        <Button mnemonicParsing="false" onAction="#openSection" text="Section" />
                         <Button mnemonicParsing="false" onAction="#openRoom" text="Room" />
+                        <Button mnemonicParsing="false" onAction="#openScene" text="Scene" />
+                        <Button mnemonicParsing="false" onAction="#openSection" text="Section" />
                      </buttons>
                      <padding>
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
