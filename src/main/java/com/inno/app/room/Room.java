@@ -11,6 +11,8 @@
 
 package com.inno.app.room;
 
+import com.inno.service.Point;
+
 import java.util.HashMap;
 import java.util.ArrayList;
 

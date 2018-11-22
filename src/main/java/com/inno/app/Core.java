@@ -120,4 +120,4 @@ public class Core {
   public void setStandingNbPeople(String idSection, int nbPeople) {
     this._room.setStandingNbPeople(idSection, nbPeople);
   }
-};
+  };

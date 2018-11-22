@@ -148,8 +148,8 @@ public class Engine {
     ArrayList<Shape> shapes = new ArrayList<>();
 
     for (InteractiveShape element : _shapes) {
-      if (element == _selectedShape)
-        continue;
+//      if (element == _selectedShape)
+//        continue;
       for (Shape shape : element.getOutBoundShapes()) {
         Shape intersect = Shape.intersect(cursor, shape);
         if (intersect.getBoundsInParent().getWidth() != -1) {
