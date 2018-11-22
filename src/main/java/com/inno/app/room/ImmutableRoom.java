@@ -3,13 +3,15 @@
  * Author: MAREL Maud
  * -----
  * Last Modified: Wednesday, 21st November 2018
- * Modified By: MAREL Maud
+ * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 MAREL Maud
  * <<licensetext>>
  */
 
 package com.inno.app.room;
+
+import java.util.HashMap;
 
 public interface ImmutableRoom {
 
@@ -19,4 +21,6 @@ public interface ImmutableRoom {
     public ImmutableScene getImmutableScene();
     public ImmutableSection getSectionById(String idSection);
     public ImmutableVitalSpace getImmutableVitalSpace();
+    public HashMap<String, ? extends ImmutableSittingSection> getImmutableSittingSections();
+    public HashMap<String, ? extends ImmutableStandingSection> getImmutableStandingSections();
 }

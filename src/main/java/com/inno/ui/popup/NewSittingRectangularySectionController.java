@@ -119,6 +119,7 @@ public class NewSittingRectangularySectionController extends ViewController {
     if (rectangle == null) {
       System.out.println("Rectangle is null");
       return;
+
     }
 
     columns_input.textProperty().bindBidirectional(widthInput, new NumberStringConverter());

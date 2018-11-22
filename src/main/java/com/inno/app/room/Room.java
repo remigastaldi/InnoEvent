@@ -3,7 +3,7 @@
  * Author: GASTALDI Rémi
  * -----
  * Last Modified: Wednesday, 21st November 2018
- * Modified By: MAREL Maud
+ * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
  * <<licensetext>>
@@ -209,5 +209,15 @@ public class Room implements ImmutableRoom {
     public void setSittingSectionVitalSpace(String sectionId, double width, double height) {
         SittingSection sittingSection = this._sittingSections.get(sectionId);
         sittingSection.setVitalSpace(width, height);
+    }
+
+    @Override
+    public HashMap<String, ? extends ImmutableSittingSection> getImmutableSittingSections() {
+        return  _sittingSections;
+    }
+
+    @Override
+    public HashMap<String, ? extends ImmutableStandingSection> getImmutableStandingSections() {
+        return _standingSections;
     }
 }

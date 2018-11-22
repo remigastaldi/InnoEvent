@@ -2,7 +2,7 @@
  * File Created: Friday, 12th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Wednesday, 21st November 2018
+ * Last Modified: Thursday, 22nd November 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -14,13 +14,11 @@ package com.inno.ui.engine;
 
 import java.util.ArrayList;
 
-import com.inno.app.Core;
-import com.inno.app.room.ImmutableRoom;
-import com.inno.app.room.ImmutableScene;
 import com.inno.ui.engine.shape.InteractivePolygon;
 import com.inno.ui.engine.shape.InteractiveRectangle;
 import com.inno.ui.engine.shape.InteractiveShape;
 
+import javafx.beans.value.ChangeListener;
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import javafx.scene.layout.Pane;
@@ -43,28 +41,21 @@ import javafx.scene.control.ScrollPane;
 
 public class Engine {
   private Pane  _pane = null;
-  private ArrayList<InteractiveShape> _shapes = new ArrayList<>();
+  private ArrayList<InteractiveShape<? extends Shape>> _shapes = new ArrayList<>();
   private Grid _grid = null;
   private Rectangle _board = null;
-  private InteractiveShape _selectedShape = null;
+  private InteractiveShape<? extends Shape> _selectedShape = null;
   private Shape _currentMagnetism = null;
   private double _scale = 10.0;
 
   private ScrollPane scrollPane;
 
 
-  public Engine(StackPane stackPane) {
+  public Engine(StackPane stackPane, double width, double height) {
     // Pane _pane = new Pane();
     _pane = new Pane();
-    ImmutableRoom roomData = Core.get().getImmutableRoom();
-    ImmutableScene sceneData = roomData.getImmutableScene();
 
-    Rectangle scene = new Rectangle(sceneData.getPositions()[0], sceneData.getPositions()[1],
-                                    sceneData.getWidth(), sceneData.getHeight());
-    scene.setFill(Color.CHARTREUSE);
-    scene.setOpacity(0.8);
-    _pane.getChildren().add(scene);
-    _pane.setPrefSize(roomData.getWidth(), roomData.getHeight());
+    _pane.setPrefSize(width, height);
 
     Group group = new Group(_pane);
     StackPane content = new StackPane(group);
@@ -104,11 +95,18 @@ public class Engine {
       }
     });
     stackPane.getChildren().add(scrollPane);
-  
-    // _pane = pane;
+
     _board = new Rectangle(0, 0, _pane.getWidth(), _pane.getHeight());
     _board.setStrokeWidth(0.0);
     _board.setFill(Color.TRANSPARENT);
+
+    _pane.prefWidthProperty().addListener((ChangeListener<Number>) (ov, oldX, newX) -> {
+      _board.setWidth(newX.doubleValue());
+    });
+
+    _pane.prefHeightProperty().addListener((ChangeListener<Number>) (ov, oldX, newY) -> {
+      _board.setHeight(newY.doubleValue());
+    });
 
     EventHandler<MouseEvent> mouseClick = event -> {
       System.out.println("PANE");
@@ -158,7 +156,6 @@ public class Engine {
     }
   }
 
-
   public void activateGrid(boolean val) {
     if (val) {
       if (_grid == null) {
@@ -187,18 +184,18 @@ public class Engine {
     _shapes.add(shape);
   }
 
-  public void addInteractiveShape(InteractiveShape intShape) {
+  public void addInteractiveShape(InteractiveShape<? extends Shape> intShape) {
     _shapes.add(intShape);
   }
 
-  public void selected(InteractiveShape selected) {
+  public void selected(InteractiveShape<? extends Shape> selected) {
     if (_selectedShape != null) {
       _selectedShape.deselect();
     }
     _selectedShape =  selected;
   }
 
-  public InteractiveShape getSelectedShape() {
+  public InteractiveShape<? extends Shape> getSelectedShape() {
     return _selectedShape;
   }
 
@@ -214,7 +211,7 @@ public class Engine {
   }
 
   public boolean isObjectUnderCursor(Shape cursor) {
-    for (InteractiveShape element : _shapes) {
+    for (InteractiveShape<? extends Shape> element : _shapes) {
       if (element == _selectedShape)
         continue;
       for (Shape shape : element.getOutBoundShapes()) {
@@ -239,7 +236,7 @@ public class Engine {
   public ArrayList<Shape> getObjectsUnderCursor(Shape cursor) {
     ArrayList<Shape> shapes = new ArrayList<>();
 
-    for (InteractiveShape element : _shapes) {
+    for (InteractiveShape<? extends Shape> element : _shapes) {
       if (element == _selectedShape)
         continue;
       for (Shape shape : element.getOutBoundShapes()) {
@@ -258,13 +255,12 @@ public class Engine {
       && Shape.intersect(cursor, _currentMagnetism).getBoundsInParent().getWidth() != -1) {
       return _currentMagnetism;
     }
-    for (InteractiveShape element : _shapes) {
+    for (InteractiveShape<? extends Shape> element : _shapes) {
       if (element == _selectedShape)
         continue;
       for (Shape shape : element.getOutBoundShapes()) {
         Shape intersect = Shape.intersect(cursor, shape);
         if (intersect.getBoundsInParent().getWidth() != -1) {
-          // System.out.println(" ++++++++++ Stroke ++++++++++");
           _currentMagnetism = shape;
           return shape;
         }

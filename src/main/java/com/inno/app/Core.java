@@ -22,7 +22,7 @@ public class Core {
 
   // Services
   // private InnoSave  _saveService = new InnoSave();
-  private Save<ImmutableRoom>  _saveService = new Save<ImmutableRoom>();
+  private Save<ImmutableRoom>  _saveService = new Save<>();
   private Pricing _pricing = new Pricing();
 
   // Inno Class
