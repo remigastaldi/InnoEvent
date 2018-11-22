@@ -2,8 +2,8 @@
  * File Created: Tuesday, 13th November 2018
  * Author: MAREL Maud
  * -----
- * Last Modified: Friday, 16th November 2018
- * Modified By: MAREL Maud
+ * Last Modified: Tuesday, 20th November 2018
+ * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 MAREL Maud
  * <<licensetext>>
@@ -19,11 +19,11 @@ public class SittingSection extends Section implements ImmutableSittingSection {
   private ArrayList<SittingRow> _rows = new ArrayList<SittingRow>();
   private VitalSpace _vitalSpace;
 
-  public SittingSection(String idSection, double elevation, boolean autoDistrib, VitalSpace vitalSpace, double[] points) {
-    super(idSection, elevation, points);
-    this._autoDistrib = autoDistrib;
+  public SittingSection(String idSection, double elevation, double[] points, double rotation, double vitalSpaceHeight, double vitalSpaceWidth) {
+    super(idSection, elevation, points, rotation);
+    this._autoDistrib = true;
     //this._rows = ;
-    this._vitalSpace = vitalSpace;
+    this._vitalSpace = new VitalSpace(vitalSpaceHeight, vitalSpaceWidth);
   }
 
   public void setAutoDistribution(boolean autoDistrib) {
@@ -38,9 +38,9 @@ public class SittingSection extends Section implements ImmutableSittingSection {
     //A FAIRE
   }
 
-  public void setVitalSpace(double height, double width) {
-    this._vitalSpace.setHeight(height);
+  public void setVitalSpace(double width, double height) {
     this._vitalSpace.setWidth(width);
+    this._vitalSpace.setHeight(height);
   }
 
   public ArrayList<SittingRow> getRows() {
@@ -63,7 +63,7 @@ public class SittingSection extends Section implements ImmutableSittingSection {
     return this._rows;
   }
   
-  public VitalSpace getVitalSpace() {
+  public ImmutableVitalSpace getImmutableVitalSpace() {
     return this._vitalSpace;
   }
 }

@@ -2,7 +2,7 @@
  * File Created: Sunday, 14th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Monday, 19th November 2018
+ * Last Modified: Wednesday, 21st November 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -24,19 +24,21 @@ import  javafx.event.EventHandler;
 import  javafx.scene.paint.Color;
 import  javafx.event.EventHandler;
 import  javafx.scene.shape.Shape;
+import javafx.scene.Node;
+import  javafx.scene.effect.DropShadow;
 
-public abstract class InteractiveShape {
+public abstract class InteractiveShape<T extends Shape> {
   private Engine  _engine = null;
   private Pane  _pane = null;
   private HashMap<EventType<MouseEvent>, EventHandler<MouseEvent>> _eventHandlers = new HashMap<>();
   private ArrayList<Shape> _outBoundShapes = new ArrayList<>();
-
   private ArrayList<Shape> _selectShapes = new ArrayList<>();
+  // TODO: pass to private
+  protected T _shape = null;
 
   InteractiveShape(Engine engine, Pane pane) {
     _engine = engine;
     _pane = pane;
-    
   }
 
   // Callback
@@ -77,5 +79,21 @@ public abstract class InteractiveShape {
 
   protected Engine Engine() {
     return _engine;
+  }
+
+  public void enableGlow() {
+    int depth = 10;
+    DropShadow borderGlow = new DropShadow();
+    borderGlow.setOffsetY(0f);
+    borderGlow.setOffsetX(0f);
+    borderGlow.setColor(Color.GOLD);
+    borderGlow.setWidth(depth);
+    borderGlow.setHeight(depth);
+
+    _shape.setEffect(borderGlow);
+  }
+
+  public void disableGlow() {
+    _shape.setEffect(null);
   }
 }

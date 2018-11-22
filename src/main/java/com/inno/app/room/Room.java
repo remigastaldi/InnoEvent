@@ -2,8 +2,9 @@
  * File Created: Friday, 12th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Tuesday, 20th November 2018
+ * Last Modified: Thursday, 22nd November 2018
  * Modified By: MAREL Maud
+
  * -----
  * Copyright - 2018 GASTALDI Rémi
  * <<licensetext>>
@@ -65,16 +66,12 @@ public class Room implements ImmutableRoom {
         this._vitalSpace.setHeight(height);
     }
 
-    public double getHeightVitalSpace() {
-        return this._vitalSpace.getHeight();
-    }
-
     public void setWidthVitalSpace(double width) {
         this._vitalSpace.setWidth(width);
     }
 
-    public double getWidthVitalSpace() {
-        return this._vitalSpace.getWidth();
+    public ImmutableVitalSpace getImmutableVitalSpace() {
+        return this._vitalSpace;
     }
 
     // Scene Methods
@@ -102,13 +99,17 @@ public class Room implements ImmutableRoom {
         this._scene.setPositions(positions);
     }
 
+    public void setSceneRotation(double rotation) {
+        this._scene.setRotation(rotation);
+    }
+
     public ImmutableScene getImmutableScene() {
         return this._scene;
     }
 
     //Section Methods
-    public Section getSectionById(String idSection) {
-        Section section;
+    public ImmutableSection getImmutableSectionById(String idSection) {
+        ImmutableSection section = null;
         if ((section = this._sittingSections.get(idSection)) != null) {
             return section;
         }
@@ -119,8 +120,36 @@ public class Room implements ImmutableRoom {
     }
 
     public void setSectionId(String oldIdSection, String newIdSection) {
-        Section section = getSectionById(oldIdSection);
-        section.setIdSection(newIdSection);
+        SittingSection sittingSection = null;
+        StandingSection standingSection = null;
+
+        if ((sittingSection = this._sittingSections.remove(oldIdSection)) != null) {
+            this._sittingSections.put(newIdSection, sittingSection);
+            sittingSection.setIdSection(newIdSection);
+        }
+        else {
+            standingSection = this._standingSections.remove(oldIdSection);
+            this._standingSections.put(newIdSection, standingSection);
+            standingSection.setIdSection(newIdSection);
+        }
+        try {
+            Integer.parseInt(oldIdSection);
+            this._idSection.add(Integer.parseInt(oldIdSection));
+        }
+        catch(NumberFormatException e) {
+            System.out.println("OldSectionId not an integer, don't need to add in arraylist");
+        }
+    }
+
+    public Section getSectionById(String idSection) {
+        Section section = null;
+        if ((section = this._sittingSections.get(idSection)) != null) {
+            return section;
+        }
+        else if ((section = this._standingSections.get(idSection)) != null) {
+            return section;
+        }
+        return section;
     }
 
     public void setSectionElevation(String idSection, double elevation) {
@@ -133,9 +162,15 @@ public class Room implements ImmutableRoom {
         section.updatePosition(positions);
     }
 
+    public void setSectionRotation(String idSection, double rotation) {
+        Section section = getSectionById(idSection);
+        section.setRotation(rotation);
+    }
+
     public void deleteSection(String idSection) {
         this._sittingSections.remove(idSection);
         this._standingSections.remove(idSection);
+        this._idSection.add(Integer.parseInt(idSection));
     }
 
     public String findFreeId() {
@@ -152,9 +187,10 @@ public class Room implements ImmutableRoom {
     }
 
         //standingSection Methods
-    public ImmutableStandingSection createStandingSection(double elevation, int nbPeople, double[] positions) {
+    public ImmutableStandingSection createStandingSection(double elevation, int nbPeople, double[] positions, double rotation) {
         String id = findFreeId();
-        StandingSection standingSection = new StandingSection(id, elevation, positions, nbPeople);
+        StandingSection standingSection = new StandingSection(id, elevation, positions, nbPeople, rotation);
+        this._standingSections.put(id, standingSection);
         return standingSection;
     }
 
@@ -165,5 +201,30 @@ public class Room implements ImmutableRoom {
     public void setStandingNbPeople(String idSection, int nbPeople) {
         StandingSection standingSection = this._standingSections.get(idSection);
         standingSection.setNbPeople(nbPeople);
+    }
+
+        //sittingSection Methods
+    public ImmutableSittingSection createSittingSection(double elevation, double[] positions, double rotation) {
+        String id = findFreeId();
+        double vitalSpaceHeight = this.getImmutableVitalSpace().getHeight();
+        double vitalSpaceWidth = this.getImmutableVitalSpace().getWidth();
+        SittingSection sittingSection = new SittingSection(id, elevation, positions, rotation, vitalSpaceHeight, vitalSpaceWidth);
+        this._sittingSections.put(id, sittingSection);
+        return sittingSection;
+    }
+
+    public void setSittingSectionVitalSpace(String sectionId, double width, double height) {
+        SittingSection sittingSection = this._sittingSections.get(sectionId);
+        sittingSection.setVitalSpace(width, height);
+    }
+
+    @Override
+    public HashMap<String, ? extends ImmutableSittingSection> getImmutableSittingSections() {
+        return  _sittingSections;
+    }
+
+    @Override
+    public HashMap<String, ? extends ImmutableStandingSection> getImmutableStandingSections() {
+        return _standingSections;
     }
 }

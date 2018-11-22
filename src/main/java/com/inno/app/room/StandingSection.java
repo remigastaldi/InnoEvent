@@ -2,7 +2,7 @@
  * File Created: Tuesday, 13th November 2018
  * Author: MAREL Maud
  * -----
- * Last Modified: Saturday, 17th November 2018
+ * Last Modified: Tuesday, 20th November 2018
  * Modified By: MAREL Maud
  * -----
  * Copyright - 2018 MAREL Maud
@@ -15,8 +15,8 @@ public class StandingSection extends Section implements ImmutableStandingSection
 
   private int _nbPeople;
 
-  public StandingSection(String idSection, double elevation,double[] positions, int nbPeople) {
-    super(idSection, elevation, positions);
+  public StandingSection(String idSection, double elevation,double[] positions, int nbPeople, double rotation) {
+    super(idSection, elevation, positions, rotation);
     this._nbPeople = nbPeople;
   }
 

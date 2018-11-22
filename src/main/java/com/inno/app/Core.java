@@ -2,7 +2,7 @@
  * File Created: Tuesday, 9th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Tuesday, 20th November 2018
+ * Last Modified: Thursday, 22nd November 2018
  * Modified By: MAREL Maud
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -13,6 +13,7 @@ package com.inno.app;
 
 import com.inno.app.InnoSave;
 import com.inno.app.room.*;
+import com.inno.service.Save;
 import com.inno.service.pricing.Pricing;
 
 public class Core {
@@ -20,13 +21,14 @@ public class Core {
   private static Core _instance = null;
 
   // Services
-  private InnoSave  _saveService = new InnoSave();
+  // private InnoSave  _saveService = new InnoSave();
+  private Save<ImmutableRoom>  _saveService = new Save<>();
   private Pricing _pricing = new Pricing();
 
   // Inno Class
   private Room  _room = null;
 
-  public Core() {
+  private Core() {
   }
 
   public static Core get() {
@@ -75,10 +77,6 @@ public class Core {
     this._room.deleteScene();
   }
 
-  public ImmutableScene getImmutableScene() {
-    return this._room.getImmutableScene();
-  }
-
   public void setSceneWidth(double width) {
     this._room.setSceneWidth(width);
   }
@@ -89,6 +87,10 @@ public class Core {
 
   public void setScenePositions(double[] positions) {
     this._room.setScenePositions(positions);
+  }
+
+  public void setSceneRotation(double rotation) {
+    this._room.setSceneRotation(rotation);
   }
 
   //Section methods
@@ -108,9 +110,13 @@ public class Core {
     this._room.deleteSection(idSection);
   }
 
+  public void setSectionRotation(String idSection, double rotation) {
+    this._room.setSectionRotation(idSection, rotation);
+  }
+
     //standingSection Methods
-  public ImmutableStandingSection createStandingSection(double elevation, int nbPeople, double[] positions) {
-    return this._room.createStandingSection(elevation, nbPeople, positions);
+  public ImmutableStandingSection createStandingSection(double elevation, int nbPeople, double[] positions, double rotation) {
+    return this._room.createStandingSection(elevation, nbPeople, positions, rotation);
   }
 
   /*public ImmutableStandingSection getImmutableStandingSection(int idSection) {
@@ -120,4 +126,16 @@ public class Core {
   public void setStandingNbPeople(String idSection, int nbPeople) {
     this._room.setStandingNbPeople(idSection, nbPeople);
   }
-  };
+
+  //sittingSection Methods
+  public ImmutableSittingSection createSittingSection(double elevation, double[] positions, double rotation) {
+    return this._room.createSittingSection(elevation, positions, rotation);
+  }
+
+  public void setSittingSectionVitalSpace(String idSection, double width, double height) {
+    this._room.setSittingSectionVitalSpace(idSection, width, height);
+  }
+
+  
+  // Save Methods
+};

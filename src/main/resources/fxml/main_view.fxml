@@ -8,12 +8,13 @@
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.SeparatorMenuItem?>
 <?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.Tooltip?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.StackPane?>
 
-<StackPane minHeight="720.0" minWidth="1280.0" onKeyReleased="#keyAction" prefHeight="720.0" prefWidth="1280.0" stylesheets="@../dark-theme.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.inno.ui.mainview.MainViewController">
+<StackPane minHeight="720.0" minWidth="1280.0" onKeyReleased="#keyAction" prefHeight="720.0" prefWidth="1280.0" stylesheets="@../dark-theme.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.inno.ui.mainview.MainViewController">
   <children>
       <AnchorPane>
          <children>
@@ -29,6 +30,9 @@
                                  </image>
                               </ImageView>
                            </graphic>
+                           <tooltip>
+                              <Tooltip text="Undo" />
+                           </tooltip>
                         </Button>
                         <Button maxHeight="25.0" maxWidth="25.0" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="25.0" prefWidth="25.0" ButtonBar.buttonData="LEFT">
                            <graphic>
@@ -38,6 +42,9 @@
                                  </image>
                               </ImageView>
                            </graphic>
+                           <tooltip>
+                              <Tooltip text="Redo" />
+                           </tooltip>
                         </Button>
                         <Button maxHeight="25.0" maxWidth="25.0" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="25.0" prefWidth="25.0" ButtonBar.buttonData="LEFT">
                            <graphic>
@@ -47,6 +54,9 @@
                                  </image>
                               </ImageView>
                            </graphic>
+                           <tooltip>
+                              <Tooltip text="Save" />
+                           </tooltip>
                         </Button>
                         <Button maxHeight="25.0" maxWidth="25.0" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="25.0" prefWidth="25.0" ButtonBar.buttonData="LEFT">
                            <graphic>
@@ -56,6 +66,9 @@
                                  </image>
                               </ImageView>
                            </graphic>
+                           <tooltip>
+                              <Tooltip text="Zoom in" />
+                           </tooltip>
                         </Button>
                         <Button maxHeight="25.0" maxWidth="25.0" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="25.0" prefWidth="25.0" ButtonBar.buttonData="LEFT">
                            <graphic>
@@ -65,9 +78,32 @@
                                  </image>
                               </ImageView>
                            </graphic>
+                           <tooltip>
+                              <Tooltip text="Zoom out" />
+                           </tooltip>
                         </Button>
-                        <Button maxHeight="25.0" maxWidth="25.0" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="25.0" prefWidth="25.0" text="+" ButtonBar.buttonData="LEFT" />
-                        <Button maxHeight="25.0" maxWidth="25.0" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="25.0" prefWidth="25.0" text="+" ButtonBar.buttonData="LEFT" />
+                        <Button maxHeight="25.0" maxWidth="25.0" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="25.0" prefWidth="25.0" ButtonBar.buttonData="LEFT">
+                           <graphic>
+                              <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../icon/rectangle.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                           <tooltip>
+                              <Tooltip text="New Regular Sitting Section" />
+                           </tooltip></Button>
+                        <Button maxHeight="25.0" maxWidth="25.0" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="25.0" prefWidth="25.0" ButtonBar.buttonData="LEFT">
+                           <graphic>
+                              <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../icon/hexagon.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                           <tooltip>
+                              <Tooltip text="New Irregular Section" />
+                           </tooltip></Button>
                         <Button maxHeight="26.0" maxWidth="25.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="25.0" ButtonBar.buttonData="LEFT">
                            <graphic>
                               <ImageView fitHeight="15.0" fitWidth="15.0" preserveRatio="true">
@@ -76,6 +112,9 @@
                                  </image>
                               </ImageView>
                            </graphic>
+                           <tooltip>
+                              <Tooltip text="Price Manager" />
+                           </tooltip>
                         </Button>
                         <Button maxHeight="25.0" maxWidth="25.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="25.0" ButtonBar.buttonData="LEFT">
                            <graphic>
@@ -85,9 +124,15 @@
                                  </image>
                               </ImageView>
                            </graphic>
+                           <tooltip>
+                              <Tooltip text="Magnet" />
+                           </tooltip>
                         </Button>
-                        <Button mnemonicParsing="false" onAction="#openSection" text="Section" />
                         <Button mnemonicParsing="false" onAction="#openRoom" text="Room" />
+                        <Button mnemonicParsing="false" onAction="#openScene" text="Scene" />
+                        <Button mnemonicParsing="false" onAction="#openRegularSittingSection" text="Regular Sitting Section" />
+                        <Button mnemonicParsing="false" onAction="#openIrregularSittingSection" text="Irregular Sitting Section" />
+                        <Button mnemonicParsing="false" onAction="#openStandingSection" text="Standing Section" />
                      </buttons>
                      <padding>
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
@@ -131,7 +176,7 @@
                         <StackPane fx:id="stack_pane" style="-fx-background-color: -fx-dark;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                      </children>
                   </AnchorPane>
-                <AnchorPane fx:id="sidebar_anchor" maxWidth="500.0" minWidth="200.0" prefWidth="200.0" style="-fx-background-color: -fx-grey;" SplitPane.resizableWithParent="false" />
+                <AnchorPane fx:id="sidebar_anchor" maxWidth="500.0" minWidth="250.0" prefWidth="250.0" style="-fx-background-color: -fx-grey;" SplitPane.resizableWithParent="false" />
               </items>
             </SplitPane>
          </children>

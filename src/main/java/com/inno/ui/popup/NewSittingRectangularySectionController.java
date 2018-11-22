@@ -2,8 +2,8 @@
  * File Created: Friday, 26th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Monday, 19th November 2018
- * Modified By: GASTALDI Rémi
+ * Last Modified: Thursday, 22nd November 2018
+ * Modified By: HUBERT Léo
  * -----
  * Copyright - 2018 GASTALDI Rémi
  * <<licensetext>>
@@ -11,68 +11,107 @@
 
 package com.inno.ui.popup;
 
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
+
+import com.inno.ui.Validator;
 import com.inno.ui.ViewController;
 import com.inno.ui.innoengine.shape.InnoRectangle;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
-import javafx.beans.property.StringProperty;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.util.StringConverter;
 import javafx.util.converter.NumberStringConverter;
-import javafx.beans.binding.Bindings;
 import javafx.beans.value.ChangeListener;
 
 public class NewSittingRectangularySectionController extends ViewController {
   @FXML
-  private TextField columnsInput;
+  private TextField columns_input;
   @FXML
-  private TextField rangeInput;
+  private TextField rows_input;
+  @FXML
+  private TextField width_vital_space_input;
+  @FXML
+  private TextField height_vital_space_input;
 
-  private StringProperty _width = new SimpleStringProperty();
-  private StringProperty _height = new SimpleStringProperty();
-  
+  private SimpleDoubleProperty widthInput = new SimpleDoubleProperty();
+  private SimpleDoubleProperty heightInput = new SimpleDoubleProperty();
+
   public NewSittingRectangularySectionController() {
   }
-  
+
   @FXML
   private void initialize() {
   }
-  
+
+  private boolean checkInputs() {
+    boolean valid = true;
+    HashMap<TextField, String> fields = new LinkedHashMap<>();
+    fields.put(columns_input, "required|numeric|min:1");
+    fields.put(rows_input, "required|numeric|min:1");
+    fields.put(width_vital_space_input, "required|numeric|min:1");
+    fields.put(height_vital_space_input, "required|numeric|min:1");
+
+    for (Map.Entry<TextField, String> entry : fields.entrySet()) {
+      TextField field = entry.getKey();
+      String validator = entry.getValue();
+      if (!Validator.validate(field.getText(), validator)) {
+        if (!field.getStyleClass().contains("error"))
+          field.getStyleClass().add("error");
+        valid = false;
+      } else if (field.isFocused()) {
+        if (field.getStyleClass().contains("error"))
+          field.getStyleClass().remove("error");
+      }
+    }
+    return valid;
+  }
+
   @FXML
   public void onKeyReleasedAction() {
-    InnoRectangle rectangle = (InnoRectangle) getIntent();
+    if (checkInputs()) {
+      InnoRectangle rectangle = (InnoRectangle) getIntent();
 
-    if (rectangle == null) {
-      System.out.println("Rectangle is null");
-      return;
-    }
-    try {
-      rectangle.setColumnNumber(Integer.parseInt(columnsInput.getText()));
-      rectangle.setRowNumber(Integer.parseInt(rangeInput.getText()));
-      // rectangle.setWidth(Double.parseDouble(columnsInput.getText()));
-      // rectangle.setHeight(Double.parseDouble(rangeInput.getText()));
-    } catch (Exception e) {
-      System.out.println(e);
+      if (rectangle == null) {
+        System.out.println("Rectangle is null");
+        return;
+      }
+      try {
+        if (columns_input.isFocused())
+          rectangle.setColumnNumber(Integer.parseInt(columns_input.getText()));
+        if (rows_input.isFocused())
+          rectangle.setRowNumber(Integer.parseInt(rows_input.getText()));
+        if (width_vital_space_input.isFocused() || height_vital_space_input.isFocused()) {
+          rectangle.setVitalSpace(Double.parseDouble(width_vital_space_input.getText()),
+              Double.parseDouble(height_vital_space_input.getText()));
+          widthInput.set(rectangle.getColumnNumber());
+          heightInput.set(rectangle.getRowNumber());
+        }
+        // }
+      } catch (Exception e) {
+        System.out.println(e);
+      }
     }
   }
 
   @FXML
   public void doneButtonAction() {
-    Stage stage = (Stage) rangeInput.getScene().getWindow();
+    if (checkInputs() == false) {
+      return;
+    }
+    Stage stage = (Stage) rows_input.getScene().getWindow();
     stage.close();
   }
-  
+
   @FXML
   public void cancelButtonAction() {
-    Stage stage = (Stage) rangeInput.getScene().getWindow();
+    Stage stage = (Stage) rows_input.getScene().getWindow();
     Engine().deleteSelectedShape();
     stage.close();
   }
-  
+
   @Override
   public void init() {
     InnoRectangle rectangle = (InnoRectangle) getIntent();
@@ -80,17 +119,18 @@ public class NewSittingRectangularySectionController extends ViewController {
     if (rectangle == null) {
       System.out.println("Rectangle is null");
       return;
-    }
-    SimpleDoubleProperty widthInput = new SimpleDoubleProperty();
-    SimpleDoubleProperty heightInput = new SimpleDoubleProperty();
 
-    // columnsInput.setText(Double.toString(rectangle.getWidth()));
-    // rangeInput.setText(Double.toString(rectangle.getHeight()));
-    
-    columnsInput.textProperty().bindBidirectional(widthInput, new NumberStringConverter());
-    rangeInput.textProperty().bindBidirectional(heightInput, new NumberStringConverter());
+    }
+
+    columns_input.textProperty().bindBidirectional(widthInput, new NumberStringConverter());
+    rows_input.textProperty().bindBidirectional(heightInput, new NumberStringConverter());
     widthInput.set(rectangle.getColumnNumber());
     heightInput.set(rectangle.getRowNumber());
+    width_vital_space_input.textProperty()
+        .set(Double.toString(rectangle.getSectionData().getImmutableVitalSpace().getWidth()));
+    height_vital_space_input.textProperty()
+        .set(Double.toString(rectangle.getSectionData().getImmutableVitalSpace().getHeight()));
+
     rectangle.getWidthProperty().addListener((ChangeListener<Number>) (ov, oldX, newX) -> {
       if (widthInput.get() != rectangle.getColumnNumber())
         widthInput.set(rectangle.getColumnNumber());
@@ -100,19 +140,18 @@ public class NewSittingRectangularySectionController extends ViewController {
         heightInput.set(rectangle.getRowNumber());
     });
     widthInput.addListener((ChangeListener<Number>) (ov, oldX, newX) -> {
-      if (rectangle.getColumnNumber() != newX.intValue())
-        rectangle.setColumnNumber(newX.intValue());
-      // rectangle.getWidthProperty().set(Engine().meterToPixel( newX * 1.5));
+      if (checkInputs()) {
+        if (rectangle.getColumnNumber() != newX.intValue())
+          rectangle.setColumnNumber(newX.intValue());
+      }
+
     });
     heightInput.addListener((ChangeListener<Number>) (ov, oldY, newY) -> {
-      // Double y = (Double) newY;
-      if (rectangle.getRowNumber() != newY.intValue())
-        rectangle.setRowNumber(newY.intValue());
-      // rectangle.getHeightProperty().set(Engine().meterToPixel( newY * 1.5));
+      if (checkInputs()) {
+        if (rectangle.getRowNumber() != newY.intValue())
+          rectangle.setRowNumber(newY.intValue());
+      }
     });
-    // StringConverter<Number> converter = new NumberStringConverter();
-    // Bindings.bindBidirectional(_width, rectangle.getMaxXProperty(), converter);
-    // Bindings.bindBidirectional(_height, rectangle.getMaxXProperty(), converter);
 
   }
 }
