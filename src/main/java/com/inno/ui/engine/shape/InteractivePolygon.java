@@ -14,6 +14,7 @@ package com.inno.ui.engine.shape;
 import java.util.ArrayList;
 
 import com.inno.ui.engine.CircleAnchor;
+import com.inno.ui.engine.Cursor;
 import com.inno.ui.engine.Engine;
 
 import javafx.beans.property.DoubleProperty;
@@ -23,9 +24,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.geometry.Point2D;
-import javafx.scene.Cursor;
 import javafx.scene.Group;
-import javafx.scene.ImageCursor;
 import javafx.scene.Node;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.effect.DropShadow;
@@ -45,7 +44,7 @@ public class InteractivePolygon extends InteractiveShape<Polygon> {
   private ArrayList<Circle> _points = new ArrayList<>();
   private ArrayList<Line> _lines = new ArrayList<>();
   private Polygon _polygon = null;
-  private Circle _cursor = null;
+  private Cursor _cursor = null;
   private ObservableList<CircleAnchor> _anchors = null;
   private boolean _collisionDetected = false;
   private Group _group;
@@ -53,34 +52,28 @@ public class InteractivePolygon extends InteractiveShape<Polygon> {
   public InteractivePolygon(Engine engine, Pane pane) {
     super(engine, pane);
   }
-
+  
   public void start() {
-    // Invisible cursor for collision check
     java.awt.Point mouse = java.awt.MouseInfo.getPointerInfo().getLocation();
     Point2D local = Pane().screenToLocal(mouse.x, mouse.y);
 
-    _cursor = new Circle(local.getX(), local.getY(), 5.0, Color.TRANSPARENT);
-    _cursor.setStrokeWidth(1);
-    _cursor.setStroke(Color.GREEN);
-
-    Pane().getChildren().add(_cursor);
-
+    _cursor = new Cursor(Pane(), local.getX(), local.getY(), 5.0);
     // System cursor
-    SnapshotParameters params = new SnapshotParameters();
-    params.setFill(Color.TRANSPARENT);
-    Image addIcon = new Image("icon/add.png");
-    Image closeIcon = new Image("icon/close.png");
+    // SnapshotParameters params = new SnapshotParameters();
+    // params.setFill(Color.TRANSPARENT);
+    // Image addIcon = new Image("icon/add.png");
+    // Image closeIcon = new Image("icon/close.png");
     // TODO: mac cursor size problem ??
     // Dimension2D addSizes = ImageCursor.getBestSize(addIcon.getWidth(),
     // addIcon.getHeight());
     // Dimension2D closeSizes = ImageCursor.getBestSize(addIcon.getWidth(),
     // addIcon.getHeight());
-    ImageCursor addCursor = new ImageCursor(addIcon, addIcon.getWidth() / 2, addIcon.getHeight() / 2);
-    ImageCursor closeCursor = new ImageCursor(closeIcon, closeIcon.getWidth() / 2, closeIcon.getHeight() / 2);
-    Pane().setCursor(addCursor);
+    // ImageCursor addCursor = new ImageCursor(addIcon, addIcon.getWidth() / 2, addIcon.getHeight() / 2);
+    // ImageCursor closeCursor = new ImageCursor(closeIcon, closeIcon.getWidth() / 2, closeIcon.getHeight() / 2);
+    // Pane().setCursor(addCursor);
 
     // _cursor.setVisible(false);
-    // Pane().setCursor(Cursor.NONE);
+    // Pane().setCursor(javafx.scene.Cursor.NONE);
 
     EventHandler<MouseEvent> mouseReleasedEvent = event -> {
       if (onMouseReleased(event)) {
@@ -97,38 +90,40 @@ public class InteractivePolygon extends InteractiveShape<Polygon> {
 
     EventHandler<MouseEvent> mouseMovedEvent = event -> {
       if (onMouseMoved(event)) {
-        // Point2D p = Pane().sceneToLocal(event.getSceneX(), event.getSceneY());
-        double newX = event.getX();
-        double newY = event.getY();
-        // double newXCursor = p.getX();
-        // double newYCursor = p.getY();
+        // _cursorX.set(event.getX());
+        // _cursorY.set(event.getY());
+        // // Point2D p = Pane().sceneToLocal(event.getSceneX(), event.getSceneY());
+        // double newX = event.getX();
+        // double newY = event.getY();
+        // // double newXCursor = p.getX();
+        // // double newYCursor = p.getY();
 
-        _cursor.setCenterX(newX);
-        _cursor.setCenterY(newY);
-        Shape element = Engine().getObjectUnderCursor(_cursor);
-        if (element != null) {          
-          Point2D pos = Engine().getCollisionCenter(_cursor, element);
+        // _cursor.setCenterX(newX);
+        // _cursor.setCenterY(newY);
+        // Shape element = Engine().getObjectUnderCursor(_cursor);
+        // if (element != null) {          
+        //   Point2D pos = Engine().getCollisionCenter(_cursor, element);
 
-          pos = Pane().sceneToLocal(pos.getX(), pos.getY());
-          _cursor.setCenterX(pos.getX());
-          _cursor.setCenterY(pos.getY());
-        } else {
-          updateCursor(event);
-        }
+        //   pos = Pane().sceneToLocal(pos.getX(), pos.getY());
+        //   _cursor.setCenterX(pos.getX());
+        //   _cursor.setCenterY(pos.getY());
+        // } else {
+        //   updateCursor(event);
+        // }
 
-        _collisionDetected = Engine().isObjectUnderCursor(_cursor)
-            || (_lines.size() > 0 ? Engine().isObjectUnderCursor(_lines.get(_lines.size() - 1)) : false);
-        if (_collisionDetected) {
-          if (_lines.size() > 0)
-            _lines.get(_lines.size() - 1).setStroke(Color.RED);
-          Pane().setCursor(closeCursor);
+        // _collisionDetected = Engine().isObjectUnderCursor(_cursor)
+        //     || (_lines.size() > 0 ? Engine().isObjectUnderCursor(_lines.get(_lines.size() - 1)) : false);
+        // if (_collisionDetected) {
+        //   if (_lines.size() > 0)
+        //     _lines.get(_lines.size() - 1).setStroke(Color.RED);
+        //   Pane().setCursor(closeCursor);
 
-        } else {
-          if (_lines.size() > 0)
-            _lines.get(_lines.size() - 1).setStroke(Color.KHAKI);
-          Pane().setCursor(addCursor);
-        }
-        updateCurrentLine();
+        // } else {
+        //   if (_lines.size() > 0)
+        //     _lines.get(_lines.size() - 1).setStroke(Color.KHAKI);
+        //   Pane().setCursor(addCursor);
+        // }
+        // updateCurrentLine();
       }
     };
     EventHandlers().put(MouseEvent.MOUSE_MOVED, mouseMovedEvent);
@@ -201,7 +196,7 @@ public class InteractivePolygon extends InteractiveShape<Polygon> {
     EventHandler<MouseEvent> mouseDraggEvent = EventHandlers().remove(MouseEvent.MOUSE_DRAGGED);
     Pane().removeEventHandler(MouseEvent.MOUSE_DRAGGED, mouseDraggEvent);
 
-    Pane().setCursor(Cursor.DEFAULT);
+    Pane().setCursor(javafx.scene.Cursor.DEFAULT);
     _cursor.setVisible(false);
 
     // Add form selection callback
