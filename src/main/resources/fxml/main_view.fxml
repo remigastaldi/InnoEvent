@@ -130,7 +130,9 @@
                         </Button>
                         <Button mnemonicParsing="false" onAction="#openRoom" text="Room" />
                         <Button mnemonicParsing="false" onAction="#openScene" text="Scene" />
-                        <Button mnemonicParsing="false" onAction="#openSection" text="Section" />
+                        <Button mnemonicParsing="false" onAction="#openRegularSittingSection" text="Regular Sitting Section" />
+                        <Button mnemonicParsing="false" onAction="#openIrregularSittingSection" text="Irregular Sitting Section" />
+                        <Button mnemonicParsing="false" onAction="#openStandingSection" text="Standing Section" />
                      </buttons>
                      <padding>
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />

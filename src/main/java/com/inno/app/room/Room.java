@@ -2,14 +2,17 @@
  * File Created: Friday, 12th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Wednesday, 21st November 2018
- * Modified By: GASTALDI Rémi
+ * Last Modified: Thursday, 22nd November 2018
+ * Modified By: MAREL Maud
+
  * -----
  * Copyright - 2018 GASTALDI Rémi
  * <<licensetext>>
  */
 
 package com.inno.app.room;
+
+import com.inno.service.Point;
 
 import java.util.HashMap;
 import java.util.ArrayList;
@@ -94,6 +97,10 @@ public class Room implements ImmutableRoom {
 
     public void setScenePositions(double[] positions) {
         this._scene.setPositions(positions);
+    }
+
+    public void setSceneRotation(double rotation) {
+        this._scene.setRotation(rotation);
     }
 
     public ImmutableScene getImmutableScene() {

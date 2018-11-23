@@ -2,8 +2,8 @@
  * File Created: Tuesday, 9th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Wednesday, 21st November 2018
- * Modified By: GASTALDI Rémi
+ * Last Modified: Thursday, 22nd November 2018
+ * Modified By: MAREL Maud
  * -----
  * Copyright - 2018 GASTALDI Rémi
  * <<licensetext>>
@@ -87,6 +87,10 @@ public class Core {
 
   public void setScenePositions(double[] positions) {
     this._room.setScenePositions(positions);
+  }
+
+  public void setSceneRotation(double rotation) {
+    this._room.setSceneRotation(rotation);
   }
 
   //Section methods

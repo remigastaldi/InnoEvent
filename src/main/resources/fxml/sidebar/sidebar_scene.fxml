@@ -8,7 +8,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="597.0" prefWidth="250.0" style="-fx-background-color: -fx-dark;" stylesheets="@../../dark-theme.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="597.0" prefWidth="250.0" style="-fx-background-color: -fx-dark;" stylesheets="@../../dark-theme.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.inno.ui.mainview.sidebar.SceneController">
    <children>
       <AnchorPane prefWidth="367.0" style="-fx-border-color: orange; -fx-border-width: 0 0 1 0; -fx-background-color: -fx-grey;" styleClass="grey" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -31,18 +31,18 @@
          <children>
             <AnchorPane prefHeight="546.0" prefWidth="250.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
-                  <AnchorPane layoutX="47.0" layoutY="36.431640625">
+                  <AnchorPane layoutX="47.0" layoutY="36.0" prefHeight="119.0" prefWidth="59.0">
                      <children>
-                        <Text fill="WHITE" layoutX="8.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Width" wrappingWidth="42.00000333786011" />
-                        <Text fill="WHITE" layoutX="8.0" layoutY="43.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Height" wrappingWidth="42.00000315904617" />
-                        <Text fill="WHITE" layoutY="97.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Rotation" wrappingWidth="58.00000315904617" />
+                        <Text fill="WHITE" layoutX="8.0" layoutY="10.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Width" wrappingWidth="42.00000333786011" />
+                        <Text fill="WHITE" layoutX="8.0" layoutY="52.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Height" wrappingWidth="42.00000315904617" />
+                        <Text fill="WHITE" layoutY="109.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Rotation" wrappingWidth="58.00000315904617" />
                      </children>
                   </AnchorPane>
                   <AnchorPane layoutX="160.0" layoutY="30.0" AnchorPane.leftAnchor="160.0" AnchorPane.rightAnchor="15.0">
                      <children>
-                        <TextField prefHeight="29.0" prefWidth="75.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
-                        <TextField layoutY="43.0" prefHeight="29.0" prefWidth="75.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
-                        <TextField layoutY="97.0" prefHeight="29.0" prefWidth="75.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+                        <TextField fx:id="scene_width_input" onKeyReleased="#onKeyReleased" prefHeight="29.0" prefWidth="75.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+                        <TextField fx:id="scene_height_input" layoutY="43.0" onKeyReleased="#onKeyReleased" prefHeight="29.0" prefWidth="75.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+                        <TextField fx:id="scene_rotation_input" layoutY="97.0" onKeyReleased="#onKeyReleased" prefHeight="29.0" prefWidth="75.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
                      </children>
                   </AnchorPane>
                </children>

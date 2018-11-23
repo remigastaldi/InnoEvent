@@ -24,14 +24,16 @@ import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 
-public class IrregularStandingSectionController extends ViewController {
+public class SceneController extends ViewController {
 
   @FXML
   private AnchorPane anchor_root;
   @FXML
-  private TextField section_name_input;
+  private TextField scene_width_input;
   @FXML
-  private TextField section_nb_people_input;
+  private TextField scene_height_input;
+  @FXML
+  private TextField scene_rotation_input;
 
   @FXML
   private void initialize() {
@@ -49,8 +51,9 @@ public class IrregularStandingSectionController extends ViewController {
     boolean valid = true;
 
     HashMap<TextField, String> fields = new LinkedHashMap<>();
-    fields.put(section_name_input, (required == true ? "required|" : "") + "max:30");
-    fields.put(section_nb_people_input, (required == true ? "required|" : "") + "numeric");
+    fields.put(scene_width_input, (required == true ? "required|" : "") + "numeric");
+    fields.put(scene_height_input, (required == true ? "required|" : "") + "numeric");
+    fields.put(scene_rotation_input, (required == true ? "required|" : "") + "numeric");
 
     for (Map.Entry<TextField, String> entry : fields.entrySet()) {
       TextField field = entry.getKey();
