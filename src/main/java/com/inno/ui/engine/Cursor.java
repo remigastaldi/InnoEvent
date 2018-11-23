@@ -52,7 +52,7 @@ public class Cursor extends Circle {
     lineYD.setStroke(Color.WHITE);
     lineYD.setStrokeWidth(1.5);
 
-    setOnMouseMoved(event -> {
+    pane.setOnMouseMoved(event -> {
       setCenterX(event.getX());
       setCenterY(event.getY());
     });
