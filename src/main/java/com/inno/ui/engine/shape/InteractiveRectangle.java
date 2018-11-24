@@ -361,15 +361,17 @@ public class InteractiveRectangle extends InteractiveShape<Rectangle> {
         shape.setTranslateY(newTranslateY);
 
         // TMP
-      _group.setTranslateX(newTranslateX);
+        _group.setTranslateX(newTranslateX);
         _group.setTranslateY(newTranslateY);
-        if (!Engine().isObjectUnderCursor(shape)) {
-          // _group.setTranslateX(newTranslateX);
-          // _group.setTranslateY(newTranslateY);
-          _rectangle.setFill(Color.ROYALBLUE);
-        } else
-          _rectangle.setFill(Color.RED);
+
+        // if (!Engine().isObjectUnderCursor(shape)) {
+        //   // _group.setTranslateX(newTranslateX);
+        //   // _group.setTranslateY(newTranslateY);
+        //   _rectangle.setFill(Color.ROYALBLUE);
+        // } else
+        //   _rectangle.setFill(Color.RED);
         Pane().getChildren().remove(shape);
+        onShapeChanged();
       }
     };
     EventHandlers().put(MouseEvent.MOUSE_DRAGGED, mouseDragged);

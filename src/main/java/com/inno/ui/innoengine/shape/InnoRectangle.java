@@ -17,7 +17,9 @@ import  com.inno.app.room.ImmutableSittingSection;
 import  com.inno.ui.engine.shape.InteractiveRectangle;
 import  com.inno.ui.innoengine.InnoEngine;
 
-import  javafx.scene.input.MouseEvent;
+import javafx.geometry.Point2D;
+import javafx.scene.Group;
+import javafx.scene.input.MouseEvent;
 import  javafx.scene.layout.Pane;
 import  javafx.scene.paint.Color;
 
@@ -72,25 +74,19 @@ public class InnoRectangle extends InteractiveRectangle {
     if (getHeight() < Engine().meterToPixel(_yVitalSpace))
       setHeight(Engine().meterToPixel(_yVitalSpace));
 
-    _sectionData = Core.get().createSittingSection(0, getPositions(), 0);
-
+    _sectionData = Core.get().createSittingSection(0, getPositionsInParent(), 0);
     loadFromData();
     InnoEngine engine = (InnoEngine)Engine();
     engine.getView().openPopup("new_sitting_rectangulary_section.fxml", this);
-
+    
     return true;
   }
-
-  private void loadFromData() {
-    setID(_sectionData.getIdSection());
-    setPositions(_sectionData.getPositions());
-    setRotation(_sectionData.getRotation());
-  }
-
+  
   @Override
   public void onShapeChanged() {
-    Core.get().updateSectionPositions(getID(), getPositions());
-    loadFromData();
+    Core.get().updateSectionPositions(getID(), getPositionsInParent());
+    System.out.println(getPositionsInParent()[0]);
+    loadFromData(_group);
   }
 
   @Override
@@ -147,11 +143,53 @@ public class InnoRectangle extends InteractiveRectangle {
     return true;
   }
 
+
+  private void loadFromData(Group group) {
+    setID(_sectionData.getIdSection());
+    if (group != null)
+      setPositions(parentToLocal(_sectionData.getPositions()));
+    else
+      setPositions(_sectionData.getPositions());
+    setRotation(_sectionData.getRotation());
+  }
+
+  private void loadFromData() {
+    loadFromData(null);
+  }
+
   public double[] getPositions() {
     double[] pos = {getX(), getY(),
       getMaxXProperty().get(), getY(),
       getMaxXProperty().get(), getMaxYProperty().get(),
       getX(), getMaxYProperty().get() };
-      return pos;
+    return pos;
+  }
+
+  public double[] getPositionsInParent() {
+    return localToParent(getPositions());
+  }
+
+  public double[] localToParent(double[] pos) {
+    Point2D lu = _group.localToParent(pos[0], pos[1]);
+    Point2D ru = _group.localToParent(pos[2], pos[3]);
+    Point2D rd = _group.localToParent(pos[4], pos[5]);
+    Point2D ld = _group.localToParent(pos[6], pos[7]);
+    // System.out.println(lu);
+    return new double[]{ lu.getX(), lu.getY(),
+      ru.getX(), ru.getY(),
+      rd.getX(), rd.getY(),
+      ld.getX(), ld.getY() };
+  }
+
+  public double[] parentToLocal(double[] pos) {
+    Point2D lu = _group.parentToLocal(pos[0], pos[1]);
+    Point2D ru = _group.parentToLocal(pos[2], pos[3]);
+    Point2D rd = _group.parentToLocal(pos[4], pos[5]);
+    Point2D ld = _group.parentToLocal(pos[6], pos[7]);
+    // System.out.println(lu);
+    return new double[]{ lu.getX(), lu.getY(),
+      ru.getX(), ru.getY(),
+      rd.getX(), rd.getY(),
+      ld.getX(), ld.getY() };
   }
 }

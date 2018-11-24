@@ -235,12 +235,12 @@ public class InteractivePolygon extends InteractiveShape<Polygon> {
         // TMP
       _group.setTranslateX(newTranslateX);
         _group.setTranslateY(newTranslateY);
-        if (!Engine().isObjectUnderCursor(shape)) {
-          // _group.setTranslateX(newTranslateX);
-          // _group.setTranslateY(newTranslateY);
-          _polygon.setFill(Color.ROYALBLUE);
-        } else
-        _polygon.setFill(Color.RED);
+        // if (!Engine().isObjectUnderCursor(shape)) {
+        //   // _group.setTranslateX(newTranslateX);
+        //   // _group.setTranslateY(newTranslateY);
+        //   _polygon.setFill(Color.ROYALBLUE);
+        // } else
+        // _polygon.setFill(Color.RED);
         Pane().getChildren().remove(shape);
       }
     };

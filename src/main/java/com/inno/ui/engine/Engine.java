@@ -226,28 +226,28 @@ public class Engine {
     return _pane;
   }
 
-  public boolean isObjectUnderCursor(Shape cursor) {
-    // for (InteractiveShape<? extends Shape> element : _shapes) {
-    //   if (element == _selectedShape)
-    //     continue;
-    //   for (Shape shape : element.getOutBoundShapes()) {
-    //     Shape intersect = Shape.intersect(cursor, shape);
-    //     if (intersect.getBoundsInParent().getWidth() != -1) {
-    //       // System.out.println(" ++++++++++ Line collision ++++++++++");
-    //       return true;
-    //     }
-    //   }
-    //   // System.out.println(cursor.getBoundsInParent());
-    //   Shape intersect = Shape.intersect(cursor, element.getShape());
-    //   if (intersect.getBoundsInParent().getWidth() != -1) {
-    //     // System.out.println(intersect.getBoundsInParent().getMaxX() + " : " +
-    //     //   intersect.getBoundsInParent().getMaxX());
-    //     // System.out.println("collision");
-    //     return true;
-    //   }
-    // }
-  return false;
-  }
+  // public boolean isObjectUnderCursor(Shape cursor) {
+  //   // for (InteractiveShape<? extends Shape> element : _shapes) {
+  //   //   if (element == _selectedShape)
+  //   //     continue;
+  //   //   for (Shape shape : element.getOutBoundShapes()) {
+  //   //     Shape intersect = Shape.intersect(cursor, shape);
+  //   //     if (intersect.getBoundsInParent().getWidth() != -1) {
+  //   //       // System.out.println(" ++++++++++ Line collision ++++++++++");
+  //   //       return true;
+  //   //     }
+  //   //   }
+  //   //   // System.out.println(cursor.getBoundsInParent());
+  //   //   Shape intersect = Shape.intersect(cursor, element.getShape());
+  //   //   if (intersect.getBoundsInParent().getWidth() != -1) {
+  //   //     // System.out.println(intersect.getBoundsInParent().getMaxX() + " : " +
+  //   //     //   intersect.getBoundsInParent().getMaxX());
+  //   //     // System.out.println("collision");
+  //   //     return true;
+  //   //   }
+  //   // }
+  // return false;
+  // }
 
   public ArrayList<Shape> getObjectsUnderCursor(Shape cursor) {
     ArrayList<Shape> shapes = new ArrayList<>();
@@ -264,57 +264,6 @@ public class Engine {
     }
     return shapes;
   }
-
-  public Shape getObjectUnderCursor(Shape cursor) {
-    // // TODO: Change this ligique with magnetism class
-    // if (_currentMagnetism != null
-    //   && Shape.intersect(cursor, _currentMagnetism).getBoundsInParent().getWidth() != -1) {
-    //   return _currentMagnetism;
-    // }
-    // for (InteractiveShape<? extends Shape> element : _shapes) {
-    //   if (element == _selectedShape)
-    //     continue;
-    //   for (Shape shape : element.getOutBoundShapes()) {
-    //     Shape intersect = Shape.intersect(cursor, shape);
-    //     if (intersect.getBoundsInParent().getWidth() != -1) {
-    //       _currentMagnetism = shape;
-    //       return shape;
-    //     }
-    //   }
-    // }
-    // Shape gridShape = _grid.checkGridIntersect(cursor);
-    // if (gridShape != null) {
-    //   _currentMagnetism = gridShape;
-    //   return gridShape;
-    // }
-    // _currentMagnetism = null;
-    return null;
-  }
-
-  public Point2D getCollisionCenter(Shape first, Shape second, Group group) {
-    Shape union = Shape.intersect(first, second);
-    Bounds unionBounds = union.getBoundsInParent();
-    Point2D pos = null;
-
-    if (group != null) {
-      pos = group.sceneToLocal((unionBounds.getMinX() + (unionBounds.getMaxX() - unionBounds.getMinX()) / 2),
-        (unionBounds.getMinY() + (unionBounds.getMaxY() - unionBounds.getMinY()) / 2));    
-    } else {
-      pos = new Point2D((unionBounds.getMinX() + (unionBounds.getMaxX() - unionBounds.getMinX()) / 2),
-      (unionBounds.getMinY() + (unionBounds.getMaxY() - unionBounds.getMinY()) / 2));
-    }
-
-    return pos;
-  }
-
-  public Point2D getCollisionCenter(Shape first, Shape second) {
-    return getCollisionCenter(first, second, null);
-  }
-
-  public Rectangle getBoard() {
-    return _board;
-  }
-
   public Point2D getCenterOfPoints(ArrayList<Point2D> points) {
     double sum1 = 0;
     double sum2 = 0;
