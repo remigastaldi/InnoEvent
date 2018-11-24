@@ -19,25 +19,18 @@ import com.inno.ui.engine.shape.InteractiveRectangle;
 import com.inno.ui.engine.shape.InteractiveShape;
 
 import javafx.beans.value.ChangeListener;
-import javafx.collections.ObservableList;
-import javafx.scene.Node;
-import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
-import  javafx.event.EventType;
-import  javafx.event.EventHandler;
-import  javafx.scene.input.MouseEvent;
-import  javafx.scene.shape.Rectangle;
-import  javafx.scene.shape.Shape;
-import  javafx.scene.shape.Line;
-import  javafx.scene.Group;
-import  javafx.geometry.Point2D;
+import javafx.event.EventHandler;
 import javafx.geometry.Bounds;
-import javafx.scene.layout.AnchorPane;
+import javafx.geometry.Point2D;
 import javafx.scene.Group;
-import javafx.scene.layout.StackPane;
-
-
+import javafx.scene.Node;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.Shape;
 
 public class Engine {
   private Pane  _pane = null;
@@ -50,7 +43,6 @@ public class Engine {
   private MagnetismManager _magenetismManager = null;
 
   private ScrollPane scrollPane;
-
 
   public Engine(StackPane stackPane, double width, double height) {
     // Pane _pane = new Pane();
@@ -363,6 +355,28 @@ public class Engine {
 
   public CustomCursor getCursor() {
     return _cursor;
+  }
+
+  public void computeCursorPosition(MouseEvent event, InteractiveShape<? extends Shape> shape) {
+    Point2D pos = _magenetismManager.checkMagnetism(_cursor.getBoundShape(), shape);
+
+    if (pos != null) {
+      _cursor.setX(pos.getX());
+      _cursor.setY(pos.getY());
+    } else {
+      Point2D groupMouse = null;
+      if (shape != null) {
+        Point2D mousePos =  _pane.sceneToLocal(event.getSceneX(), event.getSceneY());
+         groupMouse = shape.getGroup().parentToLocal(mousePos.getX(), mousePos.getY());
+      } else
+        groupMouse = new Point2D(event.getX(), event.getY());
+      _cursor.setX(groupMouse.getX());
+      _cursor.setY(groupMouse.getY());
+    }
+  }
+
+  public void computeCursorPosition(MouseEvent event) {
+    computeCursorPosition(event, null);
   }
 }
 

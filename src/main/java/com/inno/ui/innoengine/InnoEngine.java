@@ -2,7 +2,7 @@
  * File Created: Friday, 12th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Thursday, 22nd November 2018
+ * Last Modified: Friday, 23rd November 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -13,22 +13,16 @@
 package com.inno.ui.innoengine;
 
 import com.inno.app.Core;
+import com.inno.app.room.ImmutableRoom;
+import com.inno.app.room.ImmutableScene;
+import com.inno.app.room.ImmutableSittingSection;
 import com.inno.ui.View;
-// import com.inno.ui.engine.room.StandingSection;
 import com.inno.ui.engine.Engine;
 import com.inno.ui.innoengine.shape.InnoPolygon;
 import com.inno.ui.innoengine.shape.InnoRectangle;
-import com.inno.app.room.ImmutableRoom;
-import com.inno.app.room.ImmutableScene;
-import com.inno.app.room.ImmutableSittingRow;
-import com.inno.app.room.ImmutableSittingSection;
 
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
-import  javafx.scene.shape.Shape;
-import javafx.geometry.Point2D;
 
 
 public class InnoEngine extends Engine {
@@ -39,7 +33,7 @@ public class InnoEngine extends Engine {
   public InnoEngine(View view, StackPane stackPane) {
     super(stackPane, 100, 100);
     _view = view;
-    
+
     ImmutableRoom roomData = Core.get().getImmutableRoom();
     ImmutableScene sceneData = roomData.getImmutableScene();
 

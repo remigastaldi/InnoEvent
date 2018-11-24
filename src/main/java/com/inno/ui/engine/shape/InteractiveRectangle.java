@@ -13,11 +13,10 @@ package com.inno.ui.engine.shape;
 
 import java.util.ArrayList;
 
-import com.inno.app.Core;
-import com.inno.app.room.ImmutableScene;
-import com.inno.ui.View;
 import com.inno.ui.engine.CircleAnchor;
+import com.inno.ui.engine.CustomCursor;
 import com.inno.ui.engine.Engine;
+
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.value.ChangeListener;
@@ -27,24 +26,15 @@ import javafx.event.EventHandler;
 import javafx.geometry.Point2D;
 import javafx.scene.Cursor;
 import javafx.scene.Group;
-import javafx.scene.ImageCursor;
 import javafx.scene.Node;
-import javafx.scene.SnapshotParameters;
-import javafx.scene.effect.DropShadow;
-import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
-import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
-import javafx.scene.shape.StrokeLineCap;
 import javafx.scene.transform.Transform;
-import javafx.scene.transform.Rotate;
-import javafx.beans.binding.DoubleBinding;
-import com.inno.ui.engine.CustomCursor;
 
 public class InteractiveRectangle extends InteractiveShape<Rectangle> {
   private Rectangle _rectangle = null;
@@ -53,10 +43,6 @@ public class InteractiveRectangle extends InteractiveShape<Rectangle> {
 
   private DoubleProperty maxXProperty = null;
   private DoubleProperty maxYProperty = null;
-
-  // TMP
-  private ChangeListener<Number> listenerX = null;
-  private ChangeListener<Number> listenerY = null;
 
   public InteractiveRectangle(Engine engine, Pane pane) {
     super(engine, pane);
@@ -76,27 +62,15 @@ public class InteractiveRectangle extends InteractiveShape<Rectangle> {
 
     EventHandler<MouseEvent> mouseMovedEvent = event -> {
       if (onMouseMoved(event)) {
-        Point2D pos = Engine().getMagnetismManager().checkMagnetism(Cursor().getBoundShape());
-
-        if (pos != null) {
-          Cursor().setX(pos.getX());
-          Cursor().setY(pos.getY());
-        } else {
-          updateCursor(event);
-        }
+        Engine().computeCursorPosition(event);
       }
     };
     
     EventHandler<MouseEvent> mouseDraggedEvent = event -> {
       if (onMouseOnDragDetected(event)) {
-        Point2D pos = Engine().getMagnetismManager().checkMagnetism(Cursor().getBoundShape(), this);
-
-        if (pos != null) {
-          Cursor().setX(pos.getX());
-          Cursor().setY(pos.getY());
-        } else {
-          updateCursor(event);
-        }
+        Engine().computeCursorPosition(event, this);
+        maxXProperty.set(Cursor().getX());
+        maxYProperty.set(Cursor().getY());
       }
     };
     EventHandler<MouseEvent> mouseReleasedEvent = event -> {
@@ -107,9 +81,8 @@ public class InteractiveRectangle extends InteractiveShape<Rectangle> {
         Pane().removeEventHandler(MouseEvent.MOUSE_RELEASED, mouseReleaseEvent);
         Pane().removeEventHandler(MouseEvent.MOUSE_DRAGGED, mouseDraggedEvent);
         Pane().removeEventHandler(MouseEvent.MOUSE_MOVED, mouseMovedEvent);
-        Cursor().getBoundShape().centerXProperty().removeListener(listenerX);
-        Cursor().getBoundShape().centerYProperty().removeListener(listenerY);
         Cursor().removeShape();
+        Cursor().setForm(CustomCursor.Type.DEFAULT);
         if (!onFormComplete())
           return;
       }
@@ -120,15 +93,6 @@ public class InteractiveRectangle extends InteractiveShape<Rectangle> {
           return;
         closeForm(event);
         Cursor().setForm(CustomCursor.Type.HAND);
-        listenerX = (ChangeListener<Number>) (ov, oldX, newX) -> {
-          maxXProperty.set(Cursor().getX());
-        };
-        Cursor().getBoundShape().centerXProperty().addListener(listenerX);
-        
-        listenerY = (ChangeListener<Number>) (ov, oldY, newY) -> {
-          maxYProperty.set(Cursor().getY());
-        };
-        Cursor().getBoundShape().centerYProperty().addListener(listenerY);
       }
     };
 
@@ -392,11 +356,6 @@ public class InteractiveRectangle extends InteractiveShape<Rectangle> {
     Engine().getMagnetismManager().registerInteractiveShape(this);
 
     return;
-  }
-
-  private void updateCursor(MouseEvent event) {
-    Cursor().setX(event.getX());
-    Cursor().setY(event.getY());
   }
 
   public void destroy() {

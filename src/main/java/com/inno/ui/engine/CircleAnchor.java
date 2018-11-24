@@ -12,22 +12,16 @@
 
 package com.inno.ui.engine;
 
-import javafx.scene.shape.Circle;
-import javafx.scene.paint.Color;
-
 import com.inno.ui.engine.shape.InteractiveShape;
 
 import javafx.beans.property.DoubleProperty;
-import javafx.beans.property.SimpleDoubleProperty;
-import javafx.geometry.Point2D;
-import javafx.scene.layout.Pane;
-import javafx.scene.Group;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.scene.shape.Shape;
 
 public class CircleAnchor extends Circle {
   Engine _engine = null;
-  // Circle _cursor = null;
-  InteractiveShape<? extends Shape> _interactiveShape  = null;
+  InteractiveShape<? extends Shape> _interactiveShape = null;
   DoubleProperty x = null;
   DoubleProperty y = null;
 
@@ -59,10 +53,7 @@ public class CircleAnchor extends Circle {
       y.bind(centerYProperty());
     }
     
-    // _cursor = new Circle(x.get(), y.get(), 5.0, Color.TRANSPARENT);
-    // _engine.getPane().getChildren().add(_cursor);
-    enableDrag();
-    
+    enableDrag();    
   }
   
   public void setInteractiveShape(InteractiveShape<? extends Shape> interactiveShap) {
@@ -76,7 +67,9 @@ public class CircleAnchor extends Circle {
     });
 
     setOnMouseExited(mouseEvent -> {
-      _engine.getCursor().setForm(CustomCursor.Type.DEFAULT);
+      if (!_mousePressed) {
+        _engine.getCursor().setForm(CustomCursor.Type.DEFAULT);
+      }
     });
 
     setOnMousePressed(mouseEvent -> {
@@ -91,21 +84,9 @@ public class CircleAnchor extends Circle {
     });
 
     setOnMouseDragged(mouseEvent -> {
-      Point2D pos = _engine.getMagnetismManager().checkMagnetism(_engine.getCursor().getBoundShape(), _interactiveShape);
-
-      if (pos != null) {
-        setCenterX(pos.getX());
-        setCenterY(pos.getY());
-      } else {
-        Point2D groupMouse = null;
-        if (_interactiveShape != null) {
-          Point2D mousePos =  _engine.getPane().sceneToLocal(mouseEvent.getSceneX(), mouseEvent.getSceneY());
-           groupMouse = _interactiveShape.getGroup().parentToLocal(mousePos.getX(), mousePos.getY());
-        } else
-          groupMouse = new Point2D(mouseEvent.getX(), mouseEvent.getY());
-        setCenterX(groupMouse.getX());
-        setCenterY(groupMouse.getY());
-      }
+      _engine.computeCursorPosition(mouseEvent, _interactiveShape);
+      setCenterX(_engine.getCursor().getX());
+      setCenterY(_engine.getCursor().getY());
 
       // if (_engine.isObjectUnderCursor(getShape())) {
       //   _rectangle.setFill(Color.RED);
