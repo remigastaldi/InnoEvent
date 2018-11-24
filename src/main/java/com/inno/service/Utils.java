@@ -106,24 +106,33 @@ public class Utils {
                 - Math.atan2(oldP.get_y()-center.get_y(),oldP.get_x()-center.get_x()));
     }
 
-    public static Point rotatePoint(Point p, Point o, double angle) {
-        double xrot = Math.cos(angle) * (p.get_x() - o.get_x()) - Math.sin(angle) * (p.get_y() - o.get_y()) + o.get_x();
-        double yrot = Math.sin(angle) * (p.get_x() - o.get_x()) + Math.cos(angle) * (p.get_y() - o.get_y()) + o.get_y();
+    //Anti clockwise rotation of single Point 'p' around center Point 'center' with angle 'angle'
+    public static Point rotatePoint(Point p, Point center, double angle) {
+
+        if((p.get_x()==center.get_x())&&(p.get_y()==center.get_y()))
+        {
+            return p;
+        }
+
+        double xrot = Math.cos(angle) * (p.get_x() - center.get_x()) - Math.sin(angle) * (p.get_y() - center.get_y()) + center.get_x();
+        double yrot = Math.sin(angle) * (p.get_x() - center.get_x()) + Math.cos(angle) * (p.get_y() - center.get_y()) + center.get_y();
         return new Point(xrot, yrot);
     }
 
-    public static Point[] rotatePolygon(Point polygon[], Point centre, double angle)
+    //Anti clockwise rotation of polygon around center Point 'center' with angle 'angle'
+    public static Point[] rotatePolygon(Point polygon[], Point center, double angle)
     {
         int i =0;
         Point[] polygonRotated = new Point[polygon.length];
         for (Point point:polygon)
         {
-            polygonRotated[i] = rotatePoint(point, centre, angle);
+            polygonRotated[i] = rotatePoint(point, center, angle);
             i++;
         }
         return polygonRotated;
     }
 
+    //conversion from double[] to Point[]
     public static Point[] dArray_To_pArray(double[] d_Array)
     {
         Point[] p_Array = new Point[d_Array.length/2];
@@ -134,14 +143,15 @@ public class Utils {
         return p_Array;
     }
 
-//    public static Point[] rotateRectanglePerpendicularly(Point polygon[], Point centre, double angle)
-//    {
-//
-//        for(Point point:polygon)
-//        {
-//
-//        }
-//        double
-//    }
+    //calculate the angle needed to perform rotation of rectanglular section initiated at Point 'click' with width 'width'
+    // to perpendicularly face scene center 'center'
+    public static double calculateRectangleRotation(Point center, Point click, double width)
+    {
+        double a = distance(click, center);
+        double cosA = (2*(a*a)-(width*width))/(2*a*a);
 
+        Point p = rotatePoint(click, center, Math.acos(cosA));
+        Point q = new Point(center.get_x()-width, click.get_y());
+        return calculateRotationAngle(click, q, p);
+    }
 }
