@@ -2,7 +2,7 @@
  * File Created: Saturday, 13th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Friday, 16th November 2018
+ * Last Modified: Friday, 23rd November 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -83,14 +83,18 @@ public class Grid {
     }
   }
 
-  public Shape checkGridIntersect(Shape cursor) {
-    for (Shape shape : _lines) {
-      Shape intersect = Shape.intersect(cursor, shape);
-      if (intersect.getBoundsInParent().getWidth() != -1) {
-        // System.out.println(" ++++++++++ Grid ++++++++++");        
-        return shape;
-      }
-    }
-    return null;
+  // public Shape checkGridIntersect(Shape cursor) {
+  //   for (Shape shape : _lines) {
+  //     Shape intersect = Shape.intersect(cursor, shape);
+  //     if (intersect.getBoundsInParent().getWidth() != -1) {
+  //       // System.out.println(" ++++++++++ Grid ++++++++++");        
+  //       return shape;
+  //     }
+  //   }
+  //   return null;
+  // }
+
+  public ArrayList<? extends Shape> getLines() {
+    return _lines;
   }
 }

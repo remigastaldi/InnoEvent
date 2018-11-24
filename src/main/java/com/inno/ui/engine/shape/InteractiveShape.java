@@ -2,7 +2,7 @@
  * File Created: Sunday, 14th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Wednesday, 21st November 2018
+ * Last Modified: Friday, 23rd November 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -16,6 +16,7 @@ import  javafx.scene.input.MouseEvent;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import com.inno.ui.engine.CustomCursor;
 import  com.inno.ui.engine.Engine;
 import  javafx.scene.layout.Pane;
 import  javafx.scene.shape.Circle;
@@ -24,6 +25,7 @@ import  javafx.event.EventHandler;
 import  javafx.scene.paint.Color;
 import  javafx.event.EventHandler;
 import  javafx.scene.shape.Shape;
+import javafx.scene.Group;
 import javafx.scene.Node;
 import  javafx.scene.effect.DropShadow;
 
@@ -35,6 +37,7 @@ public abstract class InteractiveShape<T extends Shape> {
   private ArrayList<Shape> _selectShapes = new ArrayList<>();
   // TODO: pass to private
   protected T _shape = null;
+  protected Group _group;
 
   InteractiveShape(Engine engine, Pane pane) {
     _engine = engine;
@@ -81,6 +84,10 @@ public abstract class InteractiveShape<T extends Shape> {
     return _engine;
   }
 
+  public CustomCursor Cursor() {
+    return _engine.getCursor();
+  }
+
   public void enableGlow() {
     int depth = 10;
     DropShadow borderGlow = new DropShadow();
@@ -95,5 +102,9 @@ public abstract class InteractiveShape<T extends Shape> {
 
   public void disableGlow() {
     _shape.setEffect(null);
+  }
+
+  public Group getGroup() {
+    return _group;
   }
 }

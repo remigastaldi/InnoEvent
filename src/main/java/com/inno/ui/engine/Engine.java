@@ -2,7 +2,7 @@
  * File Created: Friday, 12th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Thursday, 22nd November 2018
+ * Last Modified: Friday, 23rd November 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -45,8 +45,9 @@ public class Engine {
   private Grid _grid = null;
   private Rectangle _board = null;
   private InteractiveShape<? extends Shape> _selectedShape = null;
-  private Shape _currentMagnetism = null;
+  private CustomCursor _cursor = null;
   private double _scale = 10.0;
+  private MagnetismManager _magenetismManager = null;
 
   private ScrollPane scrollPane;
 
@@ -54,6 +55,7 @@ public class Engine {
   public Engine(StackPane stackPane, double width, double height) {
     // Pane _pane = new Pane();
     _pane = new Pane();
+    _magenetismManager = new MagnetismManager(this);
 
     _pane.setPrefSize(width, height);
 
@@ -115,6 +117,8 @@ public class Engine {
     };
     _board.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseClick);
     _pane.getChildren().add(_board);
+
+    _cursor = new CustomCursor(_pane);
   }
 
   public void setBackgroundColor(Color color) {
@@ -165,10 +169,23 @@ public class Engine {
         _grid.setXSpacing(6);
         _grid.setYSpacing(6);
         _grid.activate();
+        activateGridMagnetism();
       }
     } else {
       _grid.disable();
       _grid = null;
+    }
+  }
+
+  public void activateGridMagnetism() {
+    for (Shape line : _grid.getLines()) {
+      _magenetismManager.registerShape(line);
+    }
+  }
+
+  public void disableGridMagnetism() {
+    for (Shape line : _grid.getLines()) {
+      _magenetismManager.removeShape(line);
     }
   }
 
@@ -211,25 +228,25 @@ public class Engine {
   }
 
   public boolean isObjectUnderCursor(Shape cursor) {
-    for (InteractiveShape<? extends Shape> element : _shapes) {
-      if (element == _selectedShape)
-        continue;
-      for (Shape shape : element.getOutBoundShapes()) {
-        Shape intersect = Shape.intersect(cursor, shape);
-        if (intersect.getBoundsInParent().getWidth() != -1) {
-          // System.out.println(" ++++++++++ Line collision ++++++++++");
-          return true;
-        }
-      }
-      // System.out.println(cursor.getBoundsInParent());
-      Shape intersect = Shape.intersect(cursor, element.getShape());
-      if (intersect.getBoundsInParent().getWidth() != -1) {
-        // System.out.println(intersect.getBoundsInParent().getMaxX() + " : " +
-        //   intersect.getBoundsInParent().getMaxX());
-        // System.out.println("collision");
-        return true;
-      }
-    }
+    // for (InteractiveShape<? extends Shape> element : _shapes) {
+    //   if (element == _selectedShape)
+    //     continue;
+    //   for (Shape shape : element.getOutBoundShapes()) {
+    //     Shape intersect = Shape.intersect(cursor, shape);
+    //     if (intersect.getBoundsInParent().getWidth() != -1) {
+    //       // System.out.println(" ++++++++++ Line collision ++++++++++");
+    //       return true;
+    //     }
+    //   }
+    //   // System.out.println(cursor.getBoundsInParent());
+    //   Shape intersect = Shape.intersect(cursor, element.getShape());
+    //   if (intersect.getBoundsInParent().getWidth() != -1) {
+    //     // System.out.println(intersect.getBoundsInParent().getMaxX() + " : " +
+    //     //   intersect.getBoundsInParent().getMaxX());
+    //     // System.out.println("collision");
+    //     return true;
+    //   }
+    // }
   return false;
   }
 
@@ -250,28 +267,28 @@ public class Engine {
   }
 
   public Shape getObjectUnderCursor(Shape cursor) {
-    // TODO: Change this ligique with magnetism class
-    if (_currentMagnetism != null
-      && Shape.intersect(cursor, _currentMagnetism).getBoundsInParent().getWidth() != -1) {
-      return _currentMagnetism;
-    }
-    for (InteractiveShape<? extends Shape> element : _shapes) {
-      if (element == _selectedShape)
-        continue;
-      for (Shape shape : element.getOutBoundShapes()) {
-        Shape intersect = Shape.intersect(cursor, shape);
-        if (intersect.getBoundsInParent().getWidth() != -1) {
-          _currentMagnetism = shape;
-          return shape;
-        }
-      }
-    }
-    Shape gridShape = _grid.checkGridIntersect(cursor);
-    if (gridShape != null) {
-      _currentMagnetism = gridShape;
-      return gridShape;
-    }
-    _currentMagnetism = null;
+    // // TODO: Change this ligique with magnetism class
+    // if (_currentMagnetism != null
+    //   && Shape.intersect(cursor, _currentMagnetism).getBoundsInParent().getWidth() != -1) {
+    //   return _currentMagnetism;
+    // }
+    // for (InteractiveShape<? extends Shape> element : _shapes) {
+    //   if (element == _selectedShape)
+    //     continue;
+    //   for (Shape shape : element.getOutBoundShapes()) {
+    //     Shape intersect = Shape.intersect(cursor, shape);
+    //     if (intersect.getBoundsInParent().getWidth() != -1) {
+    //       _currentMagnetism = shape;
+    //       return shape;
+    //     }
+    //   }
+    // }
+    // Shape gridShape = _grid.checkGridIntersect(cursor);
+    // if (gridShape != null) {
+    //   _currentMagnetism = gridShape;
+    //   return gridShape;
+    // }
+    // _currentMagnetism = null;
     return null;
   }
 
@@ -338,6 +355,14 @@ public class Engine {
 
   public double meterToPixel(double meter) {
     return meter * _scale;
+  }
+
+  public MagnetismManager getMagnetismManager() {
+    return _magenetismManager;
+  }
+
+  public CustomCursor getCursor() {
+    return _cursor;
   }
 }
 

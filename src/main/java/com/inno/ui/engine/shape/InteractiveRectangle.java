@@ -2,7 +2,7 @@
  * File Created: Monday, 15th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Wednesday, 21st November 2018
+ * Last Modified: Friday, 23rd November 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -366,7 +366,7 @@ public class InteractiveRectangle extends InteractiveShape<Rectangle> {
     _group = new Group(nodes);
     Pane().getChildren().add(_group);
     for (CircleAnchor anchor : _anchors) {
-      anchor.setGroup(_group);
+      anchor.setInteractiveShape(this);
     }
     // _group.getTransforms().add(new Rotate(Math.random() * 360 + 1, _rectangle.getX() + _rectangle.getWidth() / 2,
     //     _rectangle.getY() + _rectangle.getHeight() / 2));
