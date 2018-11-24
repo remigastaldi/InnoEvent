@@ -3,7 +3,7 @@
  * Author: GASTALDI Rémi
  * -----
  * Last Modified: Saturday, 24th November 2018
- * Modified By: HUBERT Léo
+ * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
  * <<licensetext>>
@@ -13,7 +13,9 @@ package com.inno.app;
 
 import com.inno.app.InnoSave;
 import com.inno.app.room.*;
+import com.inno.service.Point;
 import com.inno.service.Save;
+import com.inno.service.Utils;
 import com.inno.service.pricing.Pricing;
 
 public class Core {
@@ -103,6 +105,7 @@ public class Core {
   }
 
   public void updateSectionPositions(String idSection, double[] positions) {
+
     this._room.updateSectionPositions(idSection, positions);
   }
 
@@ -114,9 +117,9 @@ public class Core {
     this._room.setSectionRotation(idSection, rotation);
   }
 
-  // standingSection Methods
-  public ImmutableStandingSection createStandingSection(double elevation, int nbPeople, double[] positions,
-      double rotation) {
+    //standingSection Methods
+  public ImmutableStandingSection createStandingSection(double elevation, int nbPeople, double[] positions, double rotation) {
+    
     return this._room.createStandingSection(elevation, nbPeople, positions, rotation);
   }
 
@@ -131,7 +134,11 @@ public class Core {
 
   // sittingSection Methods
   public ImmutableSittingSection createSittingSection(double elevation, double[] positions, double rotation) {
-    return this._room.createSittingSection(elevation, positions, rotation);
+    Point pt = new Point(getImmutableRoom().getImmutableScene().getCenter()[0], getImmutableRoom().getImmutableScene().getCenter()[1]);
+    double[] newPos = Utils.rotateRectangle(pt, positions);
+    double newRotation = Utils.calculateRectangleRotation(pt, positions);
+    return this._room.createSittingSection(elevation, newPos, newRotation);
+    // return this._room.createSittingSection(elevation, positions, rotation);
   }
 
   public void setSittingSectionVitalSpace(String idSection, double width, double height) {

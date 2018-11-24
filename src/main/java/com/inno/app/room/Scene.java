@@ -59,4 +59,8 @@ public class Scene implements ImmutableScene, Serializable {
   public double getRotation() {
     return this._rotation;
   }
+
+  public double[] getCenter() {
+    return new double[]{(_positions[2] - _positions[0]) / 2, (_positions[7] - _positions[3]) / 2};
+  }
 }

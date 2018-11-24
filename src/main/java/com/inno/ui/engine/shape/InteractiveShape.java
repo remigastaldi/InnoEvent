@@ -33,14 +33,20 @@ public abstract class InteractiveShape<T extends Shape> {
   private ArrayList<Shape> _outBoundShapes = new ArrayList<>();
   private ArrayList<Shape> _selectShapes = new ArrayList<>();
   private String _id = null;
-  private double _rotation = 0.0;
   // TODO: pass to private
+  protected double _rotation = 0.0;
   protected T _shape = null;
   protected Group _group;
 
   InteractiveShape(Engine engine, Pane pane) {
     _engine = engine;
     _pane = pane;
+  }
+
+  InteractiveShape(Engine engine, Pane pane, double rotation) {
+    _engine = engine;
+    _pane = pane;
+    _rotation = rotation;
   }
 
   // Callback

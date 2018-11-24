@@ -17,16 +17,19 @@ import  com.inno.app.room.ImmutableSittingSection;
 import  com.inno.ui.engine.shape.InteractiveRectangle;
 import  com.inno.ui.innoengine.InnoEngine;
 
-import javafx.geometry.Point2D;
-import javafx.scene.Group;
-import javafx.scene.input.MouseEvent;
+import  javafx.geometry.Point2D;
+import  javafx.scene.Group;
+import  javafx.scene.input.MouseEvent;
 import  javafx.scene.layout.Pane;
 import  javafx.scene.paint.Color;
+import javafx.scene.transform.Rotate;
 
 public class InnoRectangle extends InteractiveRectangle {
   private double _xVitalSpace = 0.0;
   private double _yVitalSpace = 0.0;
   private ImmutableSittingSection _sectionData = null;
+
+  private boolean _grabbed = false;
 
   public InnoRectangle(InnoEngine engine, Pane pane) {
     super(engine, pane);
@@ -74,7 +77,17 @@ public class InnoRectangle extends InteractiveRectangle {
     if (getHeight() < Engine().meterToPixel(_yVitalSpace))
       setHeight(Engine().meterToPixel(_yVitalSpace));
 
-    _sectionData = Core.get().createSittingSection(0, getPositionsInParent(), 0);
+    if (!_grabbed) {
+      double[] pos = getPositions();
+      double[] newPos = new double[]{pos[0] - getWidth(), pos[1] - getHeight(),
+                                    pos[2] - getWidth(), pos[3] - getHeight(),
+                                    pos[4] - getWidth(), pos[5] - getHeight(),
+                                    pos[6] - getWidth(), pos[7] - getHeight()};
+      _sectionData = Core.get().createSittingSection(0, localToParent(newPos), 0);
+    }
+    else
+      _sectionData = Core.get().createSittingSection(0, getPositionsInParent(), 0);
+    // Core.get().setSectionRotation(_sectionData.getIdSection(), 45);
     loadFromData();
     InnoEngine engine = (InnoEngine)Engine();
     engine.getView().openPopup("new_sitting_rectangulary_section.fxml", this);
@@ -85,12 +98,14 @@ public class InnoRectangle extends InteractiveRectangle {
   @Override
   public void onShapeChanged() {
     Core.get().updateSectionPositions(getID(), getPositionsInParent());
-    System.out.println(getPositionsInParent()[0]);
+    // System.out.println(getPositionsInParent());
+    Core.get().setSectionRotation(getID(), getRotation());
     loadFromData(_group);
   }
 
   @Override
   public boolean onMouseOnDragDetected(MouseEvent event) {
+    _grabbed = true;
     return true;
   }
 
@@ -150,7 +165,7 @@ public class InnoRectangle extends InteractiveRectangle {
 
   private void loadFromData(Group group) {
     setID(_sectionData.getIdSection());
-    System.out.println("ID :" + getID());
+    System.out.println("LOAD ID :" + getID());
 
     if (group != null)
       setPositions(parentToLocal(_sectionData.getPositions()));
@@ -197,5 +212,13 @@ public class InnoRectangle extends InteractiveRectangle {
       ru.getX(), ru.getY(),
       rd.getX(), rd.getY(),
       ld.getX(), ld.getY() };
+  }
+
+  @Override
+  public void setRotation(double rotation) {
+    _rotation = rotation;
+    _group.getTransforms().clear();
+    // _group.getTransforms().add(new Rotate(rotation, getX() + getWidth(), getY() + getHeight()));
+    _group.getTransforms().add(new Rotate(rotation, getX(), getY()));
   }
 }

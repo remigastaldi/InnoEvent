@@ -34,6 +34,7 @@ import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
+import javafx.scene.transform.Rotate;
 import javafx.scene.transform.Transform;
 
 public class InteractiveRectangle extends InteractiveShape<Rectangle> {
@@ -51,7 +52,7 @@ public class InteractiveRectangle extends InteractiveShape<Rectangle> {
   }
 
   public InteractiveRectangle(Engine engine, Pane pane, String id, double x, double y, double width, double height, double rotation, Color color) {
-    super(engine, pane);
+    super(engine, pane, rotation);
 
     setID(id);
     closeForm(x, y, width, height, rotation, color);
@@ -327,8 +328,8 @@ public class InteractiveRectangle extends InteractiveShape<Rectangle> {
     for (CircleAnchor anchor : _anchors) {
       anchor.setInteractiveShape(this);
     }
-    // _group.getTransforms().add(new Rotate(Math.random() * 360 + 1, _rectangle.getX() + _rectangle.getWidth() / 2,
-    //     _rectangle.getY() + _rectangle.getHeight() / 2));
+    _group.getTransforms().add(new Rotate(rotation, _rectangle.getX() + _rectangle.getWidth(),
+        _rectangle.getY() + _rectangle.getHeight()));
 
     _group.setOnMousePressed(mouseEvent -> {
       Point2D p = Pane().sceneToLocal(mouseEvent.getSceneX(), mouseEvent.getSceneY());
