@@ -2,7 +2,7 @@
  * File Created: Monday, 15th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Friday, 23rd November 2018
+ * Last Modified: Saturday, 24th November 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -48,6 +48,12 @@ public class InteractiveRectangle extends InteractiveShape<Rectangle> {
     super(engine, pane);
   }
 
+  public InteractiveRectangle(Engine engine, Pane pane, double x, double y, double width, double height, double rotation, Color color) {
+    super(engine, pane);
+
+    closeForm(x, y, width, height, rotation, color);
+  }
+
   public void start() {
     java.awt.Point mouse = java.awt.MouseInfo.getPointerInfo().getLocation();
     Point2D local = Pane().screenToLocal(mouse.x, mouse.y);
@@ -91,7 +97,7 @@ public class InteractiveRectangle extends InteractiveShape<Rectangle> {
       if (onMousePressed(event)) {
         if (_collisionDetected)
           return;
-        closeForm(event);
+        closeForm(event.getX(), event.getY());
         Cursor().setForm(CustomCursor.Type.HAND);
       }
     };
@@ -255,10 +261,10 @@ public class InteractiveRectangle extends InteractiveShape<Rectangle> {
   double orgSceneX, orgSceneY;
   double orgTranslateX, orgTranslateY;
 
-  private void closeForm(MouseEvent event) {
-    _rectangle = new Rectangle(event.getX(), event.getY(), 1, 1);
+  private void closeForm(double x, double y, double width, double height, double rotation, Color color) {
+    _rectangle = new Rectangle(x, y, width, height);
     _shape = _rectangle;
-    _rectangle.setFill(Color.ROYALBLUE);
+    _rectangle.setFill(color);
     _rectangle.setOpacity(0.7);
 
     enableGlow();
@@ -270,9 +276,11 @@ public class InteractiveRectangle extends InteractiveShape<Rectangle> {
     }
 
     EventHandler<MouseEvent> mouseMovedEvent = EventHandlers().remove(MouseEvent.MOUSE_MOVED);
-    Pane().removeEventHandler(MouseEvent.MOUSE_MOVED, mouseMovedEvent);
+    if (mouseMovedEvent != null)
+      Pane().removeEventHandler(MouseEvent.MOUSE_MOVED, mouseMovedEvent);
     EventHandler<MouseEvent> mousePressedEvent = EventHandlers().remove(MouseEvent.MOUSE_PRESSED);
-    Pane().removeEventHandler(MouseEvent.MOUSE_PRESSED, mousePressedEvent);
+    if (mousePressedEvent != null)
+      Pane().removeEventHandler(MouseEvent.MOUSE_PRESSED, mousePressedEvent);
 
     Pane().setCursor(Cursor.DEFAULT);
 
@@ -356,6 +364,10 @@ public class InteractiveRectangle extends InteractiveShape<Rectangle> {
     Engine().getMagnetismManager().registerInteractiveShape(this);
 
     return;
+  }
+
+  private void closeForm(double x, double y) {
+    closeForm(x, y, 1, 1, 0, Color.ROYALBLUE);
   }
 
   public void destroy() {

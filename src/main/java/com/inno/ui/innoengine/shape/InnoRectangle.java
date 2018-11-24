@@ -2,7 +2,7 @@
  * File Created: Monday, 15th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Wednesday, 21st November 2018
+ * Last Modified: Saturday, 24th November 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -18,6 +18,7 @@ import  com.inno.app.room.ImmutableSittingSection;
 import  com.inno.ui.engine.shape.InteractiveRectangle;
 
 import  javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import  javafx.scene.input.MouseEvent;
 
 public class InnoRectangle extends InteractiveRectangle {
@@ -27,6 +28,13 @@ public class InnoRectangle extends InteractiveRectangle {
 
   public InnoRectangle(InnoEngine engine, Pane pane) {
     super(engine, pane);
+
+    _xVitalSpace = Core.get().getImmutableRoom().getImmutableVitalSpace().getWidth();
+    _yVitalSpace = Core.get().getImmutableRoom().getImmutableVitalSpace().getHeight();
+  }
+
+  public InnoRectangle(InnoEngine engine, Pane pane, double x, double y, double width, double height, double rotation, Color color) {
+    super(engine, pane, x, y, width, height, rotation, color);
 
     _xVitalSpace = Core.get().getImmutableRoom().getImmutableVitalSpace().getWidth();
     _yVitalSpace = Core.get().getImmutableRoom().getImmutableVitalSpace().getHeight();

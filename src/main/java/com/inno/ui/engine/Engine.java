@@ -2,7 +2,7 @@
  * File Created: Friday, 12th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Friday, 23rd November 2018
+ * Last Modified: Saturday, 24th November 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -195,6 +195,7 @@ public class Engine {
 
   public void addInteractiveShape(InteractiveShape<? extends Shape> intShape) {
     _shapes.add(intShape);
+    _magenetismManager.registerInteractiveShape(intShape);
   }
 
   public void selected(InteractiveShape<? extends Shape> selected) {
