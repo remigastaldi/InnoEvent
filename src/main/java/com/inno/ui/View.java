@@ -2,7 +2,7 @@
  * File Created: Wednesday, 10th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Wednesday, 21st November 2018
+ * Last Modified: Saturday, 24th November 2018
  * Modified By: HUBERT Léo
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -13,6 +13,7 @@ package com.inno.ui;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
 
@@ -25,6 +26,9 @@ import javafx.util.Duration;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.AnchorPane;
+
+import java.io.File;
+
 import com.inno.ui.innoengine.InnoEngine;
 
 public class View extends Application {
@@ -197,6 +201,26 @@ public class View extends Application {
     } catch (Exception e) {
       System.out.println("Error when load sidebar file " + e.getMessage());
     }
+  }
+
+  public File getProjectFilePath() {
+    FileChooser fileChooser = new FileChooser();
+    fileChooser.setTitle("Open Resource File");
+    fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("InnoEvent", "*.inevt"));
+    File file = fileChooser.showOpenDialog(getMainView());
+    return file;
+  }
+
+  public File getSaveProjectFilePath() {
+    FileChooser fileChooser = new FileChooser();
+
+    // Set extension filter for text files
+    FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("InnoEvent", "*.inevt");
+    fileChooser.getExtensionFilters().add(extFilter);
+
+    // Show save file dialog
+    File file = fileChooser.showSaveDialog(_mainView);
+    return file;
   }
 
   public void showMainView() {

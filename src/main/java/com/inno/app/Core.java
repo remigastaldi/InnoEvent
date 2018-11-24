@@ -3,7 +3,7 @@
  * Author: GASTALDI Rémi
  * -----
  * Last Modified: Saturday, 24th November 2018
- * Modified By: GASTALDI Rémi
+ * Modified By: HUBERT Léo
  * -----
  * Copyright - 2018 GASTALDI Rémi
  * <<licensetext>>
@@ -136,9 +136,14 @@ public class Core {
     this._room.setSittingSectionVitalSpace(idSection, width, height);
   }
 
-  public void save() {
+  public boolean save() {
     SaveObject save = new SaveObject(_room);
-    _saveService.saveTo(save, "/home/gastal_r/innosave.inevt");
+    return _saveService.save(save);
+  }
+
+  public void saveTo(String path) {
+    SaveObject save = new SaveObject(_room);
+    _saveService.saveTo(save, path);
   }
 
   public void loadProject(String absolutePath) {

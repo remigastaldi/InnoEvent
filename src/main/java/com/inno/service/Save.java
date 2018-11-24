@@ -3,7 +3,7 @@
  * Author: GASTALDI Rémi
  * -----
  * Last Modified: Saturday, 24th November 2018
- * Modified By: GASTALDI Rémi
+ * Modified By: HUBERT Léo
  * -----
  * Copyright - 2018 GASTALDI Rémi
  * <<licensetext>>
@@ -52,6 +52,7 @@ public class Save<T> {
   @SuppressWarnings("unchecked")
   public T loadFrom(String path) {
     T object = null;
+    _lastPath = path;
     try {
       FileInputStream fin = new FileInputStream(path);
       ObjectInputStream ois = new ObjectInputStream(fin);
