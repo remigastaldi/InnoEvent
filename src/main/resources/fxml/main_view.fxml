@@ -146,16 +146,19 @@
                         <MenuItem mnemonicParsing="false" text="New" />
                         <MenuItem mnemonicParsing="false" onAction="#menuOpenProjectAction" text="Open…">
                                  <accelerator>
-                                    <KeyCodeCombination alt="UP" code="O" control="UP" meta="DOWN" shift="UP" shortcut="UP" />
+                                    <KeyCodeCombination alt="UP" code="O" control="UP" meta="UP" shift="UP" shortcut="DOWN" />
                                  </accelerator></MenuItem>
                         <Menu mnemonicParsing="false" text="Open Recent" />
                         <SeparatorMenuItem mnemonicParsing="false" />
                         <MenuItem mnemonicParsing="false" text="Close" />
                         <MenuItem mnemonicParsing="false" onAction="#menuSaveAction" text="Save">
                                  <accelerator>
-                                    <KeyCodeCombination alt="UP" code="S" control="UP" meta="DOWN" shift="UP" shortcut="UP" />
+                                    <KeyCodeCombination alt="UP" code="S" control="UP" meta="UP" shift="UP" shortcut="DOWN" />
                                  </accelerator></MenuItem>
-                        <MenuItem mnemonicParsing="false" onAction="#menuSaveAsAction" text="Save As…" />
+                        <MenuItem mnemonicParsing="false" onAction="#menuSaveAsAction" text="Save As…">
+                                 <accelerator>
+                                    <KeyCodeCombination alt="UP" code="S" control="UP" meta="UP" shift="DOWN" shortcut="DOWN" />
+                                 </accelerator></MenuItem>
                         <SeparatorMenuItem mnemonicParsing="false" />
                         <MenuItem mnemonicParsing="false" onAction="#menuQuitButtonAction" text="Quit">
                                  <accelerator>

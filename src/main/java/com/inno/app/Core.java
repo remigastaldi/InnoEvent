@@ -21,12 +21,12 @@ public class Core {
   private static Core _instance = null;
 
   // Services
-  // private InnoSave  _saveService = new InnoSave();
-  private InnoSave  _saveService = new InnoSave();
+  // private InnoSave _saveService = new InnoSave();
+  private InnoSave _saveService = new InnoSave();
   private Pricing _pricing = new Pricing();
 
   // Inno Class
-  private Room  _room = null;
+  private Room _room = null;
 
   private Core() {
   }
@@ -39,7 +39,7 @@ public class Core {
     return _instance;
   }
 
-  //Room methods
+  // Room methods
   public void createRoom(String name, double width, double height, double heightVitalSpace, double widthVitalSpace) {
     this._room = new Room(name, height, width, heightVitalSpace, widthVitalSpace);
   }
@@ -68,7 +68,7 @@ public class Core {
     this._room.setWidthVitalSpace(width);
   }
 
-  //Scene methods
+  // Scene methods
   public ImmutableScene createScene(double width, double height, double[] positions) {
     return this._room.createScene(width, height, positions);
   }
@@ -93,7 +93,7 @@ public class Core {
     this._room.setSceneRotation(rotation);
   }
 
-  //Section methods
+  // Section methods
   public void setSectionName(String idSection, String name) {
     this._room.setSectionId(idSection, name);
   }
@@ -114,20 +114,22 @@ public class Core {
     this._room.setSectionRotation(idSection, rotation);
   }
 
-    //standingSection Methods
-  public ImmutableStandingSection createStandingSection(double elevation, int nbPeople, double[] positions, double rotation) {
+  // standingSection Methods
+  public ImmutableStandingSection createStandingSection(double elevation, int nbPeople, double[] positions,
+      double rotation) {
     return this._room.createStandingSection(elevation, nbPeople, positions, rotation);
   }
 
-  /*public ImmutableStandingSection getImmutableStandingSection(int idSection) {
-    return this;
-  }*/
+  /*
+   * public ImmutableStandingSection getImmutableStandingSection(int idSection) {
+   * return this; }
+   */
 
   public void setStandingNbPeople(String idSection, int nbPeople) {
     this._room.setStandingNbPeople(idSection, nbPeople);
   }
 
-  //sittingSection Methods
+  // sittingSection Methods
   public ImmutableSittingSection createSittingSection(double elevation, double[] positions, double rotation) {
     return this._room.createSittingSection(elevation, positions, rotation);
   }
@@ -152,6 +154,11 @@ public class Core {
     _room = (Room) save.getRoomData();
   }
 
-  
+  public void closeProject() {
+    _saveService = new InnoSave();
+    _pricing = new Pricing();
+    _room = null;
+  }
+
   // Save Methods
 };

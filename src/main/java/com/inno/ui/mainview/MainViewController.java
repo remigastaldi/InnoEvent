@@ -51,7 +51,7 @@ public class MainViewController extends ViewController {
       case "a":
         Engine().createIrregularSection();
         break;
-      case "s":
+      case "r":
         Engine().createRectangularSection();
     }
     
@@ -61,6 +61,7 @@ public class MainViewController extends ViewController {
 
   @FXML
   private void menuQuitButtonAction() {
+    Core().closeProject();
     View().showStartupPopup();
   }
 
