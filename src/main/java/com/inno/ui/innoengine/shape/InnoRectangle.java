@@ -12,14 +12,14 @@
 
 package com.inno.ui.innoengine.shape;
 
-import  com.inno.ui.innoengine.InnoEngine;
 import  com.inno.app.Core;
 import  com.inno.app.room.ImmutableSittingSection;
 import  com.inno.ui.engine.shape.InteractiveRectangle;
+import  com.inno.ui.innoengine.InnoEngine;
 
-import  javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
 import  javafx.scene.input.MouseEvent;
+import  javafx.scene.layout.Pane;
+import  javafx.scene.paint.Color;
 
 public class InnoRectangle extends InteractiveRectangle {
   private double _xVitalSpace = 0.0;
@@ -72,17 +72,25 @@ public class InnoRectangle extends InteractiveRectangle {
     if (getHeight() < Engine().meterToPixel(_yVitalSpace))
       setHeight(Engine().meterToPixel(_yVitalSpace));
 
-    double[] pos = {getX(), getY(),
-                    getMaxXProperty().get(), getY(),
-                    getMaxXProperty().get(), getMaxYProperty().get(),
-                    getX(), getMaxYProperty().get() };
-    _sectionData = Core.get().createSittingSection(0, pos, 0);
+    _sectionData = Core.get().createSittingSection(0, getPositions(), 0);
 
-    setID(_sectionData.getIdSection());
+    loadFromData();
     InnoEngine engine = (InnoEngine)Engine();
     engine.getView().openPopup("new_sitting_rectangulary_section.fxml", this);
 
     return true;
+  }
+
+  private void loadFromData() {
+    setID(_sectionData.getIdSection());
+    setPositions(_sectionData.getPositions());
+    setRotation(_sectionData.getRotation());
+  }
+
+  @Override
+  public void onShapeChanged() {
+    Core.get().updateSectionPositions(getID(), getPositions());
+    loadFromData();
   }
 
   @Override
@@ -137,5 +145,13 @@ public class InnoRectangle extends InteractiveRectangle {
   public boolean onDestroy() {
     Core.get().deleteSection(getID());
     return true;
+  }
+
+  public double[] getPositions() {
+    double[] pos = {getX(), getY(),
+      getMaxXProperty().get(), getY(),
+      getMaxXProperty().get(), getMaxYProperty().get(),
+      getX(), getMaxYProperty().get() };
+      return pos;
   }
 }

@@ -13,6 +13,7 @@ package com.inno.app.room;
 
 public class StandingSection extends Section implements ImmutableSection, ImmutableStandingSection {
 
+  private static final long serialVersionUID = 1L;
   private int _nbPeople;
 
   public StandingSection(String idSection, double elevation,double[] positions, int nbPeople, double rotation) {

@@ -45,7 +45,6 @@ public class Engine {
   private ScrollPane scrollPane;
 
   public Engine(StackPane stackPane, double width, double height) {
-    // Pane _pane = new Pane();
     _pane = new Pane();
     _magenetismManager = new MagnetismManager(this);
 

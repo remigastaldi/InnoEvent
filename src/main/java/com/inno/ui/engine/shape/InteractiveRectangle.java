@@ -60,9 +60,9 @@ public class InteractiveRectangle extends InteractiveShape<Rectangle> {
     Point2D local = Pane().screenToLocal(mouse.x, mouse.y);
 
     Circle cursorForm = new Circle(local.getX(), local.getY(), 5.0, Color.TRANSPARENT);
-    // cursorForm.setStroke(Color.RED);
+    cursorForm.setStroke(Color.GOLD);
     cursorForm.setStrokeWidth(1.0);
-    cursorForm.setVisible(false);
+    // cursorForm.setVisible(false);
 
     Cursor().setShape(cursorForm);
     Cursor().setForm(CustomCursor.Type.ADD);
@@ -204,6 +204,21 @@ public class InteractiveRectangle extends InteractiveShape<Rectangle> {
 
   public Shape getShape() {
     return _rectangle;
+  }
+
+  public void setPositions(double[] pos) {
+    setX(pos[0]);
+    setY(pos[1]);
+    setWidth(pos[2] - pos[0]);
+    setHeight(pos[7] - pos[3]);
+  }
+
+  public void setX(double x) {
+    _rectangle.setX(x);
+  }
+
+  public void setY(double y) {
+    _rectangle.setY(y);
   }
 
   public double getX() {
