@@ -193,6 +193,13 @@ public class Engine {
     _shapes.add(shape);
   }
 
+  public void createInteractiveRectangle(double x, double y, double width, double height, double rotation, Color color) {
+    System.out.println(width + " : " + height);
+    InteractiveRectangle scene = new InteractiveRectangle(this, getPane(), x, y, width, height, rotation, color);
+    addInteractiveShape(scene);
+    deselect();
+  }
+
   public void addInteractiveShape(InteractiveShape<? extends Shape> intShape) {
     _shapes.add(intShape);
     _magenetismManager.registerInteractiveShape(intShape);

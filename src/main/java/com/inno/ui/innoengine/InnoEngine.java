@@ -12,9 +12,12 @@
 
 package com.inno.ui.innoengine;
 
+import java.util.Collection;
+
 import com.inno.app.Core;
 import com.inno.app.room.ImmutableRoom;
 import com.inno.app.room.ImmutableScene;
+import com.inno.app.room.ImmutableSection;
 import com.inno.app.room.ImmutableSittingSection;
 import com.inno.ui.View;
 import com.inno.ui.engine.Engine;
@@ -27,8 +30,6 @@ import javafx.scene.shape.Rectangle;
 
 
 public class InnoEngine extends Engine {
-  // TEST
-  String statut = "";
   View _view = null;
 
   public InnoEngine(View view, StackPane stackPane) {
@@ -43,19 +44,23 @@ public class InnoEngine extends Engine {
     activateGrid(true);
 
     createScene(roomData);
-    
-    for (ImmutableSittingSection section : roomData.getImmutableSittingSections().values()) {
 
+    double[] pos = new double[]{10, 10, 50, 10, 100, 100, 10, 50};
+    Core.get().createSittingSection(0, pos, 0.0);
+
+    Collection<? extends ImmutableSittingSection> sections = roomData.getImmutableSittingSections().values();
+    for (ImmutableSittingSection section : sections) {
+       createInteractiveRectangle(section.getPositions()[0], section.getPositions()[1],
+                                  section.getPositions()[2] - section.getPositions()[0], section.getPositions()[7] - section.getPositions()[3],
+                                  section.getRotation(),
+                                  Color.ROYALBLUE);
     }
-
   }
 
   private void createScene(ImmutableRoom roomData) {
     ImmutableScene dto = roomData.getImmutableScene();
 
-    InnoRectangle scene = new InnoRectangle(this, getPane(), dto.getPositions()[0], dto.getPositions()[1], dto.getWidth(), dto.getHeight(), dto.getRotation(), Color.ROYALBLUE);
-    addInteractiveShape(scene);
-    deselect();
+    createInteractiveRectangle(dto.getPositions()[0], dto.getPositions()[1], dto.getWidth(), dto.getHeight(), dto.getRotation(), Color.ROYALBLUE);
   }
 
   public void createIrregularSection() {
@@ -68,10 +73,6 @@ public class InnoEngine extends Engine {
     deselect();
     InnoRectangle innoPoly = new InnoRectangle(this, getPane());
     innoPoly.start();
-  }
-
-  public void createScene(double[] pos) {
-    // InnoPolygon
   }
 
   public View getView() {
