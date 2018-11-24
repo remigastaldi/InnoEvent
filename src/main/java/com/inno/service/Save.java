@@ -23,11 +23,15 @@ public class Save<T> {
   public Save() {
   }
 
-  public void save(T object) {
-    if (_lastPath != null)
+  public boolean save(T object) {
+    if (_lastPath != null) {
       saveTo(object, _lastPath);
-    else
+      return true;
+    }
+    else {
       System.out.println("Save path is not set");
+      return false;
+    }
   }
 
   public void saveTo(T object, String path) {

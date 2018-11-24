@@ -12,7 +12,6 @@
 
 package com.inno.app;
 
-import com.inno.app.room.ImmutableRoom;
 import com.inno.service.Save;
 
 public class InnoSave {
@@ -21,8 +20,8 @@ public class InnoSave {
   public InnoSave() {
   }
 
-  public void save(SaveObject save) {
-    _save.save(save);
+  public boolean save(SaveObject save) {
+    return _save.save(save);
   }
 
   public void saveTo(SaveObject save, String path) {
