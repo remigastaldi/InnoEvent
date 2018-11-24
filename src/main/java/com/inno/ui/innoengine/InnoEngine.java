@@ -45,7 +45,7 @@ public class InnoEngine extends Engine {
 
     Collection<? extends ImmutableSittingSection> sections = roomData.getImmutableSittingSections().values();
     for (ImmutableSittingSection section : sections) {
-       createInteractiveRectangle(section.getIdSection(), section.getPositions()[0], section.getPositions()[1],
+       createRectangularSection(section.getIdSection(), section.getPositions()[0], section.getPositions()[1],
                                   section.getPositions()[2] - section.getPositions()[0], section.getPositions()[7] - section.getPositions()[3],
                                   section.getRotation(),
                                   Color.ROYALBLUE);
@@ -53,7 +53,7 @@ public class InnoEngine extends Engine {
 
     ImmutableScene dto = Core.get().getImmutableRoom().getImmutableScene();
 
-    createInteractiveRectangle("-1", dto.getPositions()[0], dto.getPositions()[1], dto.getWidth(), dto.getHeight(), dto.getRotation(), Color.ROYALBLUE);
+    createRectangularSection("-1", dto.getPositions()[0], dto.getPositions()[1], dto.getWidth(), dto.getHeight(), dto.getRotation(), Color.ROYALBLUE);
   }
 
   public void createIrregularSection() {
@@ -66,6 +66,14 @@ public class InnoEngine extends Engine {
     deselect();
     InnoRectangle innoPoly = new InnoRectangle(this, getPane());
     innoPoly.start();
+  }
+
+  public void createRectangularSection(String id, double x, double y, double width, double height, double rotation, Color color) {
+    System.out.println(width + " : " + height);
+    InnoRectangle section = new InnoRectangle(this, getPane(), id, x, y, width, height, rotation, color);
+    section.loadData();
+    addInteractiveShape(section);
+    deselect();
   }
 
   public View getView() {

@@ -46,6 +46,8 @@ public class InteractiveRectangle extends InteractiveShape<Rectangle> {
 
   public InteractiveRectangle(Engine engine, Pane pane) {
     super(engine, pane);
+
+    // setID(id);
   }
 
   public InteractiveRectangle(Engine engine, Pane pane, String id, double x, double y, double width, double height, double rotation, Color color) {
@@ -389,7 +391,7 @@ public class InteractiveRectangle extends InteractiveShape<Rectangle> {
   }
 
   public void destroy() {
-    Pane().getChildren().remove(_group);
     onDestroy();
+    Pane().getChildren().remove(_group);
   }
 }

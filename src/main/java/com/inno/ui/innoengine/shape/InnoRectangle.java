@@ -139,13 +139,19 @@ public class InnoRectangle extends InteractiveRectangle {
 
   @Override
   public boolean onDestroy() {
+    System.out.println("DELETE ID:" + getID());
     Core.get().deleteSection(getID());
     return true;
   }
 
+  public void loadData() {
+    _sectionData = Core.get().getImmutableRoom().getImmutableSittingSections().get(getID());
+  }
 
   private void loadFromData(Group group) {
     setID(_sectionData.getIdSection());
+    System.out.println("ID :" + getID());
+
     if (group != null)
       setPositions(parentToLocal(_sectionData.getPositions()));
     else

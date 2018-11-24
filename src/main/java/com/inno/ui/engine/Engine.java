@@ -194,8 +194,8 @@ public class Engine {
 
   public void createInteractiveRectangle(String id, double x, double y, double width, double height, double rotation, Color color) {
     System.out.println(width + " : " + height);
-    InteractiveRectangle scene = new InteractiveRectangle(this, getPane(), id, x, y, width, height, rotation, color);
-    addInteractiveShape(scene);
+    InteractiveRectangle section = new InteractiveRectangle(this, getPane(), id, x, y, width, height, rotation, color);
+    addInteractiveShape(section);
     deselect();
   }
 
