@@ -143,15 +143,28 @@ public class Utils {
         return p_Array;
     }
 
+    public static Point[] mirrorRectangle(Point[] rectangle)
+    {
+        Point mirroredRect[] = {rectangle[3], rectangle[2] ,
+                new Point(rectangle[1].get_x(), 2*rectangle[2].get_y()-rectangle[1].get_y()),
+                new Point(rectangle[0].get_x(), 2*rectangle[2].get_y()-rectangle[1].get_y())};
+        return mirroredRect;
+    }
+
     //calculate the angle needed to perform rotation of rectanglular section initiated at Point 'click' with width 'width'
     // to perpendicularly face scene center 'center'
-    public static double calculateRectangleRotation(Point center, Point click, double width)
+    public static double calculateRectangleRotation(Point center, double[] rectangle)
     {
-        double a = distance(click, center);
-        double cosA = (2*(a*a)-(width*width))/(2*a*a);
+        Point[] pRectangle = mirrorRectangle(dArray_To_pArray(rectangle));
 
-        Point p = rotatePoint(click, center, Math.acos(cosA));
-        Point q = new Point(center.get_x()-width, click.get_y());
+        Point click = pRectangle[1];
+        double a = distance(pRectangle[0], pRectangle[1]);//width
+        double b = distance(click, center);
+        double cosA = (2*(b*b)-(a*a))/(2*b*b);
+
+        Point p = rotatePoint(click, center, -Math.acos(cosA));
+        Point q = new Point(click.get_x()-a, click.get_y());
+
         return calculateRotationAngle(click, q, p);
     }
 }
