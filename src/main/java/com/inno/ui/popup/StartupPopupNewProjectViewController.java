@@ -3,7 +3,7 @@
  * Author: HUBERT Léo
  * -----
  * Last Modified: Saturday, 24th November 2018
- * Modified By: GASTALDI Rémi
+ * Modified By: HUBERT Léo
  * -----
  * Copyright - 2018 HUBERT Léo
  * <<licensetext>>
@@ -15,7 +15,6 @@ import javafx.fxml.FXML;
 
 import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.paint.Color;
 import javafx.scene.control.TextField;
 import javafx.application.Platform;
 
@@ -23,7 +22,6 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import com.inno.app.room.ImmutableScene;
 import com.inno.ui.Validator;
 import com.inno.ui.ViewController;
 import com.inno.ui.View.AnimationDirection;
@@ -97,19 +95,24 @@ public class StartupPopupNewProjectViewController extends ViewController {
     fields.put(project_name_input, (required == true ? "required|" : "") + "max:30");
     fields.put(room_width_input, (required == true ? "required|" : "") + "numeric");
     fields.put(room_height_input, (required == true ? "required|" : "") + "numeric");
-    fields.put(scene_width_input, (required == true ? "required|" : "") + "numeric");
-    fields.put(scene_height_input, (required == true ? "required|" : "") + "numeric");
+    fields.put(scene_width_input, (required == true ? "required|" : "") + "numeric|max:" + room_width_input.getText());
+    fields.put(scene_height_input,
+        (required == true ? "required|" : "") + "numeric|max:" + room_height_input.getText());
     fields.put(vital_space_width_input, (required == true ? "required|" : "") + "numeric");
     fields.put(vital_space_height_input, (required == true ? "required|" : "") + "numeric");
 
     for (Map.Entry<TextField, String> entry : fields.entrySet()) {
       TextField field = entry.getKey();
       String validator = entry.getValue();
-      if ((required || field.isFocused()) && !Validator.validate(field.getText(), validator)) {
+
+      if (!Validator.validate(field.getText(), validator)) {
         if (!field.getStyleClass().contains("error"))
           field.getStyleClass().add("error");
         valid = false;
-      } else if (field.isFocused()) {
+      } else if (Validator.validate(field.getText(), validator) && field.getText().length() == 0
+          && field.getStyleClass().contains("error")) {
+        valid = false;
+      } else {
         if (field.getStyleClass().contains("error"))
           field.getStyleClass().remove("error");
       }

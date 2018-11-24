@@ -11,10 +11,11 @@
 <?import javafx.scene.control.Tooltip?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
+<?import javafx.scene.input.KeyCodeCombination?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.StackPane?>
 
-<StackPane minHeight="720.0" minWidth="1280.0" onKeyReleased="#keyAction" prefHeight="720.0" prefWidth="1280.0" stylesheets="@../dark-theme.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.inno.ui.mainview.MainViewController">
+<StackPane minHeight="720.0" minWidth="1280.0" onKeyReleased="#keyAction" prefHeight="720.0" prefWidth="1280.0" stylesheets="@../dark-theme.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.inno.ui.mainview.MainViewController">
   <children>
       <AnchorPane>
          <children>
@@ -143,14 +144,23 @@
                     <Menu mnemonicParsing="false" text="File">
                       <items>
                         <MenuItem mnemonicParsing="false" text="New" />
-                        <MenuItem mnemonicParsing="false" text="Open…" />
+                        <MenuItem mnemonicParsing="false" onAction="#menuOpenProjectAction" text="Open…">
+                                 <accelerator>
+                                    <KeyCodeCombination alt="UP" code="O" control="UP" meta="DOWN" shift="UP" shortcut="UP" />
+                                 </accelerator></MenuItem>
                         <Menu mnemonicParsing="false" text="Open Recent" />
                         <SeparatorMenuItem mnemonicParsing="false" />
                         <MenuItem mnemonicParsing="false" text="Close" />
-                        <MenuItem mnemonicParsing="false" text="Save" />
-                        <MenuItem mnemonicParsing="false" text="Save As…" />
+                        <MenuItem mnemonicParsing="false" onAction="#menuSaveAction" text="Save">
+                                 <accelerator>
+                                    <KeyCodeCombination alt="UP" code="S" control="UP" meta="DOWN" shift="UP" shortcut="UP" />
+                                 </accelerator></MenuItem>
+                        <MenuItem mnemonicParsing="false" onAction="#menuSaveAsAction" text="Save As…" />
                         <SeparatorMenuItem mnemonicParsing="false" />
-                        <MenuItem mnemonicParsing="false" onAction="#quitButtonAction" text="Quit" />
+                        <MenuItem mnemonicParsing="false" onAction="#menuQuitButtonAction" text="Quit">
+                                 <accelerator>
+                                    <KeyCodeCombination alt="UP" code="Q" control="UP" meta="UP" shift="UP" shortcut="DOWN" />
+                                 </accelerator></MenuItem>
                       </items>
                     </Menu>
                     <Menu mnemonicParsing="false" text="Edit">

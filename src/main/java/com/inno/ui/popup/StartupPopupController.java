@@ -3,7 +3,7 @@
  * Author: GASTALDI Rémi
  * -----
  * Last Modified: Saturday, 24th November 2018
- * Modified By: GASTALDI Rémi
+ * Modified By: HUBERT Léo
  * -----
  * Copyright - 2018 GASTALDI Rémi
  * <<licensetext>>
@@ -42,12 +42,8 @@ public class StartupPopupController extends ViewController {
 
   @FXML
   private void openProjectButtonAction() {
-    FileChooser fileChooser = new FileChooser();
-    fileChooser.setTitle("Open Resource File");
-    fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("InnoEvent", "*.inevt"));
-    File file = fileChooser.showOpenDialog(View().getMainView());
+    File file = View().getProjectFilePath();
     if (file != null) {
-      System.out.println(file);
       Core().loadProject(file.getAbsolutePath());
       View().showMainView();
     }

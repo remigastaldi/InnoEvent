@@ -3,13 +3,15 @@
  * Author: GASTALDI Rémi
  * -----
  * Last Modified: Saturday, 24th November 2018
- * Modified By: GASTALDI Rémi
+ * Modified By: HUBERT Léo
  * -----
  * Copyright - 2018 GASTALDI Rémi
  * <<licensetext>>
  */
 
 package com.inno.ui.mainview;
+
+import java.io.File;
 
 import com.inno.ui.ViewController;
 
@@ -51,8 +53,6 @@ public class MainViewController extends ViewController {
         break;
       case "s":
         Engine().createRectangularSection();
-      case "o":
-        Core().save();
     }
     
     if (evt.getCode() == KeyCode.DELETE)
@@ -60,8 +60,32 @@ public class MainViewController extends ViewController {
   }
 
   @FXML
-  private void quitButtonAction() {
+  private void menuQuitButtonAction() {
     View().showStartupPopup();
+  }
+
+  @FXML
+  private void menuOpenProjectAction() {
+    File file = View().getProjectFilePath();
+    if (file != null) {
+      Core().loadProject(file.getAbsolutePath());
+      View().showMainView();
+    }
+  }
+
+  @FXML
+  private void menuSaveAction() {
+    if (Core().save() == false) {
+      menuSaveAsAction();
+    }
+  }
+
+  @FXML
+  private void menuSaveAsAction() {
+    File file = View().getSaveProjectFilePath();
+    if (file != null) {
+      Core().saveTo(file.getAbsolutePath());
+    }
   }
 
   @FXML
