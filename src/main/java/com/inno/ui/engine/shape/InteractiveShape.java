@@ -2,7 +2,7 @@
  * File Created: Sunday, 14th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Friday, 23rd November 2018
+ * Last Modified: Saturday, 24th November 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -38,6 +38,7 @@ public abstract class InteractiveShape<T extends Shape> {
   // TODO: pass to private
   protected T _shape = null;
   protected Group _group;
+  private String _id = null;
 
   InteractiveShape(Engine engine, Pane pane) {
     _engine = engine;
@@ -106,5 +107,13 @@ public abstract class InteractiveShape<T extends Shape> {
 
   public Group getGroup() {
     return _group;
+  }
+
+  public void setID(String id) {
+    _id = id;
+  }
+
+  public String getID() {
+    return _id;
   }
 }

@@ -2,8 +2,8 @@
  * File Created: Tuesday, 13th November 2018
  * Author: MAREL Maud
  * -----
- * Last Modified: Tuesday, 20th November 2018
- * Modified By: MAREL Maud
+ * Last Modified: Saturday, 24th November 2018
+ * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 MAREL Maud
  * <<licensetext>>
@@ -11,8 +11,11 @@
 
 package com.inno.app.room;
 
-public class Section implements ImmutableSection {
+import java.io.Serializable;
 
+public class Section implements ImmutableSection, Serializable {
+
+  private static final long serialVersionUID = 1L;
   private String _idSection;
   private double _elevation;
   private double[] _positions; //[3...*]

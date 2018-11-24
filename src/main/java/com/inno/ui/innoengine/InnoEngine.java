@@ -43,24 +43,17 @@ public class InnoEngine extends Engine {
     setBackgroundColor(Color.valueOf("#282C34"));
     activateGrid(true);
 
-    createScene(roomData);
-
-    double[] pos = new double[]{10, 10, 50, 10, 100, 100, 10, 50};
-    Core.get().createSittingSection(0, pos, 0.0);
-
     Collection<? extends ImmutableSittingSection> sections = roomData.getImmutableSittingSections().values();
     for (ImmutableSittingSection section : sections) {
-       createInteractiveRectangle(section.getPositions()[0], section.getPositions()[1],
+       createInteractiveRectangle(section.getIdSection(), section.getPositions()[0], section.getPositions()[1],
                                   section.getPositions()[2] - section.getPositions()[0], section.getPositions()[7] - section.getPositions()[3],
                                   section.getRotation(),
                                   Color.ROYALBLUE);
-    }
-  }
+      }
 
-  private void createScene(ImmutableRoom roomData) {
-    ImmutableScene dto = roomData.getImmutableScene();
+    ImmutableScene dto = Core.get().getImmutableRoom().getImmutableScene();
 
-    createInteractiveRectangle(dto.getPositions()[0], dto.getPositions()[1], dto.getWidth(), dto.getHeight(), dto.getRotation(), Color.ROYALBLUE);
+    createInteractiveRectangle("-1", dto.getPositions()[0], dto.getPositions()[1], dto.getWidth(), dto.getHeight(), dto.getRotation(), Color.ROYALBLUE);
   }
 
   public void createIrregularSection() {

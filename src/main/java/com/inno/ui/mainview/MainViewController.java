@@ -2,8 +2,8 @@
  * File Created: Wednesday, 26th September 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Thursday, 22nd November 2018
- * Modified By: MAREL Maud
+ * Last Modified: Saturday, 24th November 2018
+ * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
  * <<licensetext>>
@@ -14,17 +14,10 @@ package com.inno.ui.mainview;
 import com.inno.ui.ViewController;
 
 import javafx.fxml.FXML;
-import javafx.geometry.Point2D;
-import javafx.scene.Group;
-import javafx.scene.Node;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 
 public class MainViewController extends ViewController {
   @FXML
@@ -43,7 +36,11 @@ public class MainViewController extends ViewController {
   public void init() {
     View().setSidebarFromFxmlFileName("sidebar_room.fxml", sidebar_anchor);
 
+    // double[] pos = new double[]{10, 10, 50, 10, 100, 100, 10, 50};
+    // Core().createSittingSection(0, pos, 0.0);
+
     View().createEngine(stack_pane);
+
   }
 
   @FXML
@@ -54,8 +51,8 @@ public class MainViewController extends ViewController {
         break;
       case "s":
         Engine().createRectangularSection();
-      // case "p":
-        // Engine.save
+      case "o":
+        Core().save();
     }
     
     if (evt.getCode() == KeyCode.DELETE)

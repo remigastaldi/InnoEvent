@@ -33,8 +33,8 @@ public class InnoRectangle extends InteractiveRectangle {
     _yVitalSpace = Core.get().getImmutableRoom().getImmutableVitalSpace().getHeight();
   }
 
-  public InnoRectangle(InnoEngine engine, Pane pane, double x, double y, double width, double height, double rotation, Color color) {
-    super(engine, pane, x, y, width, height, rotation, color);
+  public InnoRectangle(InnoEngine engine, Pane pane, String id, double x, double y, double width, double height, double rotation, Color color) {
+    super(engine, pane, id, x, y, width, height, rotation, color);
 
     _xVitalSpace = Core.get().getImmutableRoom().getImmutableVitalSpace().getWidth();
     _yVitalSpace = Core.get().getImmutableRoom().getImmutableVitalSpace().getHeight();
@@ -78,6 +78,7 @@ public class InnoRectangle extends InteractiveRectangle {
                     getX(), getMaxYProperty().get() };
     _sectionData = Core.get().createSittingSection(0, pos, 0);
 
+    setID(_sectionData.getIdSection());
     InnoEngine engine = (InnoEngine)Engine();
     engine.getView().openPopup("new_sitting_rectangulary_section.fxml", this);
 

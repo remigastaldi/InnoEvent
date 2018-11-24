@@ -2,8 +2,8 @@
  * File Created: Friday, 12th October 2018
  * Author: HUBERT Léo
  * -----
- * Last Modified: Thursday, 22nd November 2018
- * Modified By: MAREL Maud
+ * Last Modified: Saturday, 24th November 2018
+ * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 HUBERT Léo
  * <<licensetext>>
@@ -15,6 +15,7 @@ import javafx.fxml.FXML;
 
 import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.paint.Color;
 import javafx.scene.control.TextField;
 import javafx.application.Platform;
 
@@ -22,6 +23,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import com.inno.app.room.ImmutableScene;
 import com.inno.ui.Validator;
 import com.inno.ui.ViewController;
 import com.inno.ui.View.AnimationDirection;
@@ -77,11 +79,9 @@ public class StartupPopupNewProjectViewController extends ViewController {
         roomHeight / 2 + roomHeight / 2, roomWidth / 2 - sceneWidth / 2, roomHeight / 2 + roomHeight / 2 };
 
     Core().createRoom(project_name_input.getText(), roomWidth, roomHeight, vitalSpaceWidth, vitalSpaceHeight);
-
     Core().createScene(sceneWidth, sceneHeight, scenePos);
 
     // Core().setVitalS(Integer.parseInt(room_height_input.getText()));
-
     View().showMainView();
   }
 

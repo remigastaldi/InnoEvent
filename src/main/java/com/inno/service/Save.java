@@ -2,7 +2,7 @@
  * File Created: Wednesday, 10th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Wednesday, 21st November 2018
+ * Last Modified: Saturday, 24th November 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -24,14 +24,18 @@ public class Save<T> {
   }
 
   public void save(T object) {
-    saveTo(_lastPath, object);
+    if (_lastPath != null)
+      saveTo(object, _lastPath);
+    else
+      System.out.println("Save path is not set");
   }
 
-  public void saveTo(String path, T object) {
+  public void saveTo(T object, String path) {
     if (_lastPath != path)
       _lastPath = path;
 
     try {
+      System.out.println(path);
       FileOutputStream fos = new FileOutputStream(path);
       ObjectOutputStream oos = new ObjectOutputStream(fos);
       oos.writeObject(object);
@@ -41,6 +45,7 @@ public class Save<T> {
     }
   }
 
+  @SuppressWarnings("unchecked")
   public T loadFrom(String path) {
     T object = null;
     try {
@@ -48,7 +53,7 @@ public class Save<T> {
       ObjectInputStream ois = new ObjectInputStream(fin);
       Object obj = ois.readObject();
       object = (T) obj;
-      ois.close();      
+      ois.close();
     } catch (Exception e) {
       System.out.println(e);
     }
