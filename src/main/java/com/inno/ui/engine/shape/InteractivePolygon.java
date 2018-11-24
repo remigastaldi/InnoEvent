@@ -182,8 +182,6 @@ public class InteractivePolygon extends InteractiveShape<Polygon> {
     EventHandlers().put(MouseEvent.MOUSE_CLICKED, mouseClick);
     _polygon.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseClick);
 
-    Engine().addInteractiveShape(this);
-
     ArrayList<Node> nodes = new ArrayList<>();
     nodes.add(_polygon);
     for (Shape outBound : getOutBoundShapes()) {
@@ -253,9 +251,10 @@ public class InteractivePolygon extends InteractiveShape<Polygon> {
     EventHandlers().put(MouseEvent.MOUSE_DRAGGED, mouseDragged);
     _polygon.addEventHandler(MouseEvent.MOUSE_DRAGGED, mouseDragged);
 
+    Engine().addInteractiveShape(this);
     Engine().selected(this);
-
     Engine().getMagnetismManager().registerInteractiveShape(this);
+
     return;
   }
 

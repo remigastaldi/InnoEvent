@@ -44,13 +44,12 @@ import javafx.scene.shape.StrokeLineCap;
 import javafx.scene.transform.Transform;
 import javafx.scene.transform.Rotate;
 import javafx.beans.binding.DoubleBinding;
+import com.inno.ui.engine.CustomCursor;
 
 public class InteractiveRectangle extends InteractiveShape<Rectangle> {
   private Rectangle _rectangle = null;
-  private Circle _cursor = null;
   private ObservableList<CircleAnchor> _anchors = null;
   private boolean _collisionDetected = false;
-  private Group _group;
 
   private DoubleProperty maxXProperty = null;
   private DoubleProperty maxYProperty = null;
@@ -67,40 +66,21 @@ public class InteractiveRectangle extends InteractiveShape<Rectangle> {
     java.awt.Point mouse = java.awt.MouseInfo.getPointerInfo().getLocation();
     Point2D local = Pane().screenToLocal(mouse.x, mouse.y);
 
-    _cursor = new Circle(local.getX(), local.getY(), 5.0, Color.TRANSPARENT);
-    _cursor.setStrokeWidth(1);
-    _cursor.setStroke(Color.GREEN);
+    Circle cursorForm = new Circle(local.getX(), local.getY(), 5.0, Color.TRANSPARENT);
+    // cursorForm.setStroke(Color.RED);
+    cursorForm.setStrokeWidth(1.0);
+    cursorForm.setVisible(false);
 
-    Pane().getChildren().add(_cursor);
-
-    // System cursor
-    SnapshotParameters params = new SnapshotParameters();
-    params.setFill(Color.TRANSPARENT);
-    Image addIcon = new Image("icon/add.png");
-    Image closeIcon = new Image("icon/close.png");
-    // TODO: mac cursor size problem ??
-    // Dimension2D addSizes = ImageCursor.getBestSize(addIcon.getWidth(),
-    // addIcon.getHeight());
-    // Dimension2D closeSizes = ImageCursor.getBestSize(addIcon.getWidth(),
-    // addIcon.getHeight());
-    ImageCursor addCursor = new ImageCursor(addIcon, addIcon.getWidth() / 2, addIcon.getHeight() / 2);
-    ImageCursor closeCursor = new ImageCursor(closeIcon, closeIcon.getWidth() / 2, closeIcon.getHeight() / 2);
-    Pane().setCursor(addCursor);
+    Cursor().setShape(cursorForm);
+    Cursor().setForm(CustomCursor.Type.ADD);
 
     EventHandler<MouseEvent> mouseMovedEvent = event -> {
       if (onMouseMoved(event)) {
-        double newX = event.getX();
-        double newY = event.getY();
+        Point2D pos = Engine().getMagnetismManager().checkMagnetism(Cursor().getBoundShape());
 
-        _cursor.setCenterX(newX);
-        _cursor.setCenterY(newY);
-        Shape element = Engine().getObjectUnderCursor(_cursor);
-        if (element != null) {
-          Point2D pos = Engine().getCollisionCenter(_cursor, element);
-
-          pos = Pane().sceneToLocal(pos.getX(), pos.getY());
-          _cursor.setCenterX(pos.getX());
-          _cursor.setCenterY(pos.getY());
+        if (pos != null) {
+          Cursor().setX(pos.getX());
+          Cursor().setY(pos.getY());
         } else {
           updateCursor(event);
         }
@@ -109,18 +89,11 @@ public class InteractiveRectangle extends InteractiveShape<Rectangle> {
     
     EventHandler<MouseEvent> mouseDraggedEvent = event -> {
       if (onMouseOnDragDetected(event)) {
-        double newX = event.getX();
-        double newY = event.getY();
+        Point2D pos = Engine().getMagnetismManager().checkMagnetism(Cursor().getBoundShape(), this);
 
-        _cursor.setCenterX(newX);
-        _cursor.setCenterY(newY);
-        Shape element = Engine().getObjectUnderCursor(_cursor);
-        if (element != null) {
-          Point2D pos = Engine().getCollisionCenter(_cursor, element);
-
-          pos = Pane().sceneToLocal(pos.getX(), pos.getY());
-          _cursor.setCenterX(pos.getX());
-          _cursor.setCenterY(pos.getY());
+        if (pos != null) {
+          Cursor().setX(pos.getX());
+          Cursor().setY(pos.getY());
         } else {
           updateCursor(event);
         }
@@ -130,13 +103,13 @@ public class InteractiveRectangle extends InteractiveShape<Rectangle> {
       if (onMouseReleased(event)) {
         if (_collisionDetected)
           return;
-        EventHandler<MouseEvent> mouseDraggEvent = EventHandlers().remove(MouseEvent.MOUSE_DRAGGED);
-        Pane().removeEventHandler(MouseEvent.MOUSE_DRAGGED, mouseDraggEvent);
         EventHandler<MouseEvent> mouseReleaseEvent = EventHandlers().remove(MouseEvent.MOUSE_RELEASED);
         Pane().removeEventHandler(MouseEvent.MOUSE_RELEASED, mouseReleaseEvent);
-        _cursor.centerXProperty().removeListener(listenerX);
-        _cursor.centerYProperty().removeListener(listenerY);
-
+        Pane().removeEventHandler(MouseEvent.MOUSE_DRAGGED, mouseDraggedEvent);
+        Pane().removeEventHandler(MouseEvent.MOUSE_MOVED, mouseMovedEvent);
+        Cursor().getBoundShape().centerXProperty().removeListener(listenerX);
+        Cursor().getBoundShape().centerYProperty().removeListener(listenerY);
+        Cursor().removeShape();
         if (!onFormComplete())
           return;
       }
@@ -146,15 +119,16 @@ public class InteractiveRectangle extends InteractiveShape<Rectangle> {
         if (_collisionDetected)
           return;
         closeForm(event);
+        Cursor().setForm(CustomCursor.Type.HAND);
         listenerX = (ChangeListener<Number>) (ov, oldX, newX) -> {
-          maxXProperty.set(_cursor.getCenterX());
+          maxXProperty.set(Cursor().getX());
         };
-        _cursor.centerXProperty().addListener(listenerX);
+        Cursor().getBoundShape().centerXProperty().addListener(listenerX);
         
         listenerY = (ChangeListener<Number>) (ov, oldY, newY) -> {
-          maxYProperty.set(_cursor.getCenterY());
+          maxYProperty.set(Cursor().getY());
         };
-        _cursor.centerYProperty().addListener(listenerY);
+        Cursor().getBoundShape().centerYProperty().addListener(listenerY);
       }
     };
 
@@ -318,8 +292,6 @@ public class InteractiveRectangle extends InteractiveShape<Rectangle> {
   double orgTranslateX, orgTranslateY;
 
   private void closeForm(MouseEvent event) {
-    // Pane().setCursor(Cursor.HAND);
-    // System.out.println("close form");
     _rectangle = new Rectangle(event.getX(), event.getY(), 1, 1);
     _shape = _rectangle;
     _rectangle.setFill(Color.ROYALBLUE);
@@ -335,13 +307,10 @@ public class InteractiveRectangle extends InteractiveShape<Rectangle> {
 
     EventHandler<MouseEvent> mouseMovedEvent = EventHandlers().remove(MouseEvent.MOUSE_MOVED);
     Pane().removeEventHandler(MouseEvent.MOUSE_MOVED, mouseMovedEvent);
-    // EventHandler<MouseEvent> mouseRelesedEvent = EventHandlers().remove(MouseEvent.MOUSE_RELEASED);
-    // Pane().removeEventHandler(MouseEvent.MOUSE_RELEASED, mouseRelesedEvent);
     EventHandler<MouseEvent> mousePressedEvent = EventHandlers().remove(MouseEvent.MOUSE_PRESSED);
     Pane().removeEventHandler(MouseEvent.MOUSE_PRESSED, mousePressedEvent);
 
     Pane().setCursor(Cursor.DEFAULT);
-    _cursor.setVisible(false);
 
     // Add form selection callback
     EventHandler<MouseEvent> mouseClick = new EventHandler<MouseEvent>() {
@@ -420,13 +389,14 @@ public class InteractiveRectangle extends InteractiveShape<Rectangle> {
 
     Engine().addInteractiveShape(this);
     Engine().selected(this);
+    Engine().getMagnetismManager().registerInteractiveShape(this);
 
     return;
   }
 
   private void updateCursor(MouseEvent event) {
-    _cursor.setCenterX(event.getX());
-    _cursor.setCenterY(event.getY());
+    Cursor().setX(event.getX());
+    Cursor().setY(event.getY());
   }
 
   public void destroy() {
