@@ -2,8 +2,8 @@
  * File Created: Thursday, 8th November 2018
  * Author: MAREL Maud
  * -----
- * Last Modified: Thursday, 22nd November 2018
- * Modified By: MAREL Maud
+ * Last Modified: Saturday, 24th November 2018
+ * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 MAREL Maud
  * <<licensetext>>
@@ -11,8 +11,11 @@
 
 package com.inno.app.room;
 
-public class Scene implements ImmutableScene {
+import java.io.Serializable;
 
+public class Scene implements ImmutableScene, Serializable {
+
+  private static final long serialVersionUID = 1L;
   private double _width;
   private double _height;
   private double[] _positions = new double[8];

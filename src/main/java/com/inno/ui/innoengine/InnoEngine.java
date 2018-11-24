@@ -2,7 +2,7 @@
  * File Created: Friday, 12th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Thursday, 22nd November 2018
+ * Last Modified: Saturday, 24th November 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -12,52 +12,48 @@
 
 package com.inno.ui.innoengine;
 
+import java.util.Collection;
+
 import com.inno.app.Core;
+import com.inno.app.room.ImmutableRoom;
+import com.inno.app.room.ImmutableScene;
+import com.inno.app.room.ImmutableSection;
+import com.inno.app.room.ImmutableSittingSection;
 import com.inno.ui.View;
-// import com.inno.ui.engine.room.StandingSection;
 import com.inno.ui.engine.Engine;
 import com.inno.ui.innoengine.shape.InnoPolygon;
 import com.inno.ui.innoengine.shape.InnoRectangle;
-import com.inno.app.room.ImmutableRoom;
-import com.inno.app.room.ImmutableScene;
-import com.inno.app.room.ImmutableSittingRow;
-import com.inno.app.room.ImmutableSittingSection;
 
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
-import  javafx.scene.shape.Shape;
-import javafx.geometry.Point2D;
+import javafx.scene.shape.Rectangle;
 
 
 public class InnoEngine extends Engine {
-  // TEST
-  String statut = "";
   View _view = null;
 
   public InnoEngine(View view, StackPane stackPane) {
     super(stackPane, 100, 100);
     _view = view;
-    
-    ImmutableRoom roomData = Core.get().getImmutableRoom();
-    ImmutableScene sceneData = roomData.getImmutableScene();
 
-    // Rectangle scene = new Rectangle(sceneData.getPositions()[0], sceneData.getPositions()[1],
-    //                                 sceneData.getWidth(), sceneData.getHeight());
-    // scene.setFill(Color.CHARTREUSE);
-    // scene.setOpacity(0.8);
-    // _pane.getChildren().add(scene);
+    ImmutableRoom roomData = Core.get().getImmutableRoom();
 
     getPane().setPrefSize(roomData.getWidth(), roomData.getHeight());
-
+    
     setBackgroundColor(Color.valueOf("#282C34"));
     activateGrid(true);
 
-    for (ImmutableSittingSection section : roomData.getImmutableSittingSections().values()) {
+    Collection<? extends ImmutableSittingSection> sections = roomData.getImmutableSittingSections().values();
+    for (ImmutableSittingSection section : sections) {
+       createRectangularSection(section.getIdSection(), section.getPositions()[0], section.getPositions()[1],
+                                  section.getPositions()[2] - section.getPositions()[0], section.getPositions()[7] - section.getPositions()[3],
+                                  section.getRotation(),
+                                  Color.ROYALBLUE);
+      }
 
-    }
+    ImmutableScene dto = Core.get().getImmutableRoom().getImmutableScene();
 
+    createRectangularSection("-1", dto.getPositions()[0], dto.getPositions()[1], dto.getWidth(), dto.getHeight(), dto.getRotation(), Color.ROYALBLUE);
   }
 
   public void createIrregularSection() {
@@ -72,8 +68,12 @@ public class InnoEngine extends Engine {
     innoPoly.start();
   }
 
-  public void createScene(double[] pos) {
-    // InnoPolygon
+  public void createRectangularSection(String id, double x, double y, double width, double height, double rotation, Color color) {
+    System.out.println(width + " : " + height);
+    InnoRectangle section = new InnoRectangle(this, getPane(), id, x, y, width, height, rotation, color);
+    section.loadData();
+    addInteractiveShape(section);
+    deselect();
   }
 
   public View getView() {

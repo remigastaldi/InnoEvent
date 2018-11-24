@@ -2,7 +2,7 @@
  * File Created: Tuesday, 13th November 2018
  * Author: MAREL Maud
  * -----
- * Last Modified: Tuesday, 20th November 2018
+ * Last Modified: Saturday, 24th November 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 MAREL Maud
@@ -13,8 +13,9 @@ package com.inno.app.room;
 
 import java.util.ArrayList;
 
-public class SittingSection extends Section implements ImmutableSittingSection {
+public class SittingSection extends Section implements ImmutableSection, ImmutableSittingSection {
 
+  private static final long serialVersionUID = 1L;
   private boolean _autoDistrib;
   private ArrayList<SittingRow> _rows = new ArrayList<SittingRow>();
   private VitalSpace _vitalSpace;

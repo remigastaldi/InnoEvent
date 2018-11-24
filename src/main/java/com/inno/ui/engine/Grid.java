@@ -14,8 +14,6 @@ package com.inno.ui.engine;
 
 import java.util.ArrayList;
 
-import javafx.collections.ObservableList;
-import javafx.scene.Node;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
@@ -82,17 +80,6 @@ public class Grid {
       _pane.getChildren().remove(line);
     }
   }
-
-  // public Shape checkGridIntersect(Shape cursor) {
-  //   for (Shape shape : _lines) {
-  //     Shape intersect = Shape.intersect(cursor, shape);
-  //     if (intersect.getBoundsInParent().getWidth() != -1) {
-  //       // System.out.println(" ++++++++++ Grid ++++++++++");        
-  //       return shape;
-  //     }
-  //   }
-  //   return null;
-  // }
 
   public ArrayList<? extends Shape> getLines() {
     return _lines;

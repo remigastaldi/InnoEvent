@@ -2,8 +2,8 @@
  * File Created: Tuesday, 13th November 2018
  * Author: MAREL Maud
  * -----
- * Last Modified: Tuesday, 20th November 2018
- * Modified By: MAREL Maud
+ * Last Modified: Saturday, 24th November 2018
+ * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 MAREL Maud
  * <<licensetext>>
@@ -11,8 +11,9 @@
 
 package com.inno.app.room;
 
-public class StandingSection extends Section implements ImmutableStandingSection {
+public class StandingSection extends Section implements ImmutableSection, ImmutableStandingSection {
 
+  private static final long serialVersionUID = 1L;
   private int _nbPeople;
 
   public StandingSection(String idSection, double elevation,double[] positions, int nbPeople, double rotation) {

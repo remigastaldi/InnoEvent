@@ -2,7 +2,7 @@
  * File Created: Sunday, 14th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Friday, 23rd November 2018
+ * Last Modified: Saturday, 24th November 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -26,9 +26,6 @@ import javafx.event.EventHandler;
 import javafx.geometry.Point2D;
 import javafx.scene.Group;
 import javafx.scene.Node;
-import javafx.scene.SnapshotParameters;
-import javafx.scene.effect.DropShadow;
-import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -38,7 +35,6 @@ import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Shape;
 import javafx.scene.shape.StrokeLineCap;
 import javafx.scene.transform.Transform;
-import javafx.scene.transform.Rotate;
 
 public class InteractivePolygon extends InteractiveShape<Polygon> {
   private ArrayList<Circle> _points = new ArrayList<>();
@@ -239,12 +235,12 @@ public class InteractivePolygon extends InteractiveShape<Polygon> {
         // TMP
       _group.setTranslateX(newTranslateX);
         _group.setTranslateY(newTranslateY);
-        if (!Engine().isObjectUnderCursor(shape)) {
-          // _group.setTranslateX(newTranslateX);
-          // _group.setTranslateY(newTranslateY);
-          _polygon.setFill(Color.ROYALBLUE);
-        } else
-        _polygon.setFill(Color.RED);
+        // if (!Engine().isObjectUnderCursor(shape)) {
+        //   // _group.setTranslateX(newTranslateX);
+        //   // _group.setTranslateY(newTranslateY);
+        //   _polygon.setFill(Color.ROYALBLUE);
+        // } else
+        // _polygon.setFill(Color.RED);
         Pane().getChildren().remove(shape);
       }
     };
@@ -333,5 +329,6 @@ public class InteractivePolygon extends InteractiveShape<Polygon> {
 
   public void destroy() {
     Pane().getChildren().remove(_group);
+    onDestroy();
   }
 }

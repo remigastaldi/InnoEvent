@@ -2,7 +2,7 @@
  * File Created: Sunday, 14th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Friday, 23rd November 2018
+ * Last Modified: Saturday, 24th November 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -11,30 +11,29 @@
 
 package com.inno.ui.engine.shape;
 
-import  javafx.scene.input.MouseEvent;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 
 import com.inno.ui.engine.CustomCursor;
-import  com.inno.ui.engine.Engine;
-import  javafx.scene.layout.Pane;
-import  javafx.scene.shape.Circle;
-import  javafx.event.EventType;
-import  javafx.event.EventHandler;
-import  javafx.scene.paint.Color;
-import  javafx.event.EventHandler;
-import  javafx.scene.shape.Shape;
+import com.inno.ui.engine.Engine;
+
+import javafx.event.EventHandler;
+import javafx.event.EventType;
 import javafx.scene.Group;
-import javafx.scene.Node;
-import  javafx.scene.effect.DropShadow;
+import javafx.scene.effect.DropShadow;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Shape;
 
 public abstract class InteractiveShape<T extends Shape> {
   private Engine  _engine = null;
-  private Pane  _pane = null;
+  private Pane _pane = null;
   private HashMap<EventType<MouseEvent>, EventHandler<MouseEvent>> _eventHandlers = new HashMap<>();
   private ArrayList<Shape> _outBoundShapes = new ArrayList<>();
   private ArrayList<Shape> _selectShapes = new ArrayList<>();
+  private String _id = null;
+  private double _rotation = 0.0;
   // TODO: pass to private
   protected T _shape = null;
   protected Group _group;
@@ -54,6 +53,8 @@ public abstract class InteractiveShape<T extends Shape> {
   public boolean onMouseOnDragDetected(MouseEvent event) { return true; }
   public boolean onMouseOnDragDropped(MouseEvent event) { return true; }
   public boolean onFormComplete() { return true; }
+  public boolean onDestroy() { return true; }
+  public void onShapeChanged() {};
 
   public abstract void start();
   public abstract void deselect();
@@ -106,5 +107,22 @@ public abstract class InteractiveShape<T extends Shape> {
 
   public Group getGroup() {
     return _group;
+  }
+
+  public void setID(String id) {
+    _id = id;
+  }
+
+  public String getID() {
+    return _id;
+  }
+
+  public void setRotation(double rotation) {
+    _rotation = rotation;
+
+  }
+
+  public Double getRotation() {
+    return _rotation;
   }
 }

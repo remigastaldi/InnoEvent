@@ -2,8 +2,8 @@
  * File Created: Tuesday, 9th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Thursday, 22nd November 2018
- * Modified By: MAREL Maud
+ * Last Modified: Saturday, 24th November 2018
+ * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
  * <<licensetext>>
@@ -22,7 +22,7 @@ public class Core {
 
   // Services
   // private InnoSave  _saveService = new InnoSave();
-  private Save<ImmutableRoom>  _saveService = new Save<>();
+  private InnoSave  _saveService = new InnoSave();
   private Pricing _pricing = new Pricing();
 
   // Inno Class
@@ -69,8 +69,8 @@ public class Core {
   }
 
   //Scene methods
-  public void createScene(double width, double height, double[] positions) {
-    this._room.createScene(width, height, positions);
+  public ImmutableScene createScene(double width, double height, double[] positions) {
+    return this._room.createScene(width, height, positions);
   }
 
   public void deleteScene() {
@@ -134,6 +134,17 @@ public class Core {
 
   public void setSittingSectionVitalSpace(String idSection, double width, double height) {
     this._room.setSittingSectionVitalSpace(idSection, width, height);
+  }
+
+  public void save() {
+    SaveObject save = new SaveObject(_room);
+    _saveService.saveTo(save, "/home/gastal_r/innosave.inevt");
+  }
+
+  public void loadProject(String absolutePath) {
+    SaveObject save = _saveService.loadFrom(absolutePath);
+
+    _room = (Room) save.getRoomData();
   }
 
   

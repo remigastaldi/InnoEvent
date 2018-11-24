@@ -2,7 +2,7 @@
  * File Created: Friday, 12th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Friday, 23rd November 2018
+ * Last Modified: Saturday, 24th November 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -19,25 +19,18 @@ import com.inno.ui.engine.shape.InteractiveRectangle;
 import com.inno.ui.engine.shape.InteractiveShape;
 
 import javafx.beans.value.ChangeListener;
-import javafx.collections.ObservableList;
-import javafx.scene.Node;
-import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
-import  javafx.event.EventType;
-import  javafx.event.EventHandler;
-import  javafx.scene.input.MouseEvent;
-import  javafx.scene.shape.Rectangle;
-import  javafx.scene.shape.Shape;
-import  javafx.scene.shape.Line;
-import  javafx.scene.Group;
-import  javafx.geometry.Point2D;
+import javafx.event.EventHandler;
 import javafx.geometry.Bounds;
-import javafx.scene.layout.AnchorPane;
+import javafx.geometry.Point2D;
 import javafx.scene.Group;
-import javafx.scene.layout.StackPane;
-
-
+import javafx.scene.Node;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.Shape;
 
 public class Engine {
   private Pane  _pane = null;
@@ -51,9 +44,7 @@ public class Engine {
 
   private ScrollPane scrollPane;
 
-
   public Engine(StackPane stackPane, double width, double height) {
-    // Pane _pane = new Pane();
     _pane = new Pane();
     _magenetismManager = new MagnetismManager(this);
 
@@ -201,8 +192,16 @@ public class Engine {
     _shapes.add(shape);
   }
 
+  public void createInteractiveRectangle(String id, double x, double y, double width, double height, double rotation, Color color) {
+    System.out.println(width + " : " + height);
+    InteractiveRectangle section = new InteractiveRectangle(this, getPane(), id, x, y, width, height, rotation, color);
+    addInteractiveShape(section);
+    deselect();
+  }
+
   public void addInteractiveShape(InteractiveShape<? extends Shape> intShape) {
     _shapes.add(intShape);
+    _magenetismManager.registerInteractiveShape(intShape);
   }
 
   public void selected(InteractiveShape<? extends Shape> selected) {
@@ -227,28 +226,28 @@ public class Engine {
     return _pane;
   }
 
-  public boolean isObjectUnderCursor(Shape cursor) {
-    // for (InteractiveShape<? extends Shape> element : _shapes) {
-    //   if (element == _selectedShape)
-    //     continue;
-    //   for (Shape shape : element.getOutBoundShapes()) {
-    //     Shape intersect = Shape.intersect(cursor, shape);
-    //     if (intersect.getBoundsInParent().getWidth() != -1) {
-    //       // System.out.println(" ++++++++++ Line collision ++++++++++");
-    //       return true;
-    //     }
-    //   }
-    //   // System.out.println(cursor.getBoundsInParent());
-    //   Shape intersect = Shape.intersect(cursor, element.getShape());
-    //   if (intersect.getBoundsInParent().getWidth() != -1) {
-    //     // System.out.println(intersect.getBoundsInParent().getMaxX() + " : " +
-    //     //   intersect.getBoundsInParent().getMaxX());
-    //     // System.out.println("collision");
-    //     return true;
-    //   }
-    // }
-  return false;
-  }
+  // public boolean isObjectUnderCursor(Shape cursor) {
+  //   // for (InteractiveShape<? extends Shape> element : _shapes) {
+  //   //   if (element == _selectedShape)
+  //   //     continue;
+  //   //   for (Shape shape : element.getOutBoundShapes()) {
+  //   //     Shape intersect = Shape.intersect(cursor, shape);
+  //   //     if (intersect.getBoundsInParent().getWidth() != -1) {
+  //   //       // System.out.println(" ++++++++++ Line collision ++++++++++");
+  //   //       return true;
+  //   //     }
+  //   //   }
+  //   //   // System.out.println(cursor.getBoundsInParent());
+  //   //   Shape intersect = Shape.intersect(cursor, element.getShape());
+  //   //   if (intersect.getBoundsInParent().getWidth() != -1) {
+  //   //     // System.out.println(intersect.getBoundsInParent().getMaxX() + " : " +
+  //   //     //   intersect.getBoundsInParent().getMaxX());
+  //   //     // System.out.println("collision");
+  //   //     return true;
+  //   //   }
+  //   // }
+  // return false;
+  // }
 
   public ArrayList<Shape> getObjectsUnderCursor(Shape cursor) {
     ArrayList<Shape> shapes = new ArrayList<>();
@@ -265,57 +264,6 @@ public class Engine {
     }
     return shapes;
   }
-
-  public Shape getObjectUnderCursor(Shape cursor) {
-    // // TODO: Change this ligique with magnetism class
-    // if (_currentMagnetism != null
-    //   && Shape.intersect(cursor, _currentMagnetism).getBoundsInParent().getWidth() != -1) {
-    //   return _currentMagnetism;
-    // }
-    // for (InteractiveShape<? extends Shape> element : _shapes) {
-    //   if (element == _selectedShape)
-    //     continue;
-    //   for (Shape shape : element.getOutBoundShapes()) {
-    //     Shape intersect = Shape.intersect(cursor, shape);
-    //     if (intersect.getBoundsInParent().getWidth() != -1) {
-    //       _currentMagnetism = shape;
-    //       return shape;
-    //     }
-    //   }
-    // }
-    // Shape gridShape = _grid.checkGridIntersect(cursor);
-    // if (gridShape != null) {
-    //   _currentMagnetism = gridShape;
-    //   return gridShape;
-    // }
-    // _currentMagnetism = null;
-    return null;
-  }
-
-  public Point2D getCollisionCenter(Shape first, Shape second, Group group) {
-    Shape union = Shape.intersect(first, second);
-    Bounds unionBounds = union.getBoundsInParent();
-    Point2D pos = null;
-
-    if (group != null) {
-      pos = group.sceneToLocal((unionBounds.getMinX() + (unionBounds.getMaxX() - unionBounds.getMinX()) / 2),
-        (unionBounds.getMinY() + (unionBounds.getMaxY() - unionBounds.getMinY()) / 2));    
-    } else {
-      pos = new Point2D((unionBounds.getMinX() + (unionBounds.getMaxX() - unionBounds.getMinX()) / 2),
-      (unionBounds.getMinY() + (unionBounds.getMaxY() - unionBounds.getMinY()) / 2));
-    }
-
-    return pos;
-  }
-
-  public Point2D getCollisionCenter(Shape first, Shape second) {
-    return getCollisionCenter(first, second, null);
-  }
-
-  public Rectangle getBoard() {
-    return _board;
-  }
-
   public Point2D getCenterOfPoints(ArrayList<Point2D> points) {
     double sum1 = 0;
     double sum2 = 0;
@@ -363,6 +311,28 @@ public class Engine {
 
   public CustomCursor getCursor() {
     return _cursor;
+  }
+
+  public void computeCursorPosition(MouseEvent event, InteractiveShape<? extends Shape> shape) {
+    Point2D pos = _magenetismManager.checkMagnetism(_cursor.getBoundShape(), shape);
+
+    if (pos != null) {
+      _cursor.setX(pos.getX());
+      _cursor.setY(pos.getY());
+    } else {
+      Point2D groupMouse = null;
+      if (shape != null) {
+        Point2D mousePos =  _pane.sceneToLocal(event.getSceneX(), event.getSceneY());
+         groupMouse = shape.getGroup().parentToLocal(mousePos.getX(), mousePos.getY());
+      } else
+        groupMouse = new Point2D(event.getX(), event.getY());
+      _cursor.setX(groupMouse.getX());
+      _cursor.setY(groupMouse.getY());
+    }
+  }
+
+  public void computeCursorPosition(MouseEvent event) {
+    computeCursorPosition(event, null);
   }
 }
 

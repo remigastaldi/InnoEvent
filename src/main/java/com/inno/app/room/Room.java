@@ -2,8 +2,8 @@
  * File Created: Friday, 12th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Thursday, 22nd November 2018
- * Modified By: MAREL Maud
+ * Last Modified: Saturday, 24th November 2018
+ * Modified By: GASTALDI Rémi
 
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -15,11 +15,13 @@ package com.inno.app.room;
 import com.inno.service.Point;
 
 import java.util.HashMap;
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Room implements ImmutableRoom {
+public class Room implements ImmutableRoom, Serializable {
     
-    private String _name; //Name of the Room -> add to VP   
+    private static final long serialVersionUID = 1L;
+    private String _name; // Name of the Room -> add to VP
     private double _height;
     private double _width;
     private Scene _scene;
@@ -75,8 +77,9 @@ public class Room implements ImmutableRoom {
     }
 
     // Scene Methods
-    public void createScene(double width, double height, double[] positions) {
+    public ImmutableScene createScene(double width, double height, double[] positions) {
         this._scene = new Scene(width, height, positions);
+        return _scene;
     }
 
     public Scene getScene() {

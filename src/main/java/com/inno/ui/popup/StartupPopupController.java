@@ -2,8 +2,8 @@
  * File Created: Wednesday, 26th September 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Saturday, 17th November 2018
- * Modified By: HUBERT Léo
+ * Last Modified: Saturday, 24th November 2018
+ * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
  * <<licensetext>>
@@ -47,8 +47,9 @@ public class StartupPopupController extends ViewController {
     fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("InnoEvent", "*.inevt"));
     File file = fileChooser.showOpenDialog(View().getMainView());
     if (file != null) {
-      System.out.println("OK");
       System.out.println(file);
+      Core().loadProject(file.getAbsolutePath());
+      View().showMainView();
     }
   }
 

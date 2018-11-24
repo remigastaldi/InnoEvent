@@ -2,7 +2,7 @@
  * File Created: Monday, 15th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Friday, 23rd November 2018
+ * Last Modified: Saturday, 24th November 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -13,11 +13,10 @@ package com.inno.ui.engine.shape;
 
 import java.util.ArrayList;
 
-import com.inno.app.Core;
-import com.inno.app.room.ImmutableScene;
-import com.inno.ui.View;
 import com.inno.ui.engine.CircleAnchor;
+import com.inno.ui.engine.CustomCursor;
 import com.inno.ui.engine.Engine;
+
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.value.ChangeListener;
@@ -27,24 +26,15 @@ import javafx.event.EventHandler;
 import javafx.geometry.Point2D;
 import javafx.scene.Cursor;
 import javafx.scene.Group;
-import javafx.scene.ImageCursor;
 import javafx.scene.Node;
-import javafx.scene.SnapshotParameters;
-import javafx.scene.effect.DropShadow;
-import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
-import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
-import javafx.scene.shape.StrokeLineCap;
 import javafx.scene.transform.Transform;
-import javafx.scene.transform.Rotate;
-import javafx.beans.binding.DoubleBinding;
-import com.inno.ui.engine.CustomCursor;
 
 public class InteractiveRectangle extends InteractiveShape<Rectangle> {
   private Rectangle _rectangle = null;
@@ -54,12 +44,17 @@ public class InteractiveRectangle extends InteractiveShape<Rectangle> {
   private DoubleProperty maxXProperty = null;
   private DoubleProperty maxYProperty = null;
 
-  // TMP
-  private ChangeListener<Number> listenerX = null;
-  private ChangeListener<Number> listenerY = null;
-
   public InteractiveRectangle(Engine engine, Pane pane) {
     super(engine, pane);
+
+    // setID(id);
+  }
+
+  public InteractiveRectangle(Engine engine, Pane pane, String id, double x, double y, double width, double height, double rotation, Color color) {
+    super(engine, pane);
+
+    setID(id);
+    closeForm(x, y, width, height, rotation, color);
   }
 
   public void start() {
@@ -67,36 +62,24 @@ public class InteractiveRectangle extends InteractiveShape<Rectangle> {
     Point2D local = Pane().screenToLocal(mouse.x, mouse.y);
 
     Circle cursorForm = new Circle(local.getX(), local.getY(), 5.0, Color.TRANSPARENT);
-    // cursorForm.setStroke(Color.RED);
+    cursorForm.setStroke(Color.GOLD);
     cursorForm.setStrokeWidth(1.0);
-    cursorForm.setVisible(false);
+    // cursorForm.setVisible(false);
 
     Cursor().setShape(cursorForm);
     Cursor().setForm(CustomCursor.Type.ADD);
 
     EventHandler<MouseEvent> mouseMovedEvent = event -> {
       if (onMouseMoved(event)) {
-        Point2D pos = Engine().getMagnetismManager().checkMagnetism(Cursor().getBoundShape());
-
-        if (pos != null) {
-          Cursor().setX(pos.getX());
-          Cursor().setY(pos.getY());
-        } else {
-          updateCursor(event);
-        }
+        Engine().computeCursorPosition(event);
       }
     };
     
     EventHandler<MouseEvent> mouseDraggedEvent = event -> {
       if (onMouseOnDragDetected(event)) {
-        Point2D pos = Engine().getMagnetismManager().checkMagnetism(Cursor().getBoundShape(), this);
-
-        if (pos != null) {
-          Cursor().setX(pos.getX());
-          Cursor().setY(pos.getY());
-        } else {
-          updateCursor(event);
-        }
+        Engine().computeCursorPosition(event, this);
+        maxXProperty.set(Cursor().getX());
+        maxYProperty.set(Cursor().getY());
       }
     };
     EventHandler<MouseEvent> mouseReleasedEvent = event -> {
@@ -107,9 +90,8 @@ public class InteractiveRectangle extends InteractiveShape<Rectangle> {
         Pane().removeEventHandler(MouseEvent.MOUSE_RELEASED, mouseReleaseEvent);
         Pane().removeEventHandler(MouseEvent.MOUSE_DRAGGED, mouseDraggedEvent);
         Pane().removeEventHandler(MouseEvent.MOUSE_MOVED, mouseMovedEvent);
-        Cursor().getBoundShape().centerXProperty().removeListener(listenerX);
-        Cursor().getBoundShape().centerYProperty().removeListener(listenerY);
         Cursor().removeShape();
+        Cursor().setForm(CustomCursor.Type.DEFAULT);
         if (!onFormComplete())
           return;
       }
@@ -118,17 +100,8 @@ public class InteractiveRectangle extends InteractiveShape<Rectangle> {
       if (onMousePressed(event)) {
         if (_collisionDetected)
           return;
-        closeForm(event);
+        closeForm(event.getX(), event.getY());
         Cursor().setForm(CustomCursor.Type.HAND);
-        listenerX = (ChangeListener<Number>) (ov, oldX, newX) -> {
-          maxXProperty.set(Cursor().getX());
-        };
-        Cursor().getBoundShape().centerXProperty().addListener(listenerX);
-        
-        listenerY = (ChangeListener<Number>) (ov, oldY, newY) -> {
-          maxYProperty.set(Cursor().getY());
-        };
-        Cursor().getBoundShape().centerYProperty().addListener(listenerY);
       }
     };
 
@@ -235,6 +208,21 @@ public class InteractiveRectangle extends InteractiveShape<Rectangle> {
     return _rectangle;
   }
 
+  public void setPositions(double[] pos) {
+    setX(pos[0]);
+    setY(pos[1]);
+    setWidth(pos[2] - pos[0]);
+    setHeight(pos[7] - pos[3]);
+  }
+
+  public void setX(double x) {
+    _rectangle.setX(x);
+  }
+
+  public void setY(double y) {
+    _rectangle.setY(y);
+  }
+
   public double getX() {
     return _rectangle.getX();
   }
@@ -291,10 +279,10 @@ public class InteractiveRectangle extends InteractiveShape<Rectangle> {
   double orgSceneX, orgSceneY;
   double orgTranslateX, orgTranslateY;
 
-  private void closeForm(MouseEvent event) {
-    _rectangle = new Rectangle(event.getX(), event.getY(), 1, 1);
+  private void closeForm(double x, double y, double width, double height, double rotation, Color color) {
+    _rectangle = new Rectangle(x, y, width, height);
     _shape = _rectangle;
-    _rectangle.setFill(Color.ROYALBLUE);
+    _rectangle.setFill(color);
     _rectangle.setOpacity(0.7);
 
     enableGlow();
@@ -306,9 +294,11 @@ public class InteractiveRectangle extends InteractiveShape<Rectangle> {
     }
 
     EventHandler<MouseEvent> mouseMovedEvent = EventHandlers().remove(MouseEvent.MOUSE_MOVED);
-    Pane().removeEventHandler(MouseEvent.MOUSE_MOVED, mouseMovedEvent);
+    if (mouseMovedEvent != null)
+      Pane().removeEventHandler(MouseEvent.MOUSE_MOVED, mouseMovedEvent);
     EventHandler<MouseEvent> mousePressedEvent = EventHandlers().remove(MouseEvent.MOUSE_PRESSED);
-    Pane().removeEventHandler(MouseEvent.MOUSE_PRESSED, mousePressedEvent);
+    if (mousePressedEvent != null)
+      Pane().removeEventHandler(MouseEvent.MOUSE_PRESSED, mousePressedEvent);
 
     Pane().setCursor(Cursor.DEFAULT);
 
@@ -373,15 +363,17 @@ public class InteractiveRectangle extends InteractiveShape<Rectangle> {
         shape.setTranslateY(newTranslateY);
 
         // TMP
-      _group.setTranslateX(newTranslateX);
+        _group.setTranslateX(newTranslateX);
         _group.setTranslateY(newTranslateY);
-        if (!Engine().isObjectUnderCursor(shape)) {
-          // _group.setTranslateX(newTranslateX);
-          // _group.setTranslateY(newTranslateY);
-          _rectangle.setFill(Color.ROYALBLUE);
-        } else
-          _rectangle.setFill(Color.RED);
+
+        // if (!Engine().isObjectUnderCursor(shape)) {
+        //   // _group.setTranslateX(newTranslateX);
+        //   // _group.setTranslateY(newTranslateY);
+        //   _rectangle.setFill(Color.ROYALBLUE);
+        // } else
+        //   _rectangle.setFill(Color.RED);
         Pane().getChildren().remove(shape);
+        onShapeChanged();
       }
     };
     EventHandlers().put(MouseEvent.MOUSE_DRAGGED, mouseDragged);
@@ -394,12 +386,12 @@ public class InteractiveRectangle extends InteractiveShape<Rectangle> {
     return;
   }
 
-  private void updateCursor(MouseEvent event) {
-    Cursor().setX(event.getX());
-    Cursor().setY(event.getY());
+  private void closeForm(double x, double y) {
+    closeForm(x, y, 1, 1, 0, Color.ROYALBLUE);
   }
 
   public void destroy() {
+    onDestroy();
     Pane().getChildren().remove(_group);
   }
 }
