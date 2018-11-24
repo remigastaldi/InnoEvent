@@ -143,6 +143,25 @@ public class Utils {
         return p_Array;
     }
 
+    public static double[] pArray_To_dArray(Point[] p_Array)
+    {
+        double[] d_Array = new double[p_Array.length*2];
+        for(int i=0; i<p_Array.length; i++)
+        {
+            d_Array[2*i] = p_Array[i].get_x();
+            d_Array[2*i+1] = p_Array[i].get_y();
+        }
+        return d_Array;
+    }
+
+    public static double[] rotateRectangle(Point center, double[] rectangle)
+    {
+        Point pRectangle[] = dArray_To_pArray(rectangle);
+        Point click = pRectangle[2];
+        double anglerot = calculateRectangleRotation(center, rectangle);
+        return pArray_To_dArray(rotatePolygon(mirrorRectangle(dArray_To_pArray(rectangle)), click, anglerot));
+    }
+
     public static Point[] mirrorRectangle(Point[] rectangle)
     {
         Point mirroredRect[] = {rectangle[3], rectangle[2] ,
