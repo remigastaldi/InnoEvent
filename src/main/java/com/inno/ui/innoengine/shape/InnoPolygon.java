@@ -2,7 +2,7 @@
  * File Created: Sunday, 14th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Tuesday, 20th November 2018
+ * Last Modified: Saturday, 24th November 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -67,6 +67,12 @@ public class InnoPolygon extends InteractivePolygon {
   @Override
   public boolean onFormComplete() {
     // sittingSectionData = Core.get().cr
+    return true;
+  }
+
+  @Override
+  public boolean onDestroy() {
+    Core.get().deleteSection(getID());
     return true;
   }
 

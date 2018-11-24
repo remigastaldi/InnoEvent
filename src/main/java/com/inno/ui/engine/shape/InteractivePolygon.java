@@ -2,7 +2,7 @@
  * File Created: Sunday, 14th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Friday, 23rd November 2018
+ * Last Modified: Saturday, 24th November 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -329,5 +329,6 @@ public class InteractivePolygon extends InteractiveShape<Polygon> {
 
   public void destroy() {
     Pane().getChildren().remove(_group);
+    onDestroy();
   }
 }

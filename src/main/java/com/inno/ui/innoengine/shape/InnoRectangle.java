@@ -132,4 +132,10 @@ public class InnoRectangle extends InteractiveRectangle {
     // System.outprintln()
     Core.get().setSittingSectionVitalSpace(_sectionData.getIdSection(), width, height);
   }
+
+  @Override
+  public boolean onDestroy() {
+    Core.get().deleteSection(getID());
+    return true;
+  }
 }

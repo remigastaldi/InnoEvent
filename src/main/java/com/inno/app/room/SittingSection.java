@@ -15,6 +15,7 @@ import java.util.ArrayList;
 
 public class SittingSection extends Section implements ImmutableSection, ImmutableSittingSection {
 
+  private static final long serialVersionUID = 1L;
   private boolean _autoDistrib;
   private ArrayList<SittingRow> _rows = new ArrayList<SittingRow>();
   private VitalSpace _vitalSpace;

@@ -55,6 +55,7 @@ public abstract class InteractiveShape<T extends Shape> {
   public boolean onMouseOnDragDetected(MouseEvent event) { return true; }
   public boolean onMouseOnDragDropped(MouseEvent event) { return true; }
   public boolean onFormComplete() { return true; }
+  public boolean onDestroy() { return true; }
 
   public abstract void start();
   public abstract void deselect();

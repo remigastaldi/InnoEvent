@@ -14,7 +14,6 @@ package com.inno.ui.engine;
 
 import java.util.ArrayList;
 
-import com.inno.app.Core;
 import com.inno.ui.engine.shape.InteractivePolygon;
 import com.inno.ui.engine.shape.InteractiveRectangle;
 import com.inno.ui.engine.shape.InteractiveShape;
@@ -345,8 +344,6 @@ public class Engine {
   public void deleteSelectedShape() {
     if (_selectedShape == null)
       return;
-    //TODO: REMOVE THIS #######################################################
-      Core.get().deleteSection(_selectedShape.getID());
     _shapes.remove(_selectedShape);
     _selectedShape.destroy();
     _selectedShape = null;

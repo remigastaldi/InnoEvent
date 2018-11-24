@@ -373,5 +373,6 @@ public class InteractiveRectangle extends InteractiveShape<Rectangle> {
 
   public void destroy() {
     Pane().getChildren().remove(_group);
+    onDestroy();
   }
 }
