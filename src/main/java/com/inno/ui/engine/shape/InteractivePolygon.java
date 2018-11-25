@@ -129,6 +129,7 @@ public class InteractivePolygon extends InteractiveShape<Polygon> {
 
   private void closeForm() {
     _polygon = new Polygon();
+    // _polygon.setFill(color.deriveColor(1, 1, 0.8, 0.85));
     _shape = _polygon;
 
     ArrayList<Point2D> points = new ArrayList<>();
@@ -194,6 +195,8 @@ public class InteractivePolygon extends InteractiveShape<Polygon> {
     for (CircleAnchor anchor : _anchors) {
       anchor.setInteractiveShape(this);
     }
+
+    // setColor(color);
 
     // Point2D center = Engine().getCenterOfPoints(points);
     // _group.getTransforms().add(new Rotate(Math.random() * 360 + 1, center.getX(), center.getY()));

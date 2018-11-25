@@ -131,4 +131,10 @@ public abstract class InteractiveShape<T extends Shape> {
   public Double getRotation() {
     return _rotation;
   }
+
+  public void setColor(Color color) {
+    for (Shape shape : _outBoundShapes) {
+      shape.setStroke(color);
+    }
+  }
 }

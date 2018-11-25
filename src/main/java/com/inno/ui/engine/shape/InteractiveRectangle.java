@@ -283,8 +283,7 @@ public class InteractiveRectangle extends InteractiveShape<Rectangle> {
   private void closeForm(double x, double y, double width, double height, double rotation, Color color) {
     _rectangle = new Rectangle(x, y, width, height);
     _shape = _rectangle;
-    _rectangle.setFill(color);
-    _rectangle.setOpacity(0.7);
+    _rectangle.setFill(color.deriveColor(1, 1, 0.8, 0.85));
 
     enableGlow();
 
@@ -328,6 +327,9 @@ public class InteractiveRectangle extends InteractiveShape<Rectangle> {
     for (CircleAnchor anchor : _anchors) {
       anchor.setInteractiveShape(this);
     }
+
+    setColor(color);
+
     _group.getTransforms().add(new Rotate(rotation, _rectangle.getX() + _rectangle.getWidth(),
         _rectangle.getY() + _rectangle.getHeight()));
 

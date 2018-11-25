@@ -21,12 +21,15 @@ import com.inno.app.room.ImmutableSection;
 import com.inno.app.room.ImmutableSittingSection;
 import com.inno.ui.View;
 import com.inno.ui.engine.Engine;
+import com.inno.ui.engine.shape.InteractiveRectangle;
+import com.inno.ui.engine.shape.InteractiveShape;
 import com.inno.ui.innoengine.shape.InnoPolygon;
 import com.inno.ui.innoengine.shape.InnoRectangle;
 
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.Shape;
 
 
 public class InnoEngine extends Engine {
@@ -50,10 +53,26 @@ public class InnoEngine extends Engine {
                                   section.getRotation(),
                                   Color.ROYALBLUE);
       }
-
+    loadScene();
+  }
+  
+  private void loadScene() {
     ImmutableScene dto = Core.get().getImmutableRoom().getImmutableScene();
-
-    createRectangularSection("-1", dto.getPositions()[0], dto.getPositions()[1], dto.getWidth(), dto.getHeight(), dto.getRotation(), Color.ROYALBLUE);
+    
+    InnoRectangle shape = new InnoRectangle(this, getPane(), "-1", dto.getPositions()[0], dto.getPositions()[1],
+      dto.getWidth(), dto.getHeight(), dto.getRotation(), Color.ROYALBLUE) {
+        @Override
+        public void onShapeChanged() {
+          Core.get().setScenePositions(getPositionsInParent());
+          Core.get().setSceneWidth(this.getWidth());
+          Core.get().setSceneHeight(this.getHeight());
+          Core.get().setSceneRotation(this.getRotation());
+        }
+    };
+    Color color = Color.BLUEVIOLET;
+    shape.setColor(Color.BLUEVIOLET);
+    shape.getShape().setFill(color.deriveColor(1, 1, 0.8, 0.85));
+    shape.deselect();
   }
 
   public void createIrregularSection() {
@@ -68,12 +87,12 @@ public class InnoEngine extends Engine {
     innoPoly.start();
   }
 
-  public void createRectangularSection(String id, double x, double y, double width, double height, double rotation, Color color) {
-    System.out.println(width + " : " + height);
+  public InnoRectangle createRectangularSection(String id, double x, double y, double width, double height, double rotation, Color color) {
     InnoRectangle section = new InnoRectangle(this, getPane(), id, x, y, width, height, rotation, color);
     section.loadData();
     addInteractiveShape(section);
     deselect();
+    return section;
   }
 
   public View getView() {

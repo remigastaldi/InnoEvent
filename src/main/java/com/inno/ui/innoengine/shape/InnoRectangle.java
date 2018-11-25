@@ -98,7 +98,6 @@ public class InnoRectangle extends InteractiveRectangle {
   @Override
   public void onShapeChanged() {
     Core.get().updateSectionPositions(getID(), getPositionsInParent());
-    // System.out.println(getPositionsInParent());
     Core.get().setSectionRotation(getID(), getRotation());
     loadFromData(_group);
   }
@@ -154,7 +153,6 @@ public class InnoRectangle extends InteractiveRectangle {
 
   @Override
   public boolean onDestroy() {
-    System.out.println("DELETE ID:" + getID());
     Core.get().deleteSection(getID());
     return true;
   }
@@ -165,7 +163,6 @@ public class InnoRectangle extends InteractiveRectangle {
 
   private void loadFromData(Group group) {
     setID(_sectionData.getIdSection());
-    System.out.println("LOAD ID :" + getID());
 
     if (group != null)
       setPositions(parentToLocal(_sectionData.getPositions()));
@@ -219,6 +216,9 @@ public class InnoRectangle extends InteractiveRectangle {
     _rotation = rotation;
     _group.getTransforms().clear();
     // _group.getTransforms().add(new Rotate(rotation, getX() + getWidth(), getY() + getHeight()));
-    _group.getTransforms().add(new Rotate(rotation, getX(), getY()));
+    // Point2D pos =  new Point2D(getX(), getY());
+    // pos = _group.localToParent(pos.getX(), pos.getY());
+    // _group.getTransforms().add(new Rotate(rotation, pos.getX(), pos.getY()));
+    // _group.getTransforms().add(new Rotate(rotation, getMaxXProperty().get(), getMaxYProperty().get()));
   }
 }

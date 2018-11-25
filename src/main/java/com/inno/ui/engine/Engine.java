@@ -192,11 +192,12 @@ public class Engine {
     _shapes.add(shape);
   }
 
-  public void createInteractiveRectangle(String id, double x, double y, double width, double height, double rotation, Color color) {
+  public InteractiveRectangle createInteractiveRectangle(String id, double x, double y, double width, double height, double rotation, Color color) {
     System.out.println(width + " : " + height);
     InteractiveRectangle section = new InteractiveRectangle(this, getPane(), id, x, y, width, height, rotation, color);
     addInteractiveShape(section);
     deselect();
+    return section;
   }
 
   public void addInteractiveShape(InteractiveShape<? extends Shape> intShape) {
