@@ -3,7 +3,7 @@
  * Author: MAREL Maud
  * -----
  * Last Modified: Saturday, 24th November 2018
- * Modified By: GASTALDI Rémi
+ * Modified By: MAREL Maud
  * -----
  * Copyright - 2018 MAREL Maud
  * <<licensetext>>
@@ -21,9 +21,9 @@ public class Section implements ImmutableSection, Serializable {
   private double[] _positions; //[3...*]
   private double _rotation;
 
-  public Section(String idSection, double elevation, double[] positions, double rotation) {
+  public Section(String idSection, double[] positions, double rotation) {
     this._idSection = idSection;
-    this._elevation = elevation;
+    this._elevation = 0;
     this._positions = positions;
     this._rotation = rotation;
   }

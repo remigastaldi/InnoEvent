@@ -3,7 +3,7 @@
  * Author: MAREL Maud
  * -----
  * Last Modified: Saturday, 24th November 2018
- * Modified By: GASTALDI Rémi
+ * Modified By: MAREL Maud
  * -----
  * Copyright - 2018 MAREL Maud
  * <<licensetext>>
@@ -16,8 +16,8 @@ public class StandingSection extends Section implements ImmutableSection, Immuta
   private static final long serialVersionUID = 1L;
   private int _nbPeople;
 
-  public StandingSection(String idSection, double elevation,double[] positions, int nbPeople, double rotation) {
-    super(idSection, elevation, positions, rotation);
+  public StandingSection(String idSection, double[] positions, int nbPeople, double rotation) {
+    super(idSection, positions, rotation);
     this._nbPeople = nbPeople;
   }
 

@@ -3,7 +3,7 @@
  * Author: GASTALDI Rémi
  * -----
  * Last Modified: Saturday, 24th November 2018
- * Modified By: GASTALDI Rémi
+ * Modified By: MAREL Maud
  * -----
  * Copyright - 2018 GASTALDI Rémi
  * <<licensetext>>
@@ -83,10 +83,10 @@ public class InnoRectangle extends InteractiveRectangle {
                                     pos[2] - getWidth(), pos[3] - getHeight(),
                                     pos[4] - getWidth(), pos[5] - getHeight(),
                                     pos[6] - getWidth(), pos[7] - getHeight()};
-      _sectionData = Core.get().createSittingSection(0, localToParent(newPos), 0);
+      _sectionData = Core.get().createSittingSection(localToParent(newPos), 0);
     }
     else
-      _sectionData = Core.get().createSittingSection(0, getPositionsInParent(), 0);
+      _sectionData = Core.get().createSittingSection(getPositionsInParent(), 0);
     // Core.get().setSectionRotation(_sectionData.getIdSection(), 45);
     loadFromData();
     InnoEngine engine = (InnoEngine)Engine();

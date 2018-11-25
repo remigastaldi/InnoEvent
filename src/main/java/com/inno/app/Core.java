@@ -117,32 +117,49 @@ public class Core {
   }
 
     //standingSection Methods
-  public ImmutableStandingSection createStandingSection(double elevation, int nbPeople, double[] positions, double rotation) {
-    return this._room.createStandingSection(elevation, nbPeople, positions, rotation);
+  public ImmutableStandingSection createStandingSection(int nbPeople, double[] positions, double rotation) {
+    
+    return this._room.createStandingSection(nbPeople, positions, rotation);
   }
-
-  /*
-   * public ImmutableStandingSection getImmutableStandingSection(int idSection) {
-   * return this; }
-   */
 
   public void setStandingNbPeople(String idSection, int nbPeople) {
     this._room.setStandingNbPeople(idSection, nbPeople);
   }
 
   // sittingSection Methods
-  public ImmutableSittingSection createSittingSection(double elevation, double[] positions, double rotation) {
-    // Point pt = new Point(getImmutableRoom().getImmutableScene().getCenter()[0], getImmutableRoom().getImmutableScene().getCenter()[1]);
-    // double[] newPos = Utils.rotateRectangle(pt, positions);
-    // double newRotation = Utils.calculateRectangleRotation(pt, positions);
-    // return this._room.createSittingSection(elevation, newPos, newRotation);
-    return this._room.createSittingSection(elevation, positions, rotation);
+  public ImmutableSittingSection createSittingSection(double[] positions, double rotation) {
+    Point pt = new Point(getImmutableRoom().getImmutableScene().getCenter()[0], getImmutableRoom().getImmutableScene().getCenter()[1]);
+    double[] newPos = Utils.rotateRectangle(pt, positions);
+    double newRotation = Utils.calculateRectangleRotation(pt, positions);
+    return this._room.createSittingSection(newPos, newRotation);
+    // return this._room.createSittingSection(elevation, positions, rotation);
   }
 
   public void setSittingSectionVitalSpace(String idSection, double width, double height) {
     this._room.setSittingSectionVitalSpace(idSection, width, height);
   }
 
+  public void setSittingSectionAutoDistribution(String idSection, boolean autoDistrib) {
+    this._room.setSittingSectionAutoDistribution(idSection, autoDistrib);
+  }
+
+  public ImmutableSittingRow createSittingRow(String idSection, double[] posStart, double[] posEnd) {
+    return this._room.createSittingRow(idSection, posStart, posEnd);
+  }
+
+  public void deleteSittingRow(String idSection, String idRow) {
+    this._room.deleteSittingRow(idSection, idRow);
+  }
+
+  public void clearAllSittingRows(String idSection) {
+    this._room.clearAllSittingRows(idSection);
+  }
+
+  public ImmutableSeat createSeat(String sectionId, String idRow, double[] pos) {
+    return this._room.createSeat(sectionId, idRow, pos);
+  }
+
+  // SAVE
   public boolean save() {
     SaveObject save = new SaveObject(_room);
     return _saveService.save(save);
