@@ -3,7 +3,7 @@
  * Author: GASTALDI Rémi
  * -----
  * Last Modified: Saturday, 24th November 2018
- * Modified By: MAREL Maud
+ * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
  * <<licensetext>>
@@ -22,7 +22,7 @@ import  javafx.scene.Group;
 import  javafx.scene.input.MouseEvent;
 import  javafx.scene.layout.Pane;
 import  javafx.scene.paint.Color;
-import javafx.scene.transform.Rotate;
+import  javafx.scene.transform.Rotate;
 
 public class InnoRectangle extends InteractiveRectangle {
   private double _xVitalSpace = 0.0;

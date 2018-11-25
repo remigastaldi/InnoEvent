@@ -17,19 +17,14 @@ import java.util.Collection;
 import com.inno.app.Core;
 import com.inno.app.room.ImmutableRoom;
 import com.inno.app.room.ImmutableScene;
-import com.inno.app.room.ImmutableSection;
 import com.inno.app.room.ImmutableSittingSection;
 import com.inno.ui.View;
 import com.inno.ui.engine.Engine;
-import com.inno.ui.engine.shape.InteractiveRectangle;
-import com.inno.ui.engine.shape.InteractiveShape;
 import com.inno.ui.innoengine.shape.InnoPolygon;
 import com.inno.ui.innoengine.shape.InnoRectangle;
 
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
-import javafx.scene.shape.Shape;
 
 
 public class InnoEngine extends Engine {
@@ -58,6 +53,11 @@ public class InnoEngine extends Engine {
   
   private void loadScene() {
     ImmutableScene dto = Core.get().getImmutableRoom().getImmutableScene();
+
+    if (dto == null) {
+      System.out.println("No scene data");
+      return;
+    }
     
     InnoRectangle shape = new InnoRectangle(this, getPane(), "-1", dto.getPositions()[0], dto.getPositions()[1],
       dto.getWidth(), dto.getHeight(), dto.getRotation(), Color.ROYALBLUE) {
@@ -68,11 +68,17 @@ public class InnoEngine extends Engine {
           Core.get().setSceneHeight(this.getHeight());
           Core.get().setSceneRotation(this.getRotation());
         }
+
+        @Override
+        public boolean onDestroy() {
+          Core.get().deleteScene();
+          return true;
+        }
     };
     Color color = Color.BLUEVIOLET;
     shape.setColor(Color.BLUEVIOLET);
     shape.getShape().setFill(color.deriveColor(1, 1, 0.8, 0.85));
-    shape.deselect();
+    deselect();
   }
 
   public void createIrregularSection() {

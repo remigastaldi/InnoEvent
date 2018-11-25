@@ -128,11 +128,11 @@ public class Core {
 
   // sittingSection Methods
   public ImmutableSittingSection createSittingSection(double[] positions, double rotation) {
-    Point pt = new Point(getImmutableRoom().getImmutableScene().getCenter()[0], getImmutableRoom().getImmutableScene().getCenter()[1]);
-    double[] newPos = Utils.rotateRectangle(pt, positions);
-    double newRotation = Utils.calculateRectangleRotation(pt, positions);
-    return this._room.createSittingSection(newPos, newRotation);
-    // return this._room.createSittingSection(elevation, positions, rotation);
+    // Point pt = new Point(getImmutableRoom().getImmutableScene().getCenter()[0], getImmutableRoom().getImmutableScene().getCenter()[1]);
+    // double[] newPos = Utils.rotateRectangle(pt, positions);
+    // double newRotation = Utils.calculateRectangleRotation(pt, positions);
+    // return this._room.createSittingSection(newPos, newRotation);
+    return this._room.createSittingSection(positions, rotation);
   }
 
   public void setSittingSectionVitalSpace(String idSection, double width, double height) {
