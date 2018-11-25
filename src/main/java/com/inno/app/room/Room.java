@@ -3,7 +3,7 @@
  * Author: GASTALDI Rémi
  * -----
  * Last Modified: Saturday, 24th November 2018
- * Modified By: GASTALDI Rémi
+ * Modified By: MAREL Maud
 
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -190,16 +190,12 @@ public class Room implements ImmutableRoom, Serializable {
     }
 
         //standingSection Methods
-    public ImmutableStandingSection createStandingSection(double elevation, int nbPeople, double[] positions, double rotation) {
+    public ImmutableStandingSection createStandingSection(int nbPeople, double[] positions, double rotation) {
         String id = findFreeId();
-        StandingSection standingSection = new StandingSection(id, elevation, positions, nbPeople, rotation);
+        StandingSection standingSection = new StandingSection(id, positions, nbPeople, rotation);
         this._standingSections.put(id, standingSection);
         return standingSection;
     }
-
-    /*public ImmutableStandingSection getImmutableStandingSection(int idSection) {
-
-    }*/
 
     public void setStandingNbPeople(String idSection, int nbPeople) {
         StandingSection standingSection = this._standingSections.get(idSection);
@@ -207,11 +203,11 @@ public class Room implements ImmutableRoom, Serializable {
     }
 
         //sittingSection Methods
-    public ImmutableSittingSection createSittingSection(double elevation, double[] positions, double rotation) {
+    public ImmutableSittingSection createSittingSection(double[] positions, double rotation) {
         String id = findFreeId();
         double vitalSpaceHeight = this.getImmutableVitalSpace().getHeight();
         double vitalSpaceWidth = this.getImmutableVitalSpace().getWidth();
-        SittingSection sittingSection = new SittingSection(id, elevation, positions, rotation, vitalSpaceHeight, vitalSpaceWidth);
+        SittingSection sittingSection = new SittingSection(id, positions, rotation, vitalSpaceHeight, vitalSpaceWidth);
         this._sittingSections.put(id, sittingSection);
         return sittingSection;
     }
@@ -219,6 +215,33 @@ public class Room implements ImmutableRoom, Serializable {
     public void setSittingSectionVitalSpace(String sectionId, double width, double height) {
         SittingSection sittingSection = this._sittingSections.get(sectionId);
         sittingSection.setVitalSpace(width, height);
+    }
+
+    public void setSittingSectionAutoDistribution(String sectionId, boolean autoDistrib) {
+        SittingSection sittingSection = this._sittingSections.get(sectionId);
+        sittingSection.setAutoDistribution(autoDistrib);
+    }
+
+    public ImmutableSittingRow createSittingRow(String sectionId, double[] posStart, double[] posEnd) {
+        SittingSection sittingSection = this._sittingSections.get(sectionId);
+        ImmutableSittingRow sittingSectionRow = sittingSection.createRow(posStart, posEnd);
+        return sittingSectionRow;
+    }
+
+    public void deleteSittingRow(String sectionId, String idRow) {
+        SittingSection sittingSection = this._sittingSections.get(sectionId);
+        sittingSection.deleteRow(idRow);        
+    }
+
+    public void clearAllSittingRows(String sectionId) {
+        SittingSection sittingSection = this._sittingSections.get(sectionId);
+        sittingSection.clearAllRows();        
+    }
+
+    public ImmutableSeat createSeat(String sectionId, String idRow, double[] pos) {
+        SittingSection sittingSection = this._sittingSections.get(sectionId);
+        ImmutableSeat sittingSectionSeat = sittingSection.createSeat(idRow, pos);
+        return sittingSectionSeat;
     }
 
     @Override
