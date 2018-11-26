@@ -2,7 +2,7 @@
  * File Created: Thursday, 22nd November 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Saturday, 24th November 2018
+ * Last Modified: Monday, 26th November 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -81,6 +81,8 @@ public class CustomCursor {
   }
   
   public void removeShape() {
+    if (_invisibleBound == null || _visibleShape == null)
+      return;
     _pane.getChildren().remove(_invisibleBound);
     if (!_manualManagement)
       _pane.getChildren().remove(_visibleShape);
