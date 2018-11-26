@@ -2,7 +2,7 @@
  * File Created: Monday, 15th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Sunday, 25th November 2018
+ * Last Modified: Monday, 26th November 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -73,6 +73,7 @@ public class InnoRectangle extends InteractiveRectangle {
 
   @Override
   public boolean onMouseReleased(MouseEvent event) {
+    System.out.println("++++++++++++++++++++++");
     if (getWidth() < Engine().meterToPixel(_xVitalSpace))
       setWidth(Engine().meterToPixel(_xVitalSpace));
     if (getHeight() < Engine().meterToPixel(_yVitalSpace))
@@ -88,7 +89,6 @@ public class InnoRectangle extends InteractiveRectangle {
     }
     else
       _sectionData = Core.get().createSittingSection(getPositionsInParent(), 0);
-    // Core.get().setSectionRotation(_sectionData.getIdSection(), 45);
     loadFromData();
     InnoEngine engine = (InnoEngine)Engine();
     engine.getView().openPopup("new_sitting_rectangulary_section.fxml", this);
@@ -121,6 +121,11 @@ public class InnoRectangle extends InteractiveRectangle {
     //                 getMaxXProperty().get(), getMaxYProperty().get(),
     //                 getX(), getMaxYProperty().get() };
     // _sectionData = Core.get().createSittingSection(0, pos, 0);
+    return true;
+  }
+
+  @Override
+  public boolean onSelected() {
     return true;
   }
   

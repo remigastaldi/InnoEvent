@@ -2,7 +2,7 @@
  * File Created: Sunday, 14th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Sunday, 25th November 2018
+ * Last Modified: Monday, 26th November 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -62,6 +62,7 @@ public abstract class InteractiveShape<T extends Shape> {
   public boolean onMouseOnDragDetected(MouseEvent event) { return true; }
   public boolean onMouseOnDragDropped(MouseEvent event) { return true; }
   public boolean onFormComplete() { return true; }
+  public boolean onSelected() { return true; }
   public boolean onDestroy() { return true; }
   public void onShapeChanged() {};
 
@@ -136,6 +137,10 @@ public abstract class InteractiveShape<T extends Shape> {
     setRotation(new Rotate(rotation, _currentRotation.getPivotX(), _currentRotation.getPivotY()));
   }
   
+  public void setRotation(double angle, double x, double y) {
+    setRotation(new Rotate(angle, x, y));
+  }
+
   public void setRotation(Rotate rotate) {
     if (_currentRotation != null)
     _group.getTransforms().remove(_currentRotation);
@@ -151,7 +156,6 @@ public abstract class InteractiveShape<T extends Shape> {
     for (CircleAnchor anchor : _anchors) {
       _selectShapes.add(anchor.getShape());
     }
-  
     ArrayList<Node> nodes = new ArrayList<>();
     nodes.add(_shape);
     for (Shape outBound : _outBoundShapes) {
@@ -165,7 +169,7 @@ public abstract class InteractiveShape<T extends Shape> {
     _group = new Group(nodes);
     Pane().getChildren().add(_group);
     _engine.addInteractiveShape(this);
-
+    
     for (CircleAnchor anchor : _anchors) {
       anchor.setInteractiveShape(this);
     }
@@ -235,6 +239,7 @@ public abstract class InteractiveShape<T extends Shape> {
 
   public void  select() {
     if (Engine().getSelectedShape() != this) {
+      onSelected();
       enableGlow();
       _shape.toFront();
       for (Shape selectShape : getSelectShapes()) {

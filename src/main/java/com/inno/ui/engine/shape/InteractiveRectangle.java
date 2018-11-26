@@ -2,7 +2,7 @@
  * File Created: Monday, 15th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Sunday, 25th November 2018
+ * Last Modified: Monday, 26th November 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -74,6 +74,7 @@ public class InteractiveRectangle extends InteractiveShape<Rectangle> {
       }
     };
     EventHandler<MouseEvent> mouseReleasedEvent = event -> {
+    System.out.println("==================================");
       if (onMouseReleased(event)) {
         if (_collisionDetected)
           return;
@@ -88,6 +89,7 @@ public class InteractiveRectangle extends InteractiveShape<Rectangle> {
       }
     };
     EventHandler<MouseEvent> mousePressedEvent = event -> {
+      System.out.println("PRESSED");
       if (onMousePressed(event)) {
         if (_collisionDetected)
           return;
@@ -242,8 +244,8 @@ public class InteractiveRectangle extends InteractiveShape<Rectangle> {
   }
 
   private void closeForm(double x, double y, double width, double height, Rotate rotation, Color color) {
+    // System.out.println("@@@@@@@@@@@@@@@");
     _shape = new Rectangle(x, y, width, height);
-    _shape.setFill(color.deriveColor(1, 1, 0.8, 0.85));
 
     EventHandler<MouseEvent> mouseMovedEvent = EventHandlers().remove(MouseEvent.MOUSE_MOVED);
     if (mouseMovedEvent != null)
@@ -254,9 +256,8 @@ public class InteractiveRectangle extends InteractiveShape<Rectangle> {
 
     _anchors = createRectangleAnchors();
 
-    Pane().setCursor(Cursor.DEFAULT);
+    Cursor().setForm(CustomCursor.Type.DEFAULT);
 
-    
     completeShape();
     setColor(color);
     setRotation(rotation);
