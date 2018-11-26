@@ -2,7 +2,7 @@
  * File Created: Saturday, 27th October 2018
  * Author: HUBERT Léo
  * -----
- * Last Modified: Thursday, 15th November 2018
+ * Last Modified: Monday, 26th November 2018
  * Modified By: HUBERT Léo
  * -----
  * Copyright - 2018 HUBERT Léo
@@ -13,6 +13,7 @@ package com.inno.service.pricing;
 
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Map;
 
 import com.inno.service.pricing.OfferData.ReductionType;
 import com.inno.service.pricing.OfferOperationData.LogicalOperator;
@@ -26,11 +27,22 @@ public class Pricing {
   public Pricing() {
   }
 
+  private <T extends Enum<T>> T getEnumFromString(Class<T> c, String string) {
+    if (c != null && string != null) {
+      try {
+        return Enum.valueOf(c, string.trim().toUpperCase());
+      } catch (IllegalArgumentException ex) {
+        System.out.println("Cannot convert ==> " + string + " to " + c.getName());
+      }
+    }
+    return null;
+  }
+
   public HashMap<String, PlaceRate> getPlaces() {
     return this._places;
   }
 
-  public HashMap<String, Offer> getOffers() {
+  public HashMap<String, ? extends OfferData> getOffers() {
     return this._offers;
   }
 
@@ -128,6 +140,25 @@ public class Pricing {
     place.removeOffer(offerName);
   }
 
+  private String getNextOfferName() {
+    String name = "Untitled";
+    int i = 1;
+    while (true) {
+      boolean find = false;
+      for (Map.Entry<String, ? extends OfferData> entry : _offers.entrySet()) {
+        String offerName = entry.getKey();
+        if (offerName.equals(name + i) == true) {
+          find = true;
+        }
+      }
+      if (!find) {
+        return name + i;
+      } else {
+        i = i + 1;
+      }
+    }
+  }
+
   /**
    * Create Offer with a name, description, reduction and reductionType
    * 
@@ -137,8 +168,14 @@ public class Pricing {
    * @param reductionType
    * @return
    */
-  public OfferData createOffer(String name, String description, double reduction, ReductionType reductionType) {
-    Offer offer = new Offer(name, description, reduction, reductionType);
+  public OfferData createOffer(String name, String description, double reduction, String reductionType) {
+    ReductionType reductionType2 = getEnumFromString(ReductionType.class, reductionType);
+
+    if (name == null) {
+      name = getNextOfferName();
+    }
+
+    Offer offer = new Offer(name, description, reduction, reductionType2);
 
     this._offers.put(name, offer);
     return offer;
@@ -165,6 +202,18 @@ public class Pricing {
     if (offer == null) {
       return null;
     }
+    return offer;
+  }
+
+  public OfferData setOfferName(String name, String newName) {
+    Offer offer = this._offers.remove(name);
+    
+    if (offer == null) {
+      return null;
+    }
+    offer.setName(newName);
+
+    this._offers.put(newName, offer);
     return offer;
   }
 
@@ -254,7 +303,6 @@ public class Pricing {
     offerCondition.setLogicalOperator(logicalOperator);
   }
 
-
   private OfferOperation getOfferOperation(String offerName, String offerConditionName, int index) {
     Offer offer = this._offers.get(offerName);
 
@@ -290,7 +338,7 @@ public class Pricing {
 
   public void removeOfferConditionOperation(String offerName, String offerConditionName, int index) {
     OfferCondition offerCondition = this.getOfferCondition(offerName, offerConditionName);
-    
+
     if (offerCondition == null) {
       return;
     }
@@ -306,12 +354,14 @@ public class Pricing {
     offerOperation.setValue(value);
   }
 
-  public void setOfferConditionOperationLogicalOperator(String offerName, String offerConditionName, int index, LogicalOperator logicalOperator) {
+  public void setOfferConditionOperationLogicalOperator(String offerName, String offerConditionName, int index,
+      LogicalOperator logicalOperator) {
     OfferOperation offerOperation = this.getOfferOperation(offerName, offerConditionName, index);
     offerOperation.setLogicalOperator(logicalOperator);
   }
 
-  public void setOfferConditionOperationRelationalOperator(String offerName, String offerConditionName, int index, RelationalOperator relationalOperator) {
+  public void setOfferConditionOperationRelationalOperator(String offerName, String offerConditionName, int index,
+      RelationalOperator relationalOperator) {
     OfferOperation offerOperation = this.getOfferOperation(offerName, offerConditionName, index);
     offerOperation.setRelationalOperator(relationalOperator);
   }

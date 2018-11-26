@@ -2,7 +2,7 @@
  * File Created: Wednesday, 26th September 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Sunday, 25th November 2018
+ * Last Modified: Monday, 26th November 2018
  * Modified By: HUBERT Léo
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -36,8 +36,7 @@ public class StartupPopupController extends ViewController {
   }
 
   public void init() {
-    //View().openPopup("offer_manager.fxml");
-
+    View().openPopup("offer_manager.fxml");
   }
 
   @FXML

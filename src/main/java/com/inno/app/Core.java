@@ -2,8 +2,8 @@
  * File Created: Tuesday, 9th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Saturday, 24th November 2018
- * Modified By: GASTALDI Rémi
+ * Last Modified: Monday, 26th November 2018
+ * Modified By: HUBERT Léo
  * -----
  * Copyright - 2018 GASTALDI Rémi
  * <<licensetext>>
@@ -11,10 +11,13 @@
 
 package com.inno.app;
 
+import java.util.HashMap;
+
 import com.inno.app.InnoSave;
 import com.inno.app.room.*;
 import com.inno.service.Point;
 import com.inno.service.Utils;
+import com.inno.service.pricing.OfferData;
 import com.inno.service.pricing.Pricing;
 
 public class Core {
@@ -116,9 +119,9 @@ public class Core {
     this._room.setSectionRotation(idSection, rotation);
   }
 
-    //standingSection Methods
+  // standingSection Methods
   public ImmutableStandingSection createStandingSection(int nbPeople, double[] positions, double rotation) {
-    
+
     return this._room.createStandingSection(nbPeople, positions, rotation);
   }
 
@@ -128,7 +131,8 @@ public class Core {
 
   // sittingSection Methods
   public ImmutableSittingSection createSittingSection(double[] positions, double rotation) {
-    // Point pt = new Point(getImmutableRoom().getImmutableScene().getCenter()[0], getImmutableRoom().getImmutableScene().getCenter()[1]);
+    // Point pt = new Point(getImmutableRoom().getImmutableScene().getCenter()[0],
+    // getImmutableRoom().getImmutableScene().getCenter()[1]);
     // double[] newPos = Utils.rotateRectangle(pt, positions);
     // double newRotation = Utils.calculateRectangleRotation(pt, positions);
     // return this._room.createSittingSection(newPos, newRotation);
@@ -176,11 +180,31 @@ public class Core {
     _room = (Room) save.getRoomData();
   }
 
+  public HashMap<String, ? extends OfferData> getOffers() {
+    return _pricing.getOffers();
+  }
+
+  public OfferData createOffer(String name, String description, double reduction, String reductionType) {
+    return _pricing.createOffer(name, description, reduction, reductionType);
+  }
+
   public void closeProject() {
     _saveService = new InnoSave();
     _pricing = new Pricing();
     _room = null;
   }
+
+public OfferData getOffer(String name) {
+	return _pricing.getOffer(name);
+}
+
+public void setOfferReduction(String name, double reduction) {
+  _pricing.setOfferReduction(name, reduction);
+}
+
+public OfferData setOfferName(String name, String newName) {
+  return _pricing.setOfferName(name, newName);
+}
 
   // Save Methods
 };

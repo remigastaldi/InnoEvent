@@ -148,6 +148,7 @@
 
 .list-cell {
     -fx-text-fill: -fx-dark;
+    -fx-border-radius: 5px;
 }
 
 .list-cell:odd {
