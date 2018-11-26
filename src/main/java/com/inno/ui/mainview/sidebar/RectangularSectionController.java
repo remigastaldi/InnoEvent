@@ -14,6 +14,7 @@ package com.inno.ui.mainview.sidebar;
 import com.inno.ui.Validator;
 import com.inno.ui.ViewController;
 import com.inno.ui.engine.shape.InteractiveRectangle;
+import com.inno.ui.innoengine.shape.InnoRectangle;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -61,10 +62,9 @@ public class RectangularSectionController extends ViewController {
   }
 
   public void init() {
-    InteractiveRectangle rectangle = (InteractiveRectangle)getIntent();
-    section_columns_input.setText("" + rectangle.getWidth());
-    section_columns_input.setText("" + rectangle.getHeight());
-    System.out.println(rectangle.getRotation().getAngle());
+    InnoRectangle rectangle = (InnoRectangle)getIntent();
+    section_columns_input.setText("" + rectangle.getColumnNumber());
+    section_rows_input.setText("" + rectangle.getRowNumber());
     setRotation(rectangle.getRotation().getAngle(), false);
   }
 
