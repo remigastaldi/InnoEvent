@@ -34,16 +34,21 @@ import javafx.scene.shape.Line;
 import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Shape;
 import javafx.scene.shape.StrokeLineCap;
+import javafx.scene.transform.Rotate;
 import javafx.scene.transform.Transform;
 
 public class InteractivePolygon extends InteractiveShape<Polygon> {
   private ArrayList<Circle> _points = new ArrayList<>();
   private ArrayList<Line> _lines = new ArrayList<>();
-  private Color color = null;
   
 
   public InteractivePolygon(Engine engine, Pane pane) {
     super(engine, pane);
+  }
+
+  public InteractivePolygon(Engine engine, Pane pane, double[] pos, Rotate rotation, Color color) {
+    super(engine, pane);
+    closeForm(pos, rotation, color);
   }
   
   public void start() {
@@ -127,7 +132,7 @@ public class InteractivePolygon extends InteractiveShape<Polygon> {
   double orgSceneX, orgSceneY;
   double orgTranslateX, orgTranslateY;
 
-  private void closeForm(double[] pos, double rotation, Color color) {
+  private void closeForm(double[] pos, Rotate rotation, Color color) {
 
   }
 

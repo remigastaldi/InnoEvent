@@ -52,12 +52,6 @@ public abstract class InteractiveShape<T extends Shape> {
     _pane = pane;
   }
 
-  InteractiveShape(Engine engine, Pane pane, Rotate rotation) {
-    _engine = engine;
-    _pane = pane;
-    _currentRotation = rotation;
-  }
-
   // Callback
   public boolean onMouseEntered(MouseEvent event) { return true; }
   public boolean onMouseClicked(MouseEvent event) { return true; }
@@ -129,16 +123,17 @@ public abstract class InteractiveShape<T extends Shape> {
     return _id;
   }
 
-  // public void setRotation(double rotation) {
-  //   _rotation = rotation;
-  // }
-
+  
   
   public void setColor(Color color) {
     _shape.setFill(color.deriveColor(1, 1, 0.8, 0.85));
     for (Shape shape : _outBoundShapes) {
       shape.setStroke(color);
     }
+  }
+
+  public void setRotationAngle(double rotation) {
+    setRotation(new Rotate(rotation, _currentRotation.getPivotX(), _currentRotation.getPivotY()));
   }
   
   public void setRotation(Rotate rotate) {

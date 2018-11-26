@@ -43,7 +43,7 @@ public class InteractiveRectangle extends InteractiveShape<Rectangle> {
   }
 
   public InteractiveRectangle(Engine engine, Pane pane, double x, double y, double width, double height, Rotate rotation, Color color) {
-    super(engine, pane, rotation);
+    super(engine, pane);
 
     closeForm(x, y, width, height, rotation, color);
   }
