@@ -2,7 +2,7 @@
  * File Created: Monday, 15th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Saturday, 24th November 2018
+ * Last Modified: Sunday, 25th November 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -38,8 +38,6 @@ import javafx.scene.transform.Rotate;
 import javafx.scene.transform.Transform;
 
 public class InteractiveRectangle extends InteractiveShape<Rectangle> {
-  private Rectangle _rectangle = null;
-  private ObservableList<CircleAnchor> _anchors = null;
   private boolean _collisionDetected = false;
 
   private DoubleProperty maxXProperty = null;
@@ -116,46 +114,46 @@ public class InteractiveRectangle extends InteractiveShape<Rectangle> {
     Pane().addEventHandler(MouseEvent.MOUSE_PRESSED, mousePressedEvent);
   }
 
-  private ObservableList<CircleAnchor> createControlAnchorsFor() {
+  private ObservableList<CircleAnchor> createRectangleAnchors() {
     ObservableList<CircleAnchor> anchors = FXCollections.observableArrayList();
 
     maxXProperty = new SimpleDoubleProperty();
     maxYProperty = new SimpleDoubleProperty();
 
-    maxXProperty.set(_rectangle.getX() + _rectangle.getWidth());
-    maxYProperty.set(_rectangle.getY() + _rectangle.getHeight());
+    maxXProperty.set(_shape.getX() + _shape.getWidth());
+    maxYProperty.set(_shape.getY() + _shape.getHeight());
 
-    CircleAnchor resizeHandleLU = new CircleAnchor(Engine(), Color.GOLD, _rectangle.xProperty(), _rectangle.yProperty(), true);
-    CircleAnchor resizeHandleRU = new CircleAnchor(Engine(), Color.GOLD, maxXProperty, _rectangle.yProperty(), true);
+    CircleAnchor resizeHandleLU = new CircleAnchor(Engine(), Color.GOLD, _shape.xProperty(), _shape.yProperty(), true);
+    CircleAnchor resizeHandleRU = new CircleAnchor(Engine(), Color.GOLD, maxXProperty, _shape.yProperty(), true);
     CircleAnchor resizeHandleRD = new CircleAnchor(Engine(), Color.GOLD, maxXProperty, maxYProperty, true);
-    CircleAnchor resizeHandleLD = new CircleAnchor(Engine(), Color.GOLD, _rectangle.xProperty(), maxYProperty, true);
+    CircleAnchor resizeHandleLD = new CircleAnchor(Engine(), Color.GOLD, _shape.xProperty(), maxYProperty, true);
 
-    _rectangle.widthProperty().addListener((ChangeListener<Number>) (ov, oldX, newX) -> {
-      if (_rectangle.getX() + (double) newX != maxXProperty.get()) {
-        maxXProperty.set(_rectangle.getX() + (double) newX);
+    _shape.widthProperty().addListener((ChangeListener<Number>) (ov, oldX, newX) -> {
+      if (_shape.getX() + (double) newX != maxXProperty.get()) {
+        maxXProperty.set(_shape.getX() + (double) newX);
       }
     });
     
-    _rectangle.heightProperty().addListener((ChangeListener<Number>) (ov, oldY, newY) -> {
-      if (_rectangle.getY() + (double) newY != maxYProperty.get())
-        maxYProperty.set(_rectangle.getY() + (double) newY);
+    _shape.heightProperty().addListener((ChangeListener<Number>) (ov, oldY, newY) -> {
+      if (_shape.getY() + (double) newY != maxYProperty.get())
+        maxYProperty.set(_shape.getY() + (double) newY);
     });
 
     resizeHandleLU.centerXProperty().addListener((ChangeListener<Number>) (ov, oldX, newX) -> {
-      _rectangle.setX((double) newX);
-      _rectangle.setWidth(maxXProperty.get() - _rectangle.getX());
+      _shape.setX((double) newX);
+      _shape.setWidth(maxXProperty.get() - _shape.getX());
     });
     resizeHandleLU.centerYProperty().addListener((ChangeListener<Number>) (ov, oldY, newY) -> {
-      _rectangle.setY((double) newY);
-      _rectangle.setHeight(maxYProperty.get() - _rectangle.getY());
+      _shape.setY((double) newY);
+      _shape.setHeight(maxYProperty.get() - _shape.getY());
     });
 
     resizeHandleRU.centerXProperty().addListener((ChangeListener<Number>) (ov, oldX, newX) -> {
-      _rectangle.setWidth(maxXProperty.get() - _rectangle.getX());
+      _shape.setWidth(maxXProperty.get() - _shape.getX());
     });
 
     resizeHandleRD.centerYProperty().addListener((ChangeListener<Number>) (ov, oldY, newY) -> {
-      _rectangle.setHeight(maxYProperty.get() - _rectangle.getY());
+      _shape.setHeight(maxYProperty.get() - _shape.getY());
     });
 
     anchors.add(resizeHandleLU);
@@ -174,39 +172,14 @@ public class InteractiveRectangle extends InteractiveShape<Rectangle> {
   void createLine(CircleAnchor first, CircleAnchor second) {
     Line line = new Line();
     line.setStrokeWidth(1.0);
-    line.setStroke(Color.KHAKI);
+    line.setStroke(Color.ROYALBLUE);
     line.startXProperty().bind(first.centerXProperty());
     line.startYProperty().bind(first.centerYProperty());
     line.endXProperty().bind(second.centerXProperty());
     line.endYProperty().bind(second.centerYProperty());
 
-    Pane().getChildren().add(line);
+  Pane().getChildren().add(line); // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
     addOutboundShape(line);
-  }
-
-  private void select() {
-    if (Engine().getSelectedShape() != this) {
-      enableGlow();
-      for (Shape selectShape : getSelectShapes()) {
-        selectShape.toFront();
-        selectShape.setVisible(true);
-      }
-      Engine().selected(this);
-      System.out.println("SHAPE" + this + " SELECTED");
-    }
-  }
-
-  public void deselect() {
-    for (Shape selectShape : getSelectShapes()) {
-      selectShape.setVisible(false);
-    }
-
-    disableGlow();
-    System.out.println("DESELECTED");
-  }
-
-  public Shape getShape() {
-    return _rectangle;
   }
 
   public void setPositions(double[] pos) {
@@ -217,48 +190,48 @@ public class InteractiveRectangle extends InteractiveShape<Rectangle> {
   }
 
   public void setX(double x) {
-    _rectangle.setX(x);
+    _shape.setX(x);
   }
 
   public void setY(double y) {
-    _rectangle.setY(y);
+    _shape.setY(y);
   }
 
   public double getX() {
-    return _rectangle.getX();
+    return _shape.getX();
   }
 
   public double getY() {
-    return _rectangle.getY();
+    return _shape.getY();
   }
 
   public void setSize(double width, double height) {
-    _rectangle.setWidth(width);
-    _rectangle.setHeight(height);
+    _shape.setWidth(width);
+    _shape.setHeight(height);
   }
 
   public void setWidth(double width) {
-    _rectangle.setWidth(width);
+    _shape.setWidth(width);
   }
 
   public void setHeight(double height) {
-    _rectangle.setHeight(height);
+    _shape.setHeight(height);
   }
 
   public double getWidth() {
-    return _rectangle.getWidth();
+    return _shape.getWidth();
   }
 
   public double getHeight() {
-    return _rectangle.getHeight();
+    return _shape.getHeight();
   }
 
   public DoubleProperty getXProperty() {
-    return _rectangle.xProperty();
+    return _shape.xProperty();
   }
 
   public DoubleProperty getYProperty() {
-    return _rectangle.yProperty();
+    return _shape.yProperty();
   }
 
   public DoubleProperty getMaxXProperty() {
@@ -270,28 +243,16 @@ public class InteractiveRectangle extends InteractiveShape<Rectangle> {
   }
 
   public DoubleProperty getWidthProperty() {
-    return _rectangle.widthProperty();
+    return _shape.widthProperty();
   }
 
   public DoubleProperty getHeightProperty() {
-    return _rectangle.heightProperty();
+    return _shape.heightProperty();
   }
 
-  double orgSceneX, orgSceneY;
-  double orgTranslateX, orgTranslateY;
-
   private void closeForm(double x, double y, double width, double height, double rotation, Color color) {
-    _rectangle = new Rectangle(x, y, width, height);
-    _shape = _rectangle;
-    _rectangle.setFill(color.deriveColor(1, 1, 0.8, 0.85));
-
-    enableGlow();
-
-    _anchors = createControlAnchorsFor();
-
-    for (CircleAnchor anchor : _anchors) {
-      getSelectShapes().add(anchor.getShape());
-    }
+    _shape = new Rectangle(x, y, width, height);
+    _shape.setFill(color.deriveColor(1, 1, 0.8, 0.85));
 
     EventHandler<MouseEvent> mouseMovedEvent = EventHandlers().remove(MouseEvent.MOUSE_MOVED);
     if (mouseMovedEvent != null)
@@ -300,101 +261,27 @@ public class InteractiveRectangle extends InteractiveShape<Rectangle> {
     if (mousePressedEvent != null)
       Pane().removeEventHandler(MouseEvent.MOUSE_PRESSED, mousePressedEvent);
 
+    _anchors = createRectangleAnchors();
+
     Pane().setCursor(Cursor.DEFAULT);
 
-    // Add form selection callback
-    EventHandler<MouseEvent> mouseClick = new EventHandler<MouseEvent>() {
-      public void handle(MouseEvent event) {
-        select();
-      }
-    };
-    EventHandlers().put(MouseEvent.MOUSE_CLICKED, mouseClick);
-    _rectangle.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseClick);
-
-
-    ArrayList<Node> nodes = new ArrayList<>();
-    nodes.add(_rectangle);
-    for (Shape outBound : getOutBoundShapes()) {
-      Pane().getChildren().remove(outBound);
-      nodes.add(outBound);
-    }
-    for (Shape selectShape : getSelectShapes()) {
-      Pane().getChildren().remove(selectShape);
-      nodes.add(selectShape);
-    }
-    _group = new Group(nodes);
-    Pane().getChildren().add(_group);
-    for (CircleAnchor anchor : _anchors) {
-      anchor.setInteractiveShape(this);
-    }
-
+    
+    completeShape();
     setColor(color);
+    setRotation(rotation, new Point2D( _shape.getX() + _shape.getWidth(), _shape.getY() + _shape.getHeight()));
 
-    _group.getTransforms().add(new Rotate(rotation, _rectangle.getX() + _rectangle.getWidth(),
-        _rectangle.getY() + _rectangle.getHeight()));
-
-    _group.setOnMousePressed(mouseEvent -> {
-      Point2D p = Pane().sceneToLocal(mouseEvent.getSceneX(), mouseEvent.getSceneY());
-
-      orgSceneX = p.getX();
-      orgSceneY = p.getY();
-      orgTranslateX = ((Group) (_group)).getTranslateX();
-      orgTranslateY = ((Group) (_group)).getTranslateY();
-    });
-
-    EventHandler<MouseEvent> mouseDragged = mouseEvent -> {
-      if (onMouseMoved(mouseEvent)) {
-        select();
-        // TODO: Magnetism between anchors and lines
-
-        Rectangle shape = new Rectangle(_rectangle.getX(), _rectangle.getY(),
-                                        _rectangle.getWidth(), _rectangle.getHeight());
-        shape.setFill(Color.TRANSPARENT);
-        shape.setStroke(Color.WHITE);
-        ObservableList<Transform> effect = _group.getTransforms();
-        if (effect != null && effect.size() > 0)
-          shape.getTransforms().add(effect.get(0));
-
-        Point2D p = Pane().sceneToLocal(mouseEvent.getSceneX(), mouseEvent.getSceneY());
-        double offsetX = p.getX() - orgSceneX;
-        double offsetY = p.getY() - orgSceneY;
-        double newTranslateX = orgTranslateX + offsetX;
-        double newTranslateY = orgTranslateY + offsetY;
-
-        Pane().getChildren().add(shape);
-        shape.setTranslateX(newTranslateX);
-        shape.setTranslateY(newTranslateY);
-
-        // TMP
-        _group.setTranslateX(newTranslateX);
-        _group.setTranslateY(newTranslateY);
-
-        // if (!Engine().isObjectUnderCursor(shape)) {
-        //   // _group.setTranslateX(newTranslateX);
-        //   // _group.setTranslateY(newTranslateY);
-        //   _rectangle.setFill(Color.ROYALBLUE);
-        // } else
-        //   _rectangle.setFill(Color.RED);
-        Pane().getChildren().remove(shape);
-        onShapeChanged();
-      }
-    };
-    EventHandlers().put(MouseEvent.MOUSE_DRAGGED, mouseDragged);
-    _rectangle.addEventHandler(MouseEvent.MOUSE_DRAGGED, mouseDragged);
-
-    Engine().addInteractiveShape(this);
-    Engine().selected(this);
+    // enableGlow();
     Engine().getMagnetismManager().registerInteractiveShape(this);
+    
+    enableSelection();
+    select();
+
+    // Engine().selected(this);
 
     return;
   }
 
   private void closeForm(double x, double y) {
     closeForm(x, y, 1, 1, 0, Color.ROYALBLUE);
-  }
-
-  public void destroy() {
-    onDestroy();
-    Pane().getChildren().remove(_group);
   }
 }
