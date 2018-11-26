@@ -3,26 +3,25 @@
  * Author: GASTALDI Rémi
  * -----
  * Last Modified: Monday, 26th November 2018
- * Modified By: GASTALDI Rémi
+ * Modified By: HUBERT Léo
  * -----
  * Copyright - 2018 GASTALDI Rémi
  * <<licensetext>>
  */
 
-
 package com.inno.ui.innoengine.shape;
 
-import  com.inno.app.Core;
-import  com.inno.app.room.ImmutableSittingSection;
-import  com.inno.ui.engine.shape.InteractiveRectangle;
-import  com.inno.ui.innoengine.InnoEngine;
+import com.inno.app.Core;
+import com.inno.app.room.ImmutableSittingSection;
+import com.inno.ui.engine.shape.InteractiveRectangle;
+import com.inno.ui.innoengine.InnoEngine;
 
-import  javafx.geometry.Point2D;
-import  javafx.scene.Group;
-import  javafx.scene.input.MouseEvent;
-import  javafx.scene.layout.Pane;
-import  javafx.scene.paint.Color;
-import  javafx.scene.transform.Rotate;
+import javafx.geometry.Point2D;
+import javafx.scene.Group;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
+import javafx.scene.transform.Rotate;
 
 public class InnoRectangle extends InteractiveRectangle {
   private double _xVitalSpace = 0.0;
@@ -38,9 +37,10 @@ public class InnoRectangle extends InteractiveRectangle {
     _yVitalSpace = Core.get().getImmutableRoom().getImmutableVitalSpace().getHeight();
   }
 
-  public InnoRectangle(InnoEngine engine, Pane pane, String id, double x, double y, double width, double height, Rotate rotation, Color color) {
+  public InnoRectangle(InnoEngine engine, Pane pane, String id, double x, double y, double width, double height,
+      Rotate rotation, Color color) {
     super(engine, pane, x, y, width, height, rotation, color);
-    
+
     setID(id);
     _xVitalSpace = Core.get().getImmutableRoom().getImmutableVitalSpace().getWidth();
     _yVitalSpace = Core.get().getImmutableRoom().getImmutableVitalSpace().getHeight();
@@ -81,21 +81,18 @@ public class InnoRectangle extends InteractiveRectangle {
 
     if (!_grabbed) {
       double[] pos = getPositions();
-      double[] newPos = new double[]{pos[0] - getWidth(), pos[1] - getHeight(),
-                                    pos[2] - getWidth(), pos[3] - getHeight(),
-                                    pos[4] - getWidth(), pos[5] - getHeight(),
-                                    pos[6] - getWidth(), pos[7] - getHeight()};
+      double[] newPos = new double[] { pos[0] - getWidth(), pos[1] - getHeight(), pos[2] - getWidth(),
+          pos[3] - getHeight(), pos[4] - getWidth(), pos[5] - getHeight(), pos[6] - getWidth(), pos[7] - getHeight() };
       _sectionData = Core.get().createSittingSection(localToParent(newPos), 0);
-    }
-    else
+    } else
       _sectionData = Core.get().createSittingSection(getPositionsInParent(), 0);
     loadFromData();
-    InnoEngine engine = (InnoEngine)Engine();
+    InnoEngine engine = (InnoEngine) Engine();
     engine.getView().openPopup("new_sitting_rectangulary_section.fxml", this);
-    
+    engine.getView().setSidebarFromFxmlFileName("sidebar_regular_sitting_section.fxml", this);
     return true;
   }
-  
+
   @Override
   public void onShapeChanged() {
     Core.get().updateSectionPositions(getID(), getPositionsInParent());
@@ -112,23 +109,25 @@ public class InnoRectangle extends InteractiveRectangle {
   @Override
   public boolean onFormComplete() {
     // if (getWidth() < Engine().meterToPixel(_xVitalSpace))
-    //   setWidth(Engine().meterToPixel(_xVitalSpace));
+    // setWidth(Engine().meterToPixel(_xVitalSpace));
     // if (getHeight() < Engine().meterToPixel(_yVitalSpace))
-    //   setHeight(Engine().meterToPixel(_yVitalSpace));
+    // setHeight(Engine().meterToPixel(_yVitalSpace));
 
     // double[] pos = {getX(), getY(),
-    //                 getMaxXProperty().get(), getY(),
-    //                 getMaxXProperty().get(), getMaxYProperty().get(),
-    //                 getX(), getMaxYProperty().get() };
+    // getMaxXProperty().get(), getY(),
+    // getMaxXProperty().get(), getMaxYProperty().get(),
+    // getX(), getMaxYProperty().get() };
     // _sectionData = Core.get().createSittingSection(0, pos, 0);
     return true;
   }
 
   @Override
   public boolean onSelected() {
+    InnoEngine engine = (InnoEngine) Engine();
+    engine.getView().setSidebarFromFxmlFileName("sidebar_regular_sitting_section.fxml", this);
     return true;
   }
-  
+
   public void setColumnNumber(int columns) {
     setWidth(Engine().meterToPixel(_xVitalSpace * columns));
   }
@@ -182,10 +181,8 @@ public class InnoRectangle extends InteractiveRectangle {
   }
 
   public double[] getPositions() {
-    double[] pos = {getX(), getY(),
-      getMaxXProperty().get(), getY(),
-      getMaxXProperty().get(), getMaxYProperty().get(),
-      getX(), getMaxYProperty().get() };
+    double[] pos = { getX(), getY(), getMaxXProperty().get(), getY(), getMaxXProperty().get(), getMaxYProperty().get(),
+        getX(), getMaxYProperty().get() };
     return pos;
   }
 
@@ -199,10 +196,7 @@ public class InnoRectangle extends InteractiveRectangle {
     Point2D rd = _group.localToParent(pos[4], pos[5]);
     Point2D ld = _group.localToParent(pos[6], pos[7]);
     // System.out.println(lu);
-    return new double[]{ lu.getX(), lu.getY(),
-      ru.getX(), ru.getY(),
-      rd.getX(), rd.getY(),
-      ld.getX(), ld.getY() };
+    return new double[] { lu.getX(), lu.getY(), ru.getX(), ru.getY(), rd.getX(), rd.getY(), ld.getX(), ld.getY() };
   }
 
   public double[] parentToLocal(double[] pos) {
@@ -211,20 +205,19 @@ public class InnoRectangle extends InteractiveRectangle {
     Point2D rd = _group.parentToLocal(pos[4], pos[5]);
     Point2D ld = _group.parentToLocal(pos[6], pos[7]);
     // System.out.println(lu);
-    return new double[]{ lu.getX(), lu.getY(),
-      ru.getX(), ru.getY(),
-      rd.getX(), rd.getY(),
-      ld.getX(), ld.getY() };
+    return new double[] { lu.getX(), lu.getY(), ru.getX(), ru.getY(), rd.getX(), rd.getY(), ld.getX(), ld.getY() };
   }
 
   // @Override
   // public void setRotation(double rotation) {
-  //   _rotation = rotation;
-  //   _group.getTransforms().clear();
-  //   // _group.getTransforms().add(new Rotate(rotation, getX() + getWidth(), getY() + getHeight()));
-  //   // Point2D pos =  new Point2D(getX(), getY());
-  //   // pos = _group.localToParent(pos.getX(), pos.getY());
-  //   // _group.getTransforms().add(new Rotate(rotation, pos.getX(), pos.getY()));
-  //   // _group.getTransforms().add(new Rotate(rotation, getMaxXProperty().get(), getMaxYProperty().get()));
+  // _rotation = rotation;
+  // _group.getTransforms().clear();
+  // // _group.getTransforms().add(new Rotate(rotation, getX() + getWidth(),
+  // getY() + getHeight()));
+  // // Point2D pos = new Point2D(getX(), getY());
+  // // pos = _group.localToParent(pos.getX(), pos.getY());
+  // // _group.getTransforms().add(new Rotate(rotation, pos.getX(), pos.getY()));
+  // // _group.getTransforms().add(new Rotate(rotation, getMaxXProperty().get(),
+  // getMaxYProperty().get()));
   // }
 }

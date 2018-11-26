@@ -130,3 +130,35 @@
 .slider .track {
     -fx-background-image: url("https://i.imgur.com/SwDjIg7.png");
 }
+
+.list-view {
+    -fx-background-color: -fx-dark;
+    -fx-border-radius: 5px;
+    -fx-border-color: -fx-primary;
+}
+
+.list-cell:filled {
+    -fx-text-fill: white;
+}
+
+.list-cell:filled:selected:focused, .list-cell:filled:selected {
+    -fx-background-color: -fx-grey;
+    -fx-text-fill: -fx-primary;
+}
+
+.list-cell {
+    -fx-text-fill: -fx-dark;
+}
+
+.list-cell:odd {
+    -fx-background-color: -fx-dark;
+}
+
+.list-cell:even {
+    -fx-background-color: -fx-dark;
+}
+
+.list-cell:filled:hover {
+    -fx-background-color: -fx-grey;
+    -fx-text-fill: white;
+}

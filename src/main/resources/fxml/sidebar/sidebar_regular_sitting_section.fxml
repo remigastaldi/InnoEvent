@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.Group?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
-<?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="597.0" prefWidth="250.0" style="-fx-background-color: -fx-dark;" stylesheets="@../../dark-theme.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.inno.ui.mainview.sidebar.RectangularSectionController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="597.0" prefWidth="250.0" style="-fx-background-color: -fx-dark;" stylesheets="@../../dark-theme.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.inno.ui.mainview.sidebar.RectangularSectionController">
    <children>
       <AnchorPane prefWidth="367.0" style="-fx-border-color: orange; -fx-border-width: 0 0 1 0; -fx-background-color: -fx-grey;" styleClass="grey" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -20,29 +21,38 @@
       </AnchorPane>
       <AnchorPane layoutY="50.0" prefHeight="200.0" prefWidth="252.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="50.0">
          <children>
-            <AnchorPane prefHeight="546.0" prefWidth="250.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <AnchorPane fx:id="sidebar_content" prefHeight="546.0" prefWidth="250.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
                   <Label alignment="CENTER" layoutY="14.0" text="Rectangular Sitting Section" textAlignment="CENTER" textFill="WHITE" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Label>
-                  <AnchorPane layoutX="22.0" layoutY="67.0" prefHeight="274.0" prefWidth="135.0">
+                  <AnchorPane layoutX="7.0" layoutY="67.0" prefHeight="478.0" prefWidth="132.0">
                      <children>
-                        <Text fill="WHITE" layoutX="4.0" layoutY="23.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Number of columns" wrappingWidth="125.00000558793545" />
-                        <Text fill="WHITE" layoutX="15.0" layoutY="72.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Number of rows" textAlignment="CENTER" wrappingWidth="102.00000068545341" />
-                        <Text fill="WHITE" layoutX="11.0" layoutY="134.0" strokeType="OUTSIDE" strokeWidth="0.0" text="VitalSpace Width" wrappingWidth="113.00000068545341" />
-                        <Text fill="WHITE" layoutX="11.0" layoutY="179.0" strokeType="OUTSIDE" strokeWidth="0.0" text="VitalSpace Height" wrappingWidth="113.00000175833702" />
-                        <Text fill="WHITE" layoutX="10.0" layoutY="256.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Auto Distribution" wrappingWidth="113.00000175833702" />
+                        <Label layoutX="15.0" layoutY="14.0" text="Number of columns" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+                        <Label layoutX="17.0" layoutY="59.0" text="Number of rows" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+                        <Label layoutY="108.0" text="VitalSpace Width" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+                        <Label layoutY="148.0" text="VitalSpace Height" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+                        <Label layoutY="192.0" text="Rotation" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
                      </children>
                   </AnchorPane>
-                  <AnchorPane layoutX="157.0" layoutY="74.0" prefHeight="200.0" prefWidth="75.0" AnchorPane.leftAnchor="157.0" AnchorPane.rightAnchor="18.0">
+                  <AnchorPane layoutX="151.0" layoutY="74.0" minWidth="89.0" prefHeight="469.0" prefWidth="89.0" AnchorPane.leftAnchor="139.0" AnchorPane.rightAnchor="10.0">
                      <children>
-                        <TextField fx:id="section_columns_input" onKeyReleased="#onKeyReleased" prefHeight="29.0" prefWidth="75.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+                        <TextField fx:id="section_columns_input" maxHeight="1.7976931348623157E308" minWidth="113.0" onKeyReleased="#onKeyReleased" prefHeight="29.0" prefWidth="75.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
                         <TextField fx:id="section_rows_input" layoutY="44.0" onKeyReleased="#onKeyReleased" prefHeight="29.0" prefWidth="75.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
-                        <TextField fx:id="section_vital_space_width_input" layoutY="108.0" onKeyReleased="#onKeyReleased" prefHeight="29.0" prefWidth="75.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
-                        <TextField fx:id="section_vital_space_height_input" layoutY="152.0" onKeyReleased="#onKeyReleased" prefHeight="29.0" prefWidth="75.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
-                        <CheckBox layoutX="29.0" layoutY="237.0" mnemonicParsing="false" />
+                        <TextField fx:id="section_vital_space_width_input" layoutY="88.0" onKeyReleased="#onKeyReleased" prefHeight="29.0" prefWidth="75.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+                        <TextField fx:id="section_vital_space_height_input" layoutY="132.0" onKeyReleased="#onKeyReleased" prefHeight="29.0" prefWidth="75.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+                        <TextField fx:id="section_rotation_input" layoutY="177.0" onKeyReleased="#onKeyReleased" prefHeight="29.0" prefWidth="46.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="43.0" />
+                        <Group fx:id="section_rotation_group" layoutX="68.0" layoutY="192.0" AnchorPane.rightAnchor="0.0">
+                           <children>
+                              <Circle fx:id="section_rotation_circle" fill="#e3e7eb" radius="15.0" stroke="BLACK" strokeType="INSIDE" />
+                              <Circle fill="#eef2f5" layoutX="9.0" onMousePressed="#onMousePressed" onMouseReleased="#onMouseReleased" radius="4.0" stroke="BLACK" strokeType="INSIDE">
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor></Circle>
+                           </children>
+                        </Group>
                      </children>
                   </AnchorPane>
                </children>

@@ -2,7 +2,7 @@
  * File Created: Wednesday, 26th September 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Saturday, 24th November 2018
+ * Last Modified: Monday, 26th November 2018
  * Modified By: HUBERT Léo
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -36,7 +36,8 @@ public class MainViewController extends ViewController {
   }
   
   public void init() {
-    View().setSidebarFromFxmlFileName("sidebar_room.fxml", sidebar_anchor);
+    View().setSidebar(sidebar_anchor);
+    View().setSidebarFromFxmlFileName("sidebar_room.fxml");
 
     // double[] pos = new double[]{10, 10, 50, 10, 100, 100, 10, 50};
     // Core().createSittingSection(0, pos, 0.0);
@@ -91,26 +92,26 @@ public class MainViewController extends ViewController {
 
   @FXML
   private void openRoom() {
-    View().setSidebarFromFxmlFileName("sidebar_room.fxml", sidebar_anchor);
+    View().setSidebarFromFxmlFileName("sidebar_room.fxml");
   }
 
   @FXML
   private void openRegularSittingSection() {
-    View().setSidebarFromFxmlFileName("sidebar_regular_sitting_section.fxml", sidebar_anchor);
+    View().setSidebarFromFxmlFileName("sidebar_regular_sitting_section.fxml");
   }
 
   @FXML
   private void openIrregularSittingSection() {
-    View().setSidebarFromFxmlFileName("sidebar_irregular_sitting_section.fxml", sidebar_anchor);
+    View().setSidebarFromFxmlFileName("sidebar_irregular_sitting_section.fxml");
   }
 
   @FXML
   private void openStandingSection() {
-    View().setSidebarFromFxmlFileName("sidebar_standing_section.fxml", sidebar_anchor);
+    View().setSidebarFromFxmlFileName("sidebar_standing_section.fxml");
   }
 
   @FXML
   private void openScene() {
-    View().setSidebarFromFxmlFileName("sidebar_scene.fxml", sidebar_anchor);
+    View().setSidebarFromFxmlFileName("sidebar_scene.fxml");
   }
 }

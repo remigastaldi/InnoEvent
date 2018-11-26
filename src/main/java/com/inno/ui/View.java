@@ -2,7 +2,7 @@
  * File Created: Wednesday, 10th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Saturday, 24th November 2018
+ * Last Modified: Monday, 26th November 2018
  * Modified By: HUBERT Léo
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -34,6 +34,7 @@ import com.inno.ui.innoengine.InnoEngine;
 public class View extends Application {
 
   private Stage _mainView;
+  private AnchorPane _sidebarAnchor;
   private InnoEngine _engine = null;
 
   public View() {
@@ -116,6 +117,15 @@ public class View extends Application {
     _mainView = mainView;
   }
 
+   /**
+   * Set sidebarAnchor passed in parameter
+   * 
+   * @param sidebarAnchor
+   */
+  public void setSidebar(AnchorPane sidebarAnchor) {
+    _sidebarAnchor = sidebarAnchor;
+  }
+
   /**
    * Get current mainView
    * 
@@ -191,16 +201,24 @@ public class View extends Application {
     }
   }
 
-  public void setSidebarFromFxmlFileName(String fxmlFileName, AnchorPane anchorPane) {
+  public void setSidebarFromFxmlFileName(String fxmlFileName, Object object) {
     FXMLLoader fxmlLoader = new FXMLLoader();
     fxmlLoader.setLocation(getClass().getResource("/fxml/sidebar/" + fxmlFileName));
-
+    
     try {
       Pane pane = (Pane) fxmlLoader.load();
-      anchorPane.getChildren().setAll(pane.getChildren());
+      ViewController viewController = fxmlLoader.<ViewController>getController();
+      viewController.setView(this);
+      viewController.addIntent(object);
+      viewController.init();
+      _sidebarAnchor.getChildren().setAll(pane.getChildren());
     } catch (Exception e) {
       System.out.println("Error when load sidebar file " + e.getMessage());
     }
+  }
+
+  public void setSidebarFromFxmlFileName(String fxmlFileName) {
+    setSidebarFromFxmlFileName(fxmlFileName, null);
   }
 
   public File getProjectFilePath() {

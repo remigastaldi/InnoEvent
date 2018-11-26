@@ -2,7 +2,7 @@
  * File Created: Wednesday, 26th September 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Saturday, 24th November 2018
+ * Last Modified: Sunday, 25th November 2018
  * Modified By: HUBERT Léo
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -17,8 +17,6 @@ import com.inno.ui.ViewController;
 import com.inno.ui.View.AnimationDirection;
 
 import javafx.fxml.FXML;
-
-import javafx.stage.FileChooser;
 
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
@@ -38,6 +36,8 @@ public class StartupPopupController extends ViewController {
   }
 
   public void init() {
+    //View().openPopup("offer_manager.fxml");
+
   }
 
   @FXML
