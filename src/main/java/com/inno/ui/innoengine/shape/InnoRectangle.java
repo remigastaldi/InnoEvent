@@ -2,7 +2,7 @@
  * File Created: Monday, 15th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Saturday, 24th November 2018
+ * Last Modified: Sunday, 25th November 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -38,9 +38,10 @@ public class InnoRectangle extends InteractiveRectangle {
     _yVitalSpace = Core.get().getImmutableRoom().getImmutableVitalSpace().getHeight();
   }
 
-  public InnoRectangle(InnoEngine engine, Pane pane, String id, double x, double y, double width, double height, double rotation, Color color) {
-    super(engine, pane, id, x, y, width, height, rotation, color);
-
+  public InnoRectangle(InnoEngine engine, Pane pane, String id, double x, double y, double width, double height, Rotate rotation, Color color) {
+    super(engine, pane, x, y, width, height, rotation, color);
+    
+    setID(id);
     _xVitalSpace = Core.get().getImmutableRoom().getImmutableVitalSpace().getWidth();
     _yVitalSpace = Core.get().getImmutableRoom().getImmutableVitalSpace().getHeight();
   }
@@ -98,7 +99,7 @@ public class InnoRectangle extends InteractiveRectangle {
   @Override
   public void onShapeChanged() {
     Core.get().updateSectionPositions(getID(), getPositionsInParent());
-    Core.get().setSectionRotation(getID(), getRotation());
+    Core.get().setSectionRotation(getID(), getRotation().getAngle());
     loadFromData(_group);
   }
 
@@ -168,7 +169,7 @@ public class InnoRectangle extends InteractiveRectangle {
       setPositions(parentToLocal(_sectionData.getPositions()));
     else
       setPositions(_sectionData.getPositions());
-    setRotation(_sectionData.getRotation());
+    setRotation(new Rotate(_sectionData.getRotation(), getX() + getWidth(), getY() + getHeight()));
   }
 
   private void loadFromData() {
@@ -211,14 +212,14 @@ public class InnoRectangle extends InteractiveRectangle {
       ld.getX(), ld.getY() };
   }
 
-  @Override
-  public void setRotation(double rotation) {
-    _rotation = rotation;
-    _group.getTransforms().clear();
-    // _group.getTransforms().add(new Rotate(rotation, getX() + getWidth(), getY() + getHeight()));
-    // Point2D pos =  new Point2D(getX(), getY());
-    // pos = _group.localToParent(pos.getX(), pos.getY());
-    // _group.getTransforms().add(new Rotate(rotation, pos.getX(), pos.getY()));
-    // _group.getTransforms().add(new Rotate(rotation, getMaxXProperty().get(), getMaxYProperty().get()));
-  }
+  // @Override
+  // public void setRotation(double rotation) {
+  //   _rotation = rotation;
+  //   _group.getTransforms().clear();
+  //   // _group.getTransforms().add(new Rotate(rotation, getX() + getWidth(), getY() + getHeight()));
+  //   // Point2D pos =  new Point2D(getX(), getY());
+  //   // pos = _group.localToParent(pos.getX(), pos.getY());
+  //   // _group.getTransforms().add(new Rotate(rotation, pos.getX(), pos.getY()));
+  //   // _group.getTransforms().add(new Rotate(rotation, getMaxXProperty().get(), getMaxYProperty().get()));
+  // }
 }

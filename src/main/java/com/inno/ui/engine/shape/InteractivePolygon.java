@@ -39,7 +39,8 @@ import javafx.scene.transform.Transform;
 public class InteractivePolygon extends InteractiveShape<Polygon> {
   private ArrayList<Circle> _points = new ArrayList<>();
   private ArrayList<Line> _lines = new ArrayList<>();
-  private ObservableList<CircleAnchor> _anchors = null;
+  private Color color = null;
+  
 
   public InteractivePolygon(Engine engine, Pane pane) {
     super(engine, pane);
@@ -125,6 +126,10 @@ public class InteractivePolygon extends InteractiveShape<Polygon> {
 
   double orgSceneX, orgSceneY;
   double orgTranslateX, orgTranslateY;
+
+  private void closeForm(double[] pos, double rotation, Color color) {
+
+  }
 
   private void closeForm() {
     _shape = new Polygon();

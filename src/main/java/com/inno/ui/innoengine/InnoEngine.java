@@ -2,7 +2,7 @@
  * File Created: Friday, 12th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Saturday, 24th November 2018
+ * Last Modified: Sunday, 25th November 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -25,6 +25,7 @@ import com.inno.ui.innoengine.shape.InnoRectangle;
 
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
+import javafx.scene.transform.Rotate;
 
 
 public class InnoEngine extends Engine {
@@ -43,9 +44,9 @@ public class InnoEngine extends Engine {
 
     Collection<? extends ImmutableSittingSection> sections = roomData.getImmutableSittingSections().values();
     for (ImmutableSittingSection section : sections) {
-       createRectangularSection(section.getIdSection(), section.getPositions()[0], section.getPositions()[1],
-                                  section.getPositions()[2] - section.getPositions()[0], section.getPositions()[7] - section.getPositions()[3],
-                                  section.getRotation(),
+      double[] pos = section.getPositions();
+      createRectangularSection(section.getIdSection(), pos[0], pos[1], pos[2] - pos[0], pos[7] - pos[1],
+                                  new Rotate(section.getRotation(), pos[0] + pos[2] - pos[0], pos[1] + pos[7] - pos[1]),
                                   Color.ROYALBLUE);
       }
     loadScene();
@@ -60,13 +61,13 @@ public class InnoEngine extends Engine {
     }
     
     InnoRectangle shape = new InnoRectangle(this, getPane(), "-1", dto.getPositions()[0], dto.getPositions()[1],
-      dto.getWidth(), dto.getHeight(), dto.getRotation(), Color.ROYALBLUE) {
+      dto.getWidth(), dto.getHeight(), new Rotate(dto.getRotation(), dto.getPositions()[0] + dto.getWidth(), dto.getPositions()[1] + dto.getHeight()), Color.ROYALBLUE) {
         @Override
         public void onShapeChanged() {
           Core.get().setScenePositions(getPositionsInParent());
           Core.get().setSceneWidth(this.getWidth());
           Core.get().setSceneHeight(this.getHeight());
-          Core.get().setSceneRotation(this.getRotation());
+          Core.get().setSceneRotation(this.getRotation().getAngle());
         }
 
         @Override
@@ -93,7 +94,7 @@ public class InnoEngine extends Engine {
     innoPoly.start();
   }
 
-  public InnoRectangle createRectangularSection(String id, double x, double y, double width, double height, double rotation, Color color) {
+  public InnoRectangle createRectangularSection(String id, double x, double y, double width, double height, Rotate rotation, Color color) {
     InnoRectangle section = new InnoRectangle(this, getPane(), id, x, y, width, height, rotation, color);
     section.loadData();
     addInteractiveShape(section);

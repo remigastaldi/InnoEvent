@@ -11,8 +11,6 @@
 
 package com.inno.ui.engine.shape;
 
-import java.util.ArrayList;
-
 import com.inno.ui.engine.CircleAnchor;
 import com.inno.ui.engine.CustomCursor;
 import com.inno.ui.engine.Engine;
@@ -25,17 +23,13 @@ import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.geometry.Point2D;
 import javafx.scene.Cursor;
-import javafx.scene.Group;
-import javafx.scene.Node;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.shape.Shape;
 import javafx.scene.transform.Rotate;
-import javafx.scene.transform.Transform;
 
 public class InteractiveRectangle extends InteractiveShape<Rectangle> {
   private boolean _collisionDetected = false;
@@ -46,13 +40,11 @@ public class InteractiveRectangle extends InteractiveShape<Rectangle> {
   public InteractiveRectangle(Engine engine, Pane pane) {
     super(engine, pane);
 
-    // setID(id);
   }
 
-  public InteractiveRectangle(Engine engine, Pane pane, String id, double x, double y, double width, double height, double rotation, Color color) {
+  public InteractiveRectangle(Engine engine, Pane pane, double x, double y, double width, double height, Rotate rotation, Color color) {
     super(engine, pane, rotation);
 
-    setID(id);
     closeForm(x, y, width, height, rotation, color);
   }
 
@@ -178,7 +170,6 @@ public class InteractiveRectangle extends InteractiveShape<Rectangle> {
     line.endXProperty().bind(second.centerXProperty());
     line.endYProperty().bind(second.centerYProperty());
 
-  Pane().getChildren().add(line); // @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
     addOutboundShape(line);
   }
 
@@ -250,7 +241,7 @@ public class InteractiveRectangle extends InteractiveShape<Rectangle> {
     return _shape.heightProperty();
   }
 
-  private void closeForm(double x, double y, double width, double height, double rotation, Color color) {
+  private void closeForm(double x, double y, double width, double height, Rotate rotation, Color color) {
     _shape = new Rectangle(x, y, width, height);
     _shape.setFill(color.deriveColor(1, 1, 0.8, 0.85));
 
@@ -268,20 +259,17 @@ public class InteractiveRectangle extends InteractiveShape<Rectangle> {
     
     completeShape();
     setColor(color);
-    setRotation(rotation, new Point2D( _shape.getX() + _shape.getWidth(), _shape.getY() + _shape.getHeight()));
+    setRotation(rotation);
 
-    // enableGlow();
     Engine().getMagnetismManager().registerInteractiveShape(this);
     
     enableSelection();
     select();
 
-    // Engine().selected(this);
-
     return;
   }
 
   private void closeForm(double x, double y) {
-    closeForm(x, y, 1, 1, 0, Color.ROYALBLUE);
+    closeForm(x, y, 1, 1, new Rotate(0,0,0), Color.ROYALBLUE);
   }
 }

@@ -42,7 +42,6 @@ public abstract class InteractiveShape<T extends Shape> {
   private String _id = null;
   private Rotate _currentRotation = null; 
   // TODO: pass to private
-  protected double _rotation = 0.0;
   protected T _shape = null;
   protected Group _group;
   protected ObservableList<CircleAnchor> _anchors = null;
@@ -53,10 +52,10 @@ public abstract class InteractiveShape<T extends Shape> {
     _pane = pane;
   }
 
-  InteractiveShape(Engine engine, Pane pane, double rotation) {
+  InteractiveShape(Engine engine, Pane pane, Rotate rotation) {
     _engine = engine;
     _pane = pane;
-    _rotation = rotation;
+    _currentRotation = rotation;
   }
 
   // Callback
@@ -130,26 +129,27 @@ public abstract class InteractiveShape<T extends Shape> {
     return _id;
   }
 
-  public void setRotation(double rotation) {
-    _rotation = rotation;
+  // public void setRotation(double rotation) {
+  //   _rotation = rotation;
+  // }
 
-  }
-
-  public Double getRotation() {
-    return _rotation;
-  }
-
+  
   public void setColor(Color color) {
+    _shape.setFill(color.deriveColor(1, 1, 0.8, 0.85));
     for (Shape shape : _outBoundShapes) {
       shape.setStroke(color);
     }
   }
-
-  public void setRotation(double rotation, Point2D rotationPoint) {
+  
+  public void setRotation(Rotate rotate) {
     if (_currentRotation != null)
-      _group.getTransforms().remove(_currentRotation);
-    _currentRotation =  new Rotate(rotation, rotationPoint.getX(), rotationPoint.getY());
+    _group.getTransforms().remove(_currentRotation);
+    _currentRotation = rotate;
     _group.getTransforms().add(_currentRotation);
+  }
+
+  public Rotate getRotation() {
+    return _currentRotation;
   }
 
   public void completeShape() {    

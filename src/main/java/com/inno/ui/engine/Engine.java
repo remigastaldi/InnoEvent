@@ -2,7 +2,7 @@
  * File Created: Friday, 12th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Saturday, 24th November 2018
+ * Last Modified: Sunday, 25th November 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -30,6 +30,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
+import javafx.scene.transform.Rotate;
 
 public class Engine {
   private Pane  _pane = null;
@@ -191,9 +192,9 @@ public class Engine {
     _shapes.add(shape);
   }
 
-  public InteractiveRectangle createInteractiveRectangle(String id, double x, double y, double width, double height, double rotation, Color color) {
+  public InteractiveRectangle createInteractiveRectangle(String id, double x, double y, double width, double height, Rotate rotation, Color color) {
     System.out.println(width + " : " + height);
-    InteractiveRectangle section = new InteractiveRectangle(this, getPane(), id, x, y, width, height, rotation, color);
+    InteractiveRectangle section = new InteractiveRectangle(this, getPane(), x, y, width, height, rotation, color);
     addInteractiveShape(section);
     deselect();
     return section;
