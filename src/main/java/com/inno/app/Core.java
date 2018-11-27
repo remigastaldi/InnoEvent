@@ -3,7 +3,7 @@
  * Author: GASTALDI Rémi
  * -----
  * Last Modified: Monday, 26th November 2018
- * Modified By: MAREL Maud
+ * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
  * <<licensetext>>
@@ -131,12 +131,15 @@ public class Core {
 
   // sittingSection Methods
   public ImmutableSittingSection createSittingSection(double[] positions, double rotation) {
-    // Point pt = new Point(getImmutableRoom().getImmutableScene().getCenter()[0],
-    // getImmutableRoom().getImmutableScene().getCenter()[1]);
-    // double[] newPos = Utils.rotateRectangle(pt, positions);
-    // double newRotation = Utils.calculateRectangleRotation(pt, positions);
-    // return this._room.createSittingSection(newPos, newRotation);
-    return this._room.createSittingSection(positions, rotation);
+    for (int i = 0; i < positions.length; i +=2) {
+      System.out.println("X: " + positions[i] + " Y: " + positions[i + 1]);
+    }
+    Point pt = new Point(getImmutableRoom().getImmutableScene().getCenter()[0],
+    getImmutableRoom().getImmutableScene().getCenter()[1]);
+    double[] newPos = Utils.rotateRectangle(pt, positions);
+    double newRotation = Utils.calculateRectangleRotation(pt, positions);
+    return this._room.createSittingSection(newPos, newRotation);
+    // return this._room.createSittingSection(positions, rotation);
   }
 
   public void setSittingSectionVitalSpace(String idSection, double width, double height) {
