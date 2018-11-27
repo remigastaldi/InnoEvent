@@ -94,7 +94,7 @@ public class InnoPolygon extends InteractivePolygon {
 
   @Override
   public void onShapeChanged() {
-    Core.get().updateSectionPositions(getID(), getPointsInParent());
+    Core.get().updateSectionPositions(getID(), Engine().pixelToMeter(getPointsInParent()));
     Core.get().setSectionRotation(getID(), getRotation().getAngle());
     loadFromData(_group);
   }
