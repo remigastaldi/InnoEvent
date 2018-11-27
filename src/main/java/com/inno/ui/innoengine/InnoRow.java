@@ -41,6 +41,7 @@ public class InnoRow {
 
     int i = 0;
     ArrayList<? extends ImmutableSeat> seats = row.getSeats();
+    _seats = new Circle[seats.size()];
     for (ImmutableSeat seat : seats) {
       Circle circle = new Circle(seat.getPosition()[0], seat.getPosition()[1], vitalSpace / 2, Color.RED);
 
