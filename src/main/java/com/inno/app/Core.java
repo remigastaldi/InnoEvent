@@ -3,7 +3,7 @@
  * Author: GASTALDI Rémi
  * -----
  * Last Modified: Tuesday, 27th November 2018
- * Modified By: HUBERT Léo
+ * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
  * <<licensetext>>
@@ -134,30 +134,25 @@ public class Core {
 
   // sittingSection Methods
   public ImmutableSittingSection createSittingSection(double[] positions, double rotation) {
-    // for (int i = 0; i < positions.length; i +=2) {
-    // System.out.println("X: " + positions[i] + " Y: " + positions[i + 1]);
-    // }
-    // Point pt = new Point(getImmutableRoom().getImmutableScene().getCenter()[0],
-    // getImmutableRoom().getImmutableScene().getCenter()[1]);
-    // double[] newPos = Utils.rotateRectangle(pt, positions);
-    // double newRotation = Utils.calculateRectangleRotation(pt, positions);
-    // ImmutableSittingSection section = _room.createSittingSection(newPos,
-    // newRotation);
+    for (int i = 0; i < positions.length; i +=2) {
+      System.out.println("X: " + positions[i] + " Y: " + positions[i + 1]);
+    }
+    Point pt = new Point(getImmutableRoom().getImmutableScene().getCenter()[0],
+      getImmutableRoom().getImmutableScene().getCenter()[1]);
+    double[] newPos = Utils.rotateRectangle(pt, positions);
+    double newRotation = Utils.calculateRectangleRotation(pt, positions);
+    ImmutableSittingSection section = _room.createSittingSection(newPos,
+      newRotation);
 
-    // System.out.println("After rotate calcul ==> ");
-    // for (int i = 0; i < newPos.length; i+= 2) {
-    // System.out.println("X: " + positions[i] + " Y: " + positions[i + 1]);
-    // }
+    System.out.println("After rotate calcul ==> ");
+    for (int i = 0; i < newPos.length; i+= 2) {
+    System.out.println("X: " + newPos[i] + " Y: " + newPos[i + 1]);
+    }
     // return this._room.createSittingSection(newPos, newRotation);
 
     // return this._room.createSittingSection(positions, rotation);
-    // Point pt = new Point(getImmutableRoom().getImmutableScene().getCenter()[0],
-    // getImmutableRoom().getImmutableScene().getCenter()[1]);
-    // double[] newPos = Utils.rotateRectangle(pt, positions);
-    // double newRotation = Utils.calculateRectangleRotation(pt, positions);
-    // return this._room.createSittingSection(newPos, newRotation);
-    ImmutableSittingSection section = this._room.createSittingSection(positions, rotation);
-    _pricing.createPlace(section.getIdSection(), "#ffffff", -1);
+    // ImmutableSittingSection section = this._room.createSittingSection(positions, rotation);
+    // _pricing.createPlace(section.getIdSection(), "#ffffff", -1);
     return section;
   }
 

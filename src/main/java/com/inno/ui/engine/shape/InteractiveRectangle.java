@@ -2,7 +2,7 @@
  * File Created: Monday, 15th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Monday, 26th November 2018
+ * Last Modified: Tuesday, 27th November 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -177,8 +177,8 @@ public class InteractiveRectangle extends InteractiveShape<Rectangle> {
   public void setPoints(double[] pos) {
     setX(pos[0]);
     setY(pos[1]);
-    setWidth(pos[2] - pos[0]);
-    setHeight(pos[7] - pos[3]);
+    setWidth(Math.hypot(pos[0] - pos[2], pos[1] - pos[3]));
+    setHeight(Math.hypot(pos[6] - pos[0], pos[7] - pos[1]));
   }
 
   public void setX(double x) {
@@ -243,7 +243,6 @@ public class InteractiveRectangle extends InteractiveShape<Rectangle> {
   }
 
   private void closeForm(double x, double y, double width, double height, Rotate rotation, Color color) {
-    // System.out.println("@@@@@@@@@@@@@@@");
     _shape = new Rectangle(x, y, width, height);
 
     EventHandler<MouseEvent> mouseMovedEvent = EventHandlers().remove(MouseEvent.MOUSE_MOVED);

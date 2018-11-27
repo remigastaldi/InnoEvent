@@ -2,7 +2,7 @@
  * File Created: Monday, 15th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Monday, 26th November 2018
+ * Last Modified: Tuesday, 27th November 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -168,11 +168,12 @@ public class InnoRectangle extends InteractiveRectangle {
   private void loadFromData(Group group) {
     setID(_sectionData.getIdSection());
 
+    double[] pos = getPoints();
     if (group != null)
-      setPoints(parentToLocal(_sectionData.getPositions()));
+      setPoints(parentToLocal(pos));
     else
-      setPoints(_sectionData.getPositions());
-    setRotation(new Rotate(_sectionData.getRotation(), getX() + getWidth(), getY() + getHeight()));
+      setPoints(pos);
+    setRotation(new Rotate(_sectionData.getRotation(), pos[4], pos[5]));
   }
 
   private void loadFromData() {

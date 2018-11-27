@@ -2,7 +2,7 @@
  * File Created: Thursday, 8th November 2018
  * Author: MAREL Maud
  * -----
- * Last Modified: Saturday, 24th November 2018
+ * Last Modified: Monday, 26th November 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 MAREL Maud
@@ -61,6 +61,6 @@ public class Scene implements ImmutableScene, Serializable {
   }
 
   public double[] getCenter() {
-    return new double[]{(_positions[2] - _positions[0]) / 2, (_positions[7] - _positions[3]) / 2};
+    return new double[]{(_positions[2] - _positions[0]) / 2, (_positions[7] - _positions[1]) / 2};
   }
 }
