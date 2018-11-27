@@ -3,7 +3,7 @@
  * Author: GASTALDI Rémi
  * -----
  * Last Modified: Monday, 26th November 2018
- * Modified By: GASTALDI Rémi
+ * Modified By: MAREL Maud
  * -----
  * Copyright - 2018 GASTALDI Rémi
  * <<licensetext>>
@@ -82,6 +82,12 @@ public class InnoEngine extends Engine {
           Core.get().setSceneWidth(this.getWidth());
           Core.get().setSceneHeight(this.getHeight());
           Core.get().setSceneRotation(this.getRotation().getAngle());
+        }
+
+        @Override
+        public boolean onSelected() {
+          _view.setSidebarFromFxmlFileName("sidebar_scene.fxml", this);
+          return true;
         }
 
         @Override

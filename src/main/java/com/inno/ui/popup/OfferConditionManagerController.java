@@ -1,11 +1,11 @@
 /*
  * File Created: Saturday, 27th October 2018
- * Author: HUBERT Léo
+ * Author: HUBERT L??o
  * -----
  * Last Modified: Saturday, 24th November 2018
- * Modified By: HUBERT Léo
+ * Modified By: HUBERT L??o
  * -----
- * Copyright - 2018 HUBERT Léo
+ * Copyright - 2018 HUBERT L??o
  * <<licensetext>>
  */
 
