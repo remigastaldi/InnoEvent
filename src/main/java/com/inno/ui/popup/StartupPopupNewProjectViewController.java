@@ -2,8 +2,8 @@
  * File Created: Friday, 12th October 2018
  * Author: HUBERT Léo
  * -----
- * Last Modified: Saturday, 24th November 2018
- * Modified By: HUBERT Léo
+ * Last Modified: Tuesday, 27th November 2018
+ * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 HUBERT Léo
  * <<licensetext>>
@@ -74,7 +74,7 @@ public class StartupPopupNewProjectViewController extends ViewController {
     System.out.println(roomWidth);
     double[] scenePos = { roomWidth / 2 - sceneWidth / 2, roomHeight / 2 - sceneHeight / 2,
         roomWidth / 2 + sceneWidth / 2, roomHeight / 2 - sceneHeight / 2, roomWidth / 2 + sceneWidth / 2,
-        roomHeight / 2 + roomHeight / 2, roomWidth / 2 - sceneWidth / 2, roomHeight / 2 + roomHeight / 2 };
+        roomHeight / 2 + sceneHeight / 2, roomWidth / 2 - sceneWidth / 2, roomHeight / 2 + sceneHeight / 2 };
 
     Core().createRoom(project_name_input.getText(), roomWidth, roomHeight, vitalSpaceWidth, vitalSpaceHeight);
     Core().createScene(sceneWidth, sceneHeight, scenePos);

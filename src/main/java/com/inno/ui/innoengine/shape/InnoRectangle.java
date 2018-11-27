@@ -82,9 +82,9 @@ public class InnoRectangle extends InteractiveRectangle {
       double[] pos = getPoints();
       double[] newPos = new double[] { pos[0] - getWidth(), pos[1] - getHeight(), pos[2] - getWidth(),
           pos[3] - getHeight(), pos[4] - getWidth(), pos[5] - getHeight(), pos[6] - getWidth(), pos[7] - getHeight() };
-      _sectionData = Core.get().createSittingSection(localToParent(newPos), 0);
+      _sectionData = Core.get().createSittingSection(localToParent(newPos), 0, true);
     } else
-      _sectionData = Core.get().createSittingSection(getPointsInParent(), 0);
+      _sectionData = Core.get().createSittingSection(getPointsInParent(), 0, true);
     loadFromData();
     InnoEngine engine = (InnoEngine) Engine();
     engine.getView().openPopup("new_sitting_rectangulary_section.fxml", this);
@@ -168,7 +168,8 @@ public class InnoRectangle extends InteractiveRectangle {
   private void loadFromData(Group group) {
     setID(_sectionData.getIdSection());
 
-    double[] pos = getPoints();
+    // double[] pos = getPoints();
+    double[] pos = _sectionData.getPositions();
     if (group != null)
       setPoints(parentToLocal(pos));
     else

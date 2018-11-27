@@ -2,8 +2,8 @@
  * File Created: Friday, 12th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Monday, 26th November 2018
- * Modified By: MAREL Maud
+ * Last Modified: Tuesday, 27th November 2018
+ * Modified By: GASTALDI Rémi
 
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -177,11 +177,11 @@ public class Room implements ImmutableRoom, Serializable {
     }
 
         //sittingSection Methods
-    public ImmutableSittingSection createSittingSection(double[] positions, double rotation) {
+    public ImmutableSittingSection createSittingSection(double[] positions, double rotation, boolean isRectangle) {
         String id = Integer.toString(this._sittingSections.size() + this._standingSections.size() + 1);
         double vitalSpaceHeight = this.getImmutableVitalSpace().getHeight();
         double vitalSpaceWidth = this.getImmutableVitalSpace().getWidth();
-        SittingSection sittingSection = new SittingSection(id, id, positions, rotation, vitalSpaceHeight, vitalSpaceWidth);
+        SittingSection sittingSection = new SittingSection(id, id, positions, rotation, vitalSpaceHeight, vitalSpaceWidth, isRectangle);
         this._sittingSections.put(id, sittingSection);
         return sittingSection;
     }

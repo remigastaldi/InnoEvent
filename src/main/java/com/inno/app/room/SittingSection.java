@@ -2,8 +2,8 @@
  * File Created: Tuesday, 13th November 2018
  * Author: MAREL Maud
  * -----
- * Last Modified: Monday, 26th November 2018
- * Modified By: MAREL Maud
+ * Last Modified: Tuesday, 27th November 2018
+ * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 MAREL Maud
  * <<licensetext>>
@@ -20,11 +20,13 @@ public class SittingSection extends Section implements ImmutableSection, Immutab
   private boolean _autoDistrib;
   private ArrayList<SittingRow> _rows = new ArrayList<SittingRow>();
   private VitalSpace _vitalSpace;
+  private boolean _isRectangle = false;
 
-  public SittingSection(String nameSection, String idSection, double[] points, double rotation, double vitalSpaceHeight, double vitalSpaceWidth) {
+  public SittingSection(String nameSection, String idSection, double[] points, double rotation, double vitalSpaceHeight, double vitalSpaceWidth, boolean isRectangle) {
     super(nameSection, idSection, points, rotation);
     this._autoDistrib = true;
     this._vitalSpace = new VitalSpace(vitalSpaceHeight, vitalSpaceWidth);
+    _isRectangle = isRectangle;
   }
 
   public void setAutoDistribution(boolean autoDistrib) {
@@ -83,5 +85,10 @@ public class SittingSection extends Section implements ImmutableSection, Immutab
   
   public ImmutableVitalSpace getImmutableVitalSpace() {
     return this._vitalSpace;
+  }
+
+  @Override
+  public boolean isRectangle() {
+    return _isRectangle;
   }
 }

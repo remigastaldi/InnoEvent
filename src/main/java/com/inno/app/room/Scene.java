@@ -2,7 +2,7 @@
  * File Created: Thursday, 8th November 2018
  * Author: MAREL Maud
  * -----
- * Last Modified: Monday, 26th November 2018
+ * Last Modified: Tuesday, 27th November 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 MAREL Maud
@@ -25,6 +25,10 @@ public class Scene implements ImmutableScene, Serializable {
     this._width = width;
     this._height = height;
     this._positions = positions;
+    for (int i = 0; i < _positions.length; i+=2) {
+      System.out.println(";;; " + _positions[i] + " : " + _positions[i + 1]);
+    }
+
     this._rotation = 0;
   }
 
@@ -61,6 +65,7 @@ public class Scene implements ImmutableScene, Serializable {
   }
 
   public double[] getCenter() {
-    return new double[]{(_positions[2] - _positions[0]) / 2, (_positions[7] - _positions[1]) / 2};
+    return new double[]{_positions[0] + Math.hypot(_positions[0] - _positions[2], _positions[1] - _positions[3]) / 2,
+        _positions[1] + Math.hypot(_positions[6] - _positions[0], _positions[7] - _positions[1]) / 2};
   }
 }

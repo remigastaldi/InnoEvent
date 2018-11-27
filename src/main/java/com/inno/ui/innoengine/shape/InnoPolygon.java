@@ -3,7 +3,7 @@
  * Author: GASTALDI Rémi
  * -----
  * Last Modified: Tuesday, 27th November 2018
- * Modified By: MAREL Maud
+ * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
  * <<licensetext>>
@@ -80,7 +80,7 @@ public class InnoPolygon extends InteractivePolygon {
   @Override
   public boolean onFormComplete() {
     if (mouseReleased) {
-      _sittingSectionData = Core.get().createSittingSection(localToParent(getPoints()), 0);
+      _sittingSectionData = Core.get().createSittingSection(localToParent(getPoints()), 0, false);
       loadFromData();
     }
     return true;

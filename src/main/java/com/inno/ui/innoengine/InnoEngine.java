@@ -2,8 +2,8 @@
  * File Created: Friday, 12th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Monday, 26th November 2018
- * Modified By: MAREL Maud
+ * Last Modified: Tuesday, 27th November 2018
+ * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
  * <<licensetext>>
@@ -53,13 +53,15 @@ public class InnoEngine extends Engine {
   	Collection<? extends ImmutableSittingSection> sections = roomData.getImmutableSittingSections().values();
     for (ImmutableSittingSection section : sections) {
       double[] pos = section.getPositions();
-      if (pos.length == 8  && pos[1] == pos[3] && pos[4] == pos[2] && pos[5] == pos[7] && pos[6] == pos[0]) {
+      Point2D center = getCenterOfPoints(pos);
+      if (section.isRectangle()) {
         System.out.println("Load rectangular section");
-        createRectangularSection(section.getIdSection(), pos[0], pos[1], pos[2] - pos[0], pos[7] - pos[1],
-            new Rotate(section.getRotation(), (pos[2] - pos[0]) / 2, (pos[7] - pos[1]) / 2), Color.ROYALBLUE);
+        double width = Math.hypot(pos[0] - pos[2], pos[1] - pos[3]);
+        double height = Math.hypot(pos[6] - pos[0], pos[7] - pos[1]);
+        createRectangularSection(section.getIdSection(), pos[0], pos[1], width, height,
+            new Rotate(section.getRotation(), center.getX(), center.getY()), Color.ROYALBLUE);
       } else {
         System.out.println("Load irregular section");
-        Point2D center = getCenterOfPoints(pos);
         createIrregularSection(section.getIdSection(), pos,
           new Rotate(section.getRotation(), center.getX(), center.getY()), Color.LIGHTSKYBLUE);
         }
