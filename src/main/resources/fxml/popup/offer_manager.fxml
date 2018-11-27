@@ -30,8 +30,9 @@
                   <TextField fx:id="offerReductionInput" layoutX="109.0" layoutY="100.0" onKeyReleased="#onTextChanged" prefHeight="29.0" prefWidth="156.0" AnchorPane.rightAnchor="17.0" />
                   <TextField fx:id="offerNameInput" layoutX="18.0" layoutY="41.0" onKeyReleased="#onTextChanged" prefHeight="45.0" prefWidth="256.0" promptText="Name" AnchorPane.leftAnchor="18.0" AnchorPane.rightAnchor="18.0" />
                   <Label layoutX="18.0" layoutY="106.0" text="Reduction" />
-                  <ListView fx:id="offerConditionList" layoutX="16.0" layoutY="142.0" prefHeight="213.0" prefWidth="250.0" />
+                  <ListView fx:id="offerConditionList" layoutX="16.0" layoutY="161.0" prefHeight="194.0" prefWidth="250.0" />
                   <Button layoutX="16.0" layoutY="355.0" mnemonicParsing="false" onAction="#createNewConditionAction" prefHeight="27.0" prefWidth="250.0" text="Create New Condition" />
+                  <Label layoutX="16.0" layoutY="141.0" text="Conditions" />
                </children>
             </AnchorPane>
          </children>
