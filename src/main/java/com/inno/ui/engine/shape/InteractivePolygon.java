@@ -114,7 +114,6 @@ public class InteractivePolygon extends InteractiveShape<Polygon> {
 
     line.setStrokeWidth(1.0);
     line.setStroke(Color.KHAKI);
-    line.setVisible(false);
     line.setStartX(startX);
     line.setStartY(startY);
     line.setEndX(endX);
@@ -148,7 +147,8 @@ public class InteractivePolygon extends InteractiveShape<Polygon> {
     ArrayList<Point2D> points = new ArrayList<>();
     for (int i = 0; i < pos.length; i+=2) {
       points.add(new Point2D(pos[i], pos[i + 1]));
-      Line line = createLine(pos[i], pos[i + 1], pos[i + 2 < pos.length ? i + 2 : 0], pos[i + 3 < pos.length ? i + 3 : 0]);
+      Line line = createLine(pos[i], pos[i + 1], pos[i + 2 < pos.length ? i + 2 : 0], pos[i + 3 < pos.length ? i + 3 : 1]);
+      _lines.add(line);
       Pane().getChildren().add(line);
       addOutboundShape(line);
     }

@@ -24,6 +24,7 @@ import com.inno.ui.innoengine.shape.InnoPolygon;
 import com.inno.ui.innoengine.shape.InnoRectangle;
 
 import javafx.geometry.Point2D;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.transform.Rotate;
@@ -124,5 +125,11 @@ public class InnoEngine extends Engine {
 
   public View getView() {
     return _view;
+  }
+
+  @Override
+  public boolean onBoardSelected(MouseEvent event) {
+    _view.setSidebarFromFxmlFileName("sidebar_room.fxml", this);
+    return true;
   }
 }
