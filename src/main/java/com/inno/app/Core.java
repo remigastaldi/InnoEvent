@@ -2,7 +2,7 @@
  * File Created: Tuesday, 9th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Monday, 26th November 2018
+ * Last Modified: Tuesday, 27th November 2018
  * Modified By: HUBERT Léo
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -269,6 +269,9 @@ public class Core {
     return _pricing.setOfferName(name, newName);
   }
 
+  public HashMap<String, ? extends PlaceRateData> getPrices() {
+    return _pricing.getPlaces();
+  }
   // Save Methods
 
   public void closeProject() {
