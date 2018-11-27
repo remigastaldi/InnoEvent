@@ -2,8 +2,8 @@
  * File Created: Sunday, 14th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Monday, 26th November 2018
- * Modified By: GASTALDI Rémi
+ * Last Modified: Tuesday, 27th November 2018
+ * Modified By: MAREL Maud
  * -----
  * Copyright - 2018 GASTALDI Rémi
  * <<licensetext>>
@@ -102,7 +102,7 @@ public class InnoPolygon extends InteractivePolygon {
   @Override
   public boolean onSelected() {
     InnoEngine engine = (InnoEngine) Engine();
-    engine.getView().setSidebarFromFxmlFileName("sidebar_irregular_sitting_section.fxml", this);
+    engine.getView().setSidebarFromFxmlFileName("sidebar_room.fxml", this);
     return true;
   }
 

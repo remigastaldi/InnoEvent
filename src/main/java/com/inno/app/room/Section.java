@@ -2,7 +2,7 @@
  * File Created: Tuesday, 13th November 2018
  * Author: MAREL Maud
  * -----
- * Last Modified: Monday, 26th November 2018
+ * Last Modified: Tuesday, 27th November 2018
  * Modified By: MAREL Maud
  * -----
  * Copyright - 2018 MAREL Maud
@@ -32,7 +32,6 @@ public class Section implements ImmutableSection, Serializable {
 
   public void setNameSection(String nameSection) {
     this._nameSection = nameSection;
-    System.out.println(this._idSection);
   }
 
   public void setElevation(double elevation) {
