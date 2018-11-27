@@ -47,7 +47,7 @@
                               <Tooltip text="Redo" />
                            </tooltip>
                         </Button>
-                        <Button maxHeight="25.0" maxWidth="25.0" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="25.0" prefWidth="25.0" ButtonBar.buttonData="LEFT">
+                        <Button maxHeight="25.0" maxWidth="25.0" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#menuSaveAction" prefHeight="25.0" prefWidth="25.0" ButtonBar.buttonData="LEFT">
                            <graphic>
                               <ImageView fitHeight="15.0" fitWidth="15.0" preserveRatio="true">
                                  <image>
@@ -105,7 +105,7 @@
                            <tooltip>
                               <Tooltip text="New Irregular Section" />
                            </tooltip></Button>
-                        <Button maxHeight="26.0" maxWidth="25.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="25.0" ButtonBar.buttonData="LEFT">
+                        <Button maxHeight="26.0" maxWidth="25.0" mnemonicParsing="false" onAction="#offerManagerAction" prefHeight="25.0" prefWidth="25.0" ButtonBar.buttonData="LEFT">
                            <graphic>
                               <ImageView fitHeight="15.0" fitWidth="15.0" preserveRatio="true">
                                  <image>
@@ -129,7 +129,7 @@
                               <Tooltip text="Magnet" />
                            </tooltip>
                         </Button>
-                        <Button mnemonicParsing="false" text="HideSidebar" />
+                        <Button mnemonicParsing="false" onAction="#toggleSidebarAction" text="ToggleSidebar" />
                      </buttons>
                      <padding>
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
@@ -181,7 +181,7 @@
                 </MenuBar>
                </children>
             </AnchorPane>
-            <SplitPane dividerPositions="0.8450704225352113" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <SplitPane fx:id="mainSplitPane" dividerPositions="0.8450704225352113" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
               <items>
                 <AnchorPane fx:id="anchor_canvas">
                      <children>

@@ -2,7 +2,7 @@
  * File Created: Wednesday, 21st November 2018
  * Author: HUBERT Léo
  * -----
- * Last Modified: Thursday, 22nd November 2018
+ * Last Modified: Tuesday, 27th November 2018
  * Modified By: HUBERT Léo
  * -----
  * Copyright - 2018 HUBERT Léo
@@ -24,7 +24,9 @@ public class Validator {
     }
 
     public static boolean validate(String var, String validators) {
-
+        if (var == null || validators == null) {
+            return false;
+        }
         if (validators.contains("required") || var.trim().length() != 0) {
             HashMap<String, ValidatorFunction<String, String, Boolean>> checkers = new LinkedHashMap<>();
             checkers.put("required", (v, n) -> {
@@ -101,7 +103,7 @@ public class Validator {
 
     public static boolean isDouble(String var) {
         try {
-            double d = Double.parseDouble(var);
+            Double.parseDouble(var);
         } catch (NumberFormatException | NullPointerException nfe) {
             System.out.println("Error cast to double  => " + nfe.getMessage());
             return false;
@@ -111,7 +113,7 @@ public class Validator {
 
     public static boolean isInteger(String var) {
         try {
-            int d = Integer.parseInt(var);
+            Integer.parseInt(var);
         } catch (NumberFormatException | NullPointerException nfe) {
             System.out.println("Error cast to integer  => " + nfe.getMessage());
             return false;
