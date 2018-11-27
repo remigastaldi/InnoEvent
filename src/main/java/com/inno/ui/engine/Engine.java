@@ -44,6 +44,8 @@ public class Engine {
 
   private ScrollPane scrollPane;
 
+  public boolean onBoardSelected(MouseEvent event) { return true; };
+
   public Engine(StackPane stackPane, double width, double height) {
     _pane = new Pane();
     _magenetismManager = new MagnetismManager(this);
@@ -103,6 +105,7 @@ public class Engine {
 
     EventHandler<MouseEvent> mouseClick = event -> {
       System.out.println("PANE");
+      onBoardSelected(event);
       if (_selectedShape != null)
         deselect();
     };

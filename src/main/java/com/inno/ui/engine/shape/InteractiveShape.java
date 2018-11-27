@@ -110,11 +110,11 @@ public abstract class InteractiveShape<T extends Shape> {
     borderGlow.setColor(Color.GOLD);
     borderGlow.setWidth(depth);
     borderGlow.setHeight(depth);
-    _shape.setEffect(borderGlow);
+    _group.setEffect(borderGlow);
   }
 
   public void disableGlow() {
-    _shape.setEffect(null);
+    _group.setEffect(null);
   }
 
   public Group getGroup() {
