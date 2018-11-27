@@ -87,6 +87,10 @@ public abstract class InteractiveShape<T extends Shape> {
     return _selectShapes;
   }
 
+  public ArrayList<Shape> getAdditionalShapes() {
+    return _additionalShapes;
+  }
+
   protected Pane Pane() {
     return _pane;
   }
@@ -175,6 +179,9 @@ public abstract class InteractiveShape<T extends Shape> {
       Pane().getChildren().remove(selectShape);
       nodes.add(selectShape);
     }
+    for (Shape additionalShape : _additionalShapes) {
+      nodes.add(additionalShape);
+    }
     _group = new Group(nodes);
     Pane().getChildren().add(_group);
     _engine.addInteractiveShape(this);
@@ -183,13 +190,38 @@ public abstract class InteractiveShape<T extends Shape> {
       anchor.setInteractiveShape(this);
     }
 
-    for (Shape additionalShape : _additionalShapes) {
-      nodes.add(additionalShape);
-    }
     onFormComplete();
   }
 
   public void refreshGroup() {
+    ObservableList<Transform> transforms = _group.getTransforms();
+    // double rotate = _group.getRotate();
+
+    ArrayList<Node> nodes = new ArrayList<>();
+    nodes.add(_shape);
+    for (Shape outBound : _outBoundShapes) {
+      nodes.add(outBound);
+    }
+    for (Shape selectShape : _selectShapes) {
+      nodes.add(selectShape);
+    }
+    for (Shape additionalShape : _additionalShapes) {
+      nodes.add(additionalShape);
+    }
+    Pane().getChildren().remove(_group);
+    _group = new Group(nodes);
+    Pane().getChildren().add(_group);
+    _group.getTransforms().addAll(transforms);
+
+    _group.setOnMousePressed(mouseEvent -> {
+      select();
+      Point2D p = Pane().sceneToLocal(mouseEvent.getSceneX(), mouseEvent.getSceneY());
+
+      orgSceneX = p.getX();
+      orgSceneY = p.getY();
+      orgTranslateX = ((Group) (_group)).getTranslateX();
+      orgTranslateY = ((Group) (_group)).getTranslateY();
+    });
 
   }
 
@@ -206,7 +238,6 @@ public abstract class InteractiveShape<T extends Shape> {
 
     EventHandler<MouseEvent> mouseDragged = mouseEvent -> {
       if (onMouseOnDragDetected(mouseEvent)) {
-        // select();
         // TODO: Magnetism between anchors and lines
 
         // Rectangle shape = new Rectangle(_shape.getX(), _shape.getY(),
@@ -258,12 +289,15 @@ public abstract class InteractiveShape<T extends Shape> {
   public void  select() {
     if (Engine().getSelectedShape() != this) {
       onSelected();
-      enableGlow();
       _shape.toFront();
       for (Shape selectShape : getSelectShapes()) {
         selectShape.toFront();
         selectShape.setVisible(true);
       }
+      for (Shape additionalShape : _additionalShapes) {
+        additionalShape.toFront();
+      }
+      enableGlow();
       Engine().selected(this);
       System.out.println("SHAPE" + this + " SELECTED");
     }

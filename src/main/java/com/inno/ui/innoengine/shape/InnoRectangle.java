@@ -99,6 +99,10 @@ public class InnoRectangle extends InteractiveRectangle {
 
   @Override
   public void onShapeChanged() {
+    double[] test = Engine().pixelToMeter(getPointsInParent());
+    for (int i = 0; i < test.length; i+=2) {
+      System.out.println(test[i] + " " + test[i + 1 ]);
+    }
     Core.get().updateSectionPositions(getID(), Engine().pixelToMeter(getPointsInParent()));
     Core.get().setSectionRotation(getID(), getRotation().getAngle());
     loadFromData(_group);
@@ -175,6 +179,10 @@ public class InnoRectangle extends InteractiveRectangle {
 
     // double[] pos = getPoints();
     double[] pos = Engine().meterToPixel(_sectionData.getPositions());
+    for (int i = 0; i < pos.length; i+=2) {
+      System.out.println(pos[i] + " " + pos[i + 1 ]);
+    }
+
     if (group != null)
       setPoints(parentToLocal(pos));
     else
@@ -184,6 +192,7 @@ public class InnoRectangle extends InteractiveRectangle {
     _rows = new InnoRow[rows.size()];
 
     int i = 0;
+    getAdditionalShapes().clear();
     for (ImmutableSittingRow row : rows) {
       InnoEngine engine = (InnoEngine) Engine();
       _rows[i] = new InnoRow(engine, this, row, Engine().meterToPixel(_sectionData.getImmutableVitalSpace().getHeight()));
@@ -191,6 +200,7 @@ public class InnoRectangle extends InteractiveRectangle {
     }
 
     setRotation(new Rotate(_sectionData.getRotation(), pos[4], pos[5]));
+    // refreshGroup();
   }
 
   private void loadFromData() {

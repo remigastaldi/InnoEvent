@@ -31,10 +31,10 @@ public class InnoRow {
   public InnoRow(InnoEngine engine, InteractiveShape<? extends Shape> shape, ImmutableSittingRow row, double vitalSpace) {
     _engine = engine;
   
-    double[] start = row.getPosStartRow();
-    double[] end = row.getPosEndRow();
+    double[] start =  _engine.meterToPixel(row.getPosStartRow());
+    double[] end = _engine.meterToPixel(row.getPosEndRow());
     _line = new Line(start[0], start[1], end[0], end[1]);
-    _line.setStroke(Color.DARKVIOLET);
+    _line.setStroke(Color.DARKBLUE);
     _line.setStrokeWidth(vitalSpace / 2);
 
     shape.addAdditionalShape(_line);
@@ -43,11 +43,11 @@ public class InnoRow {
     ArrayList<? extends ImmutableSeat> seats = row.getSeats();
     _seats = new Circle[seats.size()];
     for (ImmutableSeat seat : seats) {
-      Circle circle = new Circle(seat.getPosition()[0], seat.getPosition()[1], vitalSpace / 2, Color.RED);
+      Circle circle = new Circle(_engine.meterToPixel(seat.getPosition()[0]), _engine.meterToPixel(seat.getPosition()[1]), vitalSpace / 4, Color.ORANGE);
 
       _seats[i] = circle;
       shape.addAdditionalShape(circle);
       ++i;
-  }
+    }
   }
 }

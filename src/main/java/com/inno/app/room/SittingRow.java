@@ -2,8 +2,8 @@
  * File Created: Tuesday, 13th November 2018
  * Author: MAREL Maud
  * -----
- * Last Modified: Saturday, 24th November 2018
- * Modified By: MAREL Maud
+ * Last Modified: Tuesday, 27th November 2018
+ * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 MAREL Maud
  * <<licensetext>>
@@ -11,10 +11,12 @@
 
 package com.inno.app.room;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class SittingRow implements ImmutableSittingRow {
+public class SittingRow implements Serializable, ImmutableSittingRow {
 
+  private static final long serialVersionUID = 1L;
   private String _idRow = null;
   private double[] _posStart;
   private double[] _posEnd;
