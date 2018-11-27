@@ -3,7 +3,7 @@
  * Author: GASTALDI Rémi
  * -----
  * Last Modified: Monday, 26th November 2018
- * Modified By: GASTALDI Rémi
+ * Modified By: HUBERT Léo
  * -----
  * Copyright - 2018 GASTALDI Rémi
  * <<licensetext>>
@@ -12,12 +12,15 @@
 package com.inno.app;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import com.inno.app.InnoSave;
 import com.inno.app.room.*;
 import com.inno.service.Point;
 import com.inno.service.Utils;
 import com.inno.service.pricing.OfferData;
+import com.inno.service.pricing.PlaceRate;
+import com.inno.service.pricing.PlaceRateData;
 import com.inno.service.pricing.Pricing;
 
 public class Core {
@@ -131,21 +134,73 @@ public class Core {
 
   // sittingSection Methods
   public ImmutableSittingSection createSittingSection(double[] positions, double rotation) {
-    for (int i = 0; i < positions.length; i +=2) {
-      System.out.println("X: " + positions[i] + " Y: " + positions[i + 1]);
-    }
-    Point pt = new Point(getImmutableRoom().getImmutableScene().getCenter()[0],
-    getImmutableRoom().getImmutableScene().getCenter()[1]);
-    double[] newPos = Utils.rotateRectangle(pt, positions);
-    double newRotation = Utils.calculateRectangleRotation(pt, positions);
-    ImmutableSittingSection section = _room.createSittingSection(newPos, newRotation);
+    // for (int i = 0; i < positions.length; i +=2) {
+    // System.out.println("X: " + positions[i] + " Y: " + positions[i + 1]);
+    // }
+    // Point pt = new Point(getImmutableRoom().getImmutableScene().getCenter()[0],
+    // getImmutableRoom().getImmutableScene().getCenter()[1]);
+    // double[] newPos = Utils.rotateRectangle(pt, positions);
+    // double newRotation = Utils.calculateRectangleRotation(pt, positions);
+    // ImmutableSittingSection section = _room.createSittingSection(newPos,
+    // newRotation);
 
-    System.out.println("After rotate calcul ==> ");
-    for (int i = 0; i < newPos.length; i+= 2) {
-      System.out.println("X: " + positions[i] + " Y: " + positions[i + 1]);
-    }
-    return this._room.createSittingSection(newPos, newRotation);
+    // System.out.println("After rotate calcul ==> ");
+    // for (int i = 0; i < newPos.length; i+= 2) {
+    // System.out.println("X: " + positions[i] + " Y: " + positions[i + 1]);
+    // }
+    // return this._room.createSittingSection(newPos, newRotation);
+
     // return this._room.createSittingSection(positions, rotation);
+    // Point pt = new Point(getImmutableRoom().getImmutableScene().getCenter()[0],
+    // getImmutableRoom().getImmutableScene().getCenter()[1]);
+    // double[] newPos = Utils.rotateRectangle(pt, positions);
+    // double newRotation = Utils.calculateRectangleRotation(pt, positions);
+    // return this._room.createSittingSection(newPos, newRotation);
+    ImmutableSittingSection section = this._room.createSittingSection(positions, rotation);
+    _pricing.createPlace(section.getIdSection(), "#ffffff", -1);
+    return section;
+  }
+
+  public void setSectionPrice(String idSection, double price) {
+    HashMap<String, ? extends PlaceRateData> places = _pricing.getPlaces(idSection);
+
+    for (Map.Entry<String, ? extends PlaceRateData> entry : places.entrySet()) {
+      String key = entry.getKey();
+      _pricing.setPlaceRatePrice(key, price);
+    }
+  }
+
+  public PlaceRateData getSectionPrice(String idSection) {
+    return _pricing.getPlaceRate(idSection);
+  }
+
+  public void setRowPrice(String idSection, String idRow, double price) {
+    HashMap<String, ? extends PlaceRateData> places = _pricing.getPlaces(idSection + "|" + idRow);
+    _pricing.setPlaceRatePrice(idSection, -1);
+
+    for (Map.Entry<String, ? extends PlaceRateData> entry : places.entrySet()) {
+      String key = entry.getKey();
+      _pricing.setPlaceRatePrice(key, price);
+    }
+  }
+
+  public PlaceRateData getRowPrice(String idSection, String idRow) {
+    return _pricing.getPlaceRate(idSection + "|" + idRow);
+  }
+
+  public void setSeatPrice(String idSection, String idRow, String idSeat, double price) {
+    HashMap<String, ? extends PlaceRateData> places = _pricing.getPlaces(idSection + "|" + idRow + "|" + idSeat);
+    _pricing.setPlaceRatePrice(idSection, -1);
+    _pricing.setPlaceRatePrice(idSection + "|" + idRow, -1);
+
+    for (Map.Entry<String, ? extends PlaceRateData> entry : places.entrySet()) {
+      String key = entry.getKey();
+      _pricing.setPlaceRatePrice(key, price);
+    }
+  }
+
+  public PlaceRateData getSeatPrice(String idSection, String idRow, String idSeat) {
+    return _pricing.getPlaceRate(idSection + "|" + idRow + "|" + idSeat);
   }
 
   public void setSittingSectionVitalSpace(String idSection, double width, double height) {
@@ -157,7 +212,9 @@ public class Core {
   }
 
   public ImmutableSittingRow createSittingRow(String idSection, double[] posStart, double[] posEnd) {
-    return this._room.createSittingRow(idSection, posStart, posEnd);
+    ImmutableSittingRow row = this._room.createSittingRow(idSection, posStart, posEnd);
+    _pricing.createPlace(idSection + "|" + row.getIdRow(), "#ffffff", -1);
+    return row;
   }
 
   public void deleteSittingRow(String idSection, String idRow) {
@@ -168,8 +225,10 @@ public class Core {
     this._room.clearAllSittingRows(idSection);
   }
 
-  public ImmutableSeat createSeat(String sectionId, String idRow, double[] pos) {
-    return this._room.createSeat(sectionId, idRow, pos);
+  public ImmutableSeat createSeat(String idSection, String idRow, double[] pos) {
+    ImmutableSeat seat = this._room.createSeat(idSection, idRow, pos);
+    _pricing.createPlace(idSection + "|" + idRow + "|" + seat.getId(), "#ffffff", -1);
+    return seat;
   }
 
   // SAVE
@@ -189,18 +248,13 @@ public class Core {
     _room = (Room) save.getRoomData();
   }
 
+  // Pricing && Offers
   public HashMap<String, ? extends OfferData> getOffers() {
     return _pricing.getOffers();
   }
 
   public OfferData createOffer(String name, String description, double reduction, String reductionType) {
     return _pricing.createOffer(name, description, reduction, reductionType);
-  }
-
-  public void closeProject() {
-    _saveService = new InnoSave();
-    _pricing = new Pricing();
-    _room = null;
   }
 
   public OfferData getOffer(String name) {
@@ -216,4 +270,10 @@ public class Core {
   }
 
   // Save Methods
+
+  public void closeProject() {
+    _saveService = new InnoSave();
+    _pricing = new Pricing();
+    _room = null;
+  }
 };

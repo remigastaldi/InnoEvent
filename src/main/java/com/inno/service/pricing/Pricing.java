@@ -42,6 +42,19 @@ public class Pricing {
     return this._places;
   }
 
+  public HashMap<String, ? extends PlaceRateData> getPlaces(String search) {
+    HashMap<String, PlaceRate> places = new HashMap<>();
+
+    for (Map.Entry<String, PlaceRate> entry : _places.entrySet()) {
+      String key = entry.getKey();
+      PlaceRate place = entry.getValue();
+      if (key.startsWith(search)) {
+        places.put(key, place);
+      }
+    }
+    return places;
+  }
+
   public HashMap<String, ? extends OfferData> getOffers() {
     return this._offers;
   }
@@ -207,7 +220,7 @@ public class Pricing {
 
   public OfferData setOfferName(String name, String newName) {
     Offer offer = this._offers.remove(name);
-    
+
     if (offer == null) {
       return null;
     }
