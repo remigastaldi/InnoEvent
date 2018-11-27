@@ -2,7 +2,7 @@
  * File Created: Sunday, 14th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Monday, 26th November 2018
+ * Last Modified: Tuesday, 27th November 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -32,6 +32,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Shape;
 import javafx.scene.transform.Rotate;
+import javafx.scene.transform.Transform;
 
 public abstract class InteractiveShape<T extends Shape> {
   private Engine  _engine = null;
@@ -39,6 +40,7 @@ public abstract class InteractiveShape<T extends Shape> {
   private HashMap<EventType<MouseEvent>, EventHandler<MouseEvent>> _eventHandlers = new HashMap<>();
   private ArrayList<Shape> _outBoundShapes = new ArrayList<>();
   private ArrayList<Shape> _selectShapes = new ArrayList<>();
+  private ArrayList<Shape> _additionalShapes = new ArrayList<>();
   private String _id = null;
   private Rotate _currentRotation = null; 
   // TODO: pass to private
@@ -129,7 +131,9 @@ public abstract class InteractiveShape<T extends Shape> {
     return _id;
   }
 
-  
+  public void addAdditionalShape(Shape shape) {
+    _additionalShapes.add(shape);
+  }
   
   public void setColor(Color color) {
     _shape.setFill(color.deriveColor(1, 1, 0.8, 0.85));
@@ -178,7 +182,15 @@ public abstract class InteractiveShape<T extends Shape> {
     for (CircleAnchor anchor : _anchors) {
       anchor.setInteractiveShape(this);
     }
+
+    for (Shape additionalShape : _additionalShapes) {
+      nodes.add(additionalShape);
+    }
     onFormComplete();
+  }
+
+  public void refreshGroup() {
+
   }
 
   double orgSceneX, orgSceneY;

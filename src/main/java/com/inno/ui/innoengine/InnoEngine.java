@@ -27,6 +27,7 @@ import javafx.geometry.Point2D;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.scene.transform.Rotate;
 
 
@@ -39,7 +40,7 @@ public class InnoEngine extends Engine {
 
     ImmutableRoom roomData = Core.get().getImmutableRoom();
 
-    getPane().setPrefSize(roomData.getWidth(), roomData.getHeight());
+    getPane().setPrefSize(meterToPixel(roomData.getWidth()), meterToPixel(roomData.getHeight()));
     
     setBackgroundColor(Color.valueOf("#282C34"));
     activateGrid(true);
@@ -52,7 +53,7 @@ public class InnoEngine extends Engine {
   private void loadSections(ImmutableRoom roomData) {
   	Collection<? extends ImmutableSittingSection> sections = roomData.getImmutableSittingSections().values();
     for (ImmutableSittingSection section : sections) {
-      double[] pos = section.getPositions();
+      double[] pos = meterToPixel(section.getPositions());
       Point2D center = getCenterOfPoints(pos);
       if (section.isRectangle()) {
         System.out.println("Load rectangular section");
@@ -76,13 +77,14 @@ public class InnoEngine extends Engine {
       return;
     }
     
-    InnoRectangle shape = new InnoRectangle(this, getPane(), "-1", dto.getPositions()[0], dto.getPositions()[1],
-      dto.getWidth(), dto.getHeight(), new Rotate(dto.getRotation(), dto.getPositions()[0] + dto.getWidth(), dto.getPositions()[1] + dto.getHeight()), Color.ROYALBLUE) {
+    double[] pos = meterToPixel(dto.getPositions());
+    InnoRectangle shape = new InnoRectangle(this, getPane(), "-1", pos[0], pos[1],
+      meterToPixel(dto.getWidth()), meterToPixel(dto.getHeight()), new Rotate(dto.getRotation(), pos[0] + meterToPixel(dto.getWidth()), pos[1] + meterToPixel(dto.getHeight())), Color.ROYALBLUE) {
         @Override
         public void onShapeChanged() {
-          Core.get().setScenePositions(getPointsInParent());
-          Core.get().setSceneWidth(this.getWidth());
-          Core.get().setSceneHeight(this.getHeight());
+          Core.get().setScenePositions(pixelToMeter(getPointsInParent()));
+          Core.get().setSceneWidth(pixelToMeter(this.getWidth()));
+          Core.get().setSceneHeight(pixelToMeter(this.getHeight()));
           Core.get().setSceneRotation(this.getRotation().getAngle());
         }
 

@@ -11,10 +11,14 @@
 
 package com.inno.ui.innoengine.shape;
 
+import java.util.ArrayList;
+
 import com.inno.app.Core;
+import com.inno.app.room.ImmutableSittingRow;
 import com.inno.app.room.ImmutableSittingSection;
 import com.inno.ui.engine.shape.InteractiveRectangle;
 import com.inno.ui.innoengine.InnoEngine;
+import com.inno.ui.innoengine.InnoRow;
 
 import javafx.geometry.Point2D;
 import javafx.scene.Group;
@@ -27,6 +31,7 @@ public class InnoRectangle extends InteractiveRectangle {
   private double _xVitalSpace = 0.0;
   private double _yVitalSpace = 0.0;
   private ImmutableSittingSection _sectionData = null;
+  private InnoRow[] _rows = null;
 
   private boolean _grabbed = false;
 
@@ -174,6 +179,17 @@ public class InnoRectangle extends InteractiveRectangle {
       setPoints(parentToLocal(pos));
     else
       setPoints(pos);
+
+    ArrayList<? extends ImmutableSittingRow> rows =  _sectionData.getImmutableSittingRows();
+    _rows = new InnoRow[rows.size()];
+
+    int i = 0;
+    for (ImmutableSittingRow row : rows) {
+      InnoEngine engine = (InnoEngine) Engine();
+      _rows[i] = new InnoRow(engine, this, row, _sectionData.getImmutableVitalSpace().getHeight());
+      ++i;
+    }
+
     setRotation(new Rotate(_sectionData.getRotation(), pos[4], pos[5]));
   }
 
