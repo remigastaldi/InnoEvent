@@ -194,17 +194,17 @@ public class Core {
     _room = null;
   }
 
-public OfferData getOffer(String name) {
-	return _pricing.getOffer(name);
-}
+  public OfferData getOffer(String name) {
+    return _pricing.getOffer(name);
+  }
 
-public void setOfferReduction(String name, double reduction) {
-  _pricing.setOfferReduction(name, reduction);
-}
+  public void setOfferReduction(String name, double reduction) {
+    _pricing.setOfferReduction(name, reduction);
+  }
 
-public OfferData setOfferName(String name, String newName) {
-  return _pricing.setOfferName(name, newName);
-}
+  public OfferData setOfferName(String name, String newName) {
+    return _pricing.setOfferName(name, newName);
+  }
 
   // Save Methods
 };

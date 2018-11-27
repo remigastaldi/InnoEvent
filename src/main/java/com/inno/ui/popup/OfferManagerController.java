@@ -51,6 +51,8 @@ public class OfferManagerController extends ViewController {
         Core().createOffer("toto1", "Je sais pas encore", 50, "PERCENTAGE");
         Core().createOffer("toto2", "Je sais pas encore", 50, "PERCENTAGE");
         Core().createOffer("toto4", "Je sais pas encore", 50, "PERCENTAGE");
+
+        // Core().createOfferCondition();
     }
 
     private void setSelectedOffer(OfferData offer) {
