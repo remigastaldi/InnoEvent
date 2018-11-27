@@ -1,2 +1,6 @@
 Manifest-Version: 1.0
+Class-Path: guava-23.0.jar jsr305-1.3.9.jar error_prone_annotations-2.
+ 0.18.jar j2objc-annotations-1.1.jar animal-sniffer-annotations-1.14.j
+ ar
+Main-Class: com.inno.ui.Main
 
