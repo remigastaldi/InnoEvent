@@ -3,7 +3,7 @@
  * Author: GASTALDI Rémi
  * -----
  * Last Modified: Tuesday, 27th November 2018
- * Modified By: GASTALDI Rémi
+ * Modified By: HUBERT Léo
  * -----
  * Copyright - 2018 GASTALDI Rémi
  * <<licensetext>>
@@ -135,15 +135,15 @@ public class Core {
   // sittingSection Methods
   public ImmutableSittingSection createSittingSection(double[] positions, double rotation, boolean isRectangle) {
     // for (int i = 0; i < positions.length; i +=2) {
-    //   System.out.println("X: " + positions[i] + " Y: " + positions[i + 1]);
+    // System.out.println("X: " + positions[i] + " Y: " + positions[i + 1]);
     // }
     // Point pt = new Point(getImmutableRoom().getImmutableScene().getCenter()[0],
-    //   getImmutableRoom().getImmutableScene().getCenter()[1]);
-    //   System.out.println("SCENE " + pt.get_x() + " " + pt.get_y());
+    // getImmutableRoom().getImmutableScene().getCenter()[1]);
+    // System.out.println("SCENE " + pt.get_x() + " " + pt.get_y());
     // double[] newPos = Utils.rotateRectangle(pt, positions);
     // double newRotation = Utils.calculateRectangleRotation(pt, positions);
     // ImmutableSittingSection section = _room.createSittingSection(newPos,
-    //   newRotation, isRectangle);
+    // newRotation, isRectangle);
 
     // System.out.println("============ " + newRotation);
     // System.out.println("After rotate calcul ==> ");
@@ -151,11 +151,38 @@ public class Core {
     // System.out.println("X: " + newPos[i] + " Y: " + newPos[i + 1]);
     // }
 
+    ImmutableSittingSection section = this._room.createSittingSection(positions, rotation, isRectangle);
+    _pricing.createPlace(section.getIdSection(), "#ffffff", -1);
+    if (isRectangle == true) {
+      double xRow = positions[0];
+      double yRow = positions[1];
+      double xSeat = positions[0];
+      double ySeat = positions[1];
+      double vitalSpaceWidth = section.getImmutableVitalSpace().getWidth();
+      double vitalSpaceHeight = section.getImmutableVitalSpace().getHeight();
 
-    return this._room.createSittingSection(positions, rotation, isRectangle);
-    // ImmutableSittingSection section = this._room.createSittingSection(positions, rotation);
-    // _pricing.createPlace(section.getIdSection(), "#ffffff", -1);
-    // return section;
+      System.out.println(Math.hypot(positions[0] - positions[2], positions[1] - positions[3]));
+      System.out.println(Math.hypot(positions[6] - positions[0], positions[7] - positions[1]));
+
+      while (yRow < positions[7]) {
+        double[] posStart = { xRow, yRow + (vitalSpaceHeight / 2) };
+        double[] posEnd = { positions[2], yRow + (vitalSpaceHeight / 2) };
+        ImmutableSittingRow row = this._room.createSittingRow(section.getIdSection(), posStart, posEnd);
+        System.out.println("Create row ==> start " + xRow + " ////// end " + yRow);
+
+        while (xSeat < positions[2]) {
+          double[] seatPos = { xSeat + (vitalSpaceWidth / 2), ySeat + (vitalSpaceHeight / 2) };
+          this._room.createSeat(section.getIdSection(), row.getIdRow(), seatPos);
+          System.out.println("Create seat ==> posX " + xSeat + " ////// posY " + ySeat);
+          xSeat += vitalSpaceWidth;
+        }
+        yRow += vitalSpaceHeight;
+        xSeat = positions[0];
+        ySeat += vitalSpaceHeight;
+      }
+
+    }
+    return section;
   }
 
   public void setSectionPrice(String idSection, double price) {
