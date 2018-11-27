@@ -138,6 +138,12 @@ public class Core {
     getImmutableRoom().getImmutableScene().getCenter()[1]);
     double[] newPos = Utils.rotateRectangle(pt, positions);
     double newRotation = Utils.calculateRectangleRotation(pt, positions);
+    ImmutableSittingSection section = _room.createSittingSection(newPos, newRotation);
+
+    System.out.println("After rotate calcul ==> ");
+    for (int i = 0; i < newPos.length; i+= 2) {
+      System.out.println("X: " + positions[i] + " Y: " + positions[i + 1]);
+    }
     return this._room.createSittingSection(newPos, newRotation);
     // return this._room.createSittingSection(positions, rotation);
   }
