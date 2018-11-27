@@ -99,6 +99,14 @@ public class InnoPolygon extends InteractivePolygon {
     loadFromData(_group);
   }
 
+  @Override
+  public boolean onSelected() {
+    InnoEngine engine = (InnoEngine) Engine();
+    engine.getView().setSidebarFromFxmlFileName("sidebar_irregular_sitting_section.fxml", this);
+    return true;
+  }
+
+
   public void loadDomainData() {
     _sittingSectionData = Core.get().getImmutableRoom().getImmutableSittingSections().get(getID());
   }
