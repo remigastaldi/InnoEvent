@@ -145,9 +145,38 @@ public class Room implements ImmutableRoom, Serializable {
         section.setElevation(elevation);
     }
 
+
     public void updateSectionPositions(String idSection, double[] positions) {
-        Section section = getSectionById(idSection);
-        section.updatePosition(positions);
+        Section section = null;
+        if ((section = this._sittingSections.get(idSection)) != null) {
+            if (((ImmutableSittingSection)section).isRectangle()) {
+                clearAllSittingRows(section.getIdSection());
+                double xRow = positions[0];
+                double yRow = positions[1];
+                double xSeat = positions[0];
+                double ySeat = positions[1];
+                double vitalSpaceHeight = ((ImmutableSittingSection)section).getImmutableVitalSpace().getHeight();
+                double vitalSpaceWidth = ((ImmutableSittingSection)section).getImmutableVitalSpace().getWidth();
+    
+                while (yRow < positions[7]) {
+                    double[] posStart = { xRow + (vitalSpaceWidth / 2), yRow + (vitalSpaceHeight / 2) };
+                    double[] posEnd = { positions[2] - (vitalSpaceWidth / 2), yRow + (vitalSpaceHeight / 2) };
+                    ImmutableSittingRow row = createSittingRow(section.getIdSection(), posStart, posEnd);
+    
+                    while (xSeat < positions[2]) {
+                        double[] seatPos = { xSeat + (vitalSpaceWidth / 2), ySeat + (vitalSpaceHeight / 2) };
+                        createSeat(section.getIdSection(), row.getIdRow(), seatPos);
+                        xSeat += vitalSpaceWidth;
+                    }
+                    yRow += vitalSpaceHeight;
+                    xSeat = positions[0];
+                    ySeat += vitalSpaceHeight;
+                }
+            }
+            section.updatePosition(positions);
+        } else if ((section = this._standingSections.get(idSection)) != null) {
+            section.updatePosition(positions);
+        }
     }
 
     public void setSectionRotation(String idSection, double rotation) {
@@ -173,13 +202,37 @@ public class Room implements ImmutableRoom, Serializable {
         standingSection.setNbPeople(nbPeople);
     }
 
-        //sittingSection Methods
+    // sittingSection Methods
     public ImmutableSittingSection createSittingSection(double[] positions, double rotation, boolean isRectangle) {
         String id = Integer.toString(this._sittingSections.size() + this._standingSections.size() + 1);
         double vitalSpaceHeight = this.getImmutableVitalSpace().getHeight();
         double vitalSpaceWidth = this.getImmutableVitalSpace().getWidth();
-        SittingSection sittingSection = new SittingSection("Untitled" + id, id, positions, rotation, vitalSpaceHeight, vitalSpaceWidth, isRectangle);
+        SittingSection sittingSection = new SittingSection("Untitled" + id, id, positions, rotation, vitalSpaceHeight,
+                vitalSpaceWidth, isRectangle);
         this._sittingSections.put(id, sittingSection);
+
+        if (isRectangle) {
+            double xRow = positions[0];
+            double yRow = positions[1];
+            double xSeat = positions[0];
+            double ySeat = positions[1];
+
+            while (yRow < positions[7]) {
+                double[] posStart = { xRow + (vitalSpaceWidth / 2), yRow + (vitalSpaceHeight / 2) };
+                double[] posEnd = { positions[2] - (vitalSpaceWidth / 2), yRow + (vitalSpaceHeight / 2) };
+                ImmutableSittingRow row = createSittingRow(sittingSection.getIdSection(), posStart, posEnd);
+
+                while (xSeat < positions[2]) {
+                    double[] seatPos = { xSeat + (vitalSpaceWidth / 2), ySeat + (vitalSpaceHeight / 2) };
+                    createSeat(sittingSection.getIdSection(), row.getIdRow(), seatPos);
+                    xSeat += vitalSpaceWidth;
+                }
+                yRow += vitalSpaceHeight;
+                xSeat = positions[0];
+                ySeat += vitalSpaceHeight;
+            }
+        }
+
         return sittingSection;
     }
 
