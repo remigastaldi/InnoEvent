@@ -3,7 +3,7 @@
  * Author: MAREL Maud
  * -----
  * Last Modified: Tuesday, 27th November 2018
- * Modified By: MAREL Maud
+ * Modified By: HUBERT Léo
  * -----
  * Copyright - 2018 MAREL Maud
  * <<licensetext>>
@@ -53,6 +53,8 @@ public class RectangularSectionController extends ViewController {
   @FXML
   private TextField section_rotation_input;
   @FXML
+  private TextField section_price_input;
+  @FXML
   private Group section_rotation_group;
   @FXML
   private Circle section_rotation_circle;
@@ -67,7 +69,6 @@ public class RectangularSectionController extends ViewController {
   private SimpleDoubleProperty vitalSpaceWidthInput = new SimpleDoubleProperty();
   private SimpleDoubleProperty vitalSpaceHeightInput = new SimpleDoubleProperty();
 
-
   @FXML
   private void initialize() {
   }
@@ -79,12 +80,16 @@ public class RectangularSectionController extends ViewController {
       System.out.println("Rectangle is null");
       return;
 
-    } 
+    }
+
 
     section_name_input.setText(Core().getImmutableRoom().getSectionById(rectangle.getID()).getNameSection());
     section_columns_input.textProperty().bindBidirectional(widthInput, new NumberStringConverter());
     section_rows_input.textProperty().bindBidirectional(heightInput, new NumberStringConverter());
     section_rotation_input.textProperty().bindBidirectional(rotationInput, new NumberStringConverter());
+    if (Core().getSectionPrice(rectangle.getID()) != null && Core().getSectionPrice(rectangle.getID()).getPrice() != -1) {
+      section_price_input.setText(Double.toString(Core().getSectionPrice(rectangle.getID()).getPrice()));
+    }
     widthInput.set(rectangle.getColumnNumber());
     heightInput.set(rectangle.getRowNumber());
     rotationInput.set(rectangle.getRotation().getAngle());
@@ -122,7 +127,7 @@ public class RectangularSectionController extends ViewController {
     if (!input) {
       section_rotation_input.setText("" + (angle));
     }
-    InteractiveRectangle rectangle = (InteractiveRectangle)getIntent();
+    InteractiveRectangle rectangle = (InteractiveRectangle) getIntent();
     rectangle.setRotationAngle(angle);
   }
 
@@ -130,7 +135,7 @@ public class RectangularSectionController extends ViewController {
     try {
       Double nAngle = Double.parseDouble(angle);
       setRotation(nAngle, input);
-    } catch(Exception e) {
+    } catch (Exception e) {
       System.out.println("Given angle is not double" + e.getMessage());
     }
   }
@@ -150,7 +155,7 @@ public class RectangularSectionController extends ViewController {
       if (angle < 0) {
         angle = ((3600000 + angle) % 360);
       }
-      
+
       if (angle > 0 && angle < 90) {
         angle = 360 - 90 + angle;
       } else {
@@ -176,17 +181,22 @@ public class RectangularSectionController extends ViewController {
         return;
       }
       try {
+        if (section_price_input.isFocused()) {
+          System.out.println("price set to" + section_price_input.getText());
+          Core().setSectionPrice(rectangle.getID(), Double.parseDouble(section_price_input.getText()));
+        }
         if (section_columns_input.isFocused())
           rectangle.setColumnNumber(Integer.parseInt(section_columns_input.getText()));
         if (section_rows_input.isFocused())
           rectangle.setRowNumber(Integer.parseInt(section_rows_input.getText()));
         if (section_rotation_input.isFocused())
-          rectangle.setRotationAngle(Double.parseDouble(section_rotation_input.getText()));  
+          rectangle.setRotationAngle(Double.parseDouble(section_rotation_input.getText()));
         if (section_vital_space_width_input.isFocused() || section_vital_space_height_input.isFocused()) {
           rectangle.setVitalSpace(Double.parseDouble(section_vital_space_width_input.getText()),
               Double.parseDouble(section_vital_space_height_input.getText()));
           widthInput.set(rectangle.getColumnNumber());
-          heightInput.set(rectangle.getRowNumber());          
+          heightInput.set(rectangle.getRowNumber());
+
         }
         if (section_name_input.isFocused())
           Core().setSectionName(rectangle.getID(), section_name_input.getText());
@@ -207,6 +217,7 @@ public class RectangularSectionController extends ViewController {
     fields.put(section_vital_space_width_input, "required|numeric");
     fields.put(section_vital_space_height_input, "required|numeric");
     fields.put(section_rotation_input, "required|numeric|min:0|max:360");
+    fields.put(section_price_input, "numeric|min:0");
 
     for (Map.Entry<TextField, String> entry : fields.entrySet()) {
       TextField field = entry.getKey();

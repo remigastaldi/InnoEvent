@@ -30,11 +30,12 @@
                   </Label>
                   <AnchorPane layoutX="7.0" layoutY="67.0" prefHeight="478.0" prefWidth="132.0">
                      <children>
-                        <Label layoutX="15.0" layoutY="14.0" text="Number of columns" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
-                        <Label layoutX="17.0" layoutY="59.0" text="Number of rows" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
-                        <Label layoutY="108.0" text="VitalSpace Width" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
-                        <Label layoutY="148.0" text="VitalSpace Height" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
-                        <Label layoutY="192.0" text="Rotation" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+                        <Label layoutY="13.0" text="Number of columns" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+                        <Label layoutY="57.0" text="Number of rows" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+                        <Label layoutY="102.0" text="VitalSpace Width" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+                        <Label layoutY="146.0" text="VitalSpace Height" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+                        <Label layoutY="190.0" text="Rotation" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+                        <Label layoutY="234.0" text="Price" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
                      </children>
                   </AnchorPane>
                   <AnchorPane layoutX="151.0" layoutY="74.0" minWidth="89.0" prefHeight="469.0" prefWidth="89.0" AnchorPane.leftAnchor="139.0" AnchorPane.rightAnchor="10.0">
@@ -53,6 +54,7 @@
                                  </cursor></Circle>
                            </children>
                         </Group>
+                        <TextField fx:id="section_price_input" layoutY="221.0" onKeyReleased="#onKeyReleased" prefHeight="29.0" prefWidth="101.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
                      </children>
                   </AnchorPane>
                </children>
