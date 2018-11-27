@@ -2,7 +2,7 @@
  * File Created: Friday, 12th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Sunday, 25th November 2018
+ * Last Modified: Monday, 26th November 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -23,6 +23,7 @@ import com.inno.ui.engine.Engine;
 import com.inno.ui.innoengine.shape.InnoPolygon;
 import com.inno.ui.innoengine.shape.InnoRectangle;
 
+import javafx.geometry.Point2D;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.transform.Rotate;
@@ -42,16 +43,28 @@ public class InnoEngine extends Engine {
     setBackgroundColor(Color.valueOf("#282C34"));
     activateGrid(true);
 
-    Collection<? extends ImmutableSittingSection> sections = roomData.getImmutableSittingSections().values();
-    for (ImmutableSittingSection section : sections) {
-      double[] pos = section.getPositions();
-      createRectangularSection(section.getIdSection(), pos[0], pos[1], pos[2] - pos[0], pos[7] - pos[1],
-                                  new Rotate(section.getRotation(), pos[0] + pos[2] - pos[0], pos[1] + pos[7] - pos[1]),
-                                  Color.ROYALBLUE);
-      }
+
+    loadSections(roomData);
     loadScene();
   }
-  
+
+  private void loadSections(ImmutableRoom roomData) {
+  	Collection<? extends ImmutableSittingSection> sections = roomData.getImmutableSittingSections().values();
+    for (ImmutableSittingSection section : sections) {
+      double[] pos = section.getPositions();
+      if (pos.length == 8  && pos[1] == pos[3] && pos[4] == pos[2] && pos[5] == pos[7] && pos[6] == pos[0]) {
+        System.out.println("Load rectangular section");
+        createRectangularSection(section.getIdSection(), pos[0], pos[1], pos[2] - pos[0], pos[7] - pos[1],
+            new Rotate(section.getRotation(), (pos[2] - pos[0]) / 2, (pos[7] - pos[1]) / 2), Color.ROYALBLUE);
+      } else {
+        System.out.println("Load irregular section");
+        Point2D center = getCenterOfPoints(pos);
+        createIrregularSection(section.getIdSection(), pos,
+          new Rotate(section.getRotation(), center.getX(), center.getY()), Color.LIGHTSKYBLUE);
+        }
+    }
+  }
+
   private void loadScene() {
     ImmutableScene dto = Core.get().getImmutableRoom().getImmutableScene();
 
@@ -64,7 +77,7 @@ public class InnoEngine extends Engine {
       dto.getWidth(), dto.getHeight(), new Rotate(dto.getRotation(), dto.getPositions()[0] + dto.getWidth(), dto.getPositions()[1] + dto.getHeight()), Color.ROYALBLUE) {
         @Override
         public void onShapeChanged() {
-          Core.get().setScenePositions(getPositionsInParent());
+          Core.get().setScenePositions(getPointsInParent());
           Core.get().setSceneWidth(this.getWidth());
           Core.get().setSceneHeight(this.getHeight());
           Core.get().setSceneRotation(this.getRotation().getAngle());
@@ -84,8 +97,16 @@ public class InnoEngine extends Engine {
 
   public void createIrregularSection() {
     deselect();
-    InnoPolygon innoPoly = new InnoPolygon(this, getPane());
-    innoPoly.start();
+    InnoPolygon section = new InnoPolygon(this, getPane());
+    section.start();
+  }
+
+  public void createIrregularSection(String id, double[] pos, Rotate rotation, Color color) {
+    deselect();
+    InnoPolygon section = new InnoPolygon(this, getPane(), id, pos, rotation, color);
+    section.loadDomainData();
+    addInteractiveShape(section);
+    deselect();
   }
 
   public void createRectangularSection() {
@@ -94,12 +115,11 @@ public class InnoEngine extends Engine {
     innoPoly.start();
   }
 
-  public InnoRectangle createRectangularSection(String id, double x, double y, double width, double height, Rotate rotation, Color color) {
+  public void createRectangularSection(String id, double x, double y, double width, double height, Rotate rotation, Color color) {
     InnoRectangle section = new InnoRectangle(this, getPane(), id, x, y, width, height, rotation, color);
-    section.loadData();
+    section.loadDomainData();
     addInteractiveShape(section);
     deselect();
-    return section;
   }
 
   public View getView() {

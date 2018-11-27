@@ -68,6 +68,11 @@ public abstract class InteractiveShape<T extends Shape> {
 
   public abstract void start();
 
+  // TODO: Generic points
+  public abstract void setPoints(double[] points);
+  public abstract double[] getPoints();
+  public abstract double[] getPointsInParent();
+
   protected void addOutboundShape(Shape shape) {
     _outBoundShapes.add(shape);
   }
@@ -143,7 +148,7 @@ public abstract class InteractiveShape<T extends Shape> {
 
   public void setRotation(Rotate rotate) {
     if (_currentRotation != null)
-    _group.getTransforms().remove(_currentRotation);
+      _group.getTransforms().remove(_currentRotation);
     _currentRotation = rotate;
     _group.getTransforms().add(_currentRotation);
   }
@@ -152,7 +157,7 @@ public abstract class InteractiveShape<T extends Shape> {
     return _currentRotation;
   }
 
-  public void completeShape() {    
+  public void completeShape() {
     for (CircleAnchor anchor : _anchors) {
       _selectShapes.add(anchor.getShape());
     }
@@ -173,6 +178,7 @@ public abstract class InteractiveShape<T extends Shape> {
     for (CircleAnchor anchor : _anchors) {
       anchor.setInteractiveShape(this);
     }
+    onFormComplete();
   }
 
   double orgSceneX, orgSceneY;
@@ -268,5 +274,27 @@ public abstract class InteractiveShape<T extends Shape> {
     _engine.deselect();
     onDestroy();
     Pane().getChildren().remove(_group);
+  }
+
+  public double[] localToParent(double[] pos) {
+    double[] newPos = new double[pos.length];
+
+    for (int i = 0; i < pos.length; i += 2) {
+      Point2D val = _group.localToParent(pos[i], pos[i + 1]);
+      newPos[i] = val.getX();
+      newPos[i + 1] = val.getY();
+    }
+    return newPos;
+  }
+
+  public double[] parentToLocal(double[] pos) {
+    double[] newPos = new double[pos.length];
+
+    for (int i = 0; i < pos.length; i += 2) {
+      Point2D val = _group.parentToLocal(pos[i], pos[i + 1]);
+      newPos[i] = val.getX();
+      newPos[i + 1] = val.getY();
+    }
+    return newPos;
   }
 }

@@ -2,7 +2,7 @@
  * File Created: Sunday, 14th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Saturday, 24th November 2018
+ * Last Modified: Monday, 26th November 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -19,14 +19,25 @@ import com.inno.app.room.ImmutableStandingSection;
 import  com.inno.ui.engine.shape.InteractivePolygon;
 
 import  javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
+import javafx.scene.transform.Rotate;
+import javafx.geometry.Point2D;
+import javafx.scene.Group;
 import  javafx.scene.input.MouseEvent;
 
 public class InnoPolygon extends InteractivePolygon {
-  private ImmutableStandingSection standingSectionData = null;
-  private ImmutableSittingSection sittingSectionData = null;
+  private ImmutableStandingSection _standingSectionData = null;
+  private ImmutableSittingSection _sittingSectionData = null;
+  private boolean mouseReleased = false;
 
   public InnoPolygon(InnoEngine engine, Pane pane) {
     super(engine, pane);
+  }
+
+  public InnoPolygon(InnoEngine engine, Pane pane, String id, double[] pos, Rotate rotation, Color color) {
+    super(engine, pane, pos, rotation, color);
+
+    setID(id);
   }
 
   @Override
@@ -51,11 +62,13 @@ public class InnoPolygon extends InteractivePolygon {
 
   @Override
   public boolean onMousePressed(MouseEvent event) {
+    mouseReleased= false;
     return true;
   }
 
   @Override
   public boolean onMouseReleased(MouseEvent event) {
+    mouseReleased= true;
     return true;
   }
 
@@ -66,7 +79,10 @@ public class InnoPolygon extends InteractivePolygon {
 
   @Override
   public boolean onFormComplete() {
-    // sittingSectionData = Core.get().cr
+    if (mouseReleased) {
+      _sittingSectionData = Core.get().createSittingSection(localToParent(getPoints()), 0);
+      loadFromData();
+    }
     return true;
   }
 
@@ -74,6 +90,32 @@ public class InnoPolygon extends InteractivePolygon {
   public boolean onDestroy() {
     Core.get().deleteSection(getID());
     return true;
+  }
+
+  @Override
+  public void onShapeChanged() {
+    Core.get().updateSectionPositions(getID(), getPointsInParent());
+    Core.get().setSectionRotation(getID(), getRotation().getAngle());
+    loadFromData(_group);
+  }
+
+  public void loadDomainData() {
+    _sittingSectionData = Core.get().getImmutableRoom().getImmutableSittingSections().get(getID());
+  }
+
+  private void loadFromData(Group group) {
+    setID(_sittingSectionData.getIdSection());
+
+    if (group != null)
+      setPoints(parentToLocal(_sittingSectionData.getPositions()));
+    else
+      setPoints(_sittingSectionData.getPositions());
+      Point2D center = Engine().getCenterOfPoints(getPoints());
+    setRotation(new Rotate(_sittingSectionData.getRotation(),center.getX(), center.getY()));
+  }
+
+  private void loadFromData() {
+    loadFromData(null);
   }
 
   public void changeSectionType() {

@@ -147,11 +147,12 @@ public class InteractivePolygon extends InteractiveShape<Polygon> {
 
     ArrayList<Point2D> points = new ArrayList<>();
     for (int i = 0; i < pos.length; i+=2) {
-      Line line = createLine(pos[i], pos[i + 1], pos[i + 2], pos[i] + 3);
+      points.add(new Point2D(pos[i], pos[i + 1]));
+      Line line = createLine(pos[i], pos[i + 1], pos[i + 2 < pos.length ? i + 2 : 0], pos[i + 3 < pos.length ? i + 3 : 0]);
       Pane().getChildren().add(line);
       addOutboundShape(line);
-      points.add(new Point2D(pos[i], pos[i + 1]));
     }
+
 
     _anchors = createControlAnchorsFor(_shape.getPoints());
 
@@ -259,4 +260,29 @@ public class InteractivePolygon extends InteractiveShape<Polygon> {
 
     return anchors;
   }
+
+  @Override
+  public void setPoints(double[] points) {
+    _shape.getPoints().clear();
+    for (double point : points) {
+      _shape.getPoints().add(point);
+    }
+  }
+
+  @Override
+  public double[] getPoints() {
+    double[] pos = new double[_anchors.size() * 2];
+    int i = 0;
+    for (CircleAnchor anchor : _anchors) {
+      pos[i] = anchor.getCenterX();
+      pos[i + 1] = anchor.getCenterY();
+      i += 2;
+    }
+    return pos;
+  }
+
+  @Override
+  public double[] getPointsInParent() {
+    return localToParent(getPoints());
+  }  
 }

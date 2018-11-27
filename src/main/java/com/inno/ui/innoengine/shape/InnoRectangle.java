@@ -3,7 +3,7 @@
  * Author: GASTALDI Rémi
  * -----
  * Last Modified: Monday, 26th November 2018
- * Modified By: HUBERT Léo
+ * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
  * <<licensetext>>
@@ -73,19 +73,18 @@ public class InnoRectangle extends InteractiveRectangle {
 
   @Override
   public boolean onMouseReleased(MouseEvent event) {
-    System.out.println("++++++++++++++++++++++");
     if (getWidth() < Engine().meterToPixel(_xVitalSpace))
       setWidth(Engine().meterToPixel(_xVitalSpace));
     if (getHeight() < Engine().meterToPixel(_yVitalSpace))
       setHeight(Engine().meterToPixel(_yVitalSpace));
 
     if (!_grabbed) {
-      double[] pos = getPositions();
+      double[] pos = getPoints();
       double[] newPos = new double[] { pos[0] - getWidth(), pos[1] - getHeight(), pos[2] - getWidth(),
           pos[3] - getHeight(), pos[4] - getWidth(), pos[5] - getHeight(), pos[6] - getWidth(), pos[7] - getHeight() };
       _sectionData = Core.get().createSittingSection(localToParent(newPos), 0);
     } else
-      _sectionData = Core.get().createSittingSection(getPositionsInParent(), 0);
+      _sectionData = Core.get().createSittingSection(getPointsInParent(), 0);
     loadFromData();
     InnoEngine engine = (InnoEngine) Engine();
     engine.getView().openPopup("new_sitting_rectangulary_section.fxml", this);
@@ -95,7 +94,7 @@ public class InnoRectangle extends InteractiveRectangle {
 
   @Override
   public void onShapeChanged() {
-    Core.get().updateSectionPositions(getID(), getPositionsInParent());
+    Core.get().updateSectionPositions(getID(), getPointsInParent());
     Core.get().setSectionRotation(getID(), getRotation().getAngle());
     loadFromData(_group);
   }
@@ -162,7 +161,7 @@ public class InnoRectangle extends InteractiveRectangle {
     return true;
   }
 
-  public void loadData() {
+  public void loadDomainData() {
     _sectionData = Core.get().getImmutableRoom().getImmutableSittingSections().get(getID());
   }
 
@@ -170,54 +169,13 @@ public class InnoRectangle extends InteractiveRectangle {
     setID(_sectionData.getIdSection());
 
     if (group != null)
-      setPositions(parentToLocal(_sectionData.getPositions()));
+      setPoints(parentToLocal(_sectionData.getPositions()));
     else
-      setPositions(_sectionData.getPositions());
+      setPoints(_sectionData.getPositions());
     setRotation(new Rotate(_sectionData.getRotation(), getX() + getWidth(), getY() + getHeight()));
   }
 
   private void loadFromData() {
     loadFromData(null);
   }
-
-  public double[] getPositions() {
-    double[] pos = { getX(), getY(), getMaxXProperty().get(), getY(), getMaxXProperty().get(), getMaxYProperty().get(),
-        getX(), getMaxYProperty().get() };
-    return pos;
-  }
-
-  public double[] getPositionsInParent() {
-    return localToParent(getPositions());
-  }
-
-  public double[] localToParent(double[] pos) {
-    Point2D lu = _group.localToParent(pos[0], pos[1]);
-    Point2D ru = _group.localToParent(pos[2], pos[3]);
-    Point2D rd = _group.localToParent(pos[4], pos[5]);
-    Point2D ld = _group.localToParent(pos[6], pos[7]);
-    // System.out.println(lu);
-    return new double[] { lu.getX(), lu.getY(), ru.getX(), ru.getY(), rd.getX(), rd.getY(), ld.getX(), ld.getY() };
-  }
-
-  public double[] parentToLocal(double[] pos) {
-    Point2D lu = _group.parentToLocal(pos[0], pos[1]);
-    Point2D ru = _group.parentToLocal(pos[2], pos[3]);
-    Point2D rd = _group.parentToLocal(pos[4], pos[5]);
-    Point2D ld = _group.parentToLocal(pos[6], pos[7]);
-    // System.out.println(lu);
-    return new double[] { lu.getX(), lu.getY(), ru.getX(), ru.getY(), rd.getX(), rd.getY(), ld.getX(), ld.getY() };
-  }
-
-  // @Override
-  // public void setRotation(double rotation) {
-  // _rotation = rotation;
-  // _group.getTransforms().clear();
-  // // _group.getTransforms().add(new Rotate(rotation, getX() + getWidth(),
-  // getY() + getHeight()));
-  // // Point2D pos = new Point2D(getX(), getY());
-  // // pos = _group.localToParent(pos.getX(), pos.getY());
-  // // _group.getTransforms().add(new Rotate(rotation, pos.getX(), pos.getY()));
-  // // _group.getTransforms().add(new Rotate(rotation, getMaxXProperty().get(),
-  // getMaxYProperty().get()));
-  // }
 }

@@ -74,7 +74,6 @@ public class InteractiveRectangle extends InteractiveShape<Rectangle> {
       }
     };
     EventHandler<MouseEvent> mouseReleasedEvent = event -> {
-    System.out.println("==================================");
       if (onMouseReleased(event)) {
         if (_collisionDetected)
           return;
@@ -84,8 +83,8 @@ public class InteractiveRectangle extends InteractiveShape<Rectangle> {
         Pane().removeEventHandler(MouseEvent.MOUSE_MOVED, mouseMovedEvent);
         Cursor().removeShape();
         Cursor().setForm(CustomCursor.Type.DEFAULT);
-        if (!onFormComplete())
-          return;
+        // if (!onFormComplete())
+        //   return;
       }
     };
     EventHandler<MouseEvent> mousePressedEvent = event -> {
@@ -175,7 +174,7 @@ public class InteractiveRectangle extends InteractiveShape<Rectangle> {
     addOutboundShape(line);
   }
 
-  public void setPositions(double[] pos) {
+  public void setPoints(double[] pos) {
     setX(pos[0]);
     setY(pos[1]);
     setWidth(pos[2] - pos[0]);
@@ -272,5 +271,15 @@ public class InteractiveRectangle extends InteractiveShape<Rectangle> {
 
   private void closeForm(double x, double y) {
     closeForm(x, y, 1, 1, new Rotate(0,0,0), Color.ROYALBLUE);
+  }
+
+  public double[] getPoints() {
+    double[] pos = { getX(), getY(), getMaxXProperty().get(), getY(), getMaxXProperty().get(), getMaxYProperty().get(),
+        getX(), getMaxYProperty().get() };
+    return pos;
+  }
+
+  public double[] getPointsInParent() {
+    return localToParent(getPoints());
   }
 }

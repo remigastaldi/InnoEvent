@@ -2,7 +2,7 @@
  * File Created: Friday, 12th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Sunday, 25th November 2018
+ * Last Modified: Monday, 26th November 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -288,6 +288,16 @@ public class Engine {
 
     double air = (sum1 / 2);
     return new Point2D((sum2 / (6 * air)), (sum3 / (6 * air)));
+  }
+
+  public Point2D getCenterOfPoints(double[] points) {
+    ArrayList<Point2D> newPoints = new ArrayList<>();
+
+    for (int i = 0; i < points.length; i += 2) {
+      newPoints.add(new Point2D(points[i], points[i + 1]));
+    }
+
+    return getCenterOfPoints(newPoints);
   }
 
   public void deleteSelectedShape() {
