@@ -34,6 +34,8 @@ public class OfferManagerController extends ViewController {
     @FXML
     private ListView<String> offerConditionList;
     @FXML
+    private AnchorPane offerProperties;
+    @FXML
     private TextField offerReductionInput;
     @FXML
     private TextField offerNameInput;
@@ -52,8 +54,11 @@ public class OfferManagerController extends ViewController {
     }
 
     private void setSelectedOffer(OfferData offer) {
-        _selectedOffer = offer;
-        
+
+        if (_selectedOffer == null && offer != null) {
+            offerProperties.setVisible(true);
+        }
+
         for (int i = 0; i < offerList.getItems().size(); ++i) {
             String offerName = offerList.getItems().get(i).toString();
             if (offer.getName().equals(offerName)) {
@@ -69,6 +74,7 @@ public class OfferManagerController extends ViewController {
         if (offerReductionInput.getText() != Double.toString(offer.getReduction())) {
             offerReductionInput.setText(Double.toString(offer.getReduction()));
         }
+        _selectedOffer = offer;
     }
 
     @FXML

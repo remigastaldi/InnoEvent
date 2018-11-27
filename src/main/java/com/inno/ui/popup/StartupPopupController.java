@@ -36,7 +36,7 @@ public class StartupPopupController extends ViewController {
   }
 
   public void init() {
-    View().openPopup("offer_manager.fxml");
+    // View().openPopup("offer_manager.fxml");
   }
 
   @FXML
