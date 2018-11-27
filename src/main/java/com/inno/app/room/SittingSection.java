@@ -2,7 +2,7 @@
  * File Created: Tuesday, 13th November 2018
  * Author: MAREL Maud
  * -----
- * Last Modified: Saturday, 24th November 2018
+ * Last Modified: Monday, 26th November 2018
  * Modified By: MAREL Maud
  * -----
  * Copyright - 2018 MAREL Maud
@@ -21,8 +21,8 @@ public class SittingSection extends Section implements ImmutableSection, Immutab
   private ArrayList<SittingRow> _rows = new ArrayList<SittingRow>();
   private VitalSpace _vitalSpace;
 
-  public SittingSection(String idSection, double[] points, double rotation, double vitalSpaceHeight, double vitalSpaceWidth) {
-    super(idSection, points, rotation);
+  public SittingSection(String nameSection, String idSection, double[] points, double rotation, double vitalSpaceHeight, double vitalSpaceWidth) {
+    super(nameSection, idSection, points, rotation);
     this._autoDistrib = true;
     this._vitalSpace = new VitalSpace(vitalSpaceHeight, vitalSpaceWidth);
   }

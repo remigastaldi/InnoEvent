@@ -2,7 +2,7 @@
  * File Created: Friday, 12th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Saturday, 24th November 2018
+ * Last Modified: Monday, 26th November 2018
  * Modified By: MAREL Maud
 
  * -----
@@ -28,14 +28,11 @@ public class Room implements ImmutableRoom, Serializable {
     private VitalSpace _vitalSpace;
     private HashMap<String, SittingSection> _sittingSections = new HashMap<String, SittingSection>();
     private HashMap<String, StandingSection> _standingSections = new HashMap<String, StandingSection>();
-    private ArrayList<Integer> _idSection = new ArrayList<Integer>();
-    private Integer _idSectionMax;
     
     public Room(String name, double height, double width, double heightVitalSpace, double widthVitalSpace) {
         this._name = name;
         this._height = height;
         this._width = width;
-        this._idSectionMax = 0;
         this._vitalSpace = new VitalSpace(heightVitalSpace, widthVitalSpace);
     }
 
@@ -113,6 +110,7 @@ public class Room implements ImmutableRoom, Serializable {
     //Section Methods
     public ImmutableSection getImmutableSectionById(String idSection) {
         ImmutableSection section = null;
+
         if ((section = this._sittingSections.get(idSection)) != null) {
             return section;
         }
@@ -122,25 +120,15 @@ public class Room implements ImmutableRoom, Serializable {
         return section;
     }
 
-    public void setSectionId(String oldIdSection, String newIdSection) {
+    public void setSectionName(String idSection, String name) {
         SittingSection sittingSection = null;
         StandingSection standingSection = null;
 
-        if ((sittingSection = this._sittingSections.remove(oldIdSection)) != null) {
-            this._sittingSections.put(newIdSection, sittingSection);
-            sittingSection.setIdSection(newIdSection);
+        if ((sittingSection = this._sittingSections.get(idSection)) != null) {
+            sittingSection.setNameSection(name);
         }
-        else {
-            standingSection = this._standingSections.remove(oldIdSection);
-            this._standingSections.put(newIdSection, standingSection);
-            standingSection.setIdSection(newIdSection);
-        }
-        try {
-            Integer.parseInt(oldIdSection);
-            this._idSection.add(Integer.parseInt(oldIdSection));
-        }
-        catch(NumberFormatException e) {
-            System.out.println("OldSectionId not an integer, don't need to add in arraylist");
+        else if ((standingSection = this._standingSections.get(idSection)) != null) {
+            standingSection.setNameSection(name);
         }
     }
 
@@ -173,26 +161,12 @@ public class Room implements ImmutableRoom, Serializable {
     public void deleteSection(String idSection) {
         this._sittingSections.remove(idSection);
         this._standingSections.remove(idSection);
-        this._idSection.add(Integer.parseInt(idSection));
-    }
-
-    public String findFreeId() {
-        int idSection = 0;
-
-        if (this._idSection.size() != 0) {
-            idSection = this._idSection.remove(0);
-        }
-        else {
-            this._idSectionMax += 1;
-            idSection = this._idSectionMax;
-        }
-        return Integer.toString(idSection);
     }
 
         //standingSection Methods
     public ImmutableStandingSection createStandingSection(int nbPeople, double[] positions, double rotation) {
-        String id = findFreeId();
-        StandingSection standingSection = new StandingSection(id, positions, nbPeople, rotation);
+        String id = Integer.toString(this._sittingSections.size() + this._standingSections.size() + 1);
+        StandingSection standingSection = new StandingSection(id, id, positions, nbPeople, rotation);
         this._standingSections.put(id, standingSection);
         return standingSection;
     }
@@ -204,10 +178,10 @@ public class Room implements ImmutableRoom, Serializable {
 
         //sittingSection Methods
     public ImmutableSittingSection createSittingSection(double[] positions, double rotation) {
-        String id = findFreeId();
+        String id = Integer.toString(this._sittingSections.size() + this._standingSections.size() + 1);
         double vitalSpaceHeight = this.getImmutableVitalSpace().getHeight();
         double vitalSpaceWidth = this.getImmutableVitalSpace().getWidth();
-        SittingSection sittingSection = new SittingSection(id, positions, rotation, vitalSpaceHeight, vitalSpaceWidth);
+        SittingSection sittingSection = new SittingSection(id, id, positions, rotation, vitalSpaceHeight, vitalSpaceWidth);
         this._sittingSections.put(id, sittingSection);
         return sittingSection;
     }

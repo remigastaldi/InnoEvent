@@ -2,7 +2,7 @@
  * File Created: Tuesday, 13th November 2018
  * Author: MAREL Maud
  * -----
- * Last Modified: Saturday, 24th November 2018
+ * Last Modified: Monday, 26th November 2018
  * Modified By: MAREL Maud
  * -----
  * Copyright - 2018 MAREL Maud
@@ -16,20 +16,22 @@ import java.io.Serializable;
 public class Section implements ImmutableSection, Serializable {
 
   private static final long serialVersionUID = 1L;
+  private String _nameSection;
   private String _idSection;
   private double _elevation;
   private double[] _positions; //[3...*]
   private double _rotation;
 
-  public Section(String idSection, double[] positions, double rotation) {
+  public Section(String nameSection, String idSection, double[] positions, double rotation) {
+    this._nameSection = nameSection;
     this._idSection = idSection;
     this._elevation = 0;
     this._positions = positions;
     this._rotation = rotation;
   }
 
-  public void setIdSection(String idSection) {
-    this._idSection = idSection;
+  public void setNameSection(String nameSection) {
+    this._nameSection = nameSection;
     System.out.println(this._idSection);
   }
 
@@ -47,6 +49,10 @@ public class Section implements ImmutableSection, Serializable {
 
   public String getIdSection() {
     return this._idSection;
+  }
+
+  public String getNameSection() {
+    return this._nameSection;
   }
 
   public double getElevation() {

@@ -8,7 +8,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="597.0" prefWidth="250.0" style="-fx-background-color: -fx-dark;" stylesheets="@../../dark-theme.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.inno.ui.mainview.sidebar.SceneController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="597.0" prefWidth="250.0" style="-fx-background-color: -fx-dark;" stylesheets="@../../dark-theme.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.inno.ui.mainview.sidebar.SceneController">
    <children>
       <AnchorPane prefWidth="367.0" style="-fx-border-color: orange; -fx-border-width: 0 0 1 0; -fx-background-color: -fx-grey;" styleClass="grey" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -22,7 +22,7 @@
                   </LinearGradient>
                </textFill>
                <font>
-                  <Font name="System Bold" size="40.0" />
+                  <Font size="40.0" />
                </font>
             </Label>
          </children>

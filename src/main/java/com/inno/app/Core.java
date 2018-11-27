@@ -3,7 +3,7 @@
  * Author: GASTALDI Rémi
  * -----
  * Last Modified: Monday, 26th November 2018
- * Modified By: HUBERT Léo
+ * Modified By: MAREL Maud
  * -----
  * Copyright - 2018 GASTALDI Rémi
  * <<licensetext>>
@@ -99,7 +99,7 @@ public class Core {
 
   // Section methods
   public void setSectionName(String idSection, String name) {
-    this._room.setSectionId(idSection, name);
+    this._room.setSectionName(idSection, name);
   }
 
   public void setSectionElevation(String idSection, double elevation) {
