@@ -129,11 +129,7 @@
                               <Tooltip text="Magnet" />
                            </tooltip>
                         </Button>
-                        <Button mnemonicParsing="false" onAction="#openRoom" text="Room" />
-                        <Button mnemonicParsing="false" onAction="#openScene" text="Scene" />
-                        <Button mnemonicParsing="false" onAction="#openRegularSittingSection" text="Regular Sitting Section" />
-                        <Button mnemonicParsing="false" onAction="#openIrregularSittingSection" text="Irregular Sitting Section" />
-                        <Button mnemonicParsing="false" onAction="#openStandingSection" text="Standing Section" />
+                        <Button mnemonicParsing="false" text="HideSidebar" />
                      </buttons>
                      <padding>
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
@@ -177,7 +173,10 @@
                         <MenuItem mnemonicParsing="false" text="Unselect All" />
                       </items>
                     </Menu>
-                    <Menu mnemonicParsing="false" text="Insertion" />
+                    <Menu mnemonicParsing="false" text="Insertion">
+                           <items>
+                              <MenuItem mnemonicParsing="false" onAction="#menuCreateSceneAction" text="Scene" />
+                           </items></Menu>
                   </menus>
                 </MenuBar>
                </children>

@@ -3,7 +3,7 @@
  * Author: GASTALDI Rémi
  * -----
  * Last Modified: Monday, 26th November 2018
- * Modified By: HUBERT Léo
+ * Modified By: MAREL Maud
  * -----
  * Copyright - 2018 GASTALDI Rémi
  * <<licensetext>>
@@ -14,6 +14,7 @@ package com.inno.ui.mainview;
 import java.io.File;
 
 import com.inno.ui.ViewController;
+import com.inno.ui.innoengine.InnoEngine;
 
 import javafx.fxml.FXML;
 import javafx.scene.input.KeyCode;
@@ -91,27 +92,10 @@ public class MainViewController extends ViewController {
   }
 
   @FXML
-  private void openRoom() {
-    View().setSidebarFromFxmlFileName("sidebar_room.fxml");
-  }
-
-  @FXML
-  private void openRegularSittingSection() {
-    View().setSidebarFromFxmlFileName("sidebar_regular_sitting_section.fxml");
-  }
-
-  @FXML
-  private void openIrregularSittingSection() {
-    View().setSidebarFromFxmlFileName("sidebar_irregular_sitting_section.fxml");
-  }
-
-  @FXML
-  private void openStandingSection() {
-    View().setSidebarFromFxmlFileName("sidebar_standing_section.fxml");
-  }
-
-  @FXML
-  private void openScene() {
-    View().setSidebarFromFxmlFileName("sidebar_scene.fxml");
+  private void menuCreateSceneAction() {
+    if (Core().getImmutableRoom().getImmutableScene() == null) {
+      InnoEngine innoEngine = View().getEngine();
+      innoEngine.getView().openPopup("new_scene.fxml");
+    }
   }
 }

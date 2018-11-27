@@ -54,29 +54,29 @@ public class SceneController extends ViewController {
     scene_width_input.textProperty().bindBidirectional(widthInput, new NumberStringConverter());
     scene_height_input.textProperty().bindBidirectional(heightInput, new NumberStringConverter());
     scene_rotation_input.textProperty().bindBidirectional(rotationInput, new NumberStringConverter());
-    widthInput.set(rectangle.getColumnNumber());
-    heightInput.set(rectangle.getRowNumber());
+    widthInput.set(rectangle.getWidth());
+    heightInput.set(rectangle.getHeight());
     rotationInput.set(rectangle.getRotation().getAngle());
 
     rectangle.getWidthProperty().addListener((ChangeListener<Number>) (ov, oldX, newX) -> {
-      if (widthInput.get() != rectangle.getColumnNumber())
-        widthInput.set(rectangle.getColumnNumber());
+      if (widthInput.get() != rectangle.getWidth())
+        widthInput.set(rectangle.getWidth());
     });
     rectangle.getHeightProperty().addListener((ChangeListener<Number>) (ov, oldY, newY) -> {
-      if (heightInput.get() != rectangle.getRowNumber())
-        heightInput.set(rectangle.getRowNumber());
+      if (heightInput.get() != rectangle.getHeight())
+        heightInput.set(rectangle.getHeight());
     });
     widthInput.addListener((ChangeListener<Number>) (ov, oldX, newX) -> {
       if (checkInputs()) {
-        if (rectangle.getColumnNumber() != newX.intValue())
-          rectangle.setColumnNumber(newX.intValue());
+        if (rectangle.getWidth() != newX.intValue())
+          rectangle.setWidth(newX.intValue());
       }
 
     });
     heightInput.addListener((ChangeListener<Number>) (ov, oldY, newY) -> {
       if (checkInputs()) {
-        if (rectangle.getRowNumber() != newY.intValue())
-          rectangle.setRowNumber(newY.intValue());
+        if (rectangle.getHeight() != newY.intValue())
+          rectangle.setHeight(newY.intValue());
       }
     });
 
@@ -93,9 +93,9 @@ public class SceneController extends ViewController {
       }
       try {
         if (scene_width_input.isFocused())
-          rectangle.setColumnNumber(Integer.parseInt(scene_width_input.getText()));
+          rectangle.setWidth(Integer.parseInt(scene_width_input.getText()));
         if (scene_height_input.isFocused())
-          rectangle.setRowNumber(Integer.parseInt(scene_height_input.getText()));
+          rectangle.setHeight(Integer.parseInt(scene_height_input.getText()));
         if (scene_rotation_input.isFocused())
           rectangle.setRotationAngle(Double.parseDouble(scene_rotation_input.getText()));
         // }

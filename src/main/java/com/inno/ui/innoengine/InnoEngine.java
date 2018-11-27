@@ -66,7 +66,7 @@ public class InnoEngine extends Engine {
     }
   }
 
-  private void loadScene() {
+  public void loadScene() {
     ImmutableScene dto = Core.get().getImmutableRoom().getImmutableScene();
 
     if (dto == null) {
@@ -93,6 +93,7 @@ public class InnoEngine extends Engine {
         @Override
         public boolean onDestroy() {
           Core.get().deleteScene();
+          _view.setSidebarFromFxmlFileName("sidebar_room.fxml", this);
           return true;
         }
     };
