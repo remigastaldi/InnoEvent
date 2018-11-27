@@ -2,7 +2,7 @@
  * File Created: Friday, 12th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Monday, 26th November 2018
+ * Last Modified: Tuesday, 27th November 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -315,8 +315,28 @@ public class Engine {
     return pixel / _scale;
   }
 
+  public double[] pixelToMeter(double[] pos) {
+    double[] newPos = new double[pos.length];
+
+    for (int i = 0; i < pos.length; ++i) {
+      newPos[i] = pixelToMeter(pos[i]);
+    }
+
+    return newPos;
+  }
+
   public double meterToPixel(double meter) {
     return meter * _scale;
+  }
+
+  public double[] meterToPixel(double[] pos) {
+    double[] newPos = new double[pos.length];
+
+    for (int i = 0; i < pos.length; ++i) {
+      newPos[i] = meterToPixel(pos[i]);
+    }
+
+    return newPos;
   }
 
   public MagnetismManager getMagnetismManager() {
