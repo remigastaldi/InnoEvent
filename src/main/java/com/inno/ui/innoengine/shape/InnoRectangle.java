@@ -201,7 +201,7 @@ public class InnoRectangle extends InteractiveRectangle {
       ++i;
     }
 
-    setRotation(new Rotate(_sectionData.getRotation(), pos[4], pos[5]));
+    setRotation(new Rotate(_sectionData.getRotation(), pos[0], pos[1]));
     // refreshGroup();
   }
 
