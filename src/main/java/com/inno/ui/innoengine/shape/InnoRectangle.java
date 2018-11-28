@@ -2,8 +2,8 @@
  * File Created: Monday, 15th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Tuesday, 27th November 2018
- * Modified By: HUBERT Léo
+ * Last Modified: Wednesday, 28th November 2018
+ * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
  * <<licensetext>>
@@ -99,12 +99,13 @@ public class InnoRectangle extends InteractiveRectangle {
 
   @Override
   public void onShapeChanged() {
-    double[] test = Engine().pixelToMeter(getPointsInParent());
-    for (int i = 0; i < test.length; i+=2) {
-      System.out.println(test[i] + " " + test[i + 1 ]);
-    }
+    // double[] test = Engine().pixelToMeter(getPointsInParent());
+    // for (int i = 0; i < test.length; i+=2) {
+    //   System.out.println(test[i] + " " + test[i + 1 ]);
+    // }
     Core.get().updateSectionPositions(getID(), Engine().pixelToMeter(getPointsInParent()));
-    Core.get().setSectionRotation(getID(), getRotation().getAngle());
+    System.out.println("IDIDDDDDD " + getID());
+    Core.get().setSectionRotation(getID(), getRotation() != null ? getRotation().getAngle() : 0.0);
     loadFromData(_group);
   }
 
@@ -179,9 +180,9 @@ public class InnoRectangle extends InteractiveRectangle {
 
     // double[] pos = getPoints();
     double[] pos = Engine().meterToPixel(_sectionData.getPositions());
-    for (int i = 0; i < pos.length; i+=2) {
-      System.out.println(pos[i] + " " + pos[i + 1 ]);
-    }
+    // for (int i = 0; i < pos.length; i+=2) {
+    //   System.out.println(pos[i] + " " + pos[i + 1 ]);
+    // }
 
     if (group != null)
       setPoints(parentToLocal(pos));
@@ -200,7 +201,7 @@ public class InnoRectangle extends InteractiveRectangle {
     }
 
     setRotation(new Rotate(_sectionData.getRotation(), pos[4], pos[5]));
-    refreshGroup();
+    // refreshGroup();
   }
 
   private void loadFromData() {
