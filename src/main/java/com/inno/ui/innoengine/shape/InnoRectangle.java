@@ -106,7 +106,6 @@ public class InnoRectangle extends InteractiveRectangle {
     //   System.out.println(test[i] + " " + test[i + 1 ]);
     // }
     Core.get().updateSectionPositions(getID(), Engine().pixelToMeter(getPointsInParent()));
-    System.out.println("IDIDDDDDD " + getID());
     Core.get().setSectionRotation(getID(), getRotation() != null ? getRotation().getAngle() : 0.0);
     loadFromData(_group);
   }

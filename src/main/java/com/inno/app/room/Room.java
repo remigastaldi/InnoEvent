@@ -181,8 +181,7 @@ public class Room implements ImmutableRoom, Serializable {
 
     public void setSectionRotation(String idSection, double rotation) {
         Section section = getSectionById(idSection);
-        System.out.println(";;;;;;;;;;;; " +  section + " : " + rotation);
-        
+
         if (section == null) {
             System.out.println("Bad section ID");
             return;
