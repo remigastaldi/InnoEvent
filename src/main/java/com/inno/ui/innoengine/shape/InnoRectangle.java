@@ -84,10 +84,10 @@ public class InnoRectangle extends InteractiveRectangle {
       setHeight(Engine().meterToPixel(_yVitalSpace));
 
     if (!_grabbed) {
-      double[] pos = getPoints();
-      double[] newPos = new double[] { pos[0] - getWidth(), pos[1] - getHeight(), pos[2] - getWidth(),
-          pos[3] - getHeight(), pos[4] - getWidth(), pos[5] - getHeight(), pos[6] - getWidth(), pos[7] - getHeight() };
-      _sectionData = Core.get().createSittingSection(Engine().pixelToMeter(localToParent(newPos)), 0, true);
+      // double[] pos = getPoints();
+      // double[] newPos = new double[] { pos[0] - getWidth(), pos[1] - getHeight(), pos[2] - getWidth(),
+      //     pos[3] - getHeight(), pos[4] - getWidth(), pos[5] - getHeight(), pos[6] - getWidth(), pos[7] - getHeight() };
+      _sectionData = Core.get().createSittingSection(Engine().pixelToMeter(localToParent(getPoints())), 0, true);
     } else
       _sectionData = Core.get().createSittingSection(Engine().pixelToMeter(getPointsInParent()), 0, true);
     loadFromData();
@@ -105,9 +105,9 @@ public class InnoRectangle extends InteractiveRectangle {
     // for (int i = 0; i < test.length; i+=2) {
     //   System.out.println(test[i] + " " + test[i + 1 ]);
     // }
-    Core.get().updateSectionPositions(getID(), Engine().pixelToMeter(getPointsInParent()));
-    Core.get().setSectionRotation(getID(), getRotation() != null ? getRotation().getAngle() : 0.0);
-    loadFromData(_group);
+    // Core.get().updateSectionPositions(getID(), Engine().pixelToMeter(getPointsInParent()));
+    // Core.get().setSectionRotation(getID(), getRotation() != null ? getRotation().getAngle() : 0.0);
+    // loadFromData(_group);
   }
 
   @Override
@@ -178,12 +178,12 @@ public class InnoRectangle extends InteractiveRectangle {
 
   private void loadFromData(Group group) {
     setID(_sectionData.getIdSection());
-
+    
     // double[] pos = getPoints();
     double[] pos = Engine().meterToPixel(_sectionData.getPositions());
     // for (int i = 0; i < pos.length; i+=2) {
-    //   System.out.println(pos[i] + " " + pos[i + 1 ]);
-    // }
+      //   System.out.println(pos[i] + " " + pos[i + 1 ]);
+      // }
 
     if (group != null)
       setPoints(parentToLocal(pos));
@@ -192,7 +192,7 @@ public class InnoRectangle extends InteractiveRectangle {
 
     ArrayList<? extends ImmutableSittingRow> rows =  _sectionData.getImmutableSittingRows();
     _rows = new InnoRow[rows.size()];
-
+      
     int i = 0;
     getAdditionalShapes().clear();
     for (ImmutableSittingRow row : rows) {

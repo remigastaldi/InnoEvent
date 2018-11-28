@@ -142,10 +142,8 @@ public class Core {
     System.out.println("SCENE " + pt.get_x() + " " + pt.get_y());
     double[] newPos = Utils.rotateRectangle(pt, positions);
     double newRotation = Utils.calculateRectangleRotation(pt, positions);
-    ImmutableSittingSection section = _room.createSittingSection(newPos,
-    newRotation, isRectangle);
+    ImmutableSittingSection section = _room.createSittingSection(newPos, newRotation, isRectangle);
 
-    System.out.println("============ " + newRotation);
     System.out.println("After rotate calcul ==> ");
     for (int i = 0; i < newPos.length; i+= 2) {
     System.out.println("X: " + newPos[i] + " Y: " + newPos[i + 1]);
