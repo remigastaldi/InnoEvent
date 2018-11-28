@@ -3,7 +3,7 @@
  * Author: GASTALDI Rémi
  * -----
  * Last Modified: Wednesday, 28th November 2018
- * Modified By: GASTALDI Rémi
+ * Modified By: HUBERT Léo
  * -----
  * Copyright - 2018 GASTALDI Rémi
  * <<licensetext>>
@@ -136,6 +136,35 @@ public class InnoEngine extends Engine {
 
   public View getView() {
     return _view;
+  }
+
+
+  public double pixelToMeter(double pixel) {
+    return pixel / getScale();
+  }
+
+  public double[] pixelToMeter(double[] pos) {
+    double[] newPos = new double[pos.length];
+
+    for (int i = 0; i < pos.length; ++i) {
+      newPos[i] = pixelToMeter(pos[i]);
+    }
+
+    return newPos;
+  }
+
+  public double meterToPixel(double meter) {
+    return meter * getScale();
+  }
+
+  public double[] meterToPixel(double[] pos) {
+    double[] newPos = new double[pos.length];
+
+    for (int i = 0; i < pos.length; ++i) {
+      newPos[i] = meterToPixel(pos[i]);
+    }
+
+    return newPos;
   }
 
   @Override

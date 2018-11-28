@@ -2,8 +2,8 @@
  * File Created: Tuesday, 13th November 2018
  * Author: MAREL Maud
  * -----
- * Last Modified: Monday, 26th November 2018
- * Modified By: MAREL Maud
+ * Last Modified: Wednesday, 28th November 2018
+ * Modified By: HUBERT Léo
  * -----
  * Copyright - 2018 MAREL Maud
  * <<licensetext>>
@@ -20,7 +20,6 @@ import java.util.Map;
 import java.util.HashMap;
 
 import javafx.fxml.FXML;
-
 
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
@@ -39,11 +38,6 @@ public class SceneController extends ViewController {
   @FXML
   private TextField scene_rotation_input;
 
-  private SimpleDoubleProperty widthInput = new SimpleDoubleProperty();
-  private SimpleDoubleProperty heightInput = new SimpleDoubleProperty();
-  private SimpleDoubleProperty rotationInput = new SimpleDoubleProperty();
-  
-
   @FXML
   private void initialize() {
   }
@@ -51,34 +45,22 @@ public class SceneController extends ViewController {
   public void init() {
     InnoRectangle rectangle = (InnoRectangle) getIntent();
 
-    scene_width_input.textProperty().bindBidirectional(widthInput, new NumberStringConverter());
-    scene_height_input.textProperty().bindBidirectional(heightInput, new NumberStringConverter());
-    scene_rotation_input.textProperty().bindBidirectional(rotationInput, new NumberStringConverter());
-    widthInput.set(rectangle.getWidth());
-    heightInput.set(rectangle.getHeight());
-    rotationInput.set(rectangle.getRotation().getAngle());
-
     rectangle.getWidthProperty().addListener((ChangeListener<Number>) (ov, oldX, newX) -> {
-      if (widthInput.get() != rectangle.getWidth())
-        widthInput.set(rectangle.getWidth());
+      if (!scene_width_input.getText().equals(Integer.toString((int) rectangle.getWidthToMetter()))) {
+        scene_width_input.setText(Integer.toString((int) rectangle.getWidthToMetter()));
+        checkInputs();
+      }
     });
     rectangle.getHeightProperty().addListener((ChangeListener<Number>) (ov, oldY, newY) -> {
-      if (heightInput.get() != rectangle.getHeight())
-        heightInput.set(rectangle.getHeight());
-    });
-    widthInput.addListener((ChangeListener<Number>) (ov, oldX, newX) -> {
-      if (checkInputs()) {
-        if (rectangle.getWidth() != newX.intValue())
-          rectangle.setWidth(newX.intValue());
+      if (!scene_height_input.getText().equals(Integer.toString((int) rectangle.getHeightToMetter()))) {
+        scene_height_input.setText(Integer.toString((int) rectangle.getHeightToMetter()));
+        checkInputs();
       }
+    });
 
-    });
-    heightInput.addListener((ChangeListener<Number>) (ov, oldY, newY) -> {
-      if (checkInputs()) {
-        if (rectangle.getHeight() != newY.intValue())
-          rectangle.setHeight(newY.intValue());
-      }
-    });
+    scene_height_input.setText(Integer.toString((int) rectangle.getHeightToMetter()));
+    scene_width_input.setText(Integer.toString((int) rectangle.getWidthToMetter()));
+    scene_rotation_input.setText(Integer.toString((int) rectangle.getRotation().getAngle()));
 
   }
 
@@ -93,9 +75,9 @@ public class SceneController extends ViewController {
       }
       try {
         if (scene_width_input.isFocused())
-          rectangle.setWidth(Integer.parseInt(scene_width_input.getText()));
+          rectangle.setWidthFromMetter(Double.parseDouble(scene_width_input.getText()));
         if (scene_height_input.isFocused())
-          rectangle.setHeight(Integer.parseInt(scene_height_input.getText()));
+          rectangle.setHeightFromMetter(Double.parseDouble(scene_height_input.getText()));
         if (scene_rotation_input.isFocused())
           rectangle.setRotationAngle(Double.parseDouble(scene_rotation_input.getText()));
         // }
@@ -116,11 +98,11 @@ public class SceneController extends ViewController {
     for (Map.Entry<TextField, String> entry : fields.entrySet()) {
       TextField field = entry.getKey();
       String validator = entry.getValue();
-      if ((field.isFocused()) && !Validator.validate(field.getText(), validator)) {
+      if (!Validator.validate(field.getText(), validator)) {
         if (!field.getStyleClass().contains("error"))
           field.getStyleClass().add("error");
         valid = false;
-      } else if (field.isFocused()) {
+      } else {
         if (field.getStyleClass().contains("error"))
           field.getStyleClass().remove("error");
       }

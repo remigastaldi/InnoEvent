@@ -34,8 +34,9 @@
                         <Label layoutY="57.0" text="Number of rows" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
                         <Label layoutY="102.0" text="VitalSpace Width" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
                         <Label layoutY="146.0" text="VitalSpace Height" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
-                        <Label layoutY="190.0" text="Rotation" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
-                        <Label layoutY="234.0" text="Price" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+                        <Label layoutY="233.0" text="Rotation" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+                        <Label layoutY="277.0" text="Price" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+                        <Label layoutY="190.0" text="Elevation" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
                      </children>
                   </AnchorPane>
                   <AnchorPane layoutX="151.0" layoutY="74.0" minWidth="89.0" prefHeight="469.0" prefWidth="89.0" AnchorPane.leftAnchor="139.0" AnchorPane.rightAnchor="10.0">
@@ -44,8 +45,8 @@
                         <TextField fx:id="section_rows_input" layoutY="44.0" onKeyReleased="#onKeyReleased" prefHeight="29.0" prefWidth="75.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
                         <TextField fx:id="section_vital_space_width_input" layoutY="88.0" onKeyReleased="#onKeyReleased" prefHeight="29.0" prefWidth="75.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
                         <TextField fx:id="section_vital_space_height_input" layoutY="132.0" onKeyReleased="#onKeyReleased" prefHeight="29.0" prefWidth="75.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
-                        <TextField fx:id="section_rotation_input" layoutY="177.0" onKeyReleased="#onKeyReleased" prefHeight="29.0" prefWidth="46.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="43.0" />
-                        <Group fx:id="section_rotation_group" layoutX="68.0" layoutY="192.0" AnchorPane.rightAnchor="0.0">
+                        <TextField fx:id="section_rotation_input" layoutY="220.0" onKeyReleased="#onKeyReleased" prefHeight="29.0" prefWidth="46.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="43.0" />
+                        <Group fx:id="section_rotation_group" layoutX="86.0" layoutY="235.0" AnchorPane.rightAnchor="0.0">
                            <children>
                               <Circle fx:id="section_rotation_circle" fill="#e3e7eb" radius="15.0" stroke="BLACK" strokeType="INSIDE" />
                               <Circle fill="#eef2f5" layoutX="9.0" onMousePressed="#onMousePressed" onMouseReleased="#onMouseReleased" radius="4.0" stroke="BLACK" strokeType="INSIDE">
@@ -54,7 +55,8 @@
                                  </cursor></Circle>
                            </children>
                         </Group>
-                        <TextField fx:id="section_price_input" layoutY="221.0" onKeyReleased="#onKeyReleased" prefHeight="29.0" prefWidth="101.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+                        <TextField fx:id="section_price_input" layoutY="264.0" onKeyReleased="#onKeyReleased" prefHeight="29.0" prefWidth="101.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+                        <TextField fx:id="section_elevation_input" layoutX="-33.0" layoutY="176.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
                      </children>
                   </AnchorPane>
                </children>

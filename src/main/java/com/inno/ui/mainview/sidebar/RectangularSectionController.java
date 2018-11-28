@@ -2,7 +2,7 @@
  * File Created: Tuesday, 13th November 2018
  * Author: MAREL Maud
  * -----
- * Last Modified: Tuesday, 27th November 2018
+ * Last Modified: Wednesday, 28th November 2018
  * Modified By: HUBERT Léo
  * -----
  * Copyright - 2018 MAREL Maud
@@ -53,6 +53,8 @@ public class RectangularSectionController extends ViewController {
   @FXML
   private TextField section_rotation_input;
   @FXML
+  private TextField section_elevation_input;
+  @FXML
   private TextField section_price_input;
   @FXML
   private Group section_rotation_group;
@@ -62,12 +64,6 @@ public class RectangularSectionController extends ViewController {
   private AnchorPane sidebar_content;
 
   EventHandler<MouseEvent> _mouseDragged;
-
-  private SimpleDoubleProperty widthInput = new SimpleDoubleProperty();
-  private SimpleDoubleProperty heightInput = new SimpleDoubleProperty();
-  private SimpleDoubleProperty rotationInput = new SimpleDoubleProperty();
-  private SimpleDoubleProperty vitalSpaceWidthInput = new SimpleDoubleProperty();
-  private SimpleDoubleProperty vitalSpaceHeightInput = new SimpleDoubleProperty();
 
   @FXML
   private void initialize() {
@@ -82,44 +78,32 @@ public class RectangularSectionController extends ViewController {
 
     }
 
-
-    section_name_input.setText(Core().getImmutableRoom().getSectionById(rectangle.getID()).getNameSection());
-    section_columns_input.textProperty().bindBidirectional(widthInput, new NumberStringConverter());
-    section_rows_input.textProperty().bindBidirectional(heightInput, new NumberStringConverter());
-    section_rotation_input.textProperty().bindBidirectional(rotationInput, new NumberStringConverter());
-    if (Core().getSectionPrice(rectangle.getID()) != null && Core().getSectionPrice(rectangle.getID()).getPrice() != -1) {
+    if (Core().getSectionPrice(rectangle.getID()) != null
+        && Core().getSectionPrice(rectangle.getID()).getPrice() != -1) {
       section_price_input.setText(Double.toString(Core().getSectionPrice(rectangle.getID()).getPrice()));
     }
-    widthInput.set(rectangle.getColumnNumber());
-    heightInput.set(rectangle.getRowNumber());
-    rotationInput.set(rectangle.getRotation().getAngle());
-    section_vital_space_width_input.textProperty()
-        .set(Double.toString(rectangle.getSectionData().getImmutableVitalSpace().getWidth()));
-    section_vital_space_height_input.textProperty()
-        .set(Double.toString(rectangle.getSectionData().getImmutableVitalSpace().getHeight()));
+    section_name_input.setText(Core().getImmutableRoom().getSectionById(rectangle.getID()).getNameSection());
+    section_columns_input.setText(Integer.toString(rectangle.getColumnNumber()));
+    section_rows_input.setText(Integer.toString(rectangle.getRowNumber()));
+    section_rotation_input.setText(Double.toString(rectangle.getRotation().getAngle()));
+
+    setRotation(rectangle.getRotation().getAngle(), false);
+
+    section_vital_space_width_input
+        .setText(Double.toString(rectangle.getSectionData().getImmutableVitalSpace().getWidth()));
+    section_vital_space_height_input
+        .setText(Double.toString(rectangle.getSectionData().getImmutableVitalSpace().getHeight()));
 
     rectangle.getWidthProperty().addListener((ChangeListener<Number>) (ov, oldX, newX) -> {
-      if (widthInput.get() != rectangle.getColumnNumber())
-        widthInput.set(rectangle.getColumnNumber());
+      if (!section_columns_input.getText().equals(Integer.toString(rectangle.getColumnNumber()))) {
+        section_columns_input.setText(Integer.toString(rectangle.getColumnNumber()));
+      }
     });
     rectangle.getHeightProperty().addListener((ChangeListener<Number>) (ov, oldY, newY) -> {
-      if (heightInput.get() != rectangle.getRowNumber())
-        heightInput.set(rectangle.getRowNumber());
-    });
-    widthInput.addListener((ChangeListener<Number>) (ov, oldX, newX) -> {
-      if (checkInputs()) {
-        if (rectangle.getColumnNumber() != newX.intValue())
-          rectangle.setColumnNumber(newX.intValue());
-      }
-
-    });
-    heightInput.addListener((ChangeListener<Number>) (ov, oldY, newY) -> {
-      if (checkInputs()) {
-        if (rectangle.getRowNumber() != newY.intValue())
-          rectangle.setRowNumber(newY.intValue());
+      if (!section_rows_input.getText().equals(Integer.toString(rectangle.getRowNumber()))) {
+        section_rows_input.setText(Integer.toString(rectangle.getRowNumber()));
       }
     });
-
   }
 
   private void setRotation(Double angle, boolean input) {
@@ -182,7 +166,6 @@ public class RectangularSectionController extends ViewController {
       }
       try {
         if (section_price_input.isFocused()) {
-          System.out.println("price set to" + section_price_input.getText());
           Core().setSectionPrice(rectangle.getID(), Double.parseDouble(section_price_input.getText()));
         }
         if (section_columns_input.isFocused())
@@ -194,13 +177,9 @@ public class RectangularSectionController extends ViewController {
         if (section_vital_space_width_input.isFocused() || section_vital_space_height_input.isFocused()) {
           rectangle.setVitalSpace(Double.parseDouble(section_vital_space_width_input.getText()),
               Double.parseDouble(section_vital_space_height_input.getText()));
-          widthInput.set(rectangle.getColumnNumber());
-          heightInput.set(rectangle.getRowNumber());
-
         }
         if (section_name_input.isFocused())
           Core().setSectionName(rectangle.getID(), section_name_input.getText());
-        // }
       } catch (Exception e) {
         System.out.println(e);
       }

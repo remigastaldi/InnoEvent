@@ -3,7 +3,7 @@
  * Author: GASTALDI Rémi
  * -----
  * Last Modified: Wednesday, 28th November 2018
- * Modified By: GASTALDI Rémi
+ * Modified By: HUBERT Léo
  * -----
  * Copyright - 2018 GASTALDI Rémi
  * <<licensetext>>
@@ -38,8 +38,8 @@ public class InnoRectangle extends InteractiveRectangle {
   public InnoRectangle(InnoEngine engine, Pane pane) {
     super(engine, pane);
 
-    _xVitalSpace = Engine().meterToPixel(Core.get().getImmutableRoom().getImmutableVitalSpace().getWidth());
-    _yVitalSpace = Engine().meterToPixel(Core.get().getImmutableRoom().getImmutableVitalSpace().getHeight());
+    _xVitalSpace = ((InnoEngine)Engine()).meterToPixel(Core.get().getImmutableRoom().getImmutableVitalSpace().getWidth());
+    _yVitalSpace = ((InnoEngine)Engine()).meterToPixel(Core.get().getImmutableRoom().getImmutableVitalSpace().getHeight());
   }
 
   public InnoRectangle(InnoEngine engine, Pane pane, String id, double x, double y, double width, double height,
@@ -47,8 +47,8 @@ public class InnoRectangle extends InteractiveRectangle {
     super(engine, pane, x, y, width, height, rotation, color);
 
     setID(id);
-    _xVitalSpace = Engine().meterToPixel(Core.get().getImmutableRoom().getImmutableVitalSpace().getWidth());
-    _yVitalSpace = Engine().meterToPixel(Core.get().getImmutableRoom().getImmutableVitalSpace().getHeight());
+    _xVitalSpace = ((InnoEngine)Engine()).meterToPixel(Core.get().getImmutableRoom().getImmutableVitalSpace().getWidth());
+    _yVitalSpace = ((InnoEngine)Engine()).meterToPixel(Core.get().getImmutableRoom().getImmutableVitalSpace().getHeight());
   }
 
   @Override
@@ -78,20 +78,20 @@ public class InnoRectangle extends InteractiveRectangle {
 
   @Override
   public boolean onMouseReleased(MouseEvent event) {
-    if (getWidth() < Engine().meterToPixel(_xVitalSpace))
-      setWidth(Engine().meterToPixel(_xVitalSpace));
-    if (getHeight() < Engine().meterToPixel(_yVitalSpace))
-      setHeight(Engine().meterToPixel(_yVitalSpace));
+    if (getWidth() < ((InnoEngine)Engine()).meterToPixel(_xVitalSpace))
+      setWidth(((InnoEngine)Engine()).meterToPixel(_xVitalSpace));
+    if (getHeight() < ((InnoEngine)Engine()).meterToPixel(_yVitalSpace))
+      setHeight(((InnoEngine)Engine()).meterToPixel(_yVitalSpace));
 
     if (!_grabbed) {
       // double[] pos = getPoints();
       // double[] newPos = new double[] { pos[0] - getWidth(), pos[1] - getHeight(), pos[2] - getWidth(),
       //     pos[3] - getHeight(), pos[4] - getWidth(), pos[5] - getHeight(), pos[6] - getWidth(), pos[7] - getHeight() };
-      _sectionData = Core.get().createSittingSection(Engine().pixelToMeter(localToParent(getPoints())), 0, true);
+      _sectionData = Core.get().createSittingSection(((InnoEngine)Engine()).pixelToMeter(localToParent(getPoints())), 0, true);
     } else
-      _sectionData = Core.get().createSittingSection(Engine().pixelToMeter(getPointsInParent()), 0, true);
+      _sectionData = Core.get().createSittingSection(((InnoEngine)Engine()).pixelToMeter(getPointsInParent()), 0, true);
     loadFromData();
-    InnoEngine engine = (InnoEngine) Engine();
+    InnoEngine engine = (InnoEngine) ((InnoEngine)Engine());
     engine.getView().openPopup("new_sitting_rectangulary_section.fxml", this);
     engine.getView().setSidebarFromFxmlFileName("sidebar_regular_sitting_section.fxml", this);
     return true;
@@ -101,7 +101,7 @@ public class InnoRectangle extends InteractiveRectangle {
   public void onShapeChanged() {
     if (_sectionData == null)
       return;
-    // double[] test = Engine().pixelToMeter(getPointsInParent());
+    // double[] test = ((InnoEngine)Engine()).pixelToMeter(getPointsInParent());
     // for (int i = 0; i < test.length; i+=2) {
     //   System.out.println(test[i] + " " + test[i + 1 ]);
     // }
@@ -118,10 +118,10 @@ public class InnoRectangle extends InteractiveRectangle {
 
   @Override
   public boolean onFormComplete() {
-    // if (getWidth() < Engine().meterToPixel(_xVitalSpace))
-    // setWidth(Engine().meterToPixel(_xVitalSpace));
-    // if (getHeight() < Engine().meterToPixel(_yVitalSpace))
-    // setHeight(Engine().meterToPixel(_yVitalSpace));
+    // if (getWidth() < ((InnoEngine)Engine()).meterToPixel(_xVitalSpace))
+    // setWidth(((InnoEngine)Engine()).meterToPixel(_xVitalSpace));
+    // if (getHeight() < ((InnoEngine)Engine()).meterToPixel(_yVitalSpace))
+    // setHeight(((InnoEngine)Engine()).meterToPixel(_yVitalSpace));
 
     // double[] pos = {getX(), getY(),
     // getMaxXProperty().get(), getY(),
@@ -133,17 +133,17 @@ public class InnoRectangle extends InteractiveRectangle {
 
   @Override
   public boolean onSelected() {
-    InnoEngine engine = (InnoEngine) Engine();
+    InnoEngine engine = (InnoEngine) ((InnoEngine)Engine());
     engine.getView().setSidebarFromFxmlFileName("sidebar_regular_sitting_section.fxml", this);
     return true;
   }
 
   public void setColumnNumber(int columns) {
-    setWidth(Engine().meterToPixel(_xVitalSpace * columns));
+    setWidth(_xVitalSpace * columns);
   }
 
   public void setRowNumber(int rows) {
-    setHeight(Engine().meterToPixel(_yVitalSpace * rows));
+    setHeight(_yVitalSpace * rows);
   }
 
   public int getColumnNumber() {
@@ -159,11 +159,27 @@ public class InnoRectangle extends InteractiveRectangle {
   }
 
   public void setVitalSpace(double width, double height) {
-    _xVitalSpace = Engine().meterToPixel(width);
-    _yVitalSpace = Engine().meterToPixel(height);
+    _xVitalSpace = ((InnoEngine)Engine()).meterToPixel(width);
+    _yVitalSpace = ((InnoEngine)Engine()).meterToPixel(height);
 
     // System.outprintln()
     Core.get().setSittingSectionVitalSpace(_sectionData.getIdSection(), width, height);
+  }
+
+  public void setHeightFromMetter(double height) {
+    this.setHeight(((InnoEngine)Engine()).meterToPixel(height));
+  }
+
+  public double getHeightToMetter() {
+    return ((InnoEngine)Engine()).pixelToMeter(this.getHeight());
+  }
+
+  public void setWidthFromMetter(double width) {
+    this.setWidth(((InnoEngine)Engine()).meterToPixel(width));
+  }
+
+  public double getWidthToMetter() {
+    return ((InnoEngine)Engine()).pixelToMeter(this.getWidth());
   }
 
   @Override
@@ -180,7 +196,8 @@ public class InnoRectangle extends InteractiveRectangle {
     setID(_sectionData.getIdSection());
     
     // double[] pos = getPoints();
-    double[] pos = Engine().meterToPixel(_sectionData.getPositions());
+    double[] pos = ((InnoEngine)Engine()).meterToPixel(_sectionData.getPositions());
+    
     // for (int i = 0; i < pos.length; i+=2) {
       //   System.out.println(pos[i] + " " + pos[i + 1 ]);
       // }
@@ -196,8 +213,8 @@ public class InnoRectangle extends InteractiveRectangle {
     int i = 0;
     getAdditionalShapes().clear();
     for (ImmutableSittingRow row : rows) {
-      InnoEngine engine = (InnoEngine) Engine();
-      _rows[i] = new InnoRow(engine, this, row, Engine().meterToPixel(_sectionData.getImmutableVitalSpace().getHeight()));
+      InnoEngine engine = (InnoEngine) ((InnoEngine)Engine());
+      _rows[i] = new InnoRow(engine, this, row, engine.meterToPixel(_sectionData.getImmutableVitalSpace().getHeight()));
       ++i;
     }
 

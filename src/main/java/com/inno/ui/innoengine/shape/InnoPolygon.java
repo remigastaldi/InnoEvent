@@ -2,8 +2,8 @@
  * File Created: Sunday, 14th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Tuesday, 27th November 2018
- * Modified By: GASTALDI Rémi
+ * Last Modified: Wednesday, 28th November 2018
+ * Modified By: HUBERT Léo
  * -----
  * Copyright - 2018 GASTALDI Rémi
  * <<licensetext>>
@@ -94,7 +94,7 @@ public class InnoPolygon extends InteractivePolygon {
 
   @Override
   public void onShapeChanged() {
-    Core.get().updateSectionPositions(getID(), Engine().pixelToMeter(getPointsInParent()));
+    Core.get().updateSectionPositions(getID(), ((InnoEngine)Engine()).pixelToMeter(getPointsInParent()));
     Core.get().setSectionRotation(getID(), getRotation().getAngle());
     loadFromData(_group);
   }

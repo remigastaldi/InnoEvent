@@ -2,8 +2,8 @@
  * File Created: Wednesday, 26th September 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Thursday, 22nd November 2018
- * Modified By: MAREL Maud
+ * Last Modified: Wednesday, 28th November 2018
+ * Modified By: HUBERT Léo
  * -----
  * Copyright - 2018 GASTALDI Rémi
  * <<licensetext>>
@@ -19,7 +19,6 @@ import java.util.Map;
 import java.util.HashMap;
 
 import javafx.fxml.FXML;
-
 
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
@@ -48,27 +47,29 @@ public class RoomController extends ViewController {
 
   @FXML
   private void onKeyReleased() {
-    checkInputs(false);
+    if (checkInputs()) {
+      // TODO: Add function to change room settings
+    }
   }
 
-  private boolean checkInputs(boolean required) {
+  private boolean checkInputs() {
     boolean valid = true;
 
     HashMap<TextField, String> fields = new LinkedHashMap<>();
-    fields.put(project_name_input, (required == true ? "required|" : "") + "max:30");
-    fields.put(room_width_input, (required == true ? "required|" : "") + "numeric");
-    fields.put(room_height_input, (required == true ? "required|" : "") + "numeric");
-    fields.put(vital_space_width_input, (required == true ? "required|" : "") + "numeric");
-    fields.put(vital_space_height_input, (required == true ? "required|" : "") + "numeric");
+    fields.put(project_name_input, "required|max:30");
+    fields.put(room_width_input, "required|numeric");
+    fields.put(room_height_input, "required|numeric");
+    fields.put(vital_space_width_input, "required|numeric");
+    fields.put(vital_space_height_input, "required|numeric");
 
     for (Map.Entry<TextField, String> entry : fields.entrySet()) {
       TextField field = entry.getKey();
       String validator = entry.getValue();
-      if ((required || field.isFocused()) && !Validator.validate(field.getText(), validator)) {
+      if (!Validator.validate(field.getText(), validator)) {
         if (!field.getStyleClass().contains("error"))
           field.getStyleClass().add("error");
         valid = false;
-      } else if (field.isFocused()) {
+      } else {
         if (field.getStyleClass().contains("error"))
           field.getStyleClass().remove("error");
       }
