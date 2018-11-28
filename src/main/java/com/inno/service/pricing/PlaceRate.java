@@ -16,6 +16,7 @@ import java.util.ArrayList;
 
 public class PlaceRate implements ImmutablePlaceRate, Serializable {
 
+  private static final long serialVersionUID = 1L;
   protected String _id;
   protected String _color;
   protected double _price;

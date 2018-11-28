@@ -16,6 +16,7 @@ import java.util.HashMap;
 
 public class Offer implements ImmutableOffer, Serializable {
 
+  private static final long serialVersionUID = 1L;
   protected String _name;
   protected double _reduction;
   protected String _description;

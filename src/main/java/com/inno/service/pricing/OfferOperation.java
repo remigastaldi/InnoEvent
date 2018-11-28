@@ -15,6 +15,7 @@ import java.io.Serializable;
 
 public class OfferOperation implements ImmutableOfferOperation, Serializable {
 
+  private static final long serialVersionUID = 1L;
   protected String _value;
   protected RelationalOperator _relationalOperator;
   protected LogicalOperator _logicalOperator;
