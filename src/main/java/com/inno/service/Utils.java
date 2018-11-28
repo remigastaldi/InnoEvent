@@ -149,24 +149,57 @@ public class Utils {
         for(int i=0; i<p_Array.length; i++)
         {
             d_Array[2*i] = p_Array[i].get_x();
-            d_Array[2*i+1] = p_Array[i].get_y();
+            d_Array[(2*i)+1] = p_Array[i].get_y();
         }
         return d_Array;
     }
 
     public static double[] rotateRectangle(Point center, double[] rectangle)
     {
+        System.out.println("PRINT_1");
+        for(int i=0; i<rectangle.length; i+=2)
+        {
+            System.out.println("x: "+rectangle[i]+" y: "+rectangle[i+1]);
+        }
+
         Point pRectangle[] = dArray_To_pArray(rectangle);
+
+        System.out.println("PRINT_2");
+        for(Point point:pRectangle)
+        {
+            System.out.println("x: "+point.get_x()+" y: "+point.get_y());
+        }
+
         Point click = pRectangle[2];
+        System.out.println("PRINT_3");
+        System.out.println("x: "+click.get_x()+" y: "+click.get_y());
+
         double anglerot = calculateRectangleRotation(center, rectangle);
-        return pArray_To_dArray(rotatePolygon(mirrorRectangle(dArray_To_pArray(rectangle)), click, anglerot));
+        Point pt[] = rotatePolygon((dArray_To_pArray(rectangle)), click, anglerot);
+//        System.out.println("rotation: "+anglerot);
+//        Point pt2[] = {pt[2], pt[3], pt[1], pt[0]};
+//        return pArray_To_dArray(pt2);
+        return pArray_To_dArray(pt);
     }
 
     public static Point[] mirrorRectangle(Point[] rectangle)
     {
-        Point mirroredRect[] = {rectangle[3], rectangle[2] ,
-                new Point(rectangle[1].get_x(), 2*rectangle[2].get_y()-rectangle[1].get_y()),
-                new Point(rectangle[0].get_x(), 2*rectangle[2].get_y()-rectangle[1].get_y())};
+        System.out.println("PRINT_4");
+        for(Point point:rectangle)
+        {
+            System.out.println("x: "+point.get_x()+" y: "+point.get_y());
+        }
+
+        Point mirroredRect[] = {new Point(rectangle[1].get_x(), 2*rectangle[2].get_y()-rectangle[1].get_y()),
+                new Point(rectangle[0].get_x(), 2*rectangle[2].get_y()-rectangle[1].get_y()),rectangle[3],rectangle[2]};
+//        return rectangle;
+
+        System.out.println("PRINT_5");
+        for(Point point:mirroredRect)
+        {
+            System.out.println("x: "+point.get_x()+" y: "+point.get_y());
+        }
+
         return mirroredRect;
     }
 
@@ -174,16 +207,19 @@ public class Utils {
     // to perpendicularly face scene center 'center'
     public static double calculateRectangleRotation(Point center, double[] rectangle)
     {
-        Point[] pRectangle = mirrorRectangle(dArray_To_pArray(rectangle));
+//        Point[] pRectangle = mirrorRectangle(dArray_To_pArray(rectangle));
+        Point[] pRectangle = dArray_To_pArray(rectangle);
 
-        Point click = pRectangle[1];
+        Point click = pRectangle[0];
         double a = distance(pRectangle[0], pRectangle[1]);//width
         double b = distance(click, center);
         double cosA = (2*(b*b)-(a*a))/(2*b*b);
 
         Point p = rotatePoint(click, center, -Math.acos(cosA));
-        Point q = new Point(click.get_x()-a, click.get_y());
+        Point q = new Point(click.get_x()+a, click.get_y());
 
-        return calculateRotationAngle(click, q, p);
+        double rotation = Math.toDegrees(calculateRotationAngle(click, q, p));
+        System.out.println("angle: "+rotation);
+        return rotation;
     }
 }
