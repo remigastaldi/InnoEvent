@@ -3,7 +3,7 @@
  * Author: GASTALDI Rémi
  * -----
  * Last Modified: Wednesday, 28th November 2018
- * Modified By: HUBERT Léo
+ * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
  * <<licensetext>>
@@ -81,11 +81,13 @@ public class InnoEngine extends Engine {
     InnoRectangle shape = new InnoRectangle(this, getPane(), "-1", pos[0], pos[1],
       meterToPixel(dto.getWidth()), meterToPixel(dto.getHeight()), new Rotate(dto.getRotation(), pos[0] + meterToPixel(dto.getWidth()), pos[1] + meterToPixel(dto.getHeight())), Color.ROYALBLUE) {
         @Override
-        public void onShapeChanged() {
+        public boolean onShapeResized() {
           Core.get().setScenePositions(pixelToMeter(getPointsInParent()));
           Core.get().setSceneWidth(pixelToMeter(this.getWidth()));
           Core.get().setSceneHeight(pixelToMeter(this.getHeight()));
-          Core.get().setSceneRotation(this.getRotation().getAngle());
+          // Core.get().setSceneRotation(this.getRotation().getAngle());
+
+          return true;
         }
 
         @Override

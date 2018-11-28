@@ -2,7 +2,7 @@
  * File Created: Wednesday, 21st November 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Saturday, 24th November 2018
+ * Last Modified: Wednesday, 28th November 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -81,7 +81,7 @@ public class CircleAnchor extends Circle {
       _mousePressed = false;
       _engine.getCursor().setForm(CustomCursor.Type.DEFAULT);
       _engine.getCursor().removeShape();
-      _interactiveShape.onShapeChanged();
+      // _interactiveShape.onShapeChanged();
     });
 
     setOnMouseDragged(mouseEvent -> {
@@ -94,6 +94,7 @@ public class CircleAnchor extends Circle {
       // } else {
       //   _rectangle.setFill(Color.GREEN);
       // }
+      _interactiveShape.onShapeResized();
     });
   }
 

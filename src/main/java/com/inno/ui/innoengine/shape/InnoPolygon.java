@@ -3,7 +3,7 @@
  * Author: GASTALDI Rémi
  * -----
  * Last Modified: Wednesday, 28th November 2018
- * Modified By: HUBERT Léo
+ * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
  * <<licensetext>>
@@ -93,10 +93,12 @@ public class InnoPolygon extends InteractivePolygon {
   }
 
   @Override
-  public void onShapeChanged() {
+  public boolean onShapeResized() {
     Core.get().updateSectionPositions(getID(), ((InnoEngine)Engine()).pixelToMeter(getPointsInParent()));
-    Core.get().setSectionRotation(getID(), getRotation().getAngle());
+    // Core.get().setSectionRotation(getID(), getRotation().getAngle());
     loadFromData(_group);
+
+    return true;
   }
 
   @Override

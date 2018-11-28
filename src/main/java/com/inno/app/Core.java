@@ -110,6 +110,13 @@ public class Core {
   }
 
   public void updateSectionPositions(String idSection, double[] positions) {
+    Point pt = new Point(getImmutableRoom().getImmutableScene().getCenter()[0],
+    getImmutableRoom().getImmutableScene().getCenter()[1]);
+    // double[] newPos = Utils.rotateRectangle(pt, positions);
+    double rotation = Utils.calculateRectangleRotation(pt, positions);
+    if (rotation != rotation)
+      rotation = 0.0;
+    _room.setSectionRotation(idSection, rotation);
 
     this._room.updateSectionPositions(idSection, positions);
   }
@@ -134,23 +141,14 @@ public class Core {
 
   // sittingSection Methods
   public ImmutableSittingSection createSittingSection(double[] positions, double rotation, boolean isRectangle) {
-    for (int i = 0; i < positions.length; i +=2) {
-    System.out.println("X: " + positions[i] + " Y: " + positions[i + 1]);
-    }
     Point pt = new Point(getImmutableRoom().getImmutableScene().getCenter()[0],
     getImmutableRoom().getImmutableScene().getCenter()[1]);
-    System.out.println("SCENE " + pt.get_x() + " " + pt.get_y());
     // double[] newPos = Utils.rotateRectangle(pt, positions);
     double newRotation = Utils.calculateRectangleRotation(pt, positions);
     ImmutableSittingSection section = _room.createSittingSection(positions, newRotation, isRectangle);
 
-    System.out.println("After rotate calcul ==> ");
-    // for (int i = 0; i < newPos.length; i+= 2) {
-    // System.out.println("X: " + newPos[i] + " Y: " + newPos[i + 1]);
-    // }
-
-    // ImmutableSittingSection section = this._room.createSittingSection(positions, rotation, isRectangle);
     _pricing.createPlace(section.getIdSection(), "#ffffff", -1);
+
     return section;
   }
 

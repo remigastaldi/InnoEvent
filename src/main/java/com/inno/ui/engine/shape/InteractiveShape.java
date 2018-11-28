@@ -66,7 +66,8 @@ public abstract class InteractiveShape<T extends Shape> {
   public boolean onFormComplete() { return true; }
   public boolean onSelected() { return true; }
   public boolean onDestroy() { return true; }
-  public void onShapeChanged() {};
+  public boolean onShapeResized() { return true; }
+  public boolean onShapeMoved() { return true; }
 
   public abstract void start();
 
@@ -195,8 +196,10 @@ public abstract class InteractiveShape<T extends Shape> {
 
   public void refreshGroup() {
     ObservableList<Transform> transforms = _group.getTransforms();
-    // double rotate = _group.getRotate();
-
+  
+    if (_group != null)
+      Pane().getChildren().remove(_group);
+  
     ArrayList<Node> nodes = new ArrayList<>();
     nodes.add(_shape);
     for (Shape outBound : _outBoundShapes) {
@@ -208,7 +211,6 @@ public abstract class InteractiveShape<T extends Shape> {
     for (Shape additionalShape : _additionalShapes) {
       nodes.add(additionalShape);
     }
-    Pane().getChildren().remove(_group);
     _group = new Group(nodes);
     Pane().getChildren().add(_group);
     _group.getTransforms().addAll(transforms);
@@ -222,7 +224,6 @@ public abstract class InteractiveShape<T extends Shape> {
       orgTranslateX = ((Group) (_group)).getTranslateX();
       orgTranslateY = ((Group) (_group)).getTranslateY();
     });
-
   }
 
   double orgSceneX, orgSceneY;
@@ -269,7 +270,7 @@ public abstract class InteractiveShape<T extends Shape> {
         // } else
         //   _shape.setFill(Color.RED);
         // Pane().getChildren().remove(shape);
-        onShapeChanged();
+        onShapeMoved();
       }
     };
     EventHandlers().put(MouseEvent.MOUSE_DRAGGED, mouseDragged);

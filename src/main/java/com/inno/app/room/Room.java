@@ -149,30 +149,31 @@ public class Room implements ImmutableRoom, Serializable {
     public void updateSectionPositions(String idSection, double[] positions) {
         Section section = null;
         if ((section = this._sittingSections.get(idSection)) != null) {
-            // if (((ImmutableSittingSection)section).isRectangle()) {
-            //     clearAllSittingRows(section.getIdSection());
-            //     double xRow = positions[0];
-            //     double yRow = positions[1];
-            //     double xSeat = positions[0];
-            //     double ySeat = positions[1];
-            //     double vitalSpaceHeight = ((ImmutableSittingSection)section).getImmutableVitalSpace().getHeight();
-            //     double vitalSpaceWidth = ((ImmutableSittingSection)section).getImmutableVitalSpace().getWidth();
+            if (((ImmutableSittingSection)section).isRectangle()) {
+                clearAllSittingRows(section.getIdSection());
+                double xRow = positions[0];
+                double yRow = positions[1];
+                double xSeat = positions[0];
+                double ySeat = positions[1];
+                double vitalSpaceHeight = ((ImmutableSittingSection)section).getImmutableVitalSpace().getHeight();
+                double vitalSpaceWidth = ((ImmutableSittingSection)section).getImmutableVitalSpace().getWidth();
+                
+                // System.out.println("....................... " + yRow + " : " + positions[7]);
+                while (yRow < positions[7]) {
+                    double[] posStart = { xRow + (vitalSpaceWidth / 2), yRow + (vitalSpaceHeight / 2) };
+                    double[] posEnd = { positions[2] - (vitalSpaceWidth / 2), yRow + (vitalSpaceHeight / 2) };
+                    ImmutableSittingRow row = createSittingRow(section.getIdSection(), posStart, posEnd);
     
-            //     while (yRow < positions[7]) {
-            //         double[] posStart = { xRow + (vitalSpaceWidth / 2), yRow + (vitalSpaceHeight / 2) };
-            //         double[] posEnd = { positions[2] - (vitalSpaceWidth / 2), yRow + (vitalSpaceHeight / 2) };
-            //         ImmutableSittingRow row = createSittingRow(section.getIdSection(), posStart, posEnd);
-    
-            //         while (xSeat < positions[2]) {
-            //             double[] seatPos = { xSeat + (vitalSpaceWidth / 2), ySeat + (vitalSpaceHeight / 2) };
-            //             createSeat(section.getIdSection(), row.getIdRow(), seatPos);
-            //             xSeat += vitalSpaceWidth;
-            //         }
-            //         yRow += vitalSpaceHeight;
-            //         xSeat = positions[0];
-            //         ySeat += vitalSpaceHeight;
-            //     }
-            // }
+                    while (xSeat < positions[2]) {
+                        double[] seatPos = { xSeat + (vitalSpaceWidth / 2), ySeat + (vitalSpaceHeight / 2) };
+                        createSeat(section.getIdSection(), row.getIdRow(), seatPos);
+                        xSeat += vitalSpaceWidth;
+                    }
+                    yRow += vitalSpaceHeight;
+                    xSeat = positions[0];
+                    ySeat += vitalSpaceHeight;
+                }
+            }
             section.updatePosition(positions);
         } else if ((section = this._standingSections.get(idSection)) != null) {
             section.updatePosition(positions);
@@ -217,27 +218,27 @@ public class Room implements ImmutableRoom, Serializable {
                 vitalSpaceWidth, isRectangle);
         this._sittingSections.put(id, sittingSection);
 
-        // if (isRectangle) {
-        //     double xRow = positions[0];
-        //     double yRow = positions[1];
-        //     double xSeat = positions[0];
-        //     double ySeat = positions[1];
+        if (isRectangle) {
+            double xRow = positions[0];
+            double yRow = positions[1];
+            double xSeat = positions[0];
+            double ySeat = positions[1];
 
-        //     while (yRow < positions[7]) {
-        //         double[] posStart = { xRow + (vitalSpaceWidth / 2), yRow + (vitalSpaceHeight / 2) };
-        //         double[] posEnd = { positions[2] - (vitalSpaceWidth / 2), yRow + (vitalSpaceHeight / 2) };
-        //         ImmutableSittingRow row = createSittingRow(sittingSection.getIdSection(), posStart, posEnd);
+            while (yRow < positions[7]) {
+                double[] posStart = { xRow + (vitalSpaceWidth / 2), yRow + (vitalSpaceHeight / 2) };
+                double[] posEnd = { positions[2] - (vitalSpaceWidth / 2), yRow + (vitalSpaceHeight / 2) };
+                ImmutableSittingRow row = createSittingRow(sittingSection.getIdSection(), posStart, posEnd);
 
-        //         while (xSeat < positions[2]) {
-        //             double[] seatPos = { xSeat + (vitalSpaceWidth / 2), ySeat + (vitalSpaceHeight / 2) };
-        //             createSeat(sittingSection.getIdSection(), row.getIdRow(), seatPos);
-        //             xSeat += vitalSpaceWidth;
-        //         }
-        //         yRow += vitalSpaceHeight;
-        //         xSeat = positions[0];
-        //         ySeat += vitalSpaceHeight;
-        //     }
-        // }
+                while (xSeat < positions[2]) {
+                    double[] seatPos = { xSeat + (vitalSpaceWidth / 2), ySeat + (vitalSpaceHeight / 2) };
+                    createSeat(sittingSection.getIdSection(), row.getIdRow(), seatPos);
+                    xSeat += vitalSpaceWidth;
+                }
+                yRow += vitalSpaceHeight;
+                xSeat = positions[0];
+                ySeat += vitalSpaceHeight;
+            }
+        }
 
         return sittingSection;
     }
