@@ -124,29 +124,35 @@ public class InteractiveRectangle extends InteractiveShape<Rectangle> {
     _shape.widthProperty().addListener((ChangeListener<Number>) (ov, oldX, newX) -> {
       if (_shape.getX() + (double) newX != maxXProperty.get()) {
         maxXProperty.set(_shape.getX() + (double) newX);
+        onShapeChanged();
       }
     });
     
     _shape.heightProperty().addListener((ChangeListener<Number>) (ov, oldY, newY) -> {
       if (_shape.getY() + (double) newY != maxYProperty.get())
         maxYProperty.set(_shape.getY() + (double) newY);
+        onShapeChanged();
     });
 
     resizeHandleLU.centerXProperty().addListener((ChangeListener<Number>) (ov, oldX, newX) -> {
       _shape.setX((double) newX);
       _shape.setWidth(maxXProperty.get() - _shape.getX());
+      onShapeChanged();
     });
     resizeHandleLU.centerYProperty().addListener((ChangeListener<Number>) (ov, oldY, newY) -> {
       _shape.setY((double) newY);
       _shape.setHeight(maxYProperty.get() - _shape.getY());
+      onShapeChanged();
     });
 
     resizeHandleRU.centerXProperty().addListener((ChangeListener<Number>) (ov, oldX, newX) -> {
       _shape.setWidth(maxXProperty.get() - _shape.getX());
+      onShapeChanged();
     });
 
     resizeHandleRD.centerYProperty().addListener((ChangeListener<Number>) (ov, oldY, newY) -> {
       _shape.setHeight(maxYProperty.get() - _shape.getY());
+      onShapeChanged();
     });
 
     anchors.add(resizeHandleLU);

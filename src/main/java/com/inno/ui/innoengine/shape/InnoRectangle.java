@@ -99,6 +99,8 @@ public class InnoRectangle extends InteractiveRectangle {
 
   @Override
   public void onShapeChanged() {
+    if (_sectionData == null)
+      return;
     // double[] test = Engine().pixelToMeter(getPointsInParent());
     // for (int i = 0; i < test.length; i+=2) {
     //   System.out.println(test[i] + " " + test[i + 1 ]);

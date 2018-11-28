@@ -2,7 +2,7 @@
  * File Created: Sunday, 14th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Tuesday, 27th November 2018
+ * Last Modified: Wednesday, 28th November 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -42,7 +42,7 @@ public abstract class InteractiveShape<T extends Shape> {
   private ArrayList<Shape> _selectShapes = new ArrayList<>();
   private ArrayList<Shape> _additionalShapes = new ArrayList<>();
   private String _id = null;
-  private Rotate _currentRotation = null; 
+  private Rotate _currentRotation = null;
   // TODO: pass to private
   protected T _shape = null;
   protected Group _group;
