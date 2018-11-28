@@ -2,7 +2,7 @@
  * File Created: Tuesday, 9th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Tuesday, 27th November 2018
+ * Last Modified: Wednesday, 28th November 2018
  * Modified By: HUBERT Léo
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -18,9 +18,9 @@ import com.inno.app.InnoSave;
 import com.inno.app.room.*;
 import com.inno.service.Point;
 import com.inno.service.Utils;
-import com.inno.service.pricing.OfferData;
+import com.inno.service.pricing.ImmutableOffer;
 import com.inno.service.pricing.PlaceRate;
-import com.inno.service.pricing.PlaceRateData;
+import com.inno.service.pricing.ImmutablePlaceRate;
 import com.inno.service.pricing.Pricing;
 
 public class Core {
@@ -157,44 +157,44 @@ public class Core {
   }
 
   public void setSectionPrice(String idSection, double price) {
-    HashMap<String, ? extends PlaceRateData> places = _pricing.getPlaces(idSection);
+    HashMap<String, ? extends ImmutablePlaceRate> places = _pricing.getPlaces(idSection);
 
-    for (Map.Entry<String, ? extends PlaceRateData> entry : places.entrySet()) {
+    for (Map.Entry<String, ? extends ImmutablePlaceRate> entry : places.entrySet()) {
       String key = entry.getKey();
       _pricing.setPlaceRatePrice(key, price);
     }
   }
 
-  public PlaceRateData getSectionPrice(String idSection) {
+  public ImmutablePlaceRate getSectionPrice(String idSection) {
     return _pricing.getPlaceRate(idSection);
   }
 
   public void setRowPrice(String idSection, String idRow, double price) {
-    HashMap<String, ? extends PlaceRateData> places = _pricing.getPlaces(idSection + "|" + idRow);
+    HashMap<String, ? extends ImmutablePlaceRate> places = _pricing.getPlaces(idSection + "|" + idRow);
     _pricing.setPlaceRatePrice(idSection, -1);
 
-    for (Map.Entry<String, ? extends PlaceRateData> entry : places.entrySet()) {
+    for (Map.Entry<String, ? extends ImmutablePlaceRate> entry : places.entrySet()) {
       String key = entry.getKey();
       _pricing.setPlaceRatePrice(key, price);
     }
   }
 
-  public PlaceRateData getRowPrice(String idSection, String idRow) {
+  public ImmutablePlaceRate getRowPrice(String idSection, String idRow) {
     return _pricing.getPlaceRate(idSection + "|" + idRow);
   }
 
   public void setSeatPrice(String idSection, String idRow, String idSeat, double price) {
-    HashMap<String, ? extends PlaceRateData> places = _pricing.getPlaces(idSection + "|" + idRow + "|" + idSeat);
+    HashMap<String, ? extends ImmutablePlaceRate> places = _pricing.getPlaces(idSection + "|" + idRow + "|" + idSeat);
     _pricing.setPlaceRatePrice(idSection, -1);
     _pricing.setPlaceRatePrice(idSection + "|" + idRow, -1);
 
-    for (Map.Entry<String, ? extends PlaceRateData> entry : places.entrySet()) {
+    for (Map.Entry<String, ? extends ImmutablePlaceRate> entry : places.entrySet()) {
       String key = entry.getKey();
       _pricing.setPlaceRatePrice(key, price);
     }
   }
 
-  public PlaceRateData getSeatPrice(String idSection, String idRow, String idSeat) {
+  public ImmutablePlaceRate getSeatPrice(String idSection, String idRow, String idSeat) {
     return _pricing.getPlaceRate(idSection + "|" + idRow + "|" + idSeat);
   }
 
@@ -244,15 +244,15 @@ public class Core {
   }
 
   // Pricing && Offers
-  public HashMap<String, ? extends OfferData> getOffers() {
+  public HashMap<String, ? extends ImmutableOffer> getOffers() {
     return _pricing.getOffers();
   }
 
-  public OfferData createOffer(String name, String description, double reduction, String reductionType) {
+  public ImmutableOffer createOffer(String name, String description, double reduction, String reductionType) {
     return _pricing.createOffer(name, description, reduction, reductionType);
   }
 
-  public OfferData getOffer(String name) {
+  public ImmutableOffer getOffer(String name) {
     return _pricing.getOffer(name);
   }
 
@@ -260,11 +260,11 @@ public class Core {
     _pricing.setOfferReduction(name, reduction);
   }
 
-  public OfferData setOfferName(String name, String newName) {
+  public ImmutableOffer setOfferName(String name, String newName) {
     return _pricing.setOfferName(name, newName);
   }
 
-  public HashMap<String, ? extends PlaceRateData> getPrices() {
+  public HashMap<String, ? extends ImmutablePlaceRate> getPrices() {
     return _pricing.getPlaces();
   }
   // Save Methods

@@ -2,23 +2,51 @@
  * File Created: Friday, 12th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Wednesday, 14th November 2018
+ * Last Modified: Wednesday, 28th November 2018
  * Modified By: HUBERT Léo
  * -----
  * Copyright - 2018 GASTALDI Rémi
  * <<licensetext>>
  */
 
-
 package com.inno.service.pricing;
 
+import java.io.Serializable;
 import java.util.HashMap;
 
-public class Offer extends OfferData {
- 
+public class Offer implements ImmutableOffer, Serializable {
+
+  protected String _name;
+  protected double _reduction;
+  protected String _description;
+  protected ReductionType _reductionType = ReductionType.NONE;
+  protected HashMap<String, OfferCondition> _offerConditions = new HashMap<String, OfferCondition>();
 
   public Offer(String name, String description, double reduction, ReductionType reductionType) {
-    super(name, description, reduction, reductionType);
+    this._name = name;
+    this._description = description;
+    this._reduction = reduction;
+    this._reductionType = reductionType;
+  }
+
+  @Override
+  public String getName() {
+    return _name;
+  }
+
+  @Override
+  public double getReduction() {
+    return _reduction;
+  }
+
+  @Override
+  public String getDescription() {
+    return _description;
+  }
+
+  @Override
+  public ReductionType getReductionType() {
+    return _reductionType;
   }
 
   public void setName(String name) {

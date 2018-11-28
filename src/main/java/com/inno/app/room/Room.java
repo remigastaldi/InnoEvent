@@ -158,12 +158,12 @@ public class Room implements ImmutableRoom, Serializable {
                 double vitalSpaceHeight = ((ImmutableSittingSection)section).getImmutableVitalSpace().getHeight();
                 double vitalSpaceWidth = ((ImmutableSittingSection)section).getImmutableVitalSpace().getWidth();
     
-                while (yRow < positions[7]) {
+                while (yRow < (positions[7] - vitalSpaceHeight / 2)) {
                     double[] posStart = { xRow + (vitalSpaceWidth / 2), yRow + (vitalSpaceHeight / 2) };
                     double[] posEnd = { positions[2] - (vitalSpaceWidth / 2), yRow + (vitalSpaceHeight / 2) };
                     ImmutableSittingRow row = createSittingRow(section.getIdSection(), posStart, posEnd);
     
-                    while (xSeat < positions[2]) {
+                    while (xSeat < positions[2] - vitalSpaceWidth / 2) {
                         double[] seatPos = { xSeat + (vitalSpaceWidth / 2), ySeat + (vitalSpaceHeight / 2) };
                         createSeat(section.getIdSection(), row.getIdRow(), seatPos);
                         xSeat += vitalSpaceWidth;

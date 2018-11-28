@@ -2,7 +2,7 @@
  * File Created: Saturday, 27th October 2018
  * Author: HUBERT Léo
  * -----
- * Last Modified: Tuesday, 27th November 2018
+ * Last Modified: Wednesday, 28th November 2018
  * Modified By: HUBERT Léo
  * -----
  * Copyright - 2018 HUBERT Léo
@@ -11,16 +11,18 @@
 
 package com.inno.service.pricing;
 
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.inno.service.pricing.OfferData.ReductionType;
-import com.inno.service.pricing.OfferOperationData.LogicalOperator;
-import com.inno.service.pricing.OfferOperationData.RelationalOperator;
+import com.inno.service.pricing.ImmutableOffer.ReductionType;
+import com.inno.service.pricing.ImmutableOfferOperation.LogicalOperator;
+import com.inno.service.pricing.ImmutableOfferOperation.RelationalOperator;
 
-public class Pricing {
+public class Pricing implements Serializable {
 
+  private static final long serialVersionUID = 1L;
   private HashMap<String, PlaceRate> _places = new HashMap<String, PlaceRate>();
   private HashMap<String, Offer> _offers = new HashMap<String, Offer>();
 
@@ -42,7 +44,7 @@ public class Pricing {
     return this._places;
   }
 
-  public HashMap<String, ? extends PlaceRateData> getPlaces(String search) {
+  public HashMap<String, ? extends ImmutablePlaceRate> getPlaces(String search) {
     HashMap<String, PlaceRate> places = new HashMap<>();
 
     for (Map.Entry<String, PlaceRate> entry : _places.entrySet()) {
@@ -55,7 +57,7 @@ public class Pricing {
     return places;
   }
 
-  public HashMap<String, ? extends OfferData> getOffers() {
+  public HashMap<String, ? extends ImmutableOffer> getOffers() {
     return this._offers;
   }
 
@@ -67,7 +69,7 @@ public class Pricing {
    * @param price
    * @return
    */
-  public PlaceRateData createPlace(String id, String color, double price) {
+  public ImmutablePlaceRate createPlace(String id, String color, double price) {
     PlaceRate place = new PlaceRate(id, color, price);
 
     this._places.put(id, place);
@@ -84,12 +86,12 @@ public class Pricing {
   }
 
   /**
-   * Get PlaceRateData by id
+   * Get ImmutablePlaceRate by id
    * 
    * @param id
    * @return
    */
-  public PlaceRateData getPlaceRate(String id) {
+  public ImmutablePlaceRate getPlaceRate(String id) {
     return this._places.get(id);
   }
 
@@ -158,7 +160,7 @@ public class Pricing {
     int i = 1;
     while (true) {
       boolean find = false;
-      for (Map.Entry<String, ? extends OfferData> entry : _offers.entrySet()) {
+      for (Map.Entry<String, ? extends ImmutableOffer> entry : _offers.entrySet()) {
         String offerName = entry.getKey();
         if (offerName.equals(name + i) == true) {
           find = true;
@@ -181,7 +183,7 @@ public class Pricing {
    * @param reductionType
    * @return
    */
-  public OfferData createOffer(String name, String description, double reduction, String reductionType) {
+  public ImmutableOffer createOffer(String name, String description, double reduction, String reductionType) {
     ReductionType reductionType2 = getEnumFromString(ReductionType.class, reductionType);
 
     if (name == null) {
@@ -204,12 +206,12 @@ public class Pricing {
   }
 
   /**
-   * Get OfferData by name
+   * Get ImmutableOffer by name
    * 
    * @param name
    * @return
    */
-  public OfferData getOffer(String name) {
+  public ImmutableOffer getOffer(String name) {
     Offer offer = this._offers.get(name);
 
     if (offer == null) {
@@ -218,7 +220,7 @@ public class Pricing {
     return offer;
   }
 
-  public OfferData setOfferName(String name, String newName) {
+  public ImmutableOffer setOfferName(String name, String newName) {
     Offer offer = this._offers.remove(name);
 
     if (offer == null) {
@@ -258,7 +260,7 @@ public class Pricing {
   }
 
   // TODO: Changes alls enums to string
-  public OfferConditionData createOfferCondition(String offerName, String offerConditionName, String description,
+  public ImmutableOfferCondition createOfferCondition(String offerName, String offerConditionName, String description,
       LogicalOperator logicalOperator) {
     Offer offer = this._offers.get(offerName);
 
@@ -280,7 +282,7 @@ public class Pricing {
     offer.removeCondition(offerConditionName);
   }
 
-  public HashMap<String, ? extends OfferConditionData> getOfferConditions(String name) {
+  public HashMap<String, ? extends ImmutableOfferCondition> getOfferConditions(String name) {
     Offer offer = this._offers.get(name);
 
     if (offer == null) {
@@ -338,8 +340,8 @@ public class Pricing {
     return offer.getOfferConditions().get(offerConditionName);
   }
 
-  public OfferOperationData createOfferConditionOperation(String offerName, String offerConditionName, String value,
-      RelationalOperator relationalOperator, LogicalOperator logicalOperator) {
+  public ImmutableOfferOperation createOfferConditionOperation(String offerName, String offerConditionName,
+      String value, RelationalOperator relationalOperator, LogicalOperator logicalOperator) {
     OfferCondition offerCondition = this.getOfferCondition(offerName, offerConditionName);
     if (offerCondition == null) {
       return null;
@@ -358,7 +360,7 @@ public class Pricing {
     offerCondition.getOfferOperations().remove(index);
   }
 
-  public OfferOperationData getOfferConditionOperations(String offerName, String offerConditionName, int index) {
+  public ImmutableOfferOperation getOfferConditionOperations(String offerName, String offerConditionName, int index) {
     return this.getOfferOperation(offerName, offerConditionName, index);
   }
 

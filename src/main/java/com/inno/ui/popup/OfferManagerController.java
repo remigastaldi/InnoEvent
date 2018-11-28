@@ -2,7 +2,7 @@
  * File Created: Friday, 26th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Monday, 26th November 2018
+ * Last Modified: Wednesday, 28th November 2018
  * Modified By: HUBERT Léo
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -15,7 +15,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import com.inno.service.pricing.OfferData;
+import com.inno.service.pricing.ImmutableOffer;
 import com.inno.ui.Validator;
 import com.inno.ui.ViewController;
 
@@ -45,7 +45,7 @@ public class OfferManagerController extends ViewController {
     private StackPane parentContainer;
 
     ObservableList<String> _items = FXCollections.observableArrayList();
-    OfferData _selectedOffer = null;
+    ImmutableOffer _selectedOffer = null;
 
     public OfferManagerController() {
         Core().createOffer("toto1", "Je sais pas encore", 50, "PERCENTAGE");
@@ -55,7 +55,7 @@ public class OfferManagerController extends ViewController {
         // Core().createOfferCondition();
     }
 
-    private void setSelectedOffer(OfferData offer) {
+    private void setSelectedOffer(ImmutableOffer offer) {
 
         if (_selectedOffer == null && offer != null) {
             offerProperties.setVisible(true);
@@ -87,14 +87,14 @@ public class OfferManagerController extends ViewController {
 
     @FXML
     private void onMouseClicked() {
-        OfferData offer = Core().getOffer(offerList.getSelectionModel().getSelectedItem().toString());
+        ImmutableOffer offer = Core().getOffer(offerList.getSelectionModel().getSelectedItem().toString());
         setSelectedOffer(offer);
     }
 
     private void refreshOfferList() {
         _items.clear();
-        HashMap<String, ? extends OfferData> offers = Core().getOffers();
-        for (Map.Entry<String, ? extends OfferData> entry : offers.entrySet()) {
+        HashMap<String, ? extends ImmutableOffer> offers = Core().getOffers();
+        for (Map.Entry<String, ? extends ImmutableOffer> entry : offers.entrySet()) {
             String offerName = entry.getKey();
             _items.add(offerName);
         }
@@ -102,7 +102,7 @@ public class OfferManagerController extends ViewController {
 
     @FXML
     private void createNewOfferAction() {
-        OfferData offer = Core().createOffer(null, "", 0, "PERCENTAGE");
+        ImmutableOffer offer = Core().createOffer(null, "", 0, "PERCENTAGE");
         refreshOfferList();
         setSelectedOffer(offer);
     }
@@ -117,7 +117,7 @@ public class OfferManagerController extends ViewController {
         if (checkInputs()) {
             double reduction = Double.parseDouble(offerReductionInput.getText());
             if (!_selectedOffer.getName().equals(offerNameInput.getText())) {
-                OfferData offer = Core().setOfferName(_selectedOffer.getName(), offerNameInput.getText());
+                ImmutableOffer offer = Core().setOfferName(_selectedOffer.getName(), offerNameInput.getText());
                 refreshOfferList();
                 setSelectedOffer(offer);
             }

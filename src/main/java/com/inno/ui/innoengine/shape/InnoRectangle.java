@@ -3,7 +3,7 @@
  * Author: GASTALDI Rémi
  * -----
  * Last Modified: Tuesday, 27th November 2018
- * Modified By: GASTALDI Rémi
+ * Modified By: HUBERT Léo
  * -----
  * Copyright - 2018 GASTALDI Rémi
  * <<licensetext>>
@@ -200,7 +200,7 @@ public class InnoRectangle extends InteractiveRectangle {
     }
 
     setRotation(new Rotate(_sectionData.getRotation(), pos[4], pos[5]));
-    // refreshGroup();
+    refreshGroup();
   }
 
   private void loadFromData() {

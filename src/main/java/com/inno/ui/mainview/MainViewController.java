@@ -2,7 +2,7 @@
  * File Created: Wednesday, 26th September 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Tuesday, 27th November 2018
+ * Last Modified: Wednesday, 28th November 2018
  * Modified By: HUBERT Léo
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -19,7 +19,7 @@ import com.inno.app.room.ImmutableSeat;
 import com.inno.app.room.ImmutableSittingRow;
 import com.inno.app.room.ImmutableSittingSection;
 import com.inno.service.pricing.PlaceRate;
-import com.inno.service.pricing.PlaceRateData;
+import com.inno.service.pricing.ImmutablePlaceRate;
 import com.inno.ui.ViewController;
 import com.inno.ui.innoengine.InnoEngine;
 
@@ -79,28 +79,28 @@ public class MainViewController extends ViewController {
 
     // Core().setSectionPrice(sittingSection.getIdSection(), 50);
 
-    // HashMap<String, ? extends PlaceRateData> places = Core().getPrices();
+    // HashMap<String, ? extends ImmutablePlaceRate> places = Core().getPrices();
 
-    // for (Map.Entry<String, ? extends PlaceRateData> entry : places.entrySet()) {
+    // for (Map.Entry<String, ? extends ImmutablePlaceRate> entry : places.entrySet()) {
     // String key = entry.getKey();
-    // PlaceRateData value = entry.getValue();
+    // ImmutablePlaceRate value = entry.getValue();
     // System.out.println("price => " + key + " set to " + value.getPrice());
     // }
 
     // Core().setRowPrice(sittingSection.getIdSection(), sittingRow.getIdRow(), 20);
 
-    // for (Map.Entry<String, ? extends PlaceRateData> entry : places.entrySet()) {
+    // for (Map.Entry<String, ? extends ImmutablePlaceRate> entry : places.entrySet()) {
     // String key = entry.getKey();
-    // PlaceRateData value = entry.getValue();
+    // ImmutablePlaceRate value = entry.getValue();
     // System.out.println("price => " + key + " set to " + value.getPrice());
     // }
 
     // Core().setSeatPrice(sittingSection.getIdSection(), sittingRow.getIdRow(),
     // Integer.toString(sittingSeat4.getId()), 10);
 
-    // for (Map.Entry<String, ? extends PlaceRateData> entry : places.entrySet()) {
+    // for (Map.Entry<String, ? extends ImmutablePlaceRate> entry : places.entrySet()) {
     // String key = entry.getKey();
-    // PlaceRateData value = entry.getValue();
+    // ImmutablePlaceRate value = entry.getValue();
     // System.out.println("price => " + key + " set to " + value.getPrice());
     // }
 
