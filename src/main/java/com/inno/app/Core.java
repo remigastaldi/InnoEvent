@@ -228,19 +228,20 @@ public class Core {
 
   // SAVE
   public boolean save() {
-    SaveObject save = new SaveObject(_room);
+    SaveObject save = new SaveObject(_room, _pricing);
     return _saveService.save(save);
   }
 
   public void saveTo(String path) {
-    SaveObject save = new SaveObject(_room);
+    SaveObject save = new SaveObject(_room, _pricing);
     _saveService.saveTo(save, path);
   }
 
   public void loadProject(String absolutePath) {
     SaveObject save = _saveService.loadFrom(absolutePath);
 
-    _room = (Room) save.getRoomData();
+    _room = (Room)save.getRoomData();
+    _pricing = save.getPricing();
   }
 
   // Pricing && Offers
