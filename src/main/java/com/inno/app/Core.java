@@ -2,8 +2,8 @@
  * File Created: Tuesday, 9th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Wednesday, 28th November 2018
- * Modified By: GASTALDI Rémi
+ * Last Modified: Thursday, 29th November 2018
+ * Modified By: HUBERT Léo
  * -----
  * Copyright - 2018 GASTALDI Rémi
  * <<licensetext>>
@@ -109,14 +109,16 @@ public class Core {
     this._room.setSectionElevation(idSection, elevation);
   }
 
-  public void updateSectionPositions(String idSection, double[] positions) {
-    Point pt = new Point(getImmutableRoom().getImmutableScene().getCenter()[0],
-    getImmutableRoom().getImmutableScene().getCenter()[1]);
-    // double[] newPos = Utils.rotateRectangle(pt, positions);
-    double rotation = Utils.calculateRectangleRotation(pt, positions);
-    if (rotation != rotation)
-      rotation = 0.0;
-    _room.setSectionRotation(idSection, rotation);
+  public void updateSectionPositions(String idSection, double[] positions, boolean rectangular) {
+    if (rectangular) {
+      Point pt = new Point(getImmutableRoom().getImmutableScene().getCenter()[0],
+      getImmutableRoom().getImmutableScene().getCenter()[1]);
+      // double[] newPos = Utils.rotateRectangle(pt, positions);
+      double rotation = Utils.calculateRectangleRotation(pt, positions);
+      if (rotation != rotation)
+        rotation = 0.0;
+      _room.setSectionRotation(idSection, rotation);
+    }
 
     this._room.updateSectionPositions(idSection, positions);
   }
@@ -141,13 +143,16 @@ public class Core {
 
   // sittingSection Methods
   public ImmutableSittingSection createSittingSection(double[] positions, double rotation, boolean isRectangle) {
-    Point pt = new Point(getImmutableRoom().getImmutableScene().getCenter()[0],
-    getImmutableRoom().getImmutableScene().getCenter()[1]);
-    // double[] newPos = Utils.rotateRectangle(pt, positions);
-    double newRotation = Utils.calculateRectangleRotation(pt, positions);
+    double newRotation = 0d;
+    if (isRectangle) {
+      Point pt = new Point(getImmutableRoom().getImmutableScene().getCenter()[0],
+      getImmutableRoom().getImmutableScene().getCenter()[1]);
+      // double[] newPos = Utils.rotateRectangle(pt, positions);
+       newRotation = Utils.calculateRectangleRotation(pt, positions);
+    }
     ImmutableSittingSection section = _room.createSittingSection(positions, newRotation, isRectangle);
 
-    _pricing.createPlace(section.getIdSection(), "#ffffff", -1);
+    _pricing.createPlace(section.getIdSection(), "#6378bf", -1);
 
     return section;
   }
@@ -204,7 +209,7 @@ public class Core {
 
   public ImmutableSittingRow createSittingRow(String idSection, double[] posStart, double[] posEnd) {
     ImmutableSittingRow row = this._room.createSittingRow(idSection, posStart, posEnd);
-    _pricing.createPlace(idSection + "|" + row.getIdRow(), "#ffffff", -1);
+    _pricing.createPlace(idSection + "|" + row.getIdRow(), "#7289DA", -1);
     return row;
   }
 
@@ -218,7 +223,7 @@ public class Core {
 
   public ImmutableSeat createSeat(String idSection, String idRow, double[] pos) {
     ImmutableSeat seat = this._room.createSeat(idSection, idRow, pos);
-    _pricing.createPlace(idSection + "|" + idRow + "|" + seat.getId(), "#ffffff", -1);
+    _pricing.createPlace(idSection + "|" + idRow + "|" + seat.getId(), "#FFA500", -1);
     return seat;
   }
 

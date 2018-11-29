@@ -2,8 +2,8 @@
  * File Created: Friday, 12th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Wednesday, 28th November 2018
- * Modified By: GASTALDI Rémi
+ * Last Modified: Thursday, 29th November 2018
+ * Modified By: HUBERT Léo
 
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -12,6 +12,7 @@
 
 package com.inno.app.room;
 
+import com.inno.app.Core;
 import com.inno.service.Point;
 
 import java.util.HashMap;
@@ -162,11 +163,11 @@ public class Room implements ImmutableRoom, Serializable {
                 while (yRow < positions[7]) {
                     double[] posStart = { xRow + (vitalSpaceWidth / 2), yRow + (vitalSpaceHeight / 2) };
                     double[] posEnd = { positions[2] - (vitalSpaceWidth / 2), yRow + (vitalSpaceHeight / 2) };
-                    ImmutableSittingRow row = createSittingRow(section.getIdSection(), posStart, posEnd);
+                    ImmutableSittingRow row = Core.get().createSittingRow(section.getIdSection(), posStart, posEnd);
     
                     while (xSeat < positions[2]) {
                         double[] seatPos = { xSeat + (vitalSpaceWidth / 2), ySeat + (vitalSpaceHeight / 2) };
-                        createSeat(section.getIdSection(), row.getIdRow(), seatPos);
+                        Core.get().createSeat(section.getIdSection(), row.getIdRow(), seatPos);
                         xSeat += vitalSpaceWidth;
                     }
                     yRow += vitalSpaceHeight;
@@ -227,11 +228,11 @@ public class Room implements ImmutableRoom, Serializable {
             while (yRow < positions[7]) {
                 double[] posStart = { xRow + (vitalSpaceWidth / 2), yRow + (vitalSpaceHeight / 2) };
                 double[] posEnd = { positions[2] - (vitalSpaceWidth / 2), yRow + (vitalSpaceHeight / 2) };
-                ImmutableSittingRow row = createSittingRow(sittingSection.getIdSection(), posStart, posEnd);
+                ImmutableSittingRow row = Core.get().createSittingRow(sittingSection.getIdSection(), posStart, posEnd);
 
                 while (xSeat < positions[2]) {
                     double[] seatPos = { xSeat + (vitalSpaceWidth / 2), ySeat + (vitalSpaceHeight / 2) };
-                    createSeat(sittingSection.getIdSection(), row.getIdRow(), seatPos);
+                    Core.get().createSeat(sittingSection.getIdSection(), row.getIdRow(), seatPos);
                     xSeat += vitalSpaceWidth;
                 }
                 yRow += vitalSpaceHeight;

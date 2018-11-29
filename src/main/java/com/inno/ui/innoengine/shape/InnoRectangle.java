@@ -20,16 +20,11 @@ import com.inno.ui.engine.shape.InteractiveRectangle;
 import com.inno.ui.innoengine.InnoEngine;
 import com.inno.ui.innoengine.InnoRow;
 
-import javafx.collections.ObservableList;
-import javafx.geometry.Point2D;
-import javafx.scene.Group;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
-import javafx.scene.shape.Shape;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.transform.Rotate;
-import javafx.scene.transform.Transform;
 
 public class InnoRectangle extends InteractiveRectangle {
   private double _xVitalSpace = 0.0;
@@ -46,13 +41,26 @@ public class InnoRectangle extends InteractiveRectangle {
     _yVitalSpace = ((InnoEngine)Engine()).meterToPixel(Core.get().getImmutableRoom().getImmutableVitalSpace().getHeight());
   }
 
-  public InnoRectangle(InnoEngine engine, Pane pane, String id, double x, double y, double width, double height,
+  public InnoRectangle(InnoEngine engine, Pane pane, double x, double y, double width, double height,
       Rotate rotation, Color color) {
     super(engine, pane, x, y, width, height, rotation, color);
 
+    setID("");
+    _xVitalSpace = ((InnoEngine)Engine()).meterToPixel(Core.get().getImmutableRoom().getImmutableVitalSpace().getWidth());
+    _yVitalSpace = ((InnoEngine)Engine()).meterToPixel(Core.get().getImmutableRoom().getImmutableVitalSpace().getHeight());
+  }
+
+  public InnoRectangle(InnoEngine engine, Pane pane, String id) {
+    super(engine, pane);
+
+    setShape(new Rectangle());
     setID(id);
     _xVitalSpace = ((InnoEngine)Engine()).meterToPixel(Core.get().getImmutableRoom().getImmutableVitalSpace().getWidth());
     _yVitalSpace = ((InnoEngine)Engine()).meterToPixel(Core.get().getImmutableRoom().getImmutableVitalSpace().getHeight());
+    loadDomainData();
+    loadFromData();
+    enableSelection();
+    deselect();
   }
 
   @Override
@@ -88,9 +96,6 @@ public class InnoRectangle extends InteractiveRectangle {
       setHeight(((InnoEngine)Engine()).meterToPixel(_yVitalSpace));
 
     if (!_grabbed) {
-      // double[] pos = getPoints();
-      // double[] newPos = new double[] { pos[0] - getWidth(), pos[1] - getHeight(), pos[2] - getWidth(),
-      //     pos[3] - getHeight(), pos[4] - getWidth(), pos[5] - getHeight(), pos[6] - getWidth(), pos[7] - getHeight() };
       _sectionData = Core.get().createSittingSection(((InnoEngine)Engine()).pixelToMeter(localToParent(getPoints())), 0, true);
     } else
       _sectionData = Core.get().createSittingSection(((InnoEngine)Engine()).pixelToMeter(getPointsInParent()), 0, true);
@@ -110,14 +115,13 @@ public class InnoRectangle extends InteractiveRectangle {
     //   System.out.println(test[i] + " " + test[i + 1 ]);
     // }
     // Core.get().setSectionRotation(getID(), getRotation() != null ? getRotation().getAngle() : 0.0);
-    ObservableList<Transform> transforms = getGroup().getTransforms();
     getGroup().getTransforms().clear();
 
      double pos[] = getPoints();
     for (int i =0; i < pos.length; i+=2) {
       System.out.println(pos[i] + " ; " + pos[i + 1]);
     }
-    Core.get().updateSectionPositions(getID(), ((InnoEngine)Engine()).pixelToMeter(getPointsInParent()));
+    Core.get().updateSectionPositions(getID(), ((InnoEngine)Engine()).pixelToMeter(getPointsInParent()), true);
     // getGroup().getTransforms().addAll(transforms);
     // loadFromData();
     pos = parentToLocal(((InnoEngine)Engine()).meterToPixel(_sectionData.getPositions()));
@@ -166,16 +170,6 @@ public class InnoRectangle extends InteractiveRectangle {
 
   @Override
   public boolean onFormComplete() {
-    // if (getWidth() < ((InnoEngine)Engine()).meterToPixel(_xVitalSpace))
-    // setWidth(((InnoEngine)Engine()).meterToPixel(_xVitalSpace));
-    // if (getHeight() < ((InnoEngine)Engine()).meterToPixel(_yVitalSpace))
-    // setHeight(((InnoEngine)Engine()).meterToPixel(_yVitalSpace));
-
-    // double[] pos = {getX(), getY(),
-    // getMaxXProperty().get(), getY(),
-    // getMaxXProperty().get(), getMaxYProperty().get(),
-    // getX(), getMaxYProperty().get() };
-    // _sectionData = Core.get().createSittingSection(0, pos, 0);
     return true;
   }
 
@@ -242,7 +236,9 @@ public class InnoRectangle extends InteractiveRectangle {
 
   private void loadFromData() {
     setID(_sectionData.getIdSection());
-    
+
+    setColor(Color.valueOf(Core.get().getSectionPrice(getID()).getColor()));
+
     // double[] pos = getPoints();
     double[] pos = ((InnoEngine)Engine()).meterToPixel(_sectionData.getPositions());
     
@@ -250,14 +246,11 @@ public class InnoRectangle extends InteractiveRectangle {
     //     System.out.println(pos[i] + " " + pos[i + 1 ]);
     //   }
 
-    // if (group != null)
-    //   setPoints(parentToLocal(pos));
-    // else
-    // setPoints(pos);
+    
     
     ArrayList<? extends ImmutableSittingRow> rows =  _sectionData.getImmutableSittingRows();
     _rows = new InnoRow[rows.size()];
-
+    
     int i = 0;
     getAdditionalShapes().clear();
     for (ImmutableSittingRow row : rows) {
@@ -269,8 +262,6 @@ public class InnoRectangle extends InteractiveRectangle {
     
     setPoints((pos));
     setRotation(new Rotate(_sectionData.getRotation(), pos[0], pos[1]));
-
-    // relocateGroup();
   }
 
   // private void loadFromData() {

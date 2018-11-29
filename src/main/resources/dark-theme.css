@@ -163,3 +163,33 @@
     -fx-background-color: -fx-grey;
     -fx-text-fill: white;
 }
+
+
+.titled-pane:expanded>.title>.arrow-button .arrow {
+    -fx-background-color: -fx-primary;
+}
+
+.titled-pane .title .arrow-button .arrow {
+    -fx-border-color: none !important;
+    -fx-background-insets: 0;
+    -fx-focus-color: transparent;
+    -fx-background-insets: 0;
+
+}
+
+.titled-pane .title .text {
+    -fx-fill: white;
+}
+
+.titled-pane .title {
+    -fx-background-color: -fx-dark;
+}
+
+.titled-pane>*.content {
+    -fx-background-color: -fx-grey;
+    -fx-border-insets: 0;
+}
+
+.titled-pane>*.content {
+    -fx-border-color: transparent;
+}
