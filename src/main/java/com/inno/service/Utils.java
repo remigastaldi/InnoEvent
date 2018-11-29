@@ -15,8 +15,9 @@ import java.util.Vector;
 import javafx.geometry.Point2D;
 
 public class Utils {
-    public static boolean InsidePolygon(Point polygon[],int N,Point p)
+    public static boolean insidePolygon(Point polygon[],Point p)
     {
+        int N = polygon.length;
         int counter = 0;
         int i;
         double xinters;
@@ -180,6 +181,58 @@ public class Utils {
 //        Point pt2[] = {pt[2], pt[3], pt[1], pt[0]};
 //        return pArray_To_dArray(pt2);
         return pArray_To_dArray(pt);
+    }
+
+    public static Point findLeftmostPoint(Point[] points)
+    {
+        Point min = points[0];
+        for(Point point: points)
+        {
+            if(point.get_x()<min.get_x())
+            {
+                min = point;
+            }
+        }
+        return min;
+    }
+
+    public static Point findRightmostPoint(Point[] points)
+    {
+        Point max = points[0];
+        for(Point point: points)
+        {
+            if(point.get_x()>max.get_x())
+            {
+                max = point;
+            }
+        }
+        return max;
+    }
+
+    public static Point findLowestPoint(Point[] points)
+    {
+        Point min = points[0];
+        for(Point point: points)
+        {
+            if(point.get_y()>min.get_y())
+            {
+                min = point;
+            }
+        }
+        return min;
+    }
+
+    public static Point findHighestPoint(Point[] points)
+    {
+        Point max = points[0];
+        for(Point point: points)
+        {
+            if(point.get_y()<max.get_y())
+            {
+                max = point;
+            }
+        }
+        return max;
     }
 
     public static Point[] mirrorRectangle(Point[] rectangle)

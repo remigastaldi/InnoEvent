@@ -14,6 +14,7 @@ package com.inno.app.room;
 
 import com.inno.app.Core;
 import com.inno.service.Point;
+import com.inno.service.Utils;
 
 import java.util.HashMap;
 import java.io.Serializable;
@@ -239,6 +240,58 @@ public class Room implements ImmutableRoom, Serializable {
                 xSeat = positions[0];
                 ySeat += vitalSpaceHeight;
             }
+        }
+        else
+        {
+            Point sceneCenter = new Point(_scene.getCenter()[0],_scene.getCenter()[1]);
+            Point[] p_Polygon = Utils.dArray_To_pArray(positions);
+            Point centroid = Utils.centroid(p_Polygon);
+            double angle = Utils.calculateLeftSideRotationAngle(sceneCenter, centroid);
+            Point[] polyTemp = Utils.rotatePolygon(p_Polygon,sceneCenter,angle);
+
+            Point lowerLeft = new Point(Utils.findLeftmostPoint(polyTemp).get_x(), Utils.findLowestPoint(polyTemp).get_y());
+            Point lowerRight = new Point(Utils.findRightmostPoint(polyTemp).get_x(), Utils.findLowestPoint(polyTemp).get_y());
+            Point higherLeft = new Point(Utils.findLeftmostPoint(polyTemp).get_x(), Utils.findHighestPoint(polyTemp).get_y());
+            Point higherRight = new Point(Utils.findRightmostPoint(polyTemp).get_x(), Utils.findHighestPoint(polyTemp).get_y());
+            ArrayList<Point> coord = new ArrayList<>();
+
+            double posx = lowerRight.get_x()+vitalSpaceWidth/2;
+            boolean rowCreated = false;
+            do
+            {
+                posx -= vitalSpaceWidth;
+
+                double posy = lowerLeft.get_y()+vitalSpaceHeight/2;
+
+                do
+                {
+                    posy-=vitalSpaceHeight;
+                    Point pt = new Point(posx, posy);
+
+                    if(Utils.insidePolygon(polyTemp, pt))
+                    {
+                        rowCreated = true;
+                        coord.add(pt);
+                    }
+
+                    if(rowCreated && !Utils.insidePolygon(polyTemp, pt))
+                    {
+                        Point Start = Utils.rotatePoint(coord.get(0), sceneCenter, -angle);
+                        Point End = Utils.rotatePoint(coord.get(coord.size()-1), sceneCenter, -angle);
+                        double[] posStart = {Start.get_x(), Start.get_y()};
+                        double[] posEnd = {End.get_x(),End.get_y()};
+                        ImmutableSittingRow row = createSittingRow(sittingSection.getIdSection(), posStart, posEnd);
+                        for(Point point: coord)
+                        {
+                            Point rPoint = Utils.rotatePoint(point,sceneCenter, -angle);
+                            double[] seatPos = {rPoint.get_x(), rPoint.get_y()};
+                            createSeat(sittingSection.getIdSection(), row.getIdRow(), seatPos);
+                        }
+                        rowCreated = false;
+                        coord.clear();
+                    }
+                }while(posy>higherLeft.get_y());
+            }while(posx>lowerLeft.get_x());
         }
 
         return sittingSection;
