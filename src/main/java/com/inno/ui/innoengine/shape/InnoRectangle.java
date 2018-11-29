@@ -117,7 +117,7 @@ public class InnoRectangle extends InteractiveRectangle {
     for (int i =0; i < pos.length; i+=2) {
       System.out.println(pos[i] + " ; " + pos[i + 1]);
     }
-    Core.get().updateSectionPositions(getID(), ((InnoEngine)Engine()).pixelToMeter(getPointsInParent()));
+    Core.get().updateSectionPositions(getID(), ((InnoEngine)Engine()).pixelToMeter(getPointsInParent()), true);
     // getGroup().getTransforms().addAll(transforms);
     // loadFromData();
     pos = parentToLocal(((InnoEngine)Engine()).meterToPixel(_sectionData.getPositions()));

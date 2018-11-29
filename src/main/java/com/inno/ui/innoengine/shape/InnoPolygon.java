@@ -2,7 +2,7 @@
  * File Created: Sunday, 14th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Wednesday, 28th November 2018
+ * Last Modified: Thursday, 29th November 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -80,7 +80,7 @@ public class InnoPolygon extends InteractivePolygon {
   @Override
   public boolean onFormComplete() {
     if (mouseReleased) {
-      _sittingSectionData = Core.get().createSittingSection(localToParent(getPoints()), 0, false);
+      _sittingSectionData = Core.get().createSittingSection(localToParent(((InnoEngine)Engine()).pixelToMeter(getPoints())), 0, false);
       loadFromData();
     }
     return true;
@@ -94,7 +94,7 @@ public class InnoPolygon extends InteractivePolygon {
 
   @Override
   public boolean onShapeResized() {
-    Core.get().updateSectionPositions(getID(), ((InnoEngine)Engine()).pixelToMeter(getPointsInParent()));
+    Core.get().updateSectionPositions(getID(), ((InnoEngine)Engine()).pixelToMeter(getPointsInParent()), false);
     // Core.get().setSectionRotation(getID(), getRotation().getAngle());
     loadFromData(_group);
 
@@ -117,11 +117,11 @@ public class InnoPolygon extends InteractivePolygon {
     setID(_sittingSectionData.getIdSection());
 
     if (group != null)
-      setPoints(parentToLocal(_sittingSectionData.getPositions()));
+      setPoints(((InnoEngine)Engine()).meterToPixel(parentToLocal(_sittingSectionData.getPositions())));
     else
-      setPoints(_sittingSectionData.getPositions());
+      setPoints(((InnoEngine)Engine()).meterToPixel(_sittingSectionData.getPositions()));
       Point2D center = Engine().getCenterOfPoints(getPoints());
-    setRotation(new Rotate(_sittingSectionData.getRotation(),center.getX(), center.getY()));
+      setRotation(new Rotate(_sittingSectionData.getRotation(),center.getX(), center.getY()));
   }
 
   private void loadFromData() {

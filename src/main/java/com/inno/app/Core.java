@@ -109,14 +109,16 @@ public class Core {
     this._room.setSectionElevation(idSection, elevation);
   }
 
-  public void updateSectionPositions(String idSection, double[] positions) {
-    Point pt = new Point(getImmutableRoom().getImmutableScene().getCenter()[0],
-    getImmutableRoom().getImmutableScene().getCenter()[1]);
-    // double[] newPos = Utils.rotateRectangle(pt, positions);
-    double rotation = Utils.calculateRectangleRotation(pt, positions);
-    if (rotation != rotation)
-      rotation = 0.0;
-    _room.setSectionRotation(idSection, rotation);
+  public void updateSectionPositions(String idSection, double[] positions, boolean rectangular) {
+    if (rectangular) {
+      Point pt = new Point(getImmutableRoom().getImmutableScene().getCenter()[0],
+      getImmutableRoom().getImmutableScene().getCenter()[1]);
+      // double[] newPos = Utils.rotateRectangle(pt, positions);
+      double rotation = Utils.calculateRectangleRotation(pt, positions);
+      if (rotation != rotation)
+        rotation = 0.0;
+      _room.setSectionRotation(idSection, rotation);
+    }
 
     this._room.updateSectionPositions(idSection, positions);
   }
