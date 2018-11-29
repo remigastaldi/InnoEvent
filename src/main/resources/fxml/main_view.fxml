@@ -59,7 +59,7 @@
                               <Tooltip text="Save" />
                            </tooltip>
                         </Button>
-                        <Button maxHeight="25.0" maxWidth="25.0" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="25.0" prefWidth="25.0" ButtonBar.buttonData="LEFT">
+                        <Button maxHeight="25.0" maxWidth="25.0" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#menuZoomInAction" prefHeight="25.0" prefWidth="25.0" ButtonBar.buttonData="LEFT">
                            <graphic>
                               <ImageView fitHeight="15.0" fitWidth="15.0" preserveRatio="true">
                                  <image>
@@ -71,7 +71,7 @@
                               <Tooltip text="Zoom in" />
                            </tooltip>
                         </Button>
-                        <Button maxHeight="25.0" maxWidth="25.0" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="25.0" prefWidth="25.0" ButtonBar.buttonData="LEFT">
+                        <Button maxHeight="25.0" maxWidth="25.0" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#menuZoomOutAction" prefHeight="25.0" prefWidth="25.0" ButtonBar.buttonData="LEFT">
                            <graphic>
                               <ImageView fitHeight="15.0" fitWidth="15.0" preserveRatio="true">
                                  <image>
@@ -83,7 +83,7 @@
                               <Tooltip text="Zoom out" />
                            </tooltip>
                         </Button>
-                        <Button maxHeight="25.0" maxWidth="25.0" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="25.0" prefWidth="25.0" ButtonBar.buttonData="LEFT">
+                        <Button maxHeight="25.0" maxWidth="25.0" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#menuDrawRectangularSectionAction" prefHeight="25.0" prefWidth="25.0" ButtonBar.buttonData="LEFT">
                            <graphic>
                               <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
@@ -94,7 +94,7 @@
                            <tooltip>
                               <Tooltip text="New Regular Sitting Section" />
                            </tooltip></Button>
-                        <Button maxHeight="25.0" maxWidth="25.0" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="25.0" prefWidth="25.0" ButtonBar.buttonData="LEFT">
+                        <Button maxHeight="25.0" maxWidth="25.0" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#menuDrawIrregularSectionAction" prefHeight="25.0" prefWidth="25.0" ButtonBar.buttonData="LEFT">
                            <graphic>
                               <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
@@ -176,6 +176,8 @@
                     <Menu mnemonicParsing="false" text="Insertion">
                            <items>
                               <MenuItem mnemonicParsing="false" onAction="#menuCreateSceneAction" text="Scene" />
+                              <MenuItem mnemonicParsing="false" onAction="#menuDrawRectangularSectionAction" text="Rectangular Section" />
+                              <MenuItem mnemonicParsing="false" onAction="#menuDrawIrregularSectionAction" text="Irregular Section" />
                            </items></Menu>
                   </menus>
                 </MenuBar>

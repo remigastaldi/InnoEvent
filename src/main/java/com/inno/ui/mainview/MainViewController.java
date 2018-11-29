@@ -2,8 +2,8 @@
  * File Created: Wednesday, 26th September 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Wednesday, 28th November 2018
- * Modified By: HUBERT Léo
+ * Last Modified: Thursday, 29th November 2018
+ * Modified By: MAREL Maud
  * -----
  * Copyright - 2018 GASTALDI Rémi
  * <<licensetext>>
@@ -21,6 +21,7 @@ import com.inno.app.room.ImmutableSittingSection;
 import com.inno.service.pricing.PlaceRate;
 import com.inno.service.pricing.ImmutablePlaceRate;
 import com.inno.ui.ViewController;
+import com.inno.ui.engine.Engine;
 import com.inno.ui.innoengine.InnoEngine;
 
 import javafx.animation.Interpolator;
@@ -189,6 +190,24 @@ public class MainViewController extends ViewController {
     if (file != null) {
       Core().saveTo(file.getAbsolutePath());
     }
+  }
+
+  @FXML
+  private void menuZoomInAction() {
+  }
+
+  @FXML
+  private void menuZoomOutAction() {
+  }
+
+  @FXML
+  private void menuDrawRectangularSectionAction() {
+    Engine().createRectangularSection();
+  }
+
+  @FXML
+  private void menuDrawIrregularSectionAction() {
+    Engine().createIrregularSection();
   }
 
   @FXML
