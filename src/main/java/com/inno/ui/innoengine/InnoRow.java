@@ -48,7 +48,6 @@ public class InnoRow {
     double[] start =  shape.parentToLocal(_engine.meterToPixel(row.getPosStartRow()));
     double[] end = shape.parentToLocal(_engine.meterToPixel(row.getPosEndRow()));
     _line = new Line(start[0], start[1], end[0], end[1]);
-    System.out.println("Shape ID " +  shape.getID() + " Row ID " + row.getIdRow());
     _line.setStroke(Color.valueOf(Core.get().getRowPrice(shape.getID(), row.getIdRow()).getColor()));
     _line.setStrokeWidth(vitalSpace / 4);
 
