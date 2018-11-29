@@ -2,8 +2,8 @@
  * File Created: Tuesday, 13th November 2018
  * Author: MAREL Maud
  * -----
- * Last Modified: Tuesday, 27th November 2018
- * Modified By: HUBERT Léo
+ * Last Modified: Thursday, 29th November 2018
+ * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 MAREL Maud
  * <<licensetext>>
@@ -97,11 +97,11 @@ public class SeatController extends ViewController {
     section_vital_space_height_input.textProperty()
         .set(Double.toString(rectangle.getSectionData().getImmutableVitalSpace().getHeight()));
 
-    rectangle.getWidthProperty().addListener((ChangeListener<Number>) (ov, oldX, newX) -> {
+    rectangle.widthProperty().addListener((ChangeListener<Number>) (ov, oldX, newX) -> {
       if (widthInput.get() != rectangle.getColumnNumber())
         widthInput.set(rectangle.getColumnNumber());
     });
-    rectangle.getHeightProperty().addListener((ChangeListener<Number>) (ov, oldY, newY) -> {
+    rectangle.heightProperty().addListener((ChangeListener<Number>) (ov, oldY, newY) -> {
       if (heightInput.get() != rectangle.getRowNumber())
         heightInput.set(rectangle.getRowNumber());
     });

@@ -2,7 +2,7 @@
  * File Created: Tuesday, 27th November 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Tuesday, 27th November 2018
+ * Last Modified: Wednesday, 28th November 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Remi
@@ -39,12 +39,20 @@ public class InnoRow {
 
     shape.addAdditionalShape(_line);
 
+    _line.setOnMouseClicked(event -> {
+      // engine.getView().setSidebarFromFxmlFileName("sidebar_row.fxml", this);
+    });
+
     int i = 0;
     ArrayList<? extends ImmutableSeat> seats = row.getSeats();
     _seats = new Circle[seats.size()];
     for (ImmutableSeat seat : seats) {
       Circle circle = new Circle(_engine.meterToPixel(seat.getPosition()[0]), _engine.meterToPixel(seat.getPosition()[1]), vitalSpace / 4, Color.ORANGE);
 
+      circle.setOnMouseClicked(event -> {
+        engine.getView().setSidebarFromFxmlFileName("sidebar_seat.fxml", this);
+
+      });
       _seats[i] = circle;
       shape.addAdditionalShape(circle);
       ++i;

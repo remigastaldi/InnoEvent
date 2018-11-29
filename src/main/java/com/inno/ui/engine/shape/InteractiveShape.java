@@ -52,6 +52,10 @@ public abstract class InteractiveShape<T extends Shape> {
   InteractiveShape(Engine engine, Pane pane) {
     _engine = engine;
     _pane = pane;
+    _group = new Group();
+
+    // TODO: Change this
+    _pane.getChildren().add(_group);
   }
 
   // Callback
@@ -78,18 +82,64 @@ public abstract class InteractiveShape<T extends Shape> {
 
   protected void addOutboundShape(Shape shape) {
     _outBoundShapes.add(shape);
+    _group.getChildren().add(shape);
   }
 
   public ArrayList<Shape> getOutBoundShapes() {
     return _outBoundShapes;
   }
 
+  public void removeOutBoundShape(Shape shape) {
+    _outBoundShapes.remove(shape);
+    _group.getChildren().remove(shape);
+  }
+
+  public void clearOutBoundShape() {
+    _group.getChildren().removeAll(_outBoundShapes);
+  }
+
+  public void addSelectShape(Shape shape) {
+    _selectShapes.add(shape);
+    _group.getChildren().add(shape);
+  }
+
   public ArrayList<Shape> getSelectShapes() {
     return _selectShapes;
   }
 
+  public void removeSelectShape(Shape shape) {
+    _selectShapes.remove(shape);
+    _group.getChildren().remove(shape);
+  }
+
+  public void clearSelectShape() {
+    _group.getChildren().removeAll(_selectShapes);
+  }
+
+  public void addAdditionalShape(Shape shape) {
+    _additionalShapes.add(shape);
+    _group.getChildren().add(shape);
+  }
+
   public ArrayList<Shape> getAdditionalShapes() {
     return _additionalShapes;
+  }
+
+  public void removeAdditionalShape(Shape shape) {
+    _additionalShapes.remove(shape);
+    _group.getChildren().remove(shape);
+  }
+
+  public void clearAdditionalShape() {
+    _group.getChildren().removeAll(_additionalShapes);
+  }
+
+  public void setShape(T shape) {
+    if (_shape != null)
+      _group.getChildren().remove(shape);
+
+    _shape = shape;
+    _group.getChildren().add(shape);
   }
 
   protected Pane Pane() {
@@ -136,10 +186,6 @@ public abstract class InteractiveShape<T extends Shape> {
     return _id;
   }
 
-  public void addAdditionalShape(Shape shape) {
-    _additionalShapes.add(shape);
-  }
-  
   public void setColor(Color color) {
     _shape.setFill(color.deriveColor(1, 1, 0.8, 0.85));
     for (Shape shape : _outBoundShapes) {
@@ -166,65 +212,31 @@ public abstract class InteractiveShape<T extends Shape> {
     return _currentRotation;
   }
 
-  public void completeShape() {
-    for (CircleAnchor anchor : _anchors) {
-      _selectShapes.add(anchor.getShape());
-    }
-    ArrayList<Node> nodes = new ArrayList<>();
-    nodes.add(_shape);
-    for (Shape outBound : _outBoundShapes) {
-      Pane().getChildren().remove(outBound);
-      nodes.add(outBound);
-    }
-    for (Shape selectShape : _selectShapes) {
-      Pane().getChildren().remove(selectShape);
-      nodes.add(selectShape);
-    }
-    for (Shape additionalShape : _additionalShapes) {
-      nodes.add(additionalShape);
-    }
-    _group = new Group(nodes);
-    Pane().getChildren().add(_group);
-    _engine.addInteractiveShape(this);
-    
-    for (CircleAnchor anchor : _anchors) {
-      anchor.setInteractiveShape(this);
-    }
+  // public void relocateGroup() {
+  //   ArrayList<Node> nodes = new ArrayList<>();
+  //   nodes.add(_shape);
+  //   for (Shape outBound : _outBoundShapes) {
+  //     nodes.add(outBound);
+  //   }
+  //   for (Shape selectShape : _selectShapes) {
+  //     nodes.add(selectShape);
+  //   }
+  //   for (Shape additionalShape : _additionalShapes) {
+  //     nodes.add(additionalShape);
+  //   }
+  //   _group = new Group(nodes);
+  //   Pane().getChildren().add(_group);
 
-    onFormComplete();
-  }
+  //   _group.setOnMousePressed(mouseEvent -> {
+  //     select();
+  //     Point2D p = Pane().sceneToLocal(mouseEvent.getSceneX(), mouseEvent.getSceneY());
 
-  public void refreshGroup() {
-    ObservableList<Transform> transforms = _group.getTransforms();
-  
-    if (_group != null)
-      Pane().getChildren().remove(_group);
-  
-    ArrayList<Node> nodes = new ArrayList<>();
-    nodes.add(_shape);
-    for (Shape outBound : _outBoundShapes) {
-      nodes.add(outBound);
-    }
-    for (Shape selectShape : _selectShapes) {
-      nodes.add(selectShape);
-    }
-    for (Shape additionalShape : _additionalShapes) {
-      nodes.add(additionalShape);
-    }
-    _group = new Group(nodes);
-    Pane().getChildren().add(_group);
-    _group.getTransforms().addAll(transforms);
-
-    _group.setOnMousePressed(mouseEvent -> {
-      select();
-      Point2D p = Pane().sceneToLocal(mouseEvent.getSceneX(), mouseEvent.getSceneY());
-
-      orgSceneX = p.getX();
-      orgSceneY = p.getY();
-      orgTranslateX = ((Group) (_group)).getTranslateX();
-      orgTranslateY = ((Group) (_group)).getTranslateY();
-    });
-  }
+  //     orgSceneX = p.getX();
+  //     orgSceneY = p.getY();
+  //     orgTranslateX = ((Group) (_group)).getTranslateX();
+  //     orgTranslateY = ((Group) (_group)).getTranslateY();
+  //   });
+  // }
 
   double orgSceneX, orgSceneY;
   double orgTranslateX, orgTranslateY;

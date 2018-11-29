@@ -2,7 +2,7 @@
  * File Created: Monday, 15th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Wednesday, 28th November 2018
+ * Last Modified: Thursday, 29th November 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -22,7 +22,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.geometry.Point2D;
-import javafx.scene.Cursor;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -116,10 +115,10 @@ public class InteractiveRectangle extends InteractiveShape<Rectangle> {
     maxXProperty.set(_shape.getX() + _shape.getWidth());
     maxYProperty.set(_shape.getY() + _shape.getHeight());
 
-    CircleAnchor resizeHandleLU = new CircleAnchor(Engine(), Color.GOLD, _shape.xProperty(), _shape.yProperty(), true);
-    CircleAnchor resizeHandleRU = new CircleAnchor(Engine(), Color.GOLD, maxXProperty, _shape.yProperty(), true);
-    CircleAnchor resizeHandleRD = new CircleAnchor(Engine(), Color.GOLD, maxXProperty, maxYProperty, true);
-    CircleAnchor resizeHandleLD = new CircleAnchor(Engine(), Color.GOLD, _shape.xProperty(), maxYProperty, true);
+    CircleAnchor resizeHandleLU = new CircleAnchor(Engine(), this, Color.GOLD, _shape.xProperty(), _shape.yProperty(), true);
+    CircleAnchor resizeHandleRU = new CircleAnchor(Engine(), this, Color.GOLD, maxXProperty, _shape.yProperty(), true);
+    CircleAnchor resizeHandleRD = new CircleAnchor(Engine(), this, Color.GOLD, maxXProperty, maxYProperty, true);
+    CircleAnchor resizeHandleLD = new CircleAnchor(Engine(), this, Color.GOLD, _shape.xProperty(), maxYProperty, true);
 
     _shape.widthProperty().addListener((ChangeListener<Number>) (ov, oldX, newX) -> {
       if (_shape.getX() + (double) newX != maxXProperty.get()) {
@@ -159,6 +158,12 @@ public class InteractiveRectangle extends InteractiveShape<Rectangle> {
     anchors.add(resizeHandleRU);
     anchors.add(resizeHandleRD);
     anchors.add(resizeHandleLD);
+
+    addSelectShape(resizeHandleLU);
+    addSelectShape(resizeHandleRU);
+    addSelectShape(resizeHandleRD);
+    addSelectShape(resizeHandleLD);
+
 
     createLine(resizeHandleLU, resizeHandleRU);
     createLine(resizeHandleRU, resizeHandleRD);
@@ -224,32 +229,33 @@ public class InteractiveRectangle extends InteractiveShape<Rectangle> {
     return _shape.getHeight();
   }
 
-  public DoubleProperty getXProperty() {
+  public DoubleProperty xProperty() {
     return _shape.xProperty();
   }
 
-  public DoubleProperty getYProperty() {
+  public DoubleProperty yProperty() {
     return _shape.yProperty();
   }
 
-  public DoubleProperty getMaxXProperty() {
+  public DoubleProperty maxXProperty() {
     return maxXProperty;
   }
 
-  public DoubleProperty getMaxYProperty() {
+  public DoubleProperty maxYProperty() {
     return maxYProperty;
   }
 
-  public DoubleProperty getWidthProperty() {
+  public DoubleProperty widthProperty() {
     return _shape.widthProperty();
   }
 
-  public DoubleProperty getHeightProperty() {
+  public DoubleProperty heightProperty() {
     return _shape.heightProperty();
   }
 
   private void closeForm(double x, double y, double width, double height, Rotate rotation, Color color) {
-    _shape = new Rectangle(x, y, width, height);
+    setShape(new Rectangle(x, y, width, height));
+
 
     EventHandler<MouseEvent> mouseMovedEvent = EventHandlers().remove(MouseEvent.MOUSE_MOVED);
     if (mouseMovedEvent != null)
@@ -262,7 +268,7 @@ public class InteractiveRectangle extends InteractiveShape<Rectangle> {
 
     Cursor().setForm(CustomCursor.Type.DEFAULT);
 
-    completeShape();
+    // completeShape();
     setColor(color);
     setRotation(rotation);
 
@@ -279,8 +285,8 @@ public class InteractiveRectangle extends InteractiveShape<Rectangle> {
   }
 
   public double[] getPoints() {
-    double[] pos = { getX(), getY(), getMaxXProperty().get(), getY(), getMaxXProperty().get(), getMaxYProperty().get(),
-        getX(), getMaxYProperty().get() };
+    double[] pos = { getX(), getY(), maxXProperty().get(), getY(), maxXProperty().get(), maxYProperty().get(),
+        getX(), maxYProperty().get() };
     return pos;
   }
 

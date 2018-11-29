@@ -2,8 +2,8 @@
  * File Created: Friday, 26th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Monday, 26th November 2018
- * Modified By: MAREL Maud
+ * Last Modified: Thursday, 29th November 2018
+ * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
  * <<licensetext>>
@@ -131,11 +131,11 @@ public class NewSittingRectangularySectionController extends ViewController {
     height_vital_space_input.textProperty()
         .set(Double.toString(rectangle.getSectionData().getImmutableVitalSpace().getHeight()));
 
-    rectangle.getWidthProperty().addListener((ChangeListener<Number>) (ov, oldX, newX) -> {
+    rectangle.widthProperty().addListener((ChangeListener<Number>) (ov, oldX, newX) -> {
       if (widthInput.get() != rectangle.getColumnNumber())
         widthInput.set(rectangle.getColumnNumber());
     });
-    rectangle.getHeightProperty().addListener((ChangeListener<Number>) (ov, oldY, newY) -> {
+    rectangle.heightProperty().addListener((ChangeListener<Number>) (ov, oldY, newY) -> {
       if (heightInput.get() != rectangle.getRowNumber())
         heightInput.set(rectangle.getRowNumber());
     });

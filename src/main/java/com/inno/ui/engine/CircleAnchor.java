@@ -25,18 +25,19 @@ public class CircleAnchor extends Circle {
   DoubleProperty x = null;
   DoubleProperty y = null;
 
-  public CircleAnchor(Engine engine, Color color, DoubleProperty x, DoubleProperty y) {
+  public CircleAnchor(Engine engine, InteractiveShape< ? extends Shape> intShape, Color color, DoubleProperty x, DoubleProperty y) {
     super(x.get(), y.get(), 5);
-    init(engine, color, x, y, false);
+    init(engine, intShape, color, x, y, false);
   }
 
-  public CircleAnchor(Engine engine, Color color, DoubleProperty x, DoubleProperty y, boolean bidirectional) {
+  public CircleAnchor(Engine engine, InteractiveShape< ? extends Shape> intShape, Color color, DoubleProperty x, DoubleProperty y, boolean bidirectional) {
     super(x.get(), y.get(), 5);
-    init(engine, color, x, y, bidirectional);
+    init(engine, intShape, color, x, y, bidirectional);
   }
 
-  private void init(Engine engine, Color color, DoubleProperty x, DoubleProperty y, boolean bidirectional) {
+  private void init(Engine engine, InteractiveShape< ? extends Shape> intShape, Color color, DoubleProperty x, DoubleProperty y, boolean bidirectional) {
     _engine = engine;
+    _interactiveShape = intShape;
 
     setFill(color.deriveColor(1, 1, 1, 0.5));
     setStroke(color);
@@ -54,10 +55,6 @@ public class CircleAnchor extends Circle {
     }
     
     enableDrag();    
-  }
-  
-  public void setInteractiveShape(InteractiveShape<? extends Shape> interactiveShap) {
-    _interactiveShape = interactiveShap;
   }
 
   private boolean _mousePressed = false;

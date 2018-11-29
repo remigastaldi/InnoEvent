@@ -2,8 +2,8 @@
  * File Created: Tuesday, 13th November 2018
  * Author: MAREL Maud
  * -----
- * Last Modified: Wednesday, 28th November 2018
- * Modified By: HUBERT Léo
+ * Last Modified: Thursday, 29th November 2018
+ * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 MAREL Maud
  * <<licensetext>>
@@ -45,13 +45,13 @@ public class SceneController extends ViewController {
   public void init() {
     InnoRectangle rectangle = (InnoRectangle) getIntent();
 
-    rectangle.getWidthProperty().addListener((ChangeListener<Number>) (ov, oldX, newX) -> {
+    rectangle.widthProperty().addListener((ChangeListener<Number>) (ov, oldX, newX) -> {
       if (!scene_width_input.getText().equals(Integer.toString((int) rectangle.getWidthToMetter()))) {
         scene_width_input.setText(Integer.toString((int) rectangle.getWidthToMetter()));
         checkInputs();
       }
     });
-    rectangle.getHeightProperty().addListener((ChangeListener<Number>) (ov, oldY, newY) -> {
+    rectangle.heightProperty().addListener((ChangeListener<Number>) (ov, oldY, newY) -> {
       if (!scene_height_input.getText().equals(Integer.toString((int) rectangle.getHeightToMetter()))) {
         scene_height_input.setText(Integer.toString((int) rectangle.getHeightToMetter()));
         checkInputs();

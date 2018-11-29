@@ -2,7 +2,7 @@
  * File Created: Sunday, 14th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Monday, 26th November 2018
+ * Last Modified: Thursday, 29th November 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -24,8 +24,6 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.geometry.Point2D;
-import javafx.scene.Group;
-import javafx.scene.Node;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -35,13 +33,8 @@ import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Shape;
 import javafx.scene.shape.StrokeLineCap;
 import javafx.scene.transform.Rotate;
-import javafx.scene.transform.Transform;
 
 public class InteractivePolygon extends InteractiveShape<Polygon> {
-  private ArrayList<Circle> _points = new ArrayList<>();
-  private ArrayList<Line> _lines = new ArrayList<>();
-  
-
   public InteractivePolygon(Engine engine, Pane pane) {
     super(engine, pane);
   }
@@ -66,7 +59,7 @@ public class InteractivePolygon extends InteractiveShape<Polygon> {
 
     EventHandler<MouseEvent> mouseReleasedEvent = event -> {
       if (onMouseReleased(event)) {
-        if (_points.size() > 0 && Cursor().getBoundShape().intersects(_points.get(0).getBoundsInParent())) {
+        if (getAdditionalShapes().size() > 0 && Cursor().getBoundShape().intersects(getAdditionalShapes().get(0).getBoundsInParent())) {
           closeForm();
         } else {
           // if (!_collisionDetected)
@@ -89,15 +82,15 @@ public class InteractivePolygon extends InteractiveShape<Polygon> {
         }
 
         // _collisionDetected = Engine().isObjectUnderCursor(_cursor)
-        //     || (_lines.size() > 0 ? Engine().isObjectUnderCursor(_lines.get(_lines.size() - 1)) : false);
+        //     || (lines.size() > 0 ? Engine().isObjectUnderCursor(lines.get(lines.size() - 1)) : false);
         // if (_collisionDetected) {
-        //   if (_lines.size() > 0)
-        //     _lines.get(_lines.size() - 1).setStroke(Color.RED);
+        //   if (lines.size() > 0)
+        //     lines.get(lines.size() - 1).setStroke(Color.RED);
         //   Pane().setCursor(closeCursor);
 
         // } else {
-        //   if (_lines.size() > 0)
-        //     _lines.get(_lines.size() - 1).setStroke(Color.KHAKI);
+        //   if (lines.size() > 0)
+        //     lines.get(lines.size() - 1).setStroke(Color.KHAKI);
         //   Pane().setCursor(addCursor);
         // }
         updateCurrentLine();
@@ -124,61 +117,50 @@ public class InteractivePolygon extends InteractiveShape<Polygon> {
   }
 
   private void addPoint() {
-    Line line = createLine(Cursor().getX(), Cursor().getY(), Cursor().getX(), Cursor().getY());
-    _lines.add(line);
-    Pane().getChildren().add(line);
-    addOutboundShape(line);
-
     Circle circle = new Circle(Cursor().getX(), Cursor().getY(), 5.0);
     circle.setFill(Color.GREEN);
 
-    _points.add(circle);
-    Pane().getChildren().add(circle);
+    addAdditionalShape(circle);
+
+    Line line = createLine(circle.getCenterX(), circle.getCenterY(), circle.getCenterX(), circle.getCenterY());
+    addOutboundShape(line);
   }
 
   double orgSceneX, orgSceneY;
   double orgTranslateX, orgTranslateY;
 
   private void closeForm(double[] pos, Rotate rotation, Color color) {
-    _shape = new Polygon(pos);
+    setShape(new Polygon(pos));
     
     _shape.setFill(color.deriveColor(1, 1, 0.8, 0.85));
 
-    ArrayList<Point2D> points = new ArrayList<>();
     for (int i = 0; i < pos.length; i+=2) {
-      points.add(new Point2D(pos[i], pos[i + 1]));
       Line line = createLine(pos[i], pos[i + 1], pos[i + 2 < pos.length ? i + 2 : 0], pos[i + 3 < pos.length ? i + 3 : 1]);
-      _lines.add(line);
-      Pane().getChildren().add(line);
       addOutboundShape(line);
     }
 
+    _anchors = createPolygonAnchor(_shape.getPoints());
 
-    _anchors = createControlAnchorsFor(_shape.getPoints());
-
-    finialisePolygon(color, points);
+    finialisePolygon(color);
   }
 
   private void closeForm(Color color) {
-    _shape = new Polygon();
+    setShape(new Polygon());
 
-    Line activeLine = _lines.get(_lines.size() - 1);
-    Circle firstPoint = _points.get(0);
-    activeLine.setEndX(firstPoint.getCenterX());
-    activeLine.setEndY(firstPoint.getCenterY());
+    ArrayList<Shape> lines = getOutBoundShapes();
 
-    ArrayList<Point2D> points = new ArrayList<>();
-    for (Circle point : _points) {
-      points.add(new Point2D(point.getCenterX(), point.getCenterY()));
-      Pane().getChildren().remove(point);
-    }
+    Line activeLine = (Line) lines.get(lines.size() - 1);
+    Line firstPoint = (Line) lines.get(0);
+    activeLine.setEndX(firstPoint.getStartX());
+    activeLine.setEndY(firstPoint.getStartY());
 
-    for (Circle point : _points) {
-      _shape.getPoints().addAll(new Double[] { point.getCenterX(), point.getCenterY() });
-      Pane().getChildren().remove(point);
+    clearAdditionalShape();
+
+    for (Shape shape : lines) {
+      Line line = (Line) shape;
+      _shape.getPoints().addAll(new Double[] { line.getStartX(), line.getStartY() });
     }
     
-    _points = null;
     EventHandler<MouseEvent> mouseMovedEvent = EventHandlers().remove(MouseEvent.MOUSE_MOVED);
     Pane().removeEventHandler(MouseEvent.MOUSE_MOVED, mouseMovedEvent);
     EventHandler<MouseEvent> mouseRelesedEvent = EventHandlers().remove(MouseEvent.MOUSE_RELEASED);
@@ -186,9 +168,11 @@ public class InteractivePolygon extends InteractiveShape<Polygon> {
     EventHandler<MouseEvent> mouseDraggEvent = EventHandlers().remove(MouseEvent.MOUSE_DRAGGED);
     Pane().removeEventHandler(MouseEvent.MOUSE_DRAGGED, mouseDraggEvent);
   
-    _anchors = createControlAnchorsFor(_shape.getPoints());
+    _anchors = createPolygonAnchor(_shape.getPoints());
 
-    finialisePolygon(color, points);
+    finialisePolygon(color);
+
+    onFormComplete();
 
     return;
   }
@@ -198,15 +182,15 @@ public class InteractivePolygon extends InteractiveShape<Polygon> {
     closeForm(Color.ROYALBLUE);
   }
 
-  private void finialisePolygon(Color color, ArrayList<Point2D> points) {
+  private void finialisePolygon(Color color) {
 	  Cursor().setForm(CustomCursor.Type.DEFAULT);
     Cursor().removeShape();
 
-    completeShape();
+    // completeShape();
     setColor(color);  
     
-    Point2D center = Engine().getCenterOfPoints(points);
-    setRotation(0.0, center.getX(), center.getY());
+    // Point2D center = Engine().getCenterOfPoints(points);
+    // setRotation(0.0, center.getX(), center.getY());
   
     Engine().getMagnetismManager().registerInteractiveShape(this);
 
@@ -222,40 +206,46 @@ public class InteractivePolygon extends InteractiveShape<Polygon> {
   }
 
   private void updateCurrentLine() {
-    if (_points == null || _points.size() == 0)
+    ArrayList<Shape> lines = getOutBoundShapes();
+
+    if (lines == null || lines.size() == 0)
       return;
 
-    Line activeLine = _lines.get(_lines.size() - 1);
+    Line activeLine = (Line)lines.get(lines.size() - 1);
     activeLine.setVisible(true);
 
     activeLine.setEndX(Cursor().getX());
     activeLine.setEndY(Cursor().getY());
   }
 
-  private ObservableList<CircleAnchor> createControlAnchorsFor(final ObservableList<Double> points) {
+  private ObservableList<CircleAnchor> createPolygonAnchor(final ObservableList<Double> points) {
     ObservableList<CircleAnchor> anchors = FXCollections.observableArrayList();
 
     int j = 0;
+    ArrayList<Shape> lines = getOutBoundShapes();
+
     for (int i = 0; i < points.size(); i += 2) {
       final int idx = i;
-      final int idj = j;
 
       DoubleProperty xProperty = new SimpleDoubleProperty(points.get(i));
       DoubleProperty yProperty = new SimpleDoubleProperty(points.get(i + 1));
 
+
+      ((Line)lines.get(j - 1 < 0 ? lines.size() - 1 : j - 1)).endXProperty().bind(xProperty);
+      ((Line)lines.get(j - 1 < 0 ? lines.size() - 1 : j - 1)).endYProperty().bind(yProperty);
+      ((Line)lines.get(j)).startXProperty().bind(xProperty);
+      ((Line)lines.get(j)).startYProperty().bind(yProperty);
       xProperty.addListener((ChangeListener<Number>) (ov, oldX, x) -> {
         points.set(idx, x.doubleValue());
-        _lines.get(idj - 1 < 0 ? _lines.size() - 1 : idj - 1).setEndX((double) x);
-        _lines.get(idj).setStartX((double) x);
       });
 
       yProperty.addListener((ChangeListener<Number>) (ov, oldY, y) -> {
-        points.set(idx + 1, y.doubleValue());
-        _lines.get(idj - 1 < 0 ? _lines.size() - 1 : idj - 1).setEndY((double) y);
-        _lines.get(idj).setStartY((double) y);
+        points.set(idx, y.doubleValue());
       });
+      CircleAnchor circleAnchor = new CircleAnchor(Engine(), this, Color.GOLD, xProperty, yProperty);
+      anchors.add(circleAnchor);
+      addSelectShape(circleAnchor);
       j++;
-      anchors.add(new CircleAnchor(Engine(), Color.GOLD, xProperty, yProperty));
     }
 
     return anchors;

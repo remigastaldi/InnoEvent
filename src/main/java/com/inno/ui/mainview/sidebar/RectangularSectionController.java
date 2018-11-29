@@ -2,8 +2,8 @@
  * File Created: Tuesday, 13th November 2018
  * Author: MAREL Maud
  * -----
- * Last Modified: Wednesday, 28th November 2018
- * Modified By: HUBERT Léo
+ * Last Modified: Thursday, 29th November 2018
+ * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 MAREL Maud
  * <<licensetext>>
@@ -94,12 +94,12 @@ public class RectangularSectionController extends ViewController {
     section_vital_space_height_input
         .setText(Double.toString(rectangle.getSectionData().getImmutableVitalSpace().getHeight()));
 
-    rectangle.getWidthProperty().addListener((ChangeListener<Number>) (ov, oldX, newX) -> {
+    rectangle.widthProperty().addListener((ChangeListener<Number>) (ov, oldX, newX) -> {
       if (!section_columns_input.getText().equals(Integer.toString(rectangle.getColumnNumber()))) {
         section_columns_input.setText(Integer.toString(rectangle.getColumnNumber()));
       }
     });
-    rectangle.getHeightProperty().addListener((ChangeListener<Number>) (ov, oldY, newY) -> {
+    rectangle.heightProperty().addListener((ChangeListener<Number>) (ov, oldY, newY) -> {
       if (!section_rows_input.getText().equals(Integer.toString(rectangle.getRowNumber()))) {
         section_rows_input.setText(Integer.toString(rectangle.getRowNumber()));
       }
