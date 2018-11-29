@@ -57,8 +57,6 @@ public class InnoEngine extends Engine {
       Point2D center = getCenterOfPoints(pos);
       if (section.isRectangle()) {
         System.out.println("Load rectangular section");
-        double width = Math.hypot(pos[0] - pos[2], pos[1] - pos[3]);
-        double height = Math.hypot(pos[6] - pos[0], pos[7] - pos[1]);
         createRectangularSection(section.getIdSection());
       } else {
         System.out.println("Load irregular section");

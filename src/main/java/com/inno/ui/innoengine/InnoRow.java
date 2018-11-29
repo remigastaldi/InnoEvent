@@ -19,7 +19,7 @@ import com.inno.app.Core;
 import com.inno.app.room.ImmutableSeat;
 import com.inno.app.room.ImmutableSittingRow;
 import com.inno.app.room.ImmutableSittingSection;
-import com.inno.ui.innoengine.shape.InnoRectangle;
+import com.inno.ui.engine.shape.InteractiveShape;
 
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
@@ -32,19 +32,21 @@ import javafx.scene.text.Text;
 public class InnoRow {
   private Line _line = null;
   private InnoEngine _engine = null;
-  private InnoRectangle _intShape = null;
+  private InteractiveShape<? extends Shape> _intShape = null;
+  private ImmutableSittingSection _section = null;
   private ImmutableSittingRow _row = null;
   private HashMap<Integer, Circle> _seats = new HashMap<>();
   private Shape[] _text = new Shape[2];
   private ImmutableSeat _selectedSeat = null;
 
-  public InnoRow(InnoEngine engine, InnoRectangle shape, ImmutableSittingRow row, double vitalSpace) {
+  public InnoRow(InnoEngine engine, InteractiveShape<? extends Shape> shape, ImmutableSittingSection section, ImmutableSittingRow row, double vitalSpace) {
     _engine = engine;
     _intShape = shape;
+    _section = section;
     _row = row;
 
-    double[] start =  _engine.meterToPixel(row.getPosStartRow());
-    double[] end = _engine.meterToPixel(row.getPosEndRow());
+    double[] start =  shape.parentToLocal(_engine.meterToPixel(row.getPosStartRow()));
+    double[] end = shape.parentToLocal(_engine.meterToPixel(row.getPosEndRow()));
     _line = new Line(start[0], start[1], end[0], end[1]);
     System.out.println("Shape ID " +  shape.getID() + " Row ID " + row.getIdRow());
     _line.setStroke(Color.valueOf(Core.get().getRowPrice(shape.getID(), row.getIdRow()).getColor()));
@@ -81,7 +83,8 @@ public class InnoRow {
 
     ArrayList<? extends ImmutableSeat> seats = row.getSeats();
     for (ImmutableSeat seat : seats) {
-      Circle circle = new Circle(_engine.meterToPixel(seat.getPosition()[0]), _engine.meterToPixel(seat.getPosition()[1]), vitalSpace / 3, Color.ORANGE);
+      double[] point = shape.parentToLocal(new double[]{_engine.meterToPixel(seat.getPosition()[0]), _engine.meterToPixel(seat.getPosition()[1])});
+      Circle circle = new Circle(point[0], point[1], vitalSpace / 3, Color.ORANGE);
       circle.setFill(Color.valueOf(Core.get().getSeatPrice(shape.getID(), row.getIdRow(), Integer.toString(seat.getId())).getColor()));
 
       circle.setOnMouseClicked(event -> {
@@ -94,7 +97,7 @@ public class InnoRow {
   }
 
   public ImmutableSittingSection getImmutableSection() {
-    return _intShape.getSectionData();
+    return _section;
   }
 
   public ImmutableSittingRow getImmutableRow() {

@@ -13,7 +13,12 @@
 package com.inno.ui.innoengine.shape;
 
 import  com.inno.ui.innoengine.InnoEngine;
+import com.inno.ui.innoengine.InnoRow;
+
+import java.util.ArrayList;
+
 import com.inno.app.Core;
+import com.inno.app.room.ImmutableSittingRow;
 import com.inno.app.room.ImmutableSittingSection;
 import com.inno.app.room.ImmutableStandingSection;
 import  com.inno.ui.engine.shape.InteractivePolygon;
@@ -29,6 +34,7 @@ public class InnoPolygon extends InteractivePolygon {
   private ImmutableStandingSection _standingSectionData = null;
   private ImmutableSittingSection _sittingSectionData = null;
   private boolean mouseReleased = false;
+  private InnoRow[] _rows = null;
 
   public InnoPolygon(InnoEngine engine, Pane pane) {
     super(engine, pane);
@@ -116,12 +122,32 @@ public class InnoPolygon extends InteractivePolygon {
   private void loadFromData(Group group) {
     setID(_sittingSectionData.getIdSection());
 
+    // setColor(Color.valueOf(Core.get().getSectionPrice(getID()).getColor()));
+
     if (group != null)
       setPoints(((InnoEngine)Engine()).meterToPixel(parentToLocal(_sittingSectionData.getPositions())));
     else
       setPoints(((InnoEngine)Engine()).meterToPixel(_sittingSectionData.getPositions()));
-      Point2D center = Engine().getCenterOfPoints(getPoints());
-      setRotation(new Rotate(_sittingSectionData.getRotation(),center.getX(), center.getY()));
+
+    Point2D center = Engine().getCenterOfPoints(getPoints());
+    setRotation(new Rotate(_sittingSectionData.getRotation(),center.getX(), center.getY()));
+
+    if (_rows != null) {
+      for (int i = 0; i < _rows.length; ++i) {
+        _rows[i].destroy();
+      }
+    }
+
+    ArrayList<? extends ImmutableSittingRow> rows =  _sittingSectionData.getImmutableSittingRows();
+    _rows = new InnoRow[rows.size()];
+    
+    
+    int i = 0;
+    for (ImmutableSittingRow row : rows) {
+      InnoEngine engine = (InnoEngine) ((InnoEngine)Engine());
+      _rows[i] = new InnoRow(engine, this, _sittingSectionData, row, engine.meterToPixel(_sittingSectionData.getImmutableVitalSpace().getHeight()));
+      ++i;
+    }
   }
 
   private void loadFromData() {

@@ -186,10 +186,10 @@ public class InteractiveRectangle extends InteractiveShape<Rectangle> {
   }
 
   public void setPoints(double[] pos) {
-   setHeight(Math.hypot(pos[6] - pos[0], pos[7] - pos[1]));
     setX(pos[0]);
     setY(pos[1]);
     setWidth(Math.hypot(pos[0] - pos[2], pos[1] - pos[3]));
+    setHeight(Math.hypot(pos[6] - pos[0], pos[7] - pos[1]));
   }
 
   public void setX(double x) {
