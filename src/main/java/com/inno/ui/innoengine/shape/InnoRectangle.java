@@ -2,7 +2,7 @@
  * File Created: Monday, 15th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Wednesday, 28th November 2018
+ * Last Modified: Thursday, 29th November 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -96,7 +96,7 @@ public class InnoRectangle extends InteractiveRectangle {
       _sectionData = Core.get().createSittingSection(((InnoEngine)Engine()).pixelToMeter(getPointsInParent()), 0, true);
     loadFromData();
     InnoEngine engine = (InnoEngine) ((InnoEngine)Engine());
-    engine.getView().openPopup("new_sitting_rectangulary_section.fxml", this);
+    // engine.getView().openPopup("new_sitting_rectangulary_section.fxml", this);
     engine.getView().setSidebarFromFxmlFileName("sidebar_regular_sitting_section.fxml", this);
     return true;
   }

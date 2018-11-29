@@ -2,7 +2,7 @@
  * File Created: Sunday, 14th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Wednesday, 28th November 2018
+ * Last Modified: Thursday, 29th November 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -167,11 +167,11 @@ public abstract class InteractiveShape<T extends Shape> {
     borderGlow.setColor(Color.GOLD);
     borderGlow.setWidth(depth);
     borderGlow.setHeight(depth);
-    _group.setEffect(borderGlow);
+    _shape.setEffect(borderGlow);
   }
 
   public void disableGlow() {
-    _group.setEffect(null);
+    _shape.setEffect(null);
   }
 
   public Group getGroup() {
@@ -303,12 +303,12 @@ public abstract class InteractiveShape<T extends Shape> {
     if (Engine().getSelectedShape() != this) {
       onSelected();
       _shape.toFront();
+      for (Shape additionalShape : _additionalShapes) {
+        additionalShape.toFront();
+      }
       for (Shape selectShape : getSelectShapes()) {
         selectShape.toFront();
         selectShape.setVisible(true);
-      }
-      for (Shape additionalShape : _additionalShapes) {
-        additionalShape.toFront();
       }
       enableGlow();
       Engine().selected(this);
