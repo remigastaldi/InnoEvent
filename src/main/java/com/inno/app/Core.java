@@ -2,7 +2,7 @@
  * File Created: Tuesday, 9th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Wednesday, 28th November 2018
+ * Last Modified: Thursday, 29th November 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -141,10 +141,13 @@ public class Core {
 
   // sittingSection Methods
   public ImmutableSittingSection createSittingSection(double[] positions, double rotation, boolean isRectangle) {
-    Point pt = new Point(getImmutableRoom().getImmutableScene().getCenter()[0],
-    getImmutableRoom().getImmutableScene().getCenter()[1]);
-    // double[] newPos = Utils.rotateRectangle(pt, positions);
-    double newRotation = Utils.calculateRectangleRotation(pt, positions);
+    double newRotation = 0d;
+    if (isRectangle) {
+      Point pt = new Point(getImmutableRoom().getImmutableScene().getCenter()[0],
+      getImmutableRoom().getImmutableScene().getCenter()[1]);
+      // double[] newPos = Utils.rotateRectangle(pt, positions);
+       newRotation = Utils.calculateRectangleRotation(pt, positions);
+    }
     ImmutableSittingSection section = _room.createSittingSection(positions, newRotation, isRectangle);
 
     _pricing.createPlace(section.getIdSection(), "#ffffff", -1);
