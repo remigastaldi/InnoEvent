@@ -3,7 +3,7 @@
  * Author: GASTALDI Rémi
  * -----
  * Last Modified: Thursday, 29th November 2018
- * Modified By: GASTALDI Rémi
+ * Modified By: HUBERT Léo
  * -----
  * Copyright - 2018 GASTALDI Rémi
  * <<licensetext>>
@@ -209,7 +209,6 @@ public class Core {
 
   public ImmutableSittingRow createSittingRow(String idSection, double[] posStart, double[] posEnd) {
     ImmutableSittingRow row = this._room.createSittingRow(idSection, posStart, posEnd);
-    System.out.println("section ===================================== " + idSection + " row " + row.getIdRow());
     _pricing.createPlace(idSection + "|" + row.getIdRow(), "#7289DA", -1);
     return row;
   }
