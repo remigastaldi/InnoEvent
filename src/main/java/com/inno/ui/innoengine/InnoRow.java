@@ -54,7 +54,7 @@ public class InnoRow {
 
     shape.addAdditionalShape(_line);
     _line.setOnMouseClicked(event -> {
-      // engine.getView().setSidebarFromFxmlFileName("sidebar_row.fxml", this);
+      selectRowSidebar();
     });
 
     Rectangle rect = new Rectangle(_line.getEndX() + vitalSpace / 3, _line.getEndY() - vitalSpace / 4, vitalSpace, vitalSpace / 2);
@@ -66,6 +66,7 @@ public class InnoRow {
     rect.setArcWidth(3);
     rect.setOnMouseClicked(event -> {
       System.out.println("Row " + row.getIdRow());
+      selectRowSidebar();
     });
     shape.addSelectShape(rect);
 
@@ -74,6 +75,7 @@ public class InnoRow {
     text.setFont(new Font(8));
     text.setOnMouseClicked(event -> {
       System.out.println("Row " + row.getIdRow());
+      selectRowSidebar();
     });
     shape.addSelectShape(text);
 
@@ -94,6 +96,10 @@ public class InnoRow {
       _seats.put(seat.getId(), circle);
       shape.addAdditionalShape(circle);
     }
+  }
+
+  public void selectRowSidebar() {
+
   }
 
   public ImmutableSittingSection getImmutableSection() {
