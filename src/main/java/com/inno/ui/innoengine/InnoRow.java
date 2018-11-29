@@ -17,7 +17,9 @@ import java.util.ArrayList;
 import com.inno.app.room.ImmutableSeat;
 import com.inno.app.room.ImmutableSittingRow;
 import com.inno.ui.engine.shape.InteractiveShape;
+import com.inno.ui.innoengine.shape.InnoRectangle;
 
+import javafx.beans.value.ChangeListener;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
@@ -45,7 +47,7 @@ public class InnoRow {
       // engine.getView().setSidebarFromFxmlFileName("sidebar_row.fxml", this);
     });
 
-    Rectangle rect = new Rectangle(_line.getEndX() + 10d, _line.getEndY() - 5d, 20d, 10d);
+    Rectangle rect = new Rectangle(_line.getEndX() + vitalSpace / 4, _line.getEndY() - vitalSpace / 4, vitalSpace, vitalSpace / 2);
     // rect.setStroke(Color.DARKSLATEGRAY);
     rect.setFill(Color.BLACK);
     rect.setOpacity(0.5);
@@ -57,7 +59,7 @@ public class InnoRow {
     });
     shape.addSelectShape(rect);
 
-    Text text = new Text(_line.getEndX() + 15, _line.getEndY() + 2.5, row.getIdRow());
+    Text text = new Text(_line.getEndX() + vitalSpace / 2, _line.getEndY() + vitalSpace / 6, row.getIdRow());
     text.setFill(Color.WHITE);
     text.setFont(new Font(8));
     text.setOnMouseClicked(event -> {
