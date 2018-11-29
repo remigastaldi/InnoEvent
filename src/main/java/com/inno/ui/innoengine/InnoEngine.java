@@ -2,7 +2,7 @@
  * File Created: Friday, 12th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Wednesday, 28th November 2018
+ * Last Modified: Thursday, 29th November 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -59,8 +59,7 @@ public class InnoEngine extends Engine {
         System.out.println("Load rectangular section");
         double width = Math.hypot(pos[0] - pos[2], pos[1] - pos[3]);
         double height = Math.hypot(pos[6] - pos[0], pos[7] - pos[1]);
-        createRectangularSection(section.getIdSection(), pos[0], pos[1], width, height,
-            new Rotate(section.getRotation(), center.getX(), center.getY()), Color.ROYALBLUE);
+        createRectangularSection(section.getIdSection());
       } else {
         System.out.println("Load irregular section");
         createIrregularSection(section.getIdSection(), pos,
@@ -78,7 +77,7 @@ public class InnoEngine extends Engine {
     }
     
     double[] pos = meterToPixel(dto.getPositions());
-    InnoRectangle shape = new InnoRectangle(this, getPane(), "-1", pos[0], pos[1],
+    InnoRectangle shape = new InnoRectangle(this, getPane(), pos[0], pos[1],
       meterToPixel(dto.getWidth()), meterToPixel(dto.getHeight()), new Rotate(dto.getRotation(), pos[0] + meterToPixel(dto.getWidth()), pos[1] + meterToPixel(dto.getHeight())), Color.ROYALBLUE) {
         @Override
         public boolean onShapeResized() {
@@ -129,8 +128,14 @@ public class InnoEngine extends Engine {
     innoPoly.start();
   }
 
-  public void createRectangularSection(String id, double x, double y, double width, double height, Rotate rotation, Color color) {
-    InnoRectangle section = new InnoRectangle(this, getPane(), id, x, y, width, height, rotation, color);
+  public void createRectangularSection(double x, double y, double width, double height, Rotate rotation, Color color) {
+    InnoRectangle section = new InnoRectangle(this, getPane(), x, y, width, height, rotation, color);
+    addInteractiveShape(section);
+    deselect();
+  }
+
+  public void createRectangularSection(String id) {
+    InnoRectangle section = new InnoRectangle(this, getPane(), id);
     section.loadDomainData();
     addInteractiveShape(section);
     deselect();

@@ -3,7 +3,7 @@
  * Author: GASTALDI Rémi
  * -----
  * Last Modified: Thursday, 29th November 2018
- * Modified By: HUBERT Léo
+ * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
  * <<licensetext>>
@@ -152,7 +152,7 @@ public class Core {
     }
     ImmutableSittingSection section = _room.createSittingSection(positions, newRotation, isRectangle);
 
-    _pricing.createPlace(section.getIdSection(), "#ffffff", -1);
+    _pricing.createPlace(section.getIdSection(), "#6378bf", -1);
 
     return section;
   }
