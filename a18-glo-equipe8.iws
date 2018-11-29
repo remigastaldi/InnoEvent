@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="33fb8891-70c6-467d-b716-3cd74c261f7c" name="Default Changelist" comment="Fixed rotation methods">
+    <list default="true" id="33fb8891-70c6-467d-b716-3cd74c261f7c" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/a18-glo-equipe8.iws" beforeDir="false" afterPath="$PROJECT_DIR$/a18-glo-equipe8.iws" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/inno/app/room/Room.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/inno/app/room/Room.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/inno/service/Utils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/inno/service/Utils.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/.gradle/" />
@@ -136,14 +135,14 @@
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="java" value="5432" />
-          <entry key="txt" value="181" />
+          <entry key="java" value="5525" />
+          <entry key="txt" value="247" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="JAVA" value="5432" />
-          <entry key="PLAIN_TEXT" value="181" />
+          <entry key="JAVA" value="5525" />
+          <entry key="PLAIN_TEXT" value="247" />
         </counts>
       </usages-collector>
     </session>
@@ -180,8 +179,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/inno/app/room/Room.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-333">
-              <caret line="258" column="39" lean-forward="true" selection-start-line="258" selection-start-column="39" selection-end-line="258" selection-end-column="39" />
+            <state relative-caret-position="497">
+              <caret line="283" column="21" lean-forward="true" selection-start-line="283" selection-start-column="21" selection-end-line="283" selection-end-column="21" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#786#810#0" expanded="true" />
@@ -301,6 +300,7 @@
       <find>placerate</find>
       <find>rotateRectangle</find>
       <find>calculate</find>
+      <find>dist</find>
     </findStrings>
     <dirStrings>
       <dir>C:\Users\Khaled\Documents\GLO-2004\a18-glo-equipe8\src\main\java\com\inno\app\room</dir>
@@ -1063,7 +1063,7 @@
       <workItem from="1543335366099" duration="7740000" />
       <workItem from="1543420549418" duration="8056000" />
       <workItem from="1543457815620" duration="509000" />
-      <workItem from="1543506392693" duration="14237000" />
+      <workItem from="1543506392693" duration="16761000" />
     </task>
     <task id="LOCAL-00001" summary="Add Point class and Utils">
       <created>1542921746750</created>
@@ -1100,11 +1100,18 @@
       <option name="project" value="LOCAL" />
       <updated>1543427903797</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="Automatic seat distribution for irregular sections">
+      <created>1543520957413</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1543520957413</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="115073000" />
+    <option name="totallyTimeSpent" value="117597000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
@@ -1188,7 +1195,8 @@
     <MESSAGE value="Update rotation methods and add mirrored rotation" />
     <MESSAGE value="Added rotateRectangle method" />
     <MESSAGE value="Fixed rotation methods" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fixed rotation methods" />
+    <MESSAGE value="Automatic seat distribution for irregular sections" />
+    <option name="LAST_COMMIT_MESSAGE" value="Automatic seat distribution for irregular sections" />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="true" />
   </component>
   <component name="editorHistoryManager">
@@ -1349,8 +1357,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/inno/app/room/Room.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-333">
-          <caret line="258" column="39" lean-forward="true" selection-start-line="258" selection-start-column="39" selection-end-line="258" selection-end-column="39" />
+        <state relative-caret-position="497">
+          <caret line="283" column="21" lean-forward="true" selection-start-line="283" selection-start-column="21" selection-end-line="283" selection-end-column="21" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#786#810#0" expanded="true" />

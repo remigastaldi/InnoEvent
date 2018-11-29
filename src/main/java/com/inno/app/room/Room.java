@@ -267,25 +267,31 @@ public class Room implements ImmutableRoom, Serializable {
                 {
                     posy-=vitalSpaceHeight;
                     Point pt = new Point(posx, posy);
+                    Point pt1 = new Point(posx-vitalSpaceWidth/2, posy);
+                    Point pt2 = new Point(posx, posy-vitalSpaceHeight);
+                    Point pt3 = new Point(posx+vitalSpaceWidth/2, posy);
+                    Point pt4 = new Point(posx, posy+vitalSpaceHeight);
 
-                    if(Utils.insidePolygon(polyTemp, pt))
+                    if(Utils.insidePolygon(polyTemp, pt1)&&Utils.insidePolygon(polyTemp, pt2)&&
+                            Utils.insidePolygon(polyTemp, pt3)&&Utils.insidePolygon(polyTemp, pt4))
                     {
                         rowCreated = true;
                         coord.add(pt);
                     }
 
-                    if(rowCreated && !Utils.insidePolygon(polyTemp, pt))
+                    if(rowCreated && !(Utils.insidePolygon(polyTemp, pt1)&&Utils.insidePolygon(polyTemp, pt2)&&
+                            Utils.insidePolygon(polyTemp, pt3)&&Utils.insidePolygon(polyTemp, pt4)))
                     {
                         Point Start = Utils.rotatePoint(coord.get(0), sceneCenter, -angle);
                         Point End = Utils.rotatePoint(coord.get(coord.size()-1), sceneCenter, -angle);
                         double[] posStart = {Start.get_x(), Start.get_y()};
                         double[] posEnd = {End.get_x(),End.get_y()};
-                        ImmutableSittingRow row = createSittingRow(sittingSection.getIdSection(), posStart, posEnd);
+                        ImmutableSittingRow row = Core.get().createSittingRow(sittingSection.getIdSection(), posStart, posEnd);
                         for(Point point: coord)
                         {
                             Point rPoint = Utils.rotatePoint(point,sceneCenter, -angle);
                             double[] seatPos = {rPoint.get_x(), rPoint.get_y()};
-                            createSeat(sittingSection.getIdSection(), row.getIdRow(), seatPos);
+                            Core.get().createSeat(sittingSection.getIdSection(), row.getIdRow(), seatPos);
                         }
                         rowCreated = false;
                         coord.clear();
