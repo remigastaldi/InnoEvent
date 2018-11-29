@@ -2,8 +2,8 @@
  * File Created: Tuesday, 13th November 2018
  * Author: MAREL Maud
  * -----
- * Last Modified: Tuesday, 27th November 2018
- * Modified By: GASTALDI Rémi
+ * Last Modified: Thursday, 29th November 2018
+ * Modified By: MAREL Maud
  * -----
  * Copyright - 2018 MAREL Maud
  * <<licensetext>>
@@ -38,8 +38,27 @@ public class SittingSection extends Section implements ImmutableSection, Immutab
     this._vitalSpace.setHeight(height);
   }
 
+  public static String toBase26(int number) {
+    String convert = "";
+    char letter = 'A';
+    int i = 1;
+
+    for (i = 1; i <= number; ++i) {
+      if (i % 26 == 0) {
+        if (number - i < 26)
+          convert += letter;
+        letter++;
+        if (letter == 91)
+          letter = 'A';
+      }
+    }
+    letter = (char) ((number - (26 * (letter - 'A'))) + 'A');
+    convert += letter;
+    return convert;
+  }
+
   public ImmutableSittingRow createRow(double[] posStart, double[] posEnd) {
-    String id = Integer.toString(this._rows.size() + 65);
+    String id = toBase26(this._rows.size());
     SittingRow row = new SittingRow(id, posStart, posEnd);
     this._rows.add(row);
     return row;
