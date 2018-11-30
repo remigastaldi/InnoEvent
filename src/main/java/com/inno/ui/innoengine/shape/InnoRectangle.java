@@ -97,6 +97,7 @@ public class InnoRectangle extends InteractiveRectangle {
       _sectionData = Core.get().createSittingSection(((InnoEngine)Engine()).pixelToMeter(localToParent(getPoints())), 0, true);
     } else
       _sectionData = Core.get().createSittingSection(((InnoEngine)Engine()).pixelToMeter(getPointsInParent()), 0, true);
+    setID(_sectionData.getIdSection());
     loadFromData();
     InnoEngine engine = (InnoEngine) ((InnoEngine)Engine());
     // engine.getView().openPopup("new_sitting_rectangulary_section.fxml", this);
@@ -220,8 +221,6 @@ public class InnoRectangle extends InteractiveRectangle {
   public void loadFromData() {
     _sectionData = Core.get().getImmutableRoom().getImmutableSittingSections().get(getID());
 
-    setID(_sectionData.getIdSection());
-
     double[] pos = parentToLocal(((InnoEngine)Engine()).meterToPixel(_sectionData.getPositions()));
     closeForm(pos[0], pos[1], Color.valueOf(Core.get().getSectionPrice(getID()).getColor()));
     
@@ -248,6 +247,8 @@ public class InnoRectangle extends InteractiveRectangle {
     }
 
     setPoints((pos));
+    // getGroup().getTransforms().clear();
+    
     setRotation(new Rotate(_sectionData.getRotation(), pos[0], pos[1]));
   }
 }

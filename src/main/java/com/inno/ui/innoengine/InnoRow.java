@@ -56,7 +56,7 @@ public class InnoRow {
       selectRowSidebar();
     });
 
-    Rectangle rect = new Rectangle(_line.getEndX() + vitalSpace / 3, _line.getEndY() - vitalSpace / 4, vitalSpace, vitalSpace / 2);
+    Rectangle rect = new Rectangle(_line.getEndX() + vitalSpace / 2, _line.getEndY() - vitalSpace / 4, vitalSpace, vitalSpace / 2);
     // rect.setStroke(Color.DARKSLATEGRAY);
     rect.setFill(Color.BLACK);
     rect.setOpacity(0.5);
@@ -81,11 +81,10 @@ public class InnoRow {
     _text[0] = rect;
     _text[1] = text;
 
-
     ArrayList<? extends ImmutableSeat> seats = row.getSeats();
     for (ImmutableSeat seat : seats) {
-      double[] point = shape.parentToLocal(new double[]{_engine.meterToPixel(seat.getPosition()[0]), _engine.meterToPixel(seat.getPosition()[1])});
-      Circle circle = new Circle(point[0], point[1], vitalSpace / 3, Color.ORANGE);
+      double[] points = shape.parentToLocal(new double[]{_engine.meterToPixel(seat.getPosition()[0]), _engine.meterToPixel(seat.getPosition()[1])});
+      Circle circle = new Circle(points[0], points[1], vitalSpace / 3, Color.ORANGE);
       circle.setFill(Color.valueOf(Core.get().getSeatPrice(shape.getID(), row.getIdRow(), Integer.toString(seat.getId())).getColor()));
 
       circle.setOnMouseClicked(event -> {
