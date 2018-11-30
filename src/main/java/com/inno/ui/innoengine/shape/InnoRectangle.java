@@ -32,8 +32,6 @@ public class InnoRectangle extends InteractiveRectangle {
   private ImmutableSittingSection _sectionData = null;
   private InnoRow[] _rows = null;
 
-  private boolean _grabbed = false;
-
   public InnoRectangle(InnoEngine engine, Pane pane) {
     super(engine, pane);
 
@@ -53,7 +51,6 @@ public class InnoRectangle extends InteractiveRectangle {
   public InnoRectangle(InnoEngine engine, Pane pane, String id) {
     super(engine, pane);
 
-    // setShape(new Rectangle());
     setID(id);
     _xVitalSpace = ((InnoEngine)Engine()).meterToPixel(Core.get().getImmutableRoom().getImmutableVitalSpace().getWidth());
     _yVitalSpace = ((InnoEngine)Engine()).meterToPixel(Core.get().getImmutableRoom().getImmutableVitalSpace().getHeight());
@@ -93,12 +90,9 @@ public class InnoRectangle extends InteractiveRectangle {
     if (getHeight() < ((InnoEngine)Engine()).meterToPixel(_yVitalSpace))
       setHeight(((InnoEngine)Engine()).meterToPixel(_yVitalSpace));
 
-    if (!_grabbed) {
-      _sectionData = Core.get().createSittingSection(((InnoEngine)Engine()).pixelToMeter(localToParent(getPoints())), 0, true);
-    } else
-      _sectionData = Core.get().createSittingSection(((InnoEngine)Engine()).pixelToMeter(getPointsInParent()), 0, true);
+    _sectionData = Core.get().createSittingSection(((InnoEngine)Engine()).pixelToMeter(getPointsInParent()), 0, true);
     setID(_sectionData.getIdSection());
-    loadFromData();
+    updateFromData();
     InnoEngine engine = (InnoEngine) ((InnoEngine)Engine());
     // engine.getView().openPopup("new_sitting_rectangulary_section.fxml", this);
     engine.getView().setSidebarFromFxmlFileName("sidebar_regular_sitting_section.fxml", this);
@@ -114,12 +108,12 @@ public class InnoRectangle extends InteractiveRectangle {
     //   System.out.println(test[i] + " " + test[i + 1 ]);
     // }
     // Core.get().setSectionRotation(getID(), getRotation() != null ? getRotation().getAngle() : 0.0);
-    getGroup().getTransforms().clear();
-
+    
     // double pos[] = getPoints();
     // for (int i =0; i < pos.length; i+=2) {
-    //   System.out.println(pos[i] + " ; " + pos[i + 1]);
-    // }
+      //   System.out.println(pos[i] + " ; " + pos[i + 1]);
+      // }
+    getGroup().getTransforms().clear();
     Core.get().updateSectionPositions(getID(), ((InnoEngine)Engine()).pixelToMeter(getPointsInParent()), true);
     // getGroup().getTransforms().addAll(transforms);
     // loadFromData();
@@ -135,12 +129,10 @@ public class InnoRectangle extends InteractiveRectangle {
     if (_sectionData == null)
       return true;
 
-    System.out.println("################### RESIZED ######################");
+    // System.out.println("################### RESIZED ######################");
 
     getGroup().getTransforms().clear();
     Core.get().updateSectionPositions(getID(), ((InnoEngine)Engine()).pixelToMeter(getPointsInParent()), true);
-
-
 
     // double pos[] = parentToLocal(((InnoEngine)Engine()).meterToPixel(_sectionData.getPositions()));
     // setPoints(pos);
@@ -152,7 +144,6 @@ public class InnoRectangle extends InteractiveRectangle {
 
   @Override
   public boolean onMouseOnDragDetected(MouseEvent event) {
-    _grabbed = true;
     return true;
   }
 
@@ -219,6 +210,7 @@ public class InnoRectangle extends InteractiveRectangle {
   }
 
   public void loadFromData() {
+    // System.out.println("################### CREATED ######################");
     _sectionData = Core.get().getImmutableRoom().getImmutableSittingSections().get(getID());
 
     double[] pos = parentToLocal(((InnoEngine)Engine()).meterToPixel(_sectionData.getPositions()));

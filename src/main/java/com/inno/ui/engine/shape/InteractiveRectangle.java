@@ -255,6 +255,7 @@ public class InteractiveRectangle extends InteractiveShape<Rectangle> {
 
   public void closeForm(double x, double y, double width, double height, Rotate rotation, Color color) {
     setShape(new Rectangle(x, y, width, height));
+    System.out.println("################### CREATED ######################");
 
 
     EventHandler<MouseEvent> mouseMovedEvent = EventHandlers().remove(MouseEvent.MOUSE_MOVED);

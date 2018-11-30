@@ -2,8 +2,8 @@
  * File Created: Friday, 12th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Saturday, 13th October 2018
- * Modified By: HUBERT Léo
+ * Last Modified: Thursday, 29th November 2018
+ * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
  * <<licensetext>>
@@ -272,7 +272,7 @@ public class Utils {
         Point q = new Point(click.get_x()+a, click.get_y());
 
         double rotation = Math.toDegrees(calculateRotationAngle(click, q, p));
-        System.out.println("angle: "+rotation);
+        // System.out.println("angle: "+rotation);
         return rotation;
     }
 }
