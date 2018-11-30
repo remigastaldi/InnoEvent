@@ -92,7 +92,7 @@ public class SeatController extends ViewController {
         if (seat_price_input.getText().trim().length() != 0) {
           Core().setSeatPrice(row.getImmutableSection().getIdSection(), row.getImmutableRow().getIdRow(),
               Integer.toString(row.getSelectedSeat().getId()), Double.parseDouble(seat_price_input.getText()),
-              "#" + Integer.toHexString(seat_price_color_picker.getValue().hashCode()).replace("ff", ""));
+              "#" + Integer.toHexString(seat_price_color_picker.getValue().hashCode()));
           // seat_price_info.setText(seat_price_input.getText().trim().length() != 0 ?
           // seat_price_input.getText() : "NA"); // TODO: Fix that !
           row.resetRowColor();

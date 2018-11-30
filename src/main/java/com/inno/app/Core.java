@@ -127,6 +127,12 @@ public class Core {
   }
 
   public void deleteSection(String idSection) {
+    HashMap<String, ? extends ImmutablePlaceRate> places = _pricing.getPlaces(idSection);
+
+    for (Map.Entry<String, ? extends ImmutablePlaceRate> entry : places.entrySet()) {
+      String key = entry.getKey();
+      _pricing.deletePlaceRate(key);
+    }
     this._room.deleteSection(idSection);
   }
 
@@ -155,14 +161,17 @@ public class Core {
     }
     ImmutableSittingSection section = _room.createSittingSection(positions, newRotation, isRectangle);
 
-    _pricing.createPlace(section.getIdSection(), "#6378bf", -1);
+    createPlace(section.getIdSection(), "#6378bf");
 
     return section;
   }
 
   public void setSectionPrice(String idSection, double price, String color) {
-    HashMap<String, ? extends ImmutablePlaceRate> places = _pricing.getPlaces(idSection);
-
+    HashMap<String, ? extends ImmutablePlaceRate> places = _pricing.getPlaces(idSection + "|");
+    _pricing.setPlaceRatePrice(idSection, price);
+    if (color != null) {
+      _pricing.setPlaceRateColor(idSection, color);
+    }
     for (Map.Entry<String, ? extends ImmutablePlaceRate> entry : places.entrySet()) {
       String key = entry.getKey();
       _pricing.setPlaceRatePrice(key, price);
@@ -181,10 +190,14 @@ public class Core {
   }
 
   public void setRowPrice(String idSection, String idRow, double price, String color) {
-    HashMap<String, ? extends ImmutablePlaceRate> places = _pricing.getPlaces(idSection + "|" + idRow);
+    HashMap<String, ? extends ImmutablePlaceRate> places = _pricing.getPlaces(idSection + "|" + idRow + "|");
     _pricing.setPlaceRatePrice(idSection, -1);
     _pricing.setPlaceRateColor(idSection, "#6378bf");
 
+    _pricing.setPlaceRatePrice(idSection + "|" + idRow, price);
+    if (color != null) {
+      _pricing.setPlaceRateColor(idSection + "|" + idRow, color);
+    }
     for (Map.Entry<String, ? extends ImmutablePlaceRate> entry : places.entrySet()) {
       String key = entry.getKey();
       _pricing.setPlaceRatePrice(key, price);
@@ -229,24 +242,12 @@ public class Core {
     this._room.setSittingSectionAutoDistribution(idSection, autoDistrib);
   }
 
-  public ImmutableSittingRow createSittingRow(String idSection, double[] posStart, double[] posEnd) {
-    ImmutableSittingRow row = this._room.createSittingRow(idSection, posStart, posEnd);
-    _pricing.createPlace(idSection + "|" + row.getIdRow(), "#7289DA", -1);
-    return row;
-  }
-
   public void deleteSittingRow(String idSection, String idRow) {
     this._room.deleteSittingRow(idSection, idRow);
   }
 
   public void clearAllSittingRows(String idSection) {
     this._room.clearAllSittingRows(idSection);
-  }
-
-  public ImmutableSeat createSeat(String idSection, String idRow, double[] pos) {
-    ImmutableSeat seat = this._room.createSeat(idSection, idRow, pos);
-    _pricing.createPlace(idSection + "|" + idRow + "|" + seat.getId(), "#FFA500", -1);
-    return seat;
   }
 
   // SAVE
@@ -265,15 +266,17 @@ public class Core {
 
     _room = (Room) save.getRoomData();
     _pricing = save.getPricing();
-
-
-    for (PlaceRate place : _pricing.getPlaces().values()) {
-      System.out.println("ID    " +place.getId() + " color" + place.getColor());
-    }
-
   }
 
   // Pricing && Offers
+
+  public void createPlace(String id, String color) {
+    ImmutablePlaceRate place = _pricing.getPlaceRate(id);
+    if (place == null) {
+      _pricing.createPlace(id, color, -1);
+    }
+  }
+
   public HashMap<String, ? extends ImmutableOffer> getOffers() {
     return _pricing.getOffers();
   }

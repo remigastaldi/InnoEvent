@@ -90,7 +90,7 @@ public class RowController extends ViewController {
           row_price_color_picker.setDisable(false);
           Core().setRowPrice(row.getImmutableSection().getIdSection(), row.getImmutableRow().getIdRow(),
               Double.parseDouble(row_price_input.getText().trim().length() != 0 ? row_price_input.getText() : "-1"),
-              "#" + Integer.toHexString(row_price_color_picker.getValue().hashCode()).replace("ff", ""));
+              "#" + Integer.toHexString(row_price_color_picker.getValue().hashCode()));
           // row_price_info.setText(row_price_input.getText().trim().length() != 0 ?
           // row_price_input.getText() : "NA"); // TODO: Fix that !
           if (row_price_color_picker.isFocused()) {
