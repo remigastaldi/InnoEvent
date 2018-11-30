@@ -122,10 +122,10 @@ public class InnoRectangle extends InteractiveRectangle {
     Core.get().updateSectionPositions(getID(), ((InnoEngine)Engine()).pixelToMeter(getPointsInParent()), true);
     // getGroup().getTransforms().addAll(transforms);
     // loadFromData();
-    // double[] pos = parentToLocal(((InnoEngine)Engine()).meterToPixel(_sectionData.getPositions()));
-    // setPoints(pos);
-    // setRotation(new Rotate(_sectionData.getRotation(), pos[0], pos[1]));
-    updateFromData();
+    double[] pos = parentToLocal(((InnoEngine)Engine()).meterToPixel(_sectionData.getPositions()));
+    setPoints(pos);
+    setRotation(new Rotate(_sectionData.getRotation(), pos[0], pos[1]));
+    // updateFromData();
     return true;
   }
 
