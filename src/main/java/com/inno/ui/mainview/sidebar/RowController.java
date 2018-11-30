@@ -2,7 +2,7 @@
  * File Created: Tuesday, 13th November 2018
  * Author: MAREL Maud
  * -----
- * Last Modified: Thursday, 29th November 2018
+ * Last Modified: Friday, 30th November 2018
  * Modified By: HUBERT Léo
  * -----
  * Copyright - 2018 MAREL Maud
@@ -66,8 +66,10 @@ public class RowController extends ViewController {
     if (place != null) {
       row_price_info.setText(row_price_info.getText() + "  " + (place.getPrice() != -1 ? place.getPrice() : "NA"));
       row_price_color_info.setFill(Color.valueOf(place.getColor()));
-
-      row_price_input.setText(place.getPrice() != -1 ? Double.toString(place.getPrice()) : "");
+      if (place.getPrice() != -1) {
+        row_price_input.setText(Double.toString(place.getPrice()));
+        row_price_color_picker.setDisable(false);
+      }
       row_price_color_picker.setValue(Color.valueOf(place.getColor()));
     }
 
@@ -83,13 +85,29 @@ public class RowController extends ViewController {
         return;
       }
       try {
-        Core().setRowPrice(row.getImmutableSection().getIdSection(), row.getImmutableRow().getIdRow(),
-            Double.parseDouble(row_price_input.getText().trim().length() != 0 ? row_price_input.getText() : "-1"),
-            row_price_color_picker.getValue().toString());
-        // row_price_info.setText(row_price_input.getText().trim().length() != 0 ?
-        // row_price_input.getText() : "NA"); // TODO: Fix that !
-        row_price_color_info.setFill(row_price_color_picker.getValue());
-        row.setRowColor(row_price_color_picker.getValue());
+
+        if (row_price_input.getText().trim().length() != 0) {
+          row_price_color_picker.setDisable(false);
+          Core().setRowPrice(row.getImmutableSection().getIdSection(), row.getImmutableRow().getIdRow(),
+              Double.parseDouble(row_price_input.getText().trim().length() != 0 ? row_price_input.getText() : "-1"),
+              "#" + Integer.toHexString(row_price_color_picker.getValue().hashCode()).replace("ff", ""));
+          // row_price_info.setText(row_price_input.getText().trim().length() != 0 ?
+          // row_price_input.getText() : "NA"); // TODO: Fix that !
+          if (row_price_color_picker.isFocused()) {
+            row_price_color_info.setFill(row_price_color_picker.getValue());
+            row.setRowColor(row_price_color_picker.getValue());
+          }
+        } else {
+          Core().setRowPrice(row.getImmutableSection().getIdSection(), row.getImmutableRow().getIdRow(),
+              Double.parseDouble(row_price_input.getText().trim().length() != 0 ? row_price_input.getText() : "-1"),
+              "#7289DA");
+          row_price_color_info.setFill(Color.valueOf("#7289DA"));
+          row.resetRowColor();
+          row.resetSeatsColor();
+          row_price_color_picker.setDisable(true);
+          row_price_color_picker.setValue(Color.valueOf("#7289DA"));
+
+        }
       } catch (Exception e) {
         System.out.println(e);
       }

@@ -3,12 +3,11 @@
  * Author: GASTALDI Rémi
  * -----
  * Last Modified: Friday, 30th November 2018
- * Modified By: GASTALDI Rémi
+ * Modified By: HUBERT Léo
  * -----
  * Copyright - 2018 GASTALDI Remi
  * <<licensetext>>
  */
-
 
 package com.inno.ui.innoengine;
 
@@ -39,19 +38,16 @@ public class InnoRow {
   private Shape[] _text = new Shape[2];
   private ImmutableSeat _selectedSeat = null;
 
-  public InnoRow(InnoEngine engine, InteractiveShape<? extends Shape> shape, ImmutableSittingSection section, ImmutableSittingRow row, double vitalSpace) {
+  public InnoRow(InnoEngine engine, InteractiveShape<? extends Shape> shape, ImmutableSittingSection section,
+      ImmutableSittingRow row, double vitalSpace) {
     _engine = engine;
     _intShape = shape;
     _section = section;
     _row = row;
 
-    double[] start =  shape.parentToLocal(_engine.meterToPixel(row.getPosStartRow()));
+    double[] start = shape.parentToLocal(_engine.meterToPixel(row.getPosStartRow()));
     double[] end = shape.parentToLocal(_engine.meterToPixel(row.getPosEndRow()));
     _line = new Line(start[0], start[1], end[0], end[1]);
-    if (Core.get().getRowPrice(section.getIdSection(), row.getIdRow()).getPrice() != -1) {
-      setRowColor(Color.valueOf(Core.get().getRowPrice(section.getIdSection(), row.getIdRow()).getColor()));
-    } else
-      setRowColor(Color.valueOf("#7289DA"));
     _line.setStrokeWidth(vitalSpace / 4);
 
     shape.addAdditionalShape(_line);
@@ -59,7 +55,8 @@ public class InnoRow {
       selectRowSidebar();
     });
 
-    Rectangle rect = new Rectangle(_line.getEndX() + vitalSpace / 2, _line.getEndY() - vitalSpace / 4, vitalSpace, vitalSpace / 2);
+    Rectangle rect = new Rectangle(_line.getEndX() + vitalSpace / 2, _line.getEndY() - vitalSpace / 4, vitalSpace,
+        vitalSpace / 2);
     // rect.setStroke(Color.DARKSLATEGRAY);
     rect.setFill(Color.BLACK);
     rect.setOpacity(0.5);
@@ -88,16 +85,30 @@ public class InnoRow {
 
     ArrayList<? extends ImmutableSeat> seats = row.getSeats();
     for (ImmutableSeat seat : seats) {
-      double[] points = shape.parentToLocal(new double[]{_engine.meterToPixel(seat.getPosition()[0]), _engine.meterToPixel(seat.getPosition()[1])});
+      double[] points = shape.parentToLocal(
+          new double[] { _engine.meterToPixel(seat.getPosition()[0]), _engine.meterToPixel(seat.getPosition()[1]) });
       Circle circle = new Circle(points[0], points[1], vitalSpace / 3);
-      circle.setFill(getDeriveColor(Color.valueOf(Core.get().getSeatPrice(shape.getID(), row.getIdRow(), Integer.toString(seat.getId())).getColor()).deriveColor(1, 1, 1, 0.85)));
-
+      circle.setFill(getDeriveColor(Color
+          .valueOf(Core.get().getSeatPrice(shape.getID(), row.getIdRow(), Integer.toString(seat.getId())).getColor())
+          .deriveColor(1, 1, 1, 0.85)));
+      circle.setStroke(Color.TRANSPARENT);
       circle.setOnMouseClicked(event -> {
         _selectedSeat = seat;
         engine.getView().setSidebarFromFxmlFileName("sidebar_seat.fxml", this);
       });
+
       _seats.put(seat.getId(), circle);
       shape.addAdditionalShape(circle);
+
+      if (Core.get().getSeatPrice(section.getIdSection(), row.getIdRow(), Integer.toString(seat.getId())).getPrice() != -1) {
+        setSeatColor(seat.getId(), Color.valueOf(Core.get().getSeatPrice(section.getIdSection(), row.getIdRow(), Integer.toString(seat.getId())).getColor()));
+      }
+    }
+
+    if (Core.get().getRowPrice(section.getIdSection(), row.getIdRow()).getPrice() != -1) {
+      setRowColor(Color.valueOf(Core.get().getRowPrice(section.getIdSection(), row.getIdRow()).getColor()));
+    } else {
+      resetRowColor();
     }
   }
 
@@ -117,25 +128,49 @@ public class InnoRow {
     return _selectedSeat;
   }
 
+  public void resetRowColor() {
+    _line.setStroke(getDeriveColor(Color.valueOf("#7289DA")));
+  }
+
+  public void resetSeatsColor() {
+    for (Circle seat : _seats.values()) {
+      seat.setStroke(Color.TRANSPARENT);
+      seat.setFill(getDeriveColor(Color.valueOf("#FFA500")));
+    }
+  }
+
+  public void resetSeatColor(int idSeat) {
+    _seats.get(idSeat).setFill(getDeriveColor(Color.valueOf("#FFA500")));
+    _seats.get(idSeat).setStroke(Color.TRANSPARENT);
+    for (Circle seat : _seats.values()) {
+      if (seat != _seats.get(idSeat) && seat.getStroke() != Color.TRANSPARENT) {
+        seat.setFill(seat.getStroke());
+      }
+    }
+  }
+
   public Color getDeriveColor(Color color) {
     return color.deriveColor(1, 1, 1, 0.9);
   }
-  
+
   public void setRowColor(Color color) {
     _line.setStroke(getDeriveColor(color));
     _intShape.setColor(getDeriveColor(Color.valueOf("#6378bf")));
-    for(Circle seat: _seats.values()) {
+    for (Circle seat : _seats.values()) {
       seat.setStroke(getDeriveColor(color));
       seat.setFill(getDeriveColor(Color.valueOf("#FFA500")));
     }
   }
-  
+
   public void setSeatColor(int idSeat, Color color) {
-    _seats.get(idSeat).setFill(getDeriveColor(color));
-    _line.setStroke(getDeriveColor(Color.valueOf("#7289DA")));
+    resetRowColor();
     _intShape.setColor(getDeriveColor(Color.valueOf("#6378bf")));
-    for(Circle seat: _seats.values()) {
-      seat.setStroke(getDeriveColor(Color.valueOf("#FFA500")));
+    _seats.get(idSeat).setFill(getDeriveColor(color));
+    _seats.get(idSeat).setStroke(getDeriveColor(color));
+    for (Circle seat : _seats.values()) {
+      if (seat.getStroke() != Color.TRANSPARENT) {
+        seat.setFill(seat.getStroke());
+      }
     }
   }
 
@@ -149,4 +184,5 @@ public class InnoRow {
     _intShape.removeSelectShape(_text[0]);
     _intShape.removeSelectShape(_text[1]);
   }
+
 }

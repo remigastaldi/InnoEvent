@@ -2,7 +2,7 @@
  * File Created: Tuesday, 9th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Thursday, 29th November 2018
+ * Last Modified: Friday, 30th November 2018
  * Modified By: HUBERT Léo
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -265,6 +265,12 @@ public class Core {
 
     _room = (Room) save.getRoomData();
     _pricing = save.getPricing();
+
+
+    for (PlaceRate place : _pricing.getPlaces().values()) {
+      System.out.println("ID    " +place.getId() + " color" + place.getColor());
+    }
+
   }
 
   // Pricing && Offers

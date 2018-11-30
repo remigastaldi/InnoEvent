@@ -40,7 +40,7 @@
                 <AnchorPane layoutY="21.4" prefHeight="520.0" prefWidth="105.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="120.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="0.0">
                   <children>
                     <TextField fx:id="seat_price_input" layoutY="17.0" onKeyReleased="#onKeyReleased" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
-                    <ColorPicker fx:id="seat_price_color_picker" layoutX="-29.0" layoutY="55.0" onAction="#onKeyReleased" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+                    <ColorPicker fx:id="seat_price_color_picker" disable="true" layoutX="-29.0" layoutY="55.0" onAction="#onKeyReleased" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
                   </children>
                 </AnchorPane>
               </children>
