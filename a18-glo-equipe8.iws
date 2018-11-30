@@ -4,7 +4,6 @@
     <list default="true" id="33fb8891-70c6-467d-b716-3cd74c261f7c" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/a18-glo-equipe8.iws" beforeDir="false" afterPath="$PROJECT_DIR$/a18-glo-equipe8.iws" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/inno/app/room/Room.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/inno/app/room/Room.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/inno/service/Point.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/inno/service/Point.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/.gradle/" />
@@ -137,14 +136,14 @@
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="java" value="5840" />
-          <entry key="txt" value="259" />
+          <entry key="java" value="5985" />
+          <entry key="txt" value="274" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="JAVA" value="5840" />
-          <entry key="PLAIN_TEXT" value="259" />
+          <entry key="JAVA" value="5985" />
+          <entry key="PLAIN_TEXT" value="274" />
         </counts>
       </usages-collector>
     </session>
@@ -163,8 +162,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/inno/app/room/Room.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1267">
-              <caret line="312" column="41" selection-start-line="312" selection-start-column="41" selection-end-line="312" selection-end-column="41" />
+            <state relative-caret-position="255">
+              <caret line="251" column="80" selection-start-line="251" selection-start-column="80" selection-end-line="251" selection-end-column="80" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#1258#1259#0" expanded="true" />
@@ -946,7 +945,7 @@
       <workItem from="1543420549418" duration="8056000" />
       <workItem from="1543457815620" duration="509000" />
       <workItem from="1543506392693" duration="17498000" />
-      <workItem from="1543529727372" duration="5925000" />
+      <workItem from="1543529727372" duration="8909000" />
     </task>
     <task id="LOCAL-00001" summary="Add Point class and Utils">
       <created>1542921746750</created>
@@ -1004,14 +1003,22 @@
       <option name="project" value="LOCAL" />
       <updated>1543523875039</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="Improved automatic seat distribution">
+      <created>1543540194969</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1543540194970</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="124259000" />
+    <option name="totallyTimeSpent" value="127243000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-1928" y="-193" width="1936" height="1056" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.17643923" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -1095,7 +1102,8 @@
     <MESSAGE value="Automatic seat distribution for irregular sections" />
     <MESSAGE value="Update automatic seat distribution" />
     <MESSAGE value="Update automatic seat distribution 2" />
-    <option name="LAST_COMMIT_MESSAGE" value="Update automatic seat distribution 2" />
+    <MESSAGE value="Improved automatic seat distribution" />
+    <option name="LAST_COMMIT_MESSAGE" value="Improved automatic seat distribution" />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="true" />
   </component>
   <component name="editorHistoryManager">
@@ -1276,8 +1284,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/inno/app/room/Room.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1267">
-          <caret line="312" column="41" selection-start-line="312" selection-start-column="41" selection-end-line="312" selection-end-column="41" />
+        <state relative-caret-position="255">
+          <caret line="251" column="80" selection-start-line="251" selection-start-column="80" selection-end-line="251" selection-end-column="80" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#1258#1259#0" expanded="true" />

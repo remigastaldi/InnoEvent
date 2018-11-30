@@ -251,13 +251,14 @@ public class Room implements ImmutableRoom, Serializable {
             double angle = Utils.calculateLeftSideRotationAngle(sceneCenter, centroid);
             Point[] polyTemp = Utils.rotatePolygon(p_Polygon,sceneCenter,angle);
 
-            Point lowerLeft = new Point(Utils.findLeftmostPoint(polyTemp).get_x(), Utils.findLowestPoint(polyTemp).get_y());
-            Point lowerRight = new Point(Utils.findRightmostPoint(polyTemp).get_x(), Utils.findLowestPoint(polyTemp).get_y());
-            Point higherLeft = new Point(Utils.findLeftmostPoint(polyTemp).get_x(), Utils.findHighestPoint(polyTemp).get_y());
-            Point higherRight = new Point(Utils.findRightmostPoint(polyTemp).get_x(), Utils.findHighestPoint(polyTemp).get_y());
+            double leftMostX = Utils.findLeftmostPoint(polyTemp).get_x();
+            double rightMostX = Utils.findRightmostPoint(polyTemp).get_x();
+            double highestY = Utils.findHighestPoint(polyTemp).get_y();
+            double lowestY = Utils.findLowestPoint(polyTemp).get_y();
+
             ArrayList<Point> coord = new ArrayList<>();
 
-            double posx = lowerRight.get_x()+vitalSpaceWidth/2;
+            double posx = rightMostX;
             boolean rowCreated = false;
             do
             {
@@ -270,19 +271,17 @@ public class Room implements ImmutableRoom, Serializable {
                     posx -= vitalSpaceWidth;
                 }
 
-
-                double posy = lowerLeft.get_y()+vitalSpaceHeight/2;
+                double posy = lowestY+vitalSpaceHeight/2;
 
                 do
                 {
-//                    posy-=vitalSpaceHeight;
-                    if(rowCreated)
-                    {
-                        posy-=vitalSpaceHeight;
-                    }
                     if(!rowCreated)
                     {
                         posy -=0.1;
+                    }
+                    if(rowCreated)
+                    {
+                        posy-=vitalSpaceHeight;
                     }
 
                     Point pt = new Point(posx, posy);
@@ -290,21 +289,6 @@ public class Room implements ImmutableRoom, Serializable {
                     Point pt2 = new Point(posx, posy-vitalSpaceHeight);
                     Point pt3 = new Point(posx+vitalSpaceWidth/2, posy);
                     Point pt4 = new Point(posx, posy+vitalSpaceHeight);
-
-//                    if(!rowCreated)
-//                    {
-//                        while((!(Utils.insidePolygon(polyTemp, pt1)&&Utils.insidePolygon(polyTemp, pt2)&&
-//                                Utils.insidePolygon(polyTemp, pt3)&&Utils.insidePolygon(polyTemp, pt4)))||pt.get_y()>higherLeft.get_y())
-//                        {
-//                            double y = pt.get_y()-0.1;
-//                            pt.set_y(y);
-//                            pt1.set_y(y);
-//                            pt2.set_y(y-vitalSpaceHeight);
-//                            pt3.set_y(y);
-//                            pt4.set_y(y-vitalSpaceHeight);
-//                        }
-//                    }
-
 
                     if(Utils.insidePolygon(polyTemp, pt1)&&Utils.insidePolygon(polyTemp, pt2)&&
                             Utils.insidePolygon(polyTemp, pt3)&&Utils.insidePolygon(polyTemp, pt4))
@@ -331,8 +315,8 @@ public class Room implements ImmutableRoom, Serializable {
                         rowCreated = false;
                         coord.clear();
                     }
-                }while(posy>higherLeft.get_y());
-            }while(posx>lowerLeft.get_x());
+                }while(posy>highestY);
+            }while(posx>leftMostX);
         }
 
         return sittingSection;
