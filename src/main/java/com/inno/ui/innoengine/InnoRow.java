@@ -2,8 +2,8 @@
  * File Created: Tuesday, 27th November 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Thursday, 29th November 2018
- * Modified By: HUBERT Léo
+ * Last Modified: Friday, 30th November 2018
+ * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Remi
  * <<licensetext>>
@@ -48,7 +48,10 @@ public class InnoRow {
     double[] start =  shape.parentToLocal(_engine.meterToPixel(row.getPosStartRow()));
     double[] end = shape.parentToLocal(_engine.meterToPixel(row.getPosEndRow()));
     _line = new Line(start[0], start[1], end[0], end[1]);
-    _line.setStroke(Color.valueOf(Core.get().getRowPrice(shape.getID(), row.getIdRow()).getColor()));
+    if (Core.get().getRowPrice(section.getIdSection(), row.getIdRow()).getPrice() != -1) {
+      setRowColor(Color.valueOf(Core.get().getRowPrice(section.getIdSection(), row.getIdRow()).getColor()));
+    } else
+      setRowColor(Color.valueOf("#7289DA"));
     _line.setStrokeWidth(vitalSpace / 4);
 
     shape.addAdditionalShape(_line);
@@ -86,8 +89,8 @@ public class InnoRow {
     ArrayList<? extends ImmutableSeat> seats = row.getSeats();
     for (ImmutableSeat seat : seats) {
       double[] points = shape.parentToLocal(new double[]{_engine.meterToPixel(seat.getPosition()[0]), _engine.meterToPixel(seat.getPosition()[1])});
-      Circle circle = new Circle(points[0], points[1], vitalSpace / 3, Color.ORANGE);
-      circle.setFill(Color.valueOf(Core.get().getSeatPrice(shape.getID(), row.getIdRow(), Integer.toString(seat.getId())).getColor()));
+      Circle circle = new Circle(points[0], points[1], vitalSpace / 3);
+      circle.setFill(getDeriveColor(Color.valueOf(Core.get().getSeatPrice(shape.getID(), row.getIdRow(), Integer.toString(seat.getId())).getColor()).deriveColor(1, 1, 1, 0.85)));
 
       circle.setOnMouseClicked(event -> {
         _selectedSeat = seat;
@@ -114,22 +117,25 @@ public class InnoRow {
     return _selectedSeat;
   }
 
+  public Color getDeriveColor(Color color) {
+    return color.deriveColor(1, 1, 1, 0.9);
+  }
   
   public void setRowColor(Color color) {
-    _line.setStroke(color);
-    _intShape.setColor(Color.valueOf("#6378bf"));
+    _line.setStroke(getDeriveColor(color));
+    _intShape.setColor(getDeriveColor(Color.valueOf("#6378bf")));
     for(Circle seat: _seats.values()) {
-      seat.setStroke(color);
-      seat.setFill(Color.valueOf("#FFA500"));
+      seat.setStroke(getDeriveColor(color));
+      seat.setFill(getDeriveColor(Color.valueOf("#FFA500")));
     }
   }
   
   public void setSeatColor(int idSeat, Color color) {
-    _seats.get(idSeat).setFill(color);
-    _line.setStroke(Color.valueOf("#7289DA"));
-    _intShape.setColor(Color.valueOf("#6378bf"));
+    _seats.get(idSeat).setFill(getDeriveColor(color));
+    _line.setStroke(getDeriveColor(Color.valueOf("#7289DA")));
+    _intShape.setColor(getDeriveColor(Color.valueOf("#6378bf")));
     for(Circle seat: _seats.values()) {
-      seat.setStroke(Color.valueOf("#FFA500"));
+      seat.setStroke(getDeriveColor(Color.valueOf("#FFA500")));
     }
   }
 

@@ -272,7 +272,7 @@ public class Utils {
         Point q = new Point(click.get_x()+a, click.get_y());
 
         double rotation = Math.toDegrees(calculateRotationAngle(click, q, p));
-        // System.out.println("angle: "+rotation);
+        System.out.println("angle: "+rotation);
         return rotation;
     }
 }

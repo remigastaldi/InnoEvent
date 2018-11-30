@@ -87,7 +87,6 @@ public class InteractiveRectangle extends InteractiveShape<Rectangle> {
       }
     };
     EventHandler<MouseEvent> mousePressedEvent = event -> {
-      System.out.println("PRESSED");
       if (onMousePressed(event)) {
         if (_collisionDetected)
           return;
@@ -276,7 +275,8 @@ public class InteractiveRectangle extends InteractiveShape<Rectangle> {
     
     enableSelection();
     select();
-
+    
+    onFormComplete();
     return;
   }
 

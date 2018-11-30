@@ -31,6 +31,7 @@ public class InnoRectangle extends InteractiveRectangle {
   private double _yVitalSpace = 0.0;
   private ImmutableSittingSection _sectionData = null;
   private InnoRow[] _rows = null;
+  private boolean _mousePressed = false;
 
   public InnoRectangle(InnoEngine engine, Pane pane) {
     super(engine, pane);
@@ -80,21 +81,26 @@ public class InnoRectangle extends InteractiveRectangle {
 
   @Override
   public boolean onMousePressed(MouseEvent event) {
+    _mousePressed = true;
+    return true;
+  }
+
+  @Override
+  public boolean onMouseOnDragDetected(MouseEvent event) {
+    updateFromData();
     return true;
   }
 
   @Override
   public boolean onMouseReleased(MouseEvent event) {
+    _mousePressed = false;
+
     if (getWidth() < ((InnoEngine)Engine()).meterToPixel(_xVitalSpace))
       setWidth(((InnoEngine)Engine()).meterToPixel(_xVitalSpace));
     if (getHeight() < ((InnoEngine)Engine()).meterToPixel(_yVitalSpace))
       setHeight(((InnoEngine)Engine()).meterToPixel(_yVitalSpace));
 
-    _sectionData = Core.get().createSittingSection(((InnoEngine)Engine()).pixelToMeter(getPointsInParent()), 0, true);
-    setID(_sectionData.getIdSection());
-    updateFromData();
     InnoEngine engine = (InnoEngine) ((InnoEngine)Engine());
-    // engine.getView().openPopup("new_sitting_rectangulary_section.fxml", this);
     engine.getView().setSidebarFromFxmlFileName("sidebar_regular_sitting_section.fxml", this);
     return true;
   }
@@ -134,21 +140,19 @@ public class InnoRectangle extends InteractiveRectangle {
     getGroup().getTransforms().clear();
     Core.get().updateSectionPositions(getID(), ((InnoEngine)Engine()).pixelToMeter(getPointsInParent()), true);
 
-    // double pos[] = parentToLocal(((InnoEngine)Engine()).meterToPixel(_sectionData.getPositions()));
-    // setPoints(pos);
-    // setRotation(new Rotate(_sectionData.getRotation(), pos[0], pos[1]));
-
     updateFromData();
     return true;
   }
 
   @Override
-  public boolean onMouseOnDragDetected(MouseEvent event) {
-    return true;
-  }
-
-  @Override
   public boolean onFormComplete() {
+    if (_mousePressed == true) {
+  
+      _sectionData = Core.get().createSittingSection(((InnoEngine)Engine()).pixelToMeter(getPointsInParent()), 0, true);
+      setID(_sectionData.getIdSection());
+      updateFromData();
+    }
+
     return true;
   }
 
