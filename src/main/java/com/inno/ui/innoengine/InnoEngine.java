@@ -134,7 +134,6 @@ public class InnoEngine extends Engine {
 
   public void createRectangularSection(String id) {
     InnoRectangle section = new InnoRectangle(this, getPane(), id);
-    section.loadDomainData();
     addInteractiveShape(section);
     deselect();
   }

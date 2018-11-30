@@ -3,7 +3,7 @@
  * Author: GASTALDI Rémi
  * -----
  * Last Modified: Thursday, 29th November 2018
- * Modified By: HUBERT Léo
+ * Modified By: GASTALDI Rémi
 
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -15,7 +15,6 @@ package com.inno.app.room;
 import com.inno.app.Core;
 import com.inno.service.Point;
 import com.inno.service.Utils;
-import com.sun.org.apache.xpath.internal.functions.FuncFalse;
 
 import java.util.HashMap;
 import java.io.Serializable;

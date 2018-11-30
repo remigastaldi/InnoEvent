@@ -253,7 +253,7 @@ public class InteractiveRectangle extends InteractiveShape<Rectangle> {
     return _shape.heightProperty();
   }
 
-  private void closeForm(double x, double y, double width, double height, Rotate rotation, Color color) {
+  public void closeForm(double x, double y, double width, double height, Rotate rotation, Color color) {
     setShape(new Rectangle(x, y, width, height));
 
 
@@ -279,8 +279,12 @@ public class InteractiveRectangle extends InteractiveShape<Rectangle> {
     return;
   }
 
-  private void closeForm(double x, double y) {
+  public void closeForm(double x, double y) {
     closeForm(x, y, 1, 1, new Rotate(0,0,0), Color.ROYALBLUE);
+  }
+
+  public void closeForm(double x, double y, Color color) {
+    closeForm(x, y, 1, 1, new Rotate(0,0,0), color);
   }
 
   public double[] getPoints() {
