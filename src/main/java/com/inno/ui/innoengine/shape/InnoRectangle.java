@@ -53,13 +53,11 @@ public class InnoRectangle extends InteractiveRectangle {
   public InnoRectangle(InnoEngine engine, Pane pane, String id) {
     super(engine, pane);
 
-    setShape(new Rectangle());
+    // setShape(new Rectangle());
     setID(id);
     _xVitalSpace = ((InnoEngine)Engine()).meterToPixel(Core.get().getImmutableRoom().getImmutableVitalSpace().getWidth());
     _yVitalSpace = ((InnoEngine)Engine()).meterToPixel(Core.get().getImmutableRoom().getImmutableVitalSpace().getHeight());
-    loadDomainData();
     loadFromData();
-    enableSelection();
     deselect();
   }
 
@@ -127,7 +125,7 @@ public class InnoRectangle extends InteractiveRectangle {
     double[] pos = parentToLocal(((InnoEngine)Engine()).meterToPixel(_sectionData.getPositions()));
     setPoints(pos);
     setRotation(new Rotate(_sectionData.getRotation(), pos[0], pos[1]));
-
+    // updateFromData();
     return true;
   }
 
@@ -147,7 +145,7 @@ public class InnoRectangle extends InteractiveRectangle {
     // setPoints(pos);
     // setRotation(new Rotate(_sectionData.getRotation(), pos[0], pos[1]));
 
-    loadFromData();
+    updateFromData();
     return true;
   }
 
@@ -219,22 +217,19 @@ public class InnoRectangle extends InteractiveRectangle {
     return true;
   }
 
-  public void loadDomainData() {
+  public void loadFromData() {
     _sectionData = Core.get().getImmutableRoom().getImmutableSittingSections().get(getID());
-  }
 
-  private void loadFromData() {
     setID(_sectionData.getIdSection());
 
-    setColor(Color.valueOf(Core.get().getSectionPrice(getID()).getColor()));
-
-    // double[] pos = getPoints();
     double[] pos = parentToLocal(((InnoEngine)Engine()).meterToPixel(_sectionData.getPositions()));
+    closeForm(pos[0], pos[1], Color.valueOf(Core.get().getSectionPrice(getID()).getColor()));
     
-    // for (int i = 0; i < pos.length; i+=2) {
-    //     System.out.println(pos[i] + " " + pos[i + 1 ]);
-    //   }
+    updateFromData();
+  }
 
+  private void updateFromData() {
+    double[] pos = parentToLocal(((InnoEngine)Engine()).meterToPixel(_sectionData.getPositions()));
     
     if (_rows != null) {
       for (int i = 0; i < _rows.length; ++i) {
@@ -244,21 +239,15 @@ public class InnoRectangle extends InteractiveRectangle {
 
     ArrayList<? extends ImmutableSittingRow> rows =  _sectionData.getImmutableSittingRows();
     _rows = new InnoRow[rows.size()];
-    
-    
+
     int i = 0;
     for (ImmutableSittingRow row : rows) {
       InnoEngine engine = (InnoEngine) ((InnoEngine)Engine());
       _rows[i] = new InnoRow(engine, this, _sectionData, row, engine.meterToPixel(_sectionData.getImmutableVitalSpace().getHeight()));
       ++i;
     }
-    
-    
-    // setPoints((pos));
+
+    setPoints((pos));
     setRotation(new Rotate(_sectionData.getRotation(), pos[0], pos[1]));
   }
-
-  // private void loadFromData() {
-  //   loadFromData(null);
-  // }
 }
