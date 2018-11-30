@@ -15,6 +15,7 @@ package com.inno.app.room;
 import com.inno.app.Core;
 import com.inno.service.Point;
 import com.inno.service.Utils;
+import com.sun.org.apache.xpath.internal.functions.FuncFalse;
 
 import java.util.HashMap;
 import java.io.Serializable;
@@ -243,6 +244,7 @@ public class Room implements ImmutableRoom, Serializable {
         }
         else
         {
+            boolean firstSeat = false;
             Point sceneCenter = new Point(_scene.getCenter()[0],_scene.getCenter()[1]);
             Point[] p_Polygon = Utils.dArray_To_pArray(positions);
             Point centroid = Utils.centroid(p_Polygon);
@@ -259,23 +261,56 @@ public class Room implements ImmutableRoom, Serializable {
             boolean rowCreated = false;
             do
             {
-                posx -= vitalSpaceWidth;
+                if(!firstSeat)
+                {
+                    posx -= 0.1;
+                }
+                if(firstSeat)
+                {
+                    posx -= vitalSpaceWidth;
+                }
+
 
                 double posy = lowerLeft.get_y()+vitalSpaceHeight/2;
 
                 do
                 {
-                    posy-=vitalSpaceHeight;
+//                    posy-=vitalSpaceHeight;
+                    if(rowCreated)
+                    {
+                        posy-=vitalSpaceHeight;
+                    }
+                    if(!rowCreated)
+                    {
+                        posy -=0.1;
+                    }
+
                     Point pt = new Point(posx, posy);
                     Point pt1 = new Point(posx-vitalSpaceWidth/2, posy);
                     Point pt2 = new Point(posx, posy-vitalSpaceHeight);
                     Point pt3 = new Point(posx+vitalSpaceWidth/2, posy);
                     Point pt4 = new Point(posx, posy+vitalSpaceHeight);
 
+//                    if(!rowCreated)
+//                    {
+//                        while((!(Utils.insidePolygon(polyTemp, pt1)&&Utils.insidePolygon(polyTemp, pt2)&&
+//                                Utils.insidePolygon(polyTemp, pt3)&&Utils.insidePolygon(polyTemp, pt4)))||pt.get_y()>higherLeft.get_y())
+//                        {
+//                            double y = pt.get_y()-0.1;
+//                            pt.set_y(y);
+//                            pt1.set_y(y);
+//                            pt2.set_y(y-vitalSpaceHeight);
+//                            pt3.set_y(y);
+//                            pt4.set_y(y-vitalSpaceHeight);
+//                        }
+//                    }
+
+
                     if(Utils.insidePolygon(polyTemp, pt1)&&Utils.insidePolygon(polyTemp, pt2)&&
                             Utils.insidePolygon(polyTemp, pt3)&&Utils.insidePolygon(polyTemp, pt4))
                     {
                         rowCreated = true;
+                        firstSeat = true;
                         coord.add(pt);
                     }
 
