@@ -3,7 +3,7 @@
  * Author: GASTALDI Rémi
  * -----
  * Last Modified: Thursday, 29th November 2018
- * Modified By: GASTALDI Rémi
+ * Modified By: HUBERT Léo
  * -----
  * Copyright - 2018 GASTALDI Remi
  * <<licensetext>>
@@ -99,7 +99,7 @@ public class InnoRow {
   }
 
   public void selectRowSidebar() {
-
+    _engine.getView().setSidebarFromFxmlFileName("sidebar_row.fxml", this);
   }
 
   public ImmutableSittingSection getImmutableSection() {
@@ -116,11 +116,21 @@ public class InnoRow {
 
   
   public void setRowColor(Color color) {
-    _line.setFill(color);    
+    _line.setStroke(color);
+    _intShape.setColor(Color.valueOf("#6378bf"));
+    for(Circle seat: _seats.values()) {
+      seat.setStroke(color);
+      seat.setFill(Color.valueOf("#FFA500"));
+    }
   }
   
   public void setSeatColor(int idSeat, Color color) {
     _seats.get(idSeat).setFill(color);
+    _line.setStroke(Color.valueOf("#7289DA"));
+    _intShape.setColor(Color.valueOf("#6378bf"));
+    for(Circle seat: _seats.values()) {
+      seat.setStroke(Color.valueOf("#FFA500"));
+    }
   }
 
   public void destroy() {

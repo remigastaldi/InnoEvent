@@ -2,8 +2,8 @@
  * File Created: Tuesday, 13th November 2018
  * Author: MAREL Maud
  * -----
- * Last Modified: Tuesday, 27th November 2018
- * Modified By: GASTALDI Rémi
+ * Last Modified: Thursday, 29th November 2018
+ * Modified By: HUBERT Léo
  * -----
  * Copyright - 2018 MAREL Maud
  * <<licensetext>>
@@ -29,7 +29,7 @@ public class SittingRow implements Serializable, ImmutableSittingRow {
   }
 
   public ImmutableSeat createSeat(double[] pos) {
-    int id = this._seats.size();
+    int id = this._seats.size() + 1;
     Seat seat = new Seat(id, pos);
     this._seats.add(seat);
     return seat;

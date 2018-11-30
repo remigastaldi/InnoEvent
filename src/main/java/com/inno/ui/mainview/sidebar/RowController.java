@@ -28,26 +28,24 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
-public class SeatController extends ViewController {
+public class RowController extends ViewController {
 
   @FXML
   private AnchorPane anchor_root;
-  @FXML
-  private Label seat_number_info;
   @FXML
   private Label row_number_info;
   @FXML
   private Label section_number_info;
 
   @FXML
-  private Label seat_price_info;
+  private Label row_price_info;
   @FXML
-  private Rectangle seat_price_color_info;
+  private Rectangle row_price_color_info;
 
   @FXML
-  private TextField seat_price_input;
+  private TextField row_price_input;
   @FXML
-  private ColorPicker seat_price_color_picker;
+  private ColorPicker row_price_color_picker;
 
   @FXML
   private void initialize() {
@@ -61,17 +59,16 @@ public class SeatController extends ViewController {
       return;
     }
 
-    seat_number_info.setText(seat_number_info.getText() + "  " + row.getSelectedSeat().getId());
     row_number_info.setText(row_number_info.getText() + "  " + row.getImmutableRow().getIdRow());
     section_number_info.setText(section_number_info.getText() + "  " + row.getImmutableSection().getIdSection());
-    ImmutablePlaceRate place = Core().getSeatPrice(row.getImmutableSection().getIdSection(),
-        row.getImmutableRow().getIdRow(), Integer.toString(row.getSelectedSeat().getId()));
+    ImmutablePlaceRate place = Core().getRowPrice(row.getImmutableSection().getIdSection(),
+        row.getImmutableRow().getIdRow());
     if (place != null) {
-      seat_price_info.setText(seat_price_info.getText() + "  " + (place.getPrice() != -1 ? place.getPrice() : "NA"));
-      seat_price_color_info.setFill(Color.valueOf(place.getColor()));
+      row_price_info.setText(row_price_info.getText() + "  " + (place.getPrice() != -1 ? place.getPrice() : "NA"));
+      row_price_color_info.setFill(Color.valueOf(place.getColor()));
 
-      seat_price_input.setText(place.getPrice() != -1 ? Double.toString(place.getPrice()) : "");
-      seat_price_color_picker.setValue(Color.valueOf(place.getColor()));
+      row_price_input.setText(place.getPrice() != -1 ? Double.toString(place.getPrice()) : "");
+      row_price_color_picker.setValue(Color.valueOf(place.getColor()));
     }
 
   }
@@ -86,14 +83,13 @@ public class SeatController extends ViewController {
         return;
       }
       try {
-        Core().setSeatPrice(row.getImmutableSection().getIdSection(), row.getImmutableRow().getIdRow(),
-            Integer.toString(row.getSelectedSeat().getId()),
-            Double.parseDouble(seat_price_input.getText().trim().length() != 0 ? seat_price_input.getText() : "-1"),
-            seat_price_color_picker.getValue().toString());
-        // seat_price_info.setText(seat_price_input.getText().trim().length() != 0 ?
-        // seat_price_input.getText() : "NA"); // TODO: Fix that !
-        seat_price_color_info.setFill(seat_price_color_picker.getValue());
-        row.setSeatColor(row.getSelectedSeat().getId(), seat_price_color_picker.getValue());
+        Core().setRowPrice(row.getImmutableSection().getIdSection(), row.getImmutableRow().getIdRow(),
+            Double.parseDouble(row_price_input.getText().trim().length() != 0 ? row_price_input.getText() : "-1"),
+            row_price_color_picker.getValue().toString());
+        // row_price_info.setText(row_price_input.getText().trim().length() != 0 ?
+        // row_price_input.getText() : "NA"); // TODO: Fix that !
+        row_price_color_info.setFill(row_price_color_picker.getValue());
+        row.setRowColor(row_price_color_picker.getValue());
       } catch (Exception e) {
         System.out.println(e);
       }
@@ -104,7 +100,7 @@ public class SeatController extends ViewController {
     boolean valid = true;
 
     HashMap<TextField, String> fields = new LinkedHashMap<>();
-    fields.put(seat_price_input, "numeric|min:0");
+    fields.put(row_price_input, "numeric|min:0");
 
     for (Map.Entry<TextField, String> entry : fields.entrySet()) {
       TextField field = entry.getKey();

@@ -17,6 +17,7 @@ import java.util.Map;
 import com.inno.app.InnoSave;
 import com.inno.app.room.*;
 import com.inno.service.Point;
+import com.inno.service.SettingsService;
 import com.inno.service.Utils;
 import com.inno.service.pricing.ImmutableOffer;
 import com.inno.service.pricing.PlaceRate;
@@ -28,14 +29,16 @@ public class Core {
   private static Core _instance = null;
 
   // Services
-  // private InnoSave _saveService = new InnoSave();
   private InnoSave _saveService = new InnoSave();
   private Pricing _pricing = new Pricing();
+  private SettingsService _settings = new SettingsService();
 
   // Inno Class
   private Room _room = null;
 
   private Core() {
+
+    // System.out.println(_settings.get("test"));
   }
 
   public static Core get() {
@@ -112,7 +115,7 @@ public class Core {
   public void updateSectionPositions(String idSection, double[] positions, boolean rectangular) {
     if (rectangular) {
       Point pt = new Point(getImmutableRoom().getImmutableScene().getCenter()[0],
-      getImmutableRoom().getImmutableScene().getCenter()[1]);
+          getImmutableRoom().getImmutableScene().getCenter()[1]);
       // double[] newPos = Utils.rotateRectangle(pt, positions);
       double rotation = Utils.calculateRectangleRotation(pt, positions);
       if (rotation != rotation)
@@ -146,9 +149,9 @@ public class Core {
     double newRotation = 0d;
     if (isRectangle) {
       Point pt = new Point(getImmutableRoom().getImmutableScene().getCenter()[0],
-      getImmutableRoom().getImmutableScene().getCenter()[1]);
+          getImmutableRoom().getImmutableScene().getCenter()[1]);
       // double[] newPos = Utils.rotateRectangle(pt, positions);
-       newRotation = Utils.calculateRectangleRotation(pt, positions);
+      newRotation = Utils.calculateRectangleRotation(pt, positions);
     }
     ImmutableSittingSection section = _room.createSittingSection(positions, newRotation, isRectangle);
 
@@ -157,42 +160,61 @@ public class Core {
     return section;
   }
 
-  public void setSectionPrice(String idSection, double price) {
+  public void setSectionPrice(String idSection, double price, String color) {
     HashMap<String, ? extends ImmutablePlaceRate> places = _pricing.getPlaces(idSection);
 
     for (Map.Entry<String, ? extends ImmutablePlaceRate> entry : places.entrySet()) {
       String key = entry.getKey();
       _pricing.setPlaceRatePrice(key, price);
+      if (color != null) {
+        _pricing.setPlaceRateColor(key, color);
+      }
     }
+  }
+
+  public void setSectionPrice(String idSection, double price) {
+    setSectionPrice(idSection, price, null);
   }
 
   public ImmutablePlaceRate getSectionPrice(String idSection) {
     return _pricing.getPlaceRate(idSection);
   }
 
-  public void setRowPrice(String idSection, String idRow, double price) {
+  public void setRowPrice(String idSection, String idRow, double price, String color) {
     HashMap<String, ? extends ImmutablePlaceRate> places = _pricing.getPlaces(idSection + "|" + idRow);
     _pricing.setPlaceRatePrice(idSection, -1);
+    _pricing.setPlaceRateColor(idSection, "#6378bf");
 
     for (Map.Entry<String, ? extends ImmutablePlaceRate> entry : places.entrySet()) {
       String key = entry.getKey();
       _pricing.setPlaceRatePrice(key, price);
+      if (color != null) {
+        _pricing.setPlaceRateColor(key, color);
+      }
     }
+  }
+
+  public void setRowPrice(String idSection, String idRow, double price) {
+    setRowPrice(idSection, idRow, price, null);
   }
 
   public ImmutablePlaceRate getRowPrice(String idSection, String idRow) {
     return _pricing.getPlaceRate(idSection + "|" + idRow);
   }
 
-  public void setSeatPrice(String idSection, String idRow, String idSeat, double price) {
-    HashMap<String, ? extends ImmutablePlaceRate> places = _pricing.getPlaces(idSection + "|" + idRow + "|" + idSeat);
+  public void setSeatPrice(String idSection, String idRow, String idSeat, double price, String color) {
     _pricing.setPlaceRatePrice(idSection, -1);
+    _pricing.setPlaceRateColor(idSection, "#6378bf");
     _pricing.setPlaceRatePrice(idSection + "|" + idRow, -1);
-
-    for (Map.Entry<String, ? extends ImmutablePlaceRate> entry : places.entrySet()) {
-      String key = entry.getKey();
-      _pricing.setPlaceRatePrice(key, price);
+    _pricing.setPlaceRateColor(idSection + "|" + idRow, "#7289DA");
+    _pricing.setPlaceRatePrice(idSection + "|" + idRow + "|" + idSeat, price);
+    if (color != null) {
+      _pricing.setPlaceRateColor(idSection + "|" + idRow + "|" + idSeat, color);
     }
+  }
+
+  public void setSeatPrice(String idSection, String idRow, String idSeat, double price) {
+    setSeatPrice(idSection, idRow, idSeat, price, null);
   }
 
   public ImmutablePlaceRate getSeatPrice(String idSection, String idRow, String idSeat) {
@@ -241,7 +263,7 @@ public class Core {
   public void loadProject(String absolutePath) {
     SaveObject save = _saveService.loadFrom(absolutePath);
 
-    _room = (Room)save.getRoomData();
+    _room = (Room) save.getRoomData();
     _pricing = save.getPricing();
   }
 
