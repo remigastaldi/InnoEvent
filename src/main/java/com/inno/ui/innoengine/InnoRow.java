@@ -66,6 +66,7 @@ public class InnoRow {
     rect.setOnMouseClicked(event -> {
       System.out.println("Row " + row.getIdRow());
       selectRowSidebar();
+      _selectedSeat = null;
     });
     shape.addSelectShape(rect);
 
@@ -75,6 +76,7 @@ public class InnoRow {
     text.setOnMouseClicked(event -> {
       System.out.println("Row " + row.getIdRow());
       selectRowSidebar();
+      _selectedSeat = null;
     });
     shape.addSelectShape(text);
 
