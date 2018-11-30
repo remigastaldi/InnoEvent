@@ -3,7 +3,7 @@
  * Author: GASTALDI Rémi
  * -----
  * Last Modified: Friday, 30th November 2018
- * Modified By: HUBERT Léo
+ * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Remi
  * <<licensetext>>
@@ -39,24 +39,25 @@ public class InnoRow {
   private ImmutableSeat _selectedSeat = null;
 
   public InnoRow(InnoEngine engine, InteractiveShape<? extends Shape> shape, ImmutableSittingSection section,
-      ImmutableSittingRow row, double vitalSpace) {
+      ImmutableSittingRow row) {
     _engine = engine;
     _intShape = shape;
     _section = section;
     _row = row;
+    double[] vitalSpace = engine.meterToPixel(new double[]{section.getImmutableVitalSpace().getWidth(), section.getImmutableVitalSpace().getHeight()});
 
     double[] start = shape.parentToLocal(_engine.meterToPixel(row.getPosStartRow()));
     double[] end = shape.parentToLocal(_engine.meterToPixel(row.getPosEndRow()));
     _line = new Line(start[0], start[1], end[0], end[1]);
-    _line.setStrokeWidth(vitalSpace / 4);
+    _line.setStrokeWidth(vitalSpace[1] / 4);
 
     shape.addAdditionalShape(_line);
     _line.setOnMouseClicked(event -> {
       selectRowSidebar();
     });
 
-    Rectangle rect = new Rectangle(_line.getEndX() + vitalSpace / 2, _line.getEndY() - vitalSpace / 4, vitalSpace,
-        vitalSpace / 2);
+    Rectangle rect = new Rectangle(_line.getEndX() + vitalSpace[1] / 2, _line.getEndY() - vitalSpace[1] / 4, vitalSpace[1],
+        vitalSpace[0] / 2);
     // rect.setStroke(Color.DARKSLATEGRAY);
     rect.setFill(Color.BLACK);
     rect.setOpacity(0.5);
@@ -70,9 +71,9 @@ public class InnoRow {
     });
     shape.addSelectShape(rect);
 
-    Text text = new Text(_line.getEndX() + vitalSpace / 2, _line.getEndY() + vitalSpace / 6, row.getIdRow());
+    Text text = new Text(_line.getEndX() + vitalSpace[1] / 1.5, _line.getEndY() + vitalSpace[1] / 7, row.getIdRow());
     text.setFill(Color.WHITE);
-    text.setFont(new Font(8));
+    text.setFont(new Font(vitalSpace[1] / 3));
     text.setOnMouseClicked(event -> {
       System.out.println("Row " + row.getIdRow());
       selectRowSidebar();
@@ -87,7 +88,7 @@ public class InnoRow {
     for (ImmutableSeat seat : seats) {
       double[] points = shape.parentToLocal(
           new double[] { _engine.meterToPixel(seat.getPosition()[0]), _engine.meterToPixel(seat.getPosition()[1]) });
-      Circle circle = new Circle(points[0], points[1], vitalSpace / 3);
+      Circle circle = new Circle(points[0], points[1], vitalSpace[1] / 3);
       circle.setFill(getDeriveColor(Color
           .valueOf(Core.get().getSeatPrice(shape.getID(), row.getIdRow(), Integer.toString(seat.getId())).getColor())
           .deriveColor(1, 1, 1, 0.85)));

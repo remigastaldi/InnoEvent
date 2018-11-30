@@ -2,7 +2,7 @@
  * File Created: Monday, 15th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Thursday, 29th November 2018
+ * Last Modified: Friday, 30th November 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -238,7 +238,7 @@ public class InnoRectangle extends InteractiveRectangle {
     int i = 0;
     for (ImmutableSittingRow row : rows) {
       InnoEngine engine = (InnoEngine) ((InnoEngine)Engine());
-      _rows[i] = new InnoRow(engine, this, _sectionData, row, engine.meterToPixel(_sectionData.getImmutableVitalSpace().getHeight()));
+      _rows[i] = new InnoRow(engine, this, _sectionData, row);
       ++i;
     }
 
