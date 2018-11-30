@@ -263,23 +263,17 @@ public class Room implements ImmutableRoom, Serializable {
 
             double posx = rightMostX;
             boolean rowCreated = false;
-            do {
-                if (!firstSeat) {
-                    posx -= 0.1;
-                }
-                if (firstSeat) {
-                    posx -= vitalSpaceWidth;
-                }
+            do
+            {
+                if(!firstSeat) { posx -= vitalSpaceWidth/10; }
+                if(firstSeat) { posx -= vitalSpaceWidth; }
 
                 double posy = lowestY + vitalSpaceHeight / 2;
 
-                do {
-                    if (!rowCreated) {
-                        posy -= 0.1;
-                    }
-                    if (rowCreated) {
-                        posy -= vitalSpaceHeight;
-                    }
+                do
+                {
+                    if(!rowCreated) { posy -=vitalSpaceHeight/10; }
+                    if(rowCreated) { posy-=vitalSpaceHeight; }
 
                     Point pt = new Point(posx, posy);
                     Point pt1 = new Point(posx - vitalSpaceWidth / 2, posy);
