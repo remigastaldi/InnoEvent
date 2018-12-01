@@ -2,7 +2,7 @@
  * File Created: Friday, 12th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Thursday, 29th November 2018
+ * Last Modified: Saturday, 1st December 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -11,6 +11,7 @@
 
 package com.inno.service;
 
+import java.util.UUID;
 import java.util.Vector;
 import javafx.geometry.Point2D;
 
@@ -274,5 +275,9 @@ public class Utils {
         double rotation = Math.toDegrees(calculateRotationAngle(click, q, p));
         System.out.println("angle: "+rotation);
         return rotation;
+    }
+
+    public String getUniqueID() {
+        return UUID.randomUUID().toString();
     }
 }
