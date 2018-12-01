@@ -277,7 +277,7 @@ public class Utils {
         return rotation;
     }
 
-    public String getUniqueID() {
+    static public String getUniqueID() {
         return UUID.randomUUID().toString();
     }
 }
