@@ -2,7 +2,7 @@
  * File Created: Sunday, 14th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Thursday, 29th November 2018
+ * Last Modified: Friday, 30th November 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -164,7 +164,7 @@ public abstract class InteractiveShape<T extends Shape> {
     // borderGlow.setBlurType(BlurType.GAUSSIAN);
     borderGlow.setOffsetY(0f);
     borderGlow.setOffsetX(0f);
-    borderGlow.setColor(Color.GOLD);
+    borderGlow.setColor(Color.GOLD.deriveColor(1, 1, 0.8, 0.7));
     borderGlow.setWidth(depth);
     borderGlow.setHeight(depth);
     _shape.setEffect(borderGlow);
