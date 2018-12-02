@@ -2,8 +2,8 @@
  * File Created: Friday, 12th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Friday, 30th November 2018
- * Modified By: HUBERT Léo
+ * Last Modified: Sunday, 2nd December 2018
+ * Modified By: GASTALDI Rémi
 
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -150,8 +150,8 @@ public class Room implements ImmutableRoom, Serializable {
     public void updateSectionPositions(String idSection, double[] positions) {
         Section section = null;
         if ((section = this._sittingSections.get(idSection)) != null) {
+            clearAllSittingRows(section.getIdSection());
             if (((ImmutableSittingSection) section).isRectangle()) {
-                clearAllSittingRows(section.getIdSection());
                 double xRow = positions[0];
                 double yRow = positions[1];
                 double xSeat = positions[0];
@@ -178,6 +178,11 @@ public class Room implements ImmutableRoom, Serializable {
                     xSeat = positions[0];
                     ySeat += vitalSpaceHeight;
                 }
+            } else {
+                double vitalSpaceHeight = this.getImmutableVitalSpace().getHeight();
+                double vitalSpaceWidth = this.getImmutableVitalSpace().getWidth();
+        
+                updatePolygonRows(positions, vitalSpaceHeight, vitalSpaceWidth, (SittingSection) section);
             }
             section.updatePosition(positions);
         } else if ((section = this._standingSections.get(idSection)) != null) {
@@ -247,78 +252,83 @@ public class Room implements ImmutableRoom, Serializable {
                 ySeat += vitalSpaceHeight;
             }
         } else {
-            boolean firstSeat = false;
-            Point sceneCenter = new Point(_scene.getCenter()[0], _scene.getCenter()[1]);
-            Point[] p_Polygon = Utils.dArray_To_pArray(positions);
-            Point centroid = Utils.centroid(p_Polygon);
-            double angle = Utils.calculateLeftSideRotationAngle(sceneCenter, centroid);
-            Point[] polyTemp = Utils.rotatePolygon(p_Polygon, sceneCenter, angle);
-
-            double leftMostX = Utils.findLeftmostPoint(polyTemp).get_x();
-            double rightMostX = Utils.findRightmostPoint(polyTemp).get_x();
-            double highestY = Utils.findHighestPoint(polyTemp).get_y();
-            double lowestY = Utils.findLowestPoint(polyTemp).get_y();
-
-            ArrayList<Point> coord = new ArrayList<>();
-
-            double posx = rightMostX;
-            boolean rowCreated = false;
-            do {
-                if (!firstSeat) {
-                    posx -= 0.1;
-                }
-                if (firstSeat) {
-                    posx -= vitalSpaceWidth;
-                }
-
-                double posy = lowestY + vitalSpaceHeight / 2;
-
-                do {
-                    if (!rowCreated) {
-                        posy -= 0.1;
-                    }
-                    if (rowCreated) {
-                        posy -= vitalSpaceHeight;
-                    }
-
-                    Point pt = new Point(posx, posy);
-                    Point pt1 = new Point(posx - vitalSpaceWidth / 2, posy);
-                    Point pt2 = new Point(posx, posy - vitalSpaceHeight);
-                    Point pt3 = new Point(posx + vitalSpaceWidth / 2, posy);
-                    Point pt4 = new Point(posx, posy + vitalSpaceHeight);
-
-                    if (Utils.insidePolygon(polyTemp, pt1) && Utils.insidePolygon(polyTemp, pt2)
-                            && Utils.insidePolygon(polyTemp, pt3) && Utils.insidePolygon(polyTemp, pt4)) {
-                        rowCreated = true;
-                        firstSeat = true;
-                        coord.add(pt);
-                    }
-
-                    if (rowCreated && !(Utils.insidePolygon(polyTemp, pt1) && Utils.insidePolygon(polyTemp, pt2)
-                            && Utils.insidePolygon(polyTemp, pt3) && Utils.insidePolygon(polyTemp, pt4))) {
-                        Point Start = Utils.rotatePoint(coord.get(0), sceneCenter, -angle);
-                        Point End = Utils.rotatePoint(coord.get(coord.size() - 1), sceneCenter, -angle);
-                        double[] posStart = { Start.get_x(), Start.get_y() };
-                        double[] posEnd = { End.get_x(), End.get_y() };
-                        ImmutableSittingRow row = createSittingRow(sittingSection.getIdSection(), posStart, posEnd);
-                        Core.get().createPlace(sittingSection.getIdSection() + "|" + row.getIdRow(), "#7289DA");
-
-                        for (Point point : coord) {
-                            Point rPoint = Utils.rotatePoint(point, sceneCenter, -angle);
-                            double[] seatPos = { rPoint.get_x(), rPoint.get_y() };
-                            ImmutableSeat seat = createSeat(sittingSection.getIdSection(), row.getIdRow(), seatPos);
-                            Core.get().createPlace(
-                                    sittingSection.getIdSection() + "|" + row.getIdRow() + "|" + seat.getId(),
-                                    "#FFA500");
-                        }
-                        rowCreated = false;
-                        coord.clear();
-                    }
-                } while (posy > highestY);
-            } while (posx > leftMostX);
+            updatePolygonRows(positions, vitalSpaceHeight, vitalSpaceWidth, sittingSection);
         }
 
         return sittingSection;
+    }
+
+	private void updatePolygonRows(double[] positions, double vitalSpaceHeight, double vitalSpaceWidth,
+			SittingSection sittingSection) {
+		boolean firstSeat = false;
+		Point sceneCenter = new Point(_scene.getCenter()[0], _scene.getCenter()[1]);
+		Point[] p_Polygon = Utils.dArray_To_pArray(positions);
+		Point centroid = Utils.centroid(p_Polygon);
+		double angle = Utils.calculateLeftSideRotationAngle(sceneCenter, centroid);
+		Point[] polyTemp = Utils.rotatePolygon(p_Polygon, sceneCenter, angle);
+
+		double leftMostX = Utils.findLeftmostPoint(polyTemp).get_x();
+		double rightMostX = Utils.findRightmostPoint(polyTemp).get_x();
+		double highestY = Utils.findHighestPoint(polyTemp).get_y();
+		double lowestY = Utils.findLowestPoint(polyTemp).get_y();
+
+		ArrayList<Point> coord = new ArrayList<>();
+
+		double posx = rightMostX;
+		boolean rowCreated = false;
+		do {
+		    if (!firstSeat) {
+		        posx -= 0.1;
+		    }
+		    if (firstSeat) {
+		        posx -= vitalSpaceWidth;
+		    }
+
+		    double posy = lowestY + vitalSpaceHeight / 2;
+
+		    do {
+		        if (!rowCreated) {
+		            posy -= 0.1;
+		        }
+		        if (rowCreated) {
+		            posy -= vitalSpaceHeight;
+		        }
+
+		        Point pt = new Point(posx, posy);
+		        Point pt1 = new Point(posx - vitalSpaceWidth / 2, posy);
+		        Point pt2 = new Point(posx, posy - vitalSpaceHeight);
+		        Point pt3 = new Point(posx + vitalSpaceWidth / 2, posy);
+		        Point pt4 = new Point(posx, posy + vitalSpaceHeight);
+
+		        if (Utils.insidePolygon(polyTemp, pt1) && Utils.insidePolygon(polyTemp, pt2)
+		                && Utils.insidePolygon(polyTemp, pt3) && Utils.insidePolygon(polyTemp, pt4)) {
+		            rowCreated = true;
+		            firstSeat = true;
+		            coord.add(pt);
+		        }
+
+		        if (rowCreated && !(Utils.insidePolygon(polyTemp, pt1) && Utils.insidePolygon(polyTemp, pt2)
+		                && Utils.insidePolygon(polyTemp, pt3) && Utils.insidePolygon(polyTemp, pt4))) {
+		            Point Start = Utils.rotatePoint(coord.get(0), sceneCenter, -angle);
+		            Point End = Utils.rotatePoint(coord.get(coord.size() - 1), sceneCenter, -angle);
+		            double[] posStart = { Start.get_x(), Start.get_y() };
+		            double[] posEnd = { End.get_x(), End.get_y() };
+		            ImmutableSittingRow row = createSittingRow(sittingSection.getIdSection(), posStart, posEnd);
+		            Core.get().createPlace(sittingSection.getIdSection() + "|" + row.getIdRow(), "#7289DA");
+
+		            for (Point point : coord) {
+		                Point rPoint = Utils.rotatePoint(point, sceneCenter, -angle);
+		                double[] seatPos = { rPoint.get_x(), rPoint.get_y() };
+		                ImmutableSeat seat = createSeat(sittingSection.getIdSection(), row.getIdRow(), seatPos);
+		                Core.get().createPlace(
+		                        sittingSection.getIdSection() + "|" + row.getIdRow() + "|" + seat.getId(),
+		                        "#FFA500");
+		            }
+		            rowCreated = false;
+                    coord.clear();
+                }
+            } while (posy > highestY);
+        } while (posx > leftMostX);
     }
 
     public void setSittingSectionVitalSpace(String sectionId, double width, double height) {

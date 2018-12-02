@@ -2,7 +2,7 @@
  * File Created: Sunday, 14th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Friday, 30th November 2018
+ * Last Modified: Sunday, 2nd December 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -44,6 +44,9 @@ public class InnoPolygon extends InteractivePolygon {
     super(engine, pane, pos, rotation, color);
 
     setID(id);
+    loadDomainData();
+    loadFromData();
+    deselect();
   }
 
   @Override
@@ -124,13 +127,13 @@ public class InnoPolygon extends InteractivePolygon {
 
     // setColor(Color.valueOf(Core.get().getSectionPrice(getID()).getColor()));
 
-    if (group != null)
+    // if (group != null)
       setPoints(((InnoEngine)Engine()).meterToPixel(parentToLocal(_sittingSectionData.getPositions())));
-    else
-      setPoints(((InnoEngine)Engine()).meterToPixel(_sittingSectionData.getPositions()));
+    // else
+      // setPoints(((InnoEngine)Engine()).meterToPixel(_sittingSectionData.getPositions()));
 
-    Point2D center = Engine().getCenterOfPoints(getPoints());
-    setRotation(new Rotate(_sittingSectionData.getRotation(),center.getX(), center.getY()));
+    // Point2D center = Engine().getCenterOfPoints(getPoints());
+    // setRotation(new Rotate(_sittingSectionData.getRotation(),center.getX(), center.getY()));
 
     if (_rows != null) {
       for (int i = 0; i < _rows.length; ++i) {

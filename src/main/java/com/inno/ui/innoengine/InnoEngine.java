@@ -2,7 +2,7 @@
  * File Created: Friday, 12th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Thursday, 29th November 2018
+ * Last Modified: Sunday, 2nd December 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -115,7 +115,6 @@ public class InnoEngine extends Engine {
   public void createIrregularSection(String id, double[] pos, Rotate rotation, Color color) {
     deselect();
     InnoPolygon section = new InnoPolygon(this, getPane(), id, pos, rotation, color);
-    section.loadDomainData();
     addInteractiveShape(section);
     deselect();
   }
