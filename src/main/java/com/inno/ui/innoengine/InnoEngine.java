@@ -96,6 +96,12 @@ public class InnoEngine extends Engine {
           _view.setSidebarFromFxmlFileName("sidebar_room.fxml", this);
           return true;
         }
+
+        @Override
+        public boolean onShapeMoved() {
+          Core.get().setScenePositions(pixelToMeter(getPointsInParent()));
+          return true;
+        }
     };
     Color color = Color.BLUEVIOLET;
     shape.setColor(Color.BLUEVIOLET);
