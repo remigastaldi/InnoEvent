@@ -152,32 +152,7 @@ public class Room implements ImmutableRoom, Serializable {
         if ((section = this._sittingSections.get(idSection)) != null) {
             clearAllSittingRows(section.getIdSection());
             if (((ImmutableSittingSection) section).isRectangle()) {
-                double xRow = positions[0];
-                double yRow = positions[1];
-                double xSeat = positions[0];
-                double ySeat = positions[1];
-                double vitalSpaceHeight = ((ImmutableSittingSection) section).getImmutableVitalSpace().getHeight();
-                double vitalSpaceWidth = ((ImmutableSittingSection) section).getImmutableVitalSpace().getWidth();
-
-                // System.out.println("....................... " + yRow + " : " + positions[7]);
-                while (yRow < positions[7]) {
-                    double[] posStart = { xRow + (vitalSpaceWidth / 2), yRow + (vitalSpaceHeight / 2) };
-                    double[] posEnd = { positions[2] - (vitalSpaceWidth / 2), yRow + (vitalSpaceHeight / 2) };
-                    ImmutableSittingRow row = createSittingRow(section.getIdSection(), posStart, posEnd);
-                    Core.get().createPlace(section.getIdSection() + "|" + row.getIdRow(), "#7289DA");
-
-                    while (xSeat < positions[2]) {
-                        double[] seatPos = { xSeat + (vitalSpaceWidth / 2), ySeat + (vitalSpaceHeight / 2) };
-                        ImmutableSeat seat = createSeat(section.getIdSection(), row.getIdRow(), seatPos);
-                        Core.get().createPlace(section.getIdSection() + "|" + row.getIdRow() + "|" + seat.getId(),
-                                "#FFA500");
-
-                        xSeat += vitalSpaceWidth;
-                    }
-                    yRow += vitalSpaceHeight;
-                    xSeat = positions[0];
-                    ySeat += vitalSpaceHeight;
-                }
+                updateRectangeRows(positions, section);
             } else {
                 double vitalSpaceHeight = this.getImmutableVitalSpace().getHeight();
                 double vitalSpaceWidth = this.getImmutableVitalSpace().getWidth();
@@ -229,33 +204,41 @@ public class Room implements ImmutableRoom, Serializable {
         this._sittingSections.put(id, sittingSection);
 
         if (isRectangle) {
-            double xRow = positions[0];
-            double yRow = positions[1];
-            double xSeat = positions[0];
-            double ySeat = positions[1];
-
-            while (yRow < positions[7]) {
-                double[] posStart = { xRow + (vitalSpaceWidth / 2), yRow + (vitalSpaceHeight / 2) };
-                double[] posEnd = { positions[2] - (vitalSpaceWidth / 2), yRow + (vitalSpaceHeight / 2) };
-                ImmutableSittingRow row = createSittingRow(sittingSection.getIdSection(), posStart, posEnd);
-                Core.get().createPlace(sittingSection.getIdSection() + "|" + row.getIdRow(), "#7289DA");
-
-                while (xSeat < positions[2]) {
-                    double[] seatPos = { xSeat + (vitalSpaceWidth / 2), ySeat + (vitalSpaceHeight / 2) };
-                    ImmutableSeat seat = createSeat(sittingSection.getIdSection(), row.getIdRow(), seatPos);
-                    Core.get().createPlace(sittingSection.getIdSection() + "|" + row.getIdRow() + "|" + seat.getId(),
-                            "#FFA500");
-                    xSeat += vitalSpaceWidth;
-                }
-                yRow += vitalSpaceHeight;
-                xSeat = positions[0];
-                ySeat += vitalSpaceHeight;
-            }
+            updateRectangeRows(positions, sittingSection);
         } else {
             updatePolygonRows(positions, vitalSpaceHeight, vitalSpaceWidth, sittingSection);
         }
 
         return sittingSection;
+    }
+
+	private void updateRectangeRows(double[] positions, Section section) {
+		double xRow = positions[0];
+		double yRow = positions[1];
+		double xSeat = positions[0];
+		double ySeat = positions[1];
+		double vitalSpaceHeight = ((ImmutableSittingSection) section).getImmutableVitalSpace().getHeight();
+		double vitalSpaceWidth = ((ImmutableSittingSection) section).getImmutableVitalSpace().getWidth();
+
+		// System.out.println("....................... " + yRow + " : " + positions[7]);
+		while (yRow < positions[7]) {
+		    double[] posStart = { xRow + (vitalSpaceWidth / 2), yRow + (vitalSpaceHeight / 2) };
+		    double[] posEnd = { positions[2] - (vitalSpaceWidth / 2), yRow + (vitalSpaceHeight / 2) };
+		    ImmutableSittingRow row = createSittingRow(section.getIdSection(), posStart, posEnd);
+		    Core.get().createPlace(section.getIdSection() + "|" + row.getIdRow(), "#7289DA");
+
+		    while (xSeat < positions[2]) {
+		        double[] seatPos = { xSeat + (vitalSpaceWidth / 2), ySeat + (vitalSpaceHeight / 2) };
+		        ImmutableSeat seat = createSeat(section.getIdSection(), row.getIdRow(), seatPos);
+		        Core.get().createPlace(section.getIdSection() + "|" + row.getIdRow() + "|" + seat.getId(),
+		                "#FFA500");
+
+		        xSeat += vitalSpaceWidth;
+		    }
+		    yRow += vitalSpaceHeight;
+            xSeat = positions[0];
+            ySeat += vitalSpaceHeight;
+        }
     }
 
 	private void updatePolygonRows(double[] positions, double vitalSpaceHeight, double vitalSpaceWidth,
