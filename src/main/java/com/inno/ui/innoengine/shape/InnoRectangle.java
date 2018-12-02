@@ -113,7 +113,7 @@ public class InnoRectangle extends InteractiveRectangle {
   public boolean onShapeMoved() {
     if (_sectionData == null)
       return true;
-    System.out.println("################### MOVED ######################");
+    // System.out.println("################### MOVED ######################");
     // double[] test = ((InnoEngine)Engine()).pixelToMeter(doubledoubledoublegetPointsInParent());
     // for (int i = 0; i < test.length; i+=2) {
     //   System.out.println(test[i] + " " + test[i + 1 ]);
@@ -125,12 +125,12 @@ public class InnoRectangle extends InteractiveRectangle {
       //   System.out.println(pos[i] + " ; " + pos[i + 1]);
       // }
     // getGroup().getTransforms().clear();
-Core.get().updateSectionPositions(getID(), ((InnoEngine)Engine()).pixelToMeter(getPointsInParent()), true);
+    Core.get().updateSectionPositions(getID(), ((InnoEngine)Engine()).pixelToMeter(getPointsInParent()), true);
     // getGroup().getTransforms().addAll(transforms);
     // loadFromData();
     double[] pos = parentToLocal(((InnoEngine)Engine()).meterToPixel(_sectionData.getPositions()));
     setPoints(pos);
-setRotation(new Rotate(_sectionData.getRotation(), pos[0], pos[1]));
+    setRotation(new Rotate(_sectionData.getRotation(), pos[0], pos[1]));
     // updateFromData();
     return true;
   }
@@ -140,8 +140,7 @@ setRotation(new Rotate(_sectionData.getRotation(), pos[0], pos[1]));
     if (_sectionData == null)
       return true;
 
-    System.out.println("################### RESIZED ######################");
-
+    // System.out.println("################### RESIZED ######################");
     getGroup().getTransforms().clear();
     Core.get().updateSectionPositions(getID(), ((InnoEngine)Engine()).pixelToMeter(getPointsInParent()), true);
 
@@ -153,10 +152,10 @@ setRotation(new Rotate(_sectionData.getRotation(), pos[0], pos[1]));
   public boolean onFormComplete() {
     if (_mousePressed == true) {
 
-      double[] pos = getPointsInParent();
-      for (int i = 0; i < pos.length; i += 2) {
-        System.out.println("X: " + pos[i] + " Y: " + pos[i + 1]);
-      } 
+      // double[] pos = getPointsInParent();
+      // for (int i = 0; i < pos.length; i += 2) {
+      //   System.out.println("X: " + pos[i] + " Y: " + pos[i + 1]);
+      // } 
 
       // _sectionData = Core.get().createSittingSection(((InnoEngine)Engine()).pixelToMeter(getPointsInParent()), 0, true);
       // setID(_sectionData.getIdSection());

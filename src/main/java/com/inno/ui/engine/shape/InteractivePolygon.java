@@ -2,7 +2,7 @@
  * File Created: Sunday, 14th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Thursday, 29th November 2018
+ * Last Modified: Sunday, 2nd December 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -41,7 +41,7 @@ public class InteractivePolygon extends InteractiveShape<Polygon> {
 
   public InteractivePolygon(Engine engine, Pane pane, double[] pos, Rotate rotation, Color color) {
     super(engine, pane);
-    closeForm(pos, rotation, color);
+    closeForm(pos, color);
   }
   
   public void start() {
@@ -129,7 +129,7 @@ public class InteractivePolygon extends InteractiveShape<Polygon> {
   double orgSceneX, orgSceneY;
   double orgTranslateX, orgTranslateY;
 
-  private void closeForm(double[] pos, Rotate rotation, Color color) {
+  public void closeForm(double[] pos, Color color) {
     setShape(new Polygon(pos));
     
     _shape.setFill(color.deriveColor(1, 1, 0.8, 0.85));
