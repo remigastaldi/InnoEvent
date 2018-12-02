@@ -2,7 +2,7 @@
  * File Created: Monday, 15th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Thursday, 29th November 2018
+ * Last Modified: Saturday, 1st December 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -122,35 +122,35 @@ public class InteractiveRectangle extends InteractiveShape<Rectangle> {
     _shape.widthProperty().addListener((ChangeListener<Number>) (ov, oldX, newX) -> {
       if (_shape.getX() + (double) newX != maxXProperty.get()) {
         maxXProperty.set(_shape.getX() + (double) newX);
-        onShapeResized();
+        // onShapeResized();
       }
     });
     
     _shape.heightProperty().addListener((ChangeListener<Number>) (ov, oldY, newY) -> {
       if (_shape.getY() + (double) newY != maxYProperty.get())
         maxYProperty.set(_shape.getY() + (double) newY);
-        onShapeResized();
+        // onShapeResized();
     });
 
     resizeHandleLU.centerXProperty().addListener((ChangeListener<Number>) (ov, oldX, newX) -> {
       _shape.setX((double) newX);
       _shape.setWidth(maxXProperty.get() - _shape.getX());
-      onShapeResized();
+      // onShapeResized();
     });
     resizeHandleLU.centerYProperty().addListener((ChangeListener<Number>) (ov, oldY, newY) -> {
       _shape.setY((double) newY);
       _shape.setHeight(maxYProperty.get() - _shape.getY());
-      onShapeResized();
+      // onShapeResized();
     });
-
+    
     resizeHandleRU.centerXProperty().addListener((ChangeListener<Number>) (ov, oldX, newX) -> {
       _shape.setWidth(maxXProperty.get() - _shape.getX());
-      onShapeResized();
+      // onShapeResized();
     });
 
     resizeHandleRD.centerYProperty().addListener((ChangeListener<Number>) (ov, oldY, newY) -> {
       _shape.setHeight(maxYProperty.get() - _shape.getY());
-      onShapeResized();
+      // onShapeResized();
     });
 
     anchors.add(resizeHandleLU);

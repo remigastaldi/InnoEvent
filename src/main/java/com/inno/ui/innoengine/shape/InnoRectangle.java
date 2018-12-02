@@ -2,7 +2,7 @@
  * File Created: Monday, 15th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Friday, 30th November 2018
+ * Last Modified: Sunday, 2nd December 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -87,7 +87,7 @@ public class InnoRectangle extends InteractiveRectangle {
 
   @Override
   public boolean onMouseOnDragDetected(MouseEvent event) {
-    updateFromData();
+    // updateFromData();
     return true;
   }
 
@@ -100,6 +100,10 @@ public class InnoRectangle extends InteractiveRectangle {
     if (getHeight() < ((InnoEngine)Engine()).meterToPixel(_yVitalSpace))
       setHeight(((InnoEngine)Engine()).meterToPixel(_yVitalSpace));
 
+    _sectionData = Core.get().createSittingSection(((InnoEngine)Engine()).pixelToMeter(getPointsInParent()), 0, true);
+    setID(_sectionData.getIdSection());
+    updateFromData();
+
     InnoEngine engine = (InnoEngine) ((InnoEngine)Engine());
     engine.getView().setSidebarFromFxmlFileName("sidebar_regular_sitting_section.fxml", this);
     return true;
@@ -109,6 +113,7 @@ public class InnoRectangle extends InteractiveRectangle {
   public boolean onShapeMoved() {
     if (_sectionData == null)
       return true;
+    System.out.println("################### MOVED ######################");
     // double[] test = ((InnoEngine)Engine()).pixelToMeter(doubledoubledoublegetPointsInParent());
     // for (int i = 0; i < test.length; i+=2) {
     //   System.out.println(test[i] + " " + test[i + 1 ]);
@@ -119,13 +124,13 @@ public class InnoRectangle extends InteractiveRectangle {
     // for (int i =0; i < pos.length; i+=2) {
       //   System.out.println(pos[i] + " ; " + pos[i + 1]);
       // }
-    getGroup().getTransforms().clear();
-    Core.get().updateSectionPositions(getID(), ((InnoEngine)Engine()).pixelToMeter(getPointsInParent()), true);
+    // getGroup().getTransforms().clear();
+Core.get().updateSectionPositions(getID(), ((InnoEngine)Engine()).pixelToMeter(getPointsInParent()), true);
     // getGroup().getTransforms().addAll(transforms);
     // loadFromData();
     double[] pos = parentToLocal(((InnoEngine)Engine()).meterToPixel(_sectionData.getPositions()));
     setPoints(pos);
-    setRotation(new Rotate(_sectionData.getRotation(), pos[0], pos[1]));
+setRotation(new Rotate(_sectionData.getRotation(), pos[0], pos[1]));
     // updateFromData();
     return true;
   }
@@ -135,7 +140,7 @@ public class InnoRectangle extends InteractiveRectangle {
     if (_sectionData == null)
       return true;
 
-    // System.out.println("################### RESIZED ######################");
+    System.out.println("################### RESIZED ######################");
 
     getGroup().getTransforms().clear();
     Core.get().updateSectionPositions(getID(), ((InnoEngine)Engine()).pixelToMeter(getPointsInParent()), true);
@@ -147,10 +152,15 @@ public class InnoRectangle extends InteractiveRectangle {
   @Override
   public boolean onFormComplete() {
     if (_mousePressed == true) {
-  
-      _sectionData = Core.get().createSittingSection(((InnoEngine)Engine()).pixelToMeter(getPointsInParent()), 0, true);
-      setID(_sectionData.getIdSection());
-      updateFromData();
+
+      double[] pos = getPointsInParent();
+      for (int i = 0; i < pos.length; i += 2) {
+        System.out.println("X: " + pos[i] + " Y: " + pos[i + 1]);
+      } 
+
+      // _sectionData = Core.get().createSittingSection(((InnoEngine)Engine()).pixelToMeter(getPointsInParent()), 0, true);
+      // setID(_sectionData.getIdSection());
+      // updateFromData();
     }
 
     return true;
@@ -221,7 +231,7 @@ public class InnoRectangle extends InteractiveRectangle {
     closeForm(pos[0], pos[1], Color.valueOf(Core.get().getSectionPrice(getID()).getColor()));
     
     updateFromData();
-  }
+  } 
 
   private void updateFromData() {
     double[] pos = parentToLocal(((InnoEngine)Engine()).meterToPixel(_sectionData.getPositions()));
