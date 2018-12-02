@@ -179,4 +179,17 @@ public class InnoEngine extends Engine {
     _view.setSidebarFromFxmlFileName("sidebar_room.fxml", this);
     return true;
   }
+
+  public void changeRoomWidth(double width) {
+    double pixWidth = meterToPixel(width);
+    setBoardWidth(pixWidth);
+    Core.get().setRoomWidth(pixWidth);
+  }
+
+  public void changeRoomHeight(double height) {
+    double pixHeight = meterToPixel(height);
+    setBoardHeight(pixHeight);
+    Core.get().setRoomHeight(pixHeight);
+    
+  }
 }

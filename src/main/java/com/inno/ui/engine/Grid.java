@@ -2,7 +2,7 @@
  * File Created: Saturday, 13th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Friday, 23rd November 2018
+ * Last Modified: Sunday, 2nd December 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -83,5 +83,11 @@ public class Grid {
 
   public ArrayList<? extends Shape> getLines() {
     return _lines;
+  }
+
+  public void destroy() {
+    for (Line line : _lines) {
+      _pane.getChildren().remove(line);
+    }
   }
 }
