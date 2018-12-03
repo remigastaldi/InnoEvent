@@ -1,51 +1,61 @@
 package com.inno.service;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.OutputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.Properties;
+import java.io.Reader;
+import java.io.Writer;
+import java.lang.reflect.Type;
+import java.util.HashMap;
 
-
+import com.google.common.reflect.TypeToken;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 public class SettingsService {
 
-    private FileWriter _out = null;
+    private HashMap<String, Object> _db = new HashMap<>();
 
     public SettingsService() {
         try {
-            String rootPath = getClass().getResource("").getPath();
-            Path appConfigPath = Paths.get(rootPath + "/properties/app.json");
-            Files.createDirectories(appConfigPath.getParent());
-            if (!Files.exists(appConfigPath))
-                Files.createFile(appConfigPath);
-            Files.write(appConfigPath, ("{}").getBytes());
+            File file = new File(System.getProperty("user.home") + "/.innoevent/config.json");
 
+            // if file does not exists, then create it
+            if (!file.exists()) {
+                file.getParentFile().mkdir();
+                file.createNewFile();
+            }
+            Reader reader = new FileReader(file.getAbsolutePath());
+            Gson gson = new Gson();
+
+            @SuppressWarnings("unchecked")
+            HashMap<String, Object> map = gson.fromJson(reader, HashMap.class);
+            if (map != null) {
+                this._db = map;
+            }
+            
         } catch (Exception e) {
-            System.out.println(e.getMessage());
-            System.out.println("Failed when load properties");
+            //TODO: handle exception
         }
+
     }
 
-    // public String get(String key) {
-    //     // return appProps.getProperty(key);
-    // }
+    public Object get(String key) {
+        return _db.get(key);
+    }
 
-    // public void set(String key, String value) {
-    //     // appProps.setProperty(key, value);
-    //     save();
-    // }
+    public void set(String key, String value) {
+        _db.put(key, value);
+        save();
+    }
 
-    // private void save() {
-    //     try {
-    //         // appProps.store(_out, "save");
-    //     } catch (IOException err) {
-    //         // TODO: ad
-    //     }
-    // }
+    private void save() {
+        try (Writer writer = new FileWriter(System.getProperty("user.home") + "/.innoevent/config.json")) {
+            Gson gson = new GsonBuilder().create();
+            gson.toJson(_db, writer);
+        } catch(IOException e) {
+
+        }
+    }
 }
