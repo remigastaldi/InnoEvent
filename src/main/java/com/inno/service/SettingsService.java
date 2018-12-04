@@ -6,10 +6,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Reader;
 import java.io.Writer;
-import java.lang.reflect.Type;
 import java.util.HashMap;
 
-import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -45,7 +43,7 @@ public class SettingsService {
         return _db.get(key);
     }
 
-    public void set(String key, String value) {
+    public void set(String key, Object value) {
         _db.put(key, value);
         save();
     }
@@ -58,4 +56,8 @@ public class SettingsService {
 
         }
     }
+
+	public boolean has(String key) {
+		return _db.get(key) != null;
+	}
 }
