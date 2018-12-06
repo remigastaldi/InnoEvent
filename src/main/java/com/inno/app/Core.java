@@ -2,7 +2,7 @@
  * File Created: Tuesday, 9th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Friday, 30th November 2018
+ * Last Modified: Monday, 3rd December 2018
  * Modified By: HUBERT Léo
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -11,6 +11,7 @@
 
 package com.inno.app;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -33,12 +34,16 @@ public class Core {
   private Pricing _pricing = new Pricing();
   private SettingsService _settings = new SettingsService();
 
+
+  private ArrayList<String> _recentPaths = new ArrayList<>();
+
   // Inno Class
   private Room _room = null;
 
   private Core() {
-
-    // System.out.println(_settings.get("test"));
+    if (_settings.has("recent_paths")) {
+      _recentPaths =  (ArrayList<String>)_settings.get("recent_paths");
+    }
   }
 
   public static Core get() {
@@ -258,14 +263,23 @@ public class Core {
 
   public void saveTo(String path) {
     SaveObject save = new SaveObject(_room, _pricing);
+    _recentPaths.remove(path);
+    _recentPaths.add(path);
+    _settings.set("recent_paths", _recentPaths);
     _saveService.saveTo(save, path);
   }
 
   public void loadProject(String absolutePath) {
     SaveObject save = _saveService.loadFrom(absolutePath);
-
+    _recentPaths.remove(absolutePath);
+    _recentPaths.add(absolutePath);
+    _settings.set("recent_paths", _recentPaths);
     _room = (Room) save.getRoomData();
     _pricing = save.getPricing();
+  }
+
+  public ArrayList<String> getRecentPaths() {
+    return _recentPaths;
   }
 
   // Pricing && Offers
@@ -307,4 +321,14 @@ public class Core {
     _pricing = new Pricing();
     _room = null;
   }
+
+  // Settings methods
+  public void setSettingsValue(String key, String value) {
+    _settings.set(key, value);
+  }
+
+  public Object getSettingsValue(String key) {
+    return _settings.get(key);
+  }
+  
 };

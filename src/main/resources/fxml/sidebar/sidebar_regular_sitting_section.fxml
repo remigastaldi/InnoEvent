@@ -3,6 +3,7 @@
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.Group?>
 <?import javafx.scene.control.Accordion?>
+<?import javafx.scene.control.ColorPicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.TitledPane?>
@@ -14,7 +15,7 @@
    <children>
       <Accordion AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <panes>
-          <TitledPane animated="false" text="Properties">
+          <TitledPane text="Properties">
                <content>
                   <AnchorPane prefHeight="200.0" prefWidth="252.0">
                      <children>
@@ -32,7 +33,6 @@
                                     <Label layoutY="102.0" text="VitalSpace Width" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
                                     <Label layoutY="146.0" text="VitalSpace Height" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
                                     <Label layoutY="233.0" text="Rotation" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
-                                    <Label layoutY="277.0" text="Price" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
                                     <Label layoutY="190.0" text="Elevation" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
                                  </children>
                               </AnchorPane>
@@ -53,15 +53,14 @@
                                           </Circle>
                                        </children>
                                     </Group>
-                                    <TextField fx:id="section_price_input" layoutY="264.0" onKeyReleased="#onKeyReleased" prefHeight="29.0" prefWidth="101.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
                                     <TextField fx:id="section_elevation_input" layoutX="-33.0" layoutY="176.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
                                  </children>
                               </AnchorPane>
                            </children>
                         </AnchorPane>
-                        <AnchorPane prefWidth="367.0" style="-fx-border-color: -fx-primary; -fx-border-width: 0 0 1 0; -fx-background-color: -fx-grey;" styleClass="grey" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                        <AnchorPane prefWidth="367.0" styleClass="grey" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
-                              <TextField fx:id="section_name_input" alignment="CENTER" onKeyReleased="#onKeyReleased" prefHeight="50.0" prefWidth="250.0" promptText="NAME" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                              <TextField fx:id="section_name_input" alignment="CENTER" layoutY="4.0" onKeyReleased="#onKeyReleased" prefHeight="50.0" prefWidth="250.0" promptText="NAME" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
                                  <font>
                                     <Font size="25.0" />
                                  </font>
@@ -72,11 +71,26 @@
                   </AnchorPane>
                </content>
           </TitledPane>
-          <TitledPane animated="false" text="Prices">
-            <content>
-              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
-            </content>
-          </TitledPane>
+            <TitledPane text="Prices">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <AnchorPane layoutX="20.4" layoutY="21.4" prefHeight="520.0" prefWidth="107.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="120.0" AnchorPane.topAnchor="0.0">
+                           <children>
+                              <Label layoutY="23.0" text="Price" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+                              <Label layoutX="-1.0" layoutY="61.0" text="Color" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+                           </children>
+                        </AnchorPane>
+                        <AnchorPane layoutY="21.4" prefHeight="520.0" prefWidth="105.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="120.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="0.0">
+                           <children>
+                              <TextField fx:id="section_price_input" layoutY="17.0" onKeyReleased="#onKeyReleased" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+                              <ColorPicker fx:id="section_price_color_picker" disable="true" layoutX="-29.0" layoutY="55.0" onAction="#onKeyReleased" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+                           </children>
+                        </AnchorPane>
+                     </children>
+                  </AnchorPane>
+               </content>
+            </TitledPane>
         </panes>
       </Accordion>
    </children>

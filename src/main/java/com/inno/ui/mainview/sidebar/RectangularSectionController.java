@@ -2,8 +2,8 @@
  * File Created: Tuesday, 13th November 2018
  * Author: MAREL Maud
  * -----
- * Last Modified: Thursday, 29th November 2018
- * Modified By: GASTALDI Rémi
+ * Last Modified: Saturday, 1st December 2018
+ * Modified By: HUBERT Léo
  * -----
  * Copyright - 2018 MAREL Maud
  * <<licensetext>>
@@ -29,6 +29,7 @@ import javafx.fxml.FXML;
 import javafx.geometry.Bounds;
 import javafx.geometry.Point2D;
 import javafx.scene.Group;
+import javafx.scene.control.ColorPicker;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -54,14 +55,18 @@ public class RectangularSectionController extends ViewController {
   private TextField section_rotation_input;
   @FXML
   private TextField section_elevation_input;
-  @FXML
-  private TextField section_price_input;
+
   @FXML
   private Group section_rotation_group;
   @FXML
   private Circle section_rotation_circle;
   @FXML
   private AnchorPane sidebar_content;
+
+  @FXML
+  private TextField section_price_input;
+  @FXML
+  private ColorPicker section_price_color_picker;
 
   EventHandler<MouseEvent> _mouseDragged;
 

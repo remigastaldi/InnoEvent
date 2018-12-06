@@ -2,8 +2,8 @@
  * File Created: Wednesday, 26th September 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Thursday, 29th November 2018
- * Modified By: MAREL Maud
+ * Last Modified: Sunday, 2nd December 2018
+ * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
  * <<licensetext>>
@@ -119,6 +119,10 @@ public class MainViewController extends ViewController {
       break;
     case "r":
       Engine().createRectangularSection();
+      break;
+    case "n":
+      Engine().changeRoomWidth(80);
+      Engine().changeRoomHeight(80);
     }
 
     if (evt.getCode() == KeyCode.DELETE)

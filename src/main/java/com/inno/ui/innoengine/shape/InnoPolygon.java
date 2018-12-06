@@ -2,7 +2,7 @@
  * File Created: Sunday, 14th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Friday, 30th November 2018
+ * Last Modified: Sunday, 2nd December 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -12,23 +12,21 @@
 
 package com.inno.ui.innoengine.shape;
 
-import  com.inno.ui.innoengine.InnoEngine;
-import com.inno.ui.innoengine.InnoRow;
-
 import java.util.ArrayList;
 
 import com.inno.app.Core;
 import com.inno.app.room.ImmutableSittingRow;
 import com.inno.app.room.ImmutableSittingSection;
 import com.inno.app.room.ImmutableStandingSection;
-import  com.inno.ui.engine.shape.InteractivePolygon;
+import com.inno.ui.engine.shape.InteractivePolygon;
+import com.inno.ui.innoengine.InnoEngine;
+import com.inno.ui.innoengine.InnoRow;
 
-import  javafx.scene.layout.Pane;
+import javafx.geometry.Point2D;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.transform.Rotate;
-import javafx.geometry.Point2D;
-import javafx.scene.Group;
-import  javafx.scene.input.MouseEvent;
 
 public class InnoPolygon extends InteractivePolygon {
   private ImmutableStandingSection _standingSectionData = null;
@@ -46,7 +44,16 @@ public class InnoPolygon extends InteractivePolygon {
     setID(id);
   }
 
-  @Override
+  public InnoPolygon(InnoEngine engine, Pane pane, String id) {
+    super(engine, pane);
+
+    setID(id);
+
+    loadFromData();
+    // deselect();
+  }
+
+@Override
   public boolean onMouseClicked(MouseEvent event) {
     return true;
   };
@@ -84,9 +91,24 @@ public class InnoPolygon extends InteractivePolygon {
   }
 
   @Override
+  public boolean onShapeMoved() {
+    if (_sittingSectionData == null)
+      return true;
+
+    Core.get().updateSectionPositions(getID(), ((InnoEngine)Engine()).pixelToMeter(getPointsInParent()), false);
+    double[] pos = parentToLocal(((InnoEngine)Engine()).meterToPixel(_sittingSectionData.getPositions()));
+    setPoints(pos);
+    setRotation(new Rotate(_sittingSectionData.getRotation(), pos[0], pos[1]));
+  
+    return true;
+  }
+
+  @Override
   public boolean onFormComplete() {
     if (mouseReleased) {
-      _sittingSectionData = Core.get().createSittingSection(localToParent(((InnoEngine)Engine()).pixelToMeter(getPoints())), 0, false);
+      System.out.println("FORME COLMPLETE");
+      _sittingSectionData = Core.get().createSittingSection(((InnoEngine)Engine()).pixelToMeter(getPointsInParent()), 0, false);
+      setID(_sittingSectionData.getIdSection());
       loadFromData();
     }
     return true;
@@ -102,7 +124,7 @@ public class InnoPolygon extends InteractivePolygon {
   public boolean onShapeResized() {
     Core.get().updateSectionPositions(getID(), ((InnoEngine)Engine()).pixelToMeter(getPointsInParent()), false);
     // Core.get().setSectionRotation(getID(), getRotation().getAngle());
-    loadFromData(_group);
+    updateFromData();
 
     return true;
   }
@@ -114,23 +136,25 @@ public class InnoPolygon extends InteractivePolygon {
     return true;
   }
 
-
-  public void loadDomainData() {
+  public void loadFromData() {
     _sittingSectionData = Core.get().getImmutableRoom().getImmutableSittingSections().get(getID());
-  }
 
-  private void loadFromData(Group group) {
-    setID(_sittingSectionData.getIdSection());
+    double[] pos = ((InnoEngine)Engine()).meterToPixel(parentToLocal(_sittingSectionData.getPositions()));
+    closeForm(pos, Color.valueOf(Core.get().getSectionPrice(getID()).getColor()));
 
-    // setColor(Color.valueOf(Core.get().getSectionPrice(getID()).getColor()));
-
-    if (group != null)
-      setPoints(((InnoEngine)Engine()).meterToPixel(parentToLocal(_sittingSectionData.getPositions())));
-    else
-      setPoints(((InnoEngine)Engine()).meterToPixel(_sittingSectionData.getPositions()));
+    setColor(Color.valueOf(Core.get().getSectionPrice(getID()).getColor()));
 
     Point2D center = Engine().getCenterOfPoints(getPoints());
-    setRotation(new Rotate(_sittingSectionData.getRotation(),center.getX(), center.getY()));
+    setRotation(new Rotate(_sittingSectionData.getRotation(), center.getX(), center.getY()));
+
+    updateFromData();
+  }
+
+  private void updateFromData() {
+    setPoints(parentToLocal(((InnoEngine)Engine()).meterToPixel(_sittingSectionData.getPositions())));
+
+    // Point2D center = Engine().getCenterOfPoints(getPoints());
+    // setRotation(new Rotate(_sittingSectionData.getRotation(),center.getX(), center.getY()));
 
     if (_rows != null) {
       for (int i = 0; i < _rows.length; ++i) {
@@ -148,10 +172,6 @@ public class InnoPolygon extends InteractivePolygon {
       _rows[i] = new InnoRow(engine, this, _sittingSectionData, row);
       ++i;
     }
-  }
-
-  private void loadFromData() {
-    loadFromData(null);
   }
 
   public void changeSectionType() {

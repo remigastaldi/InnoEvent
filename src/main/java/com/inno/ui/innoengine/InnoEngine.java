@@ -2,7 +2,7 @@
  * File Created: Friday, 12th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Thursday, 29th November 2018
+ * Last Modified: Sunday, 2nd December 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -53,15 +53,12 @@ public class InnoEngine extends Engine {
   private void loadSections(ImmutableRoom roomData) {
   	Collection<? extends ImmutableSittingSection> sections = roomData.getImmutableSittingSections().values();
     for (ImmutableSittingSection section : sections) {
-      double[] pos = meterToPixel(section.getPositions());
-      Point2D center = getCenterOfPoints(pos);
       if (section.isRectangle()) {
         System.out.println("Load rectangular section");
         createRectangularSection(section.getIdSection());
       } else {
         System.out.println("Load irregular section");
-        createIrregularSection(section.getIdSection(), pos,
-          new Rotate(section.getRotation(), center.getX(), center.getY()), Color.LIGHTSKYBLUE);
+        createIrregularSection(section.getIdSection());
         }
     }
   }
@@ -99,6 +96,12 @@ public class InnoEngine extends Engine {
           _view.setSidebarFromFxmlFileName("sidebar_room.fxml", this);
           return true;
         }
+
+        @Override
+        public boolean onShapeMoved() {
+          Core.get().setScenePositions(pixelToMeter(getPointsInParent()));
+          return true;
+        }
     };
     Color color = Color.BLUEVIOLET;
     shape.setColor(Color.BLUEVIOLET);
@@ -115,10 +118,16 @@ public class InnoEngine extends Engine {
   public void createIrregularSection(String id, double[] pos, Rotate rotation, Color color) {
     deselect();
     InnoPolygon section = new InnoPolygon(this, getPane(), id, pos, rotation, color);
-    section.loadDomainData();
     addInteractiveShape(section);
     deselect();
   }
+
+  public void createIrregularSection(String id) {
+    InnoPolygon section = new InnoPolygon(this, getPane(), id);
+    addInteractiveShape(section);
+    deselect();
+  }
+
 
   public void createRectangularSection() {
     deselect();
@@ -175,5 +184,18 @@ public class InnoEngine extends Engine {
   public boolean onBoardSelected(MouseEvent event) {
     _view.setSidebarFromFxmlFileName("sidebar_room.fxml", this);
     return true;
+  }
+
+  public void changeRoomWidth(double width) {
+    double pixWidth = meterToPixel(width);
+    setBoardWidth(pixWidth);
+    Core.get().setRoomWidth(pixWidth);
+  }
+
+  public void changeRoomHeight(double height) {
+    double pixHeight = meterToPixel(height);
+    setBoardHeight(pixHeight);
+    Core.get().setRoomHeight(pixHeight);
+    
   }
 }
