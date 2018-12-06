@@ -9,8 +9,8 @@
  * <<licensetext>>
  */
 
-
 package com.inno.ui.components;
+
 import java.io.IOException;
 
 import com.inno.ui.popup.StartupPopupController.Project;
@@ -21,8 +21,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.layout.GridPane;
 
-public class ProjectListViewCell extends ListCell<Project>  {
-    
+public class ProjectListViewCell extends ListCell<Project> {
+
     @FXML
     private GridPane grid_pane;
     @FXML
@@ -32,11 +32,24 @@ public class ProjectListViewCell extends ListCell<Project>  {
 
     private FXMLLoader mLLoader;
 
+    public ProjectListViewCell() {
+        this.setOnMouseEntered((e) -> {
+            if (project_name_label != null) {
+                project_name_label.setStyle("-fx-text-fill: -fx-primary");
+            }
+        });
+        this.setOnMouseExited((e) -> {
+            if (project_name_label != null) {
+                project_name_label.setStyle("-fx-text-fill: white");
+            }
+        });
+    }
+
     @Override
     protected void updateItem(Project project, boolean empty) {
         super.updateItem(project, empty);
 
-        if(empty || project == null) {
+        if (empty || project == null) {
 
             setText(null);
             setGraphic(null);
@@ -60,6 +73,5 @@ public class ProjectListViewCell extends ListCell<Project>  {
             setText(null);
             setGraphic(grid_pane);
         }
-
     }
 }
