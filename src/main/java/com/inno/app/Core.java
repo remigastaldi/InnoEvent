@@ -3,7 +3,7 @@
  * Author: GASTALDI Rémi
  * -----
  * Last Modified: Thursday, 6th December 2018
- * Modified By: MAREL Maud
+ * Modified By: HUBERT Léo
  * -----
  * Copyright - 2018 GASTALDI Rémi
  * <<licensetext>>
@@ -11,6 +11,10 @@
 
 package com.inno.app;
 
+import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -34,7 +38,6 @@ public class Core {
   private Pricing _pricing = new Pricing();
   private SettingsService _settings = new SettingsService();
 
-
   private ArrayList<String> _recentPaths = new ArrayList<>();
 
   // Inno Class
@@ -42,7 +45,7 @@ public class Core {
 
   private Core() {
     if (_settings.has("recent_paths")) {
-      _recentPaths =  (ArrayList<String>)_settings.get("recent_paths");
+      _recentPaths = (ArrayList<String>) _settings.get("recent_paths");
     }
   }
 
@@ -282,6 +285,16 @@ public class Core {
   }
 
   public ArrayList<String> getRecentPaths() {
+    try {
+      _recentPaths.forEach(path -> {
+        Path nPath = Paths.get(path);
+        if (!Files.exists(nPath)) {
+          _recentPaths.remove(path);
+          _settings.set("recent_paths", _recentPaths);
+        }
+      });
+    } catch (Exception e) {
+    }
     return _recentPaths;
   }
 
@@ -333,5 +346,5 @@ public class Core {
   public Object getSettingsValue(String key) {
     return _settings.get(key);
   }
-  
+
 };
