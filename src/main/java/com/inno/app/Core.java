@@ -2,8 +2,8 @@
  * File Created: Tuesday, 9th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Monday, 3rd December 2018
- * Modified By: HUBERT Léo
+ * Last Modified: Thursday, 6th December 2018
+ * Modified By: MAREL Maud
  * -----
  * Copyright - 2018 GASTALDI Rémi
  * <<licensetext>>
@@ -145,9 +145,12 @@ public class Core {
     this._room.setSectionRotation(idSection, rotation);
   }
 
+  public ImmutableSection changeSection(String idSection) {
+    return this._room.changeSection(idSection);
+  }
+
   // standingSection Methods
   public ImmutableStandingSection createStandingSection(int nbPeople, double[] positions, double rotation) {
-
     return this._room.createStandingSection(nbPeople, positions, rotation);
   }
 

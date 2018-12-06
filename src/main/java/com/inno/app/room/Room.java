@@ -2,8 +2,8 @@
  * File Created: Friday, 12th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Sunday, 2nd December 2018
- * Modified By: GASTALDI Rémi
+ * Last Modified: Thursday, 6th December 2018
+ * Modified By: MAREL Maud
 
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -119,6 +119,23 @@ public class Room implements ImmutableRoom, Serializable {
             return section;
         }
         return section;
+    }
+
+    public ImmutableSection changeSection(String idSection) {
+        ImmutableSection oldSection = null;
+        ImmutableSection newSection = null;
+        Section returnSection = null;
+
+        if ((oldSection = this._sittingSections.get(idSection)) != null) {
+            newSection = this.createStandingSection(0, oldSection.getPositions(), oldSection.getRotation());
+        } else if ((oldSection = this._standingSections.get(idSection)) != null) {
+            newSection = this.createSittingSection(oldSection.getPositions(), oldSection.getRotation(), false);
+        }
+        returnSection = this.getSectionById(newSection.getIdSection());
+        returnSection.setNameSection(oldSection.getNameSection());
+        returnSection.setElevation(oldSection.getElevation());
+        deleteSection(idSection);
+        return returnSection;
     }
 
     public void setSectionName(String idSection, String name) {
