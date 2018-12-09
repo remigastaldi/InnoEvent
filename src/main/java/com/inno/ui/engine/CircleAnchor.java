@@ -2,7 +2,7 @@
  * File Created: Wednesday, 21st November 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Sunday, 2nd December 2018
+ * Last Modified: Friday, 7th December 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -54,7 +54,7 @@ public class CircleAnchor extends Circle {
       y.bind(centerYProperty());
     }
     
-    enableDrag();    
+    enableDrag();
   }
 
   private boolean _mousePressed = false;
@@ -78,7 +78,7 @@ public class CircleAnchor extends Circle {
       _mousePressed = false;
       _engine.getCursor().setForm(CustomCursor.Type.DEFAULT);
       _engine.getCursor().removeShape();
-      // _interactiveShape.onShapeChanged();
+      _interactiveShape.onAnchorReleased();
     });
 
     setOnMouseDragged(mouseEvent -> {
@@ -91,7 +91,7 @@ public class CircleAnchor extends Circle {
       // } else {
       //   _rectangle.setFill(Color.GREEN);
       // }
-      _interactiveShape.onShapeResized();
+      _interactiveShape.onAnchorDragged();
     });
   }
 

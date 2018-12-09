@@ -2,7 +2,7 @@
  * File Created: Friday, 12th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Sunday, 2nd December 2018
+ * Last Modified: Wednesday, 5th December 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -157,16 +157,18 @@ public class Engine {
   public void activateGrid(boolean val) {
     if (val) {
       if (_grid == null) {
-        _grid = new Grid(_pane);
-        activateGridMagnetism();
-      } else {
-        _grid.destroy();        
-      }
-      _grid.setColor(Color.valueOf("#777A81"));
-      _grid.setLinesWidth(0.4);
-      _grid.setXSpacing(6);
-      _grid.setYSpacing(6);
-      _grid.activate();
+      _grid = new Grid(_pane);
+    } else {
+      _grid.destroy();        
+      _grid = new Grid(_pane);
+      // activateGridMagnetism();
+    }
+    _grid.setColor(Color.valueOf("#777A81"));
+    _grid.setLinesWidth(0.4);
+    _grid.setXSpacing(6);
+    _grid.setYSpacing(6);
+    _grid.activate();
+    activateGridMagnetism();
     } else {
       _grid.disable();
       _grid = null;
@@ -174,8 +176,8 @@ public class Engine {
   }
 
   public void activateGridMagnetism() {
-    for (Shape line : _grid.getLines()) {
-      _magenetismManager.registerShape(line);
+      for (Shape line : _grid.getLines()) {
+        _magenetismManager.registerShape(line);
     }
   }
 

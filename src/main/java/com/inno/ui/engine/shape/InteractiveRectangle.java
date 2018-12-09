@@ -2,7 +2,7 @@
  * File Created: Monday, 15th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Saturday, 1st December 2018
+ * Last Modified: Friday, 7th December 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -35,6 +35,8 @@ public class InteractiveRectangle extends InteractiveShape<Rectangle> {
 
   private DoubleProperty maxXProperty = null;
   private DoubleProperty maxYProperty = null;
+
+  private Rotate _rotation;
 
   public InteractiveRectangle(Engine engine, Pane pane) {
     super(engine, pane);
@@ -120,37 +122,53 @@ public class InteractiveRectangle extends InteractiveShape<Rectangle> {
     CircleAnchor resizeHandleLD = new CircleAnchor(Engine(), this, Color.GOLD, _shape.xProperty(), maxYProperty, true);
 
     _shape.widthProperty().addListener((ChangeListener<Number>) (ov, oldX, newX) -> {
-      if (_shape.getX() + (double) newX != maxXProperty.get()) {
-        maxXProperty.set(_shape.getX() + (double) newX);
+      if (_shape.getX() + newX.doubleValue() != maxXProperty.get()) {
+        maxXProperty.set(_shape.getX() + newX.doubleValue());
         // onShapeResized();
       }
     });
     
     _shape.heightProperty().addListener((ChangeListener<Number>) (ov, oldY, newY) -> {
-      if (_shape.getY() + (double) newY != maxYProperty.get())
-        maxYProperty.set(_shape.getY() + (double) newY);
+      if (_shape.getY() + newY.doubleValue() != maxYProperty.get()) {
+        maxYProperty.set(_shape.getY() + newY.doubleValue());
         // onShapeResized();
+      }
     });
 
     resizeHandleLU.centerXProperty().addListener((ChangeListener<Number>) (ov, oldX, newX) -> {
-      _shape.setX((double) newX);
-      _shape.setWidth(maxXProperty.get() - _shape.getX());
-      // onShapeResized();
+      if (maxXProperty.get() - _shape.getX() != _shape.getWidth()) {
+        // Point2D pos = _group.localToParent(new Point2D(newX.doubleValue(), getY()));
+        // System.out.println("++++++++++++++++++++++++++++++++++ X " + pos.getX() + " Y " + pos.getY());
+        // System.out.println("++++++++++++++++++++++++++++++++++= X " + newX.doubleValue() + " Y " + getY());
+        // _group.relocate(newX .doubleValue(), getY());
+        // _shape.setX(newX.doubleValue());
+        _shape.setWidth(maxXProperty.get() - _shape.getX());
+        // onShapeResized();
+      }
     });
     resizeHandleLU.centerYProperty().addListener((ChangeListener<Number>) (ov, oldY, newY) -> {
-      _shape.setY((double) newY);
+      if (maxYProperty.get() - _shape.getY() != _shape.getHeight()) {
+        // System.out.println("++++++++++++++++++++++++++++++++++= X" + getX() + " Y " + newY.doubleValue());
+      // Point2D pos = _group.localToParent(new Point2D(getX(), newY.doubleValue()));
+      // _group.relocate(getX(), newY.doubleValue());
+      // _shape.setY(newY.doubleValue());
       _shape.setHeight(maxYProperty.get() - _shape.getY());
       // onShapeResized();
+      }
     });
     
     resizeHandleRU.centerXProperty().addListener((ChangeListener<Number>) (ov, oldX, newX) -> {
-      _shape.setWidth(maxXProperty.get() - _shape.getX());
+      if (maxXProperty.get() - _shape.getX() != _shape.getWidth()) {
+        _shape.setWidth(maxXProperty.get() - _shape.getX());
+      }
       // onShapeResized();
     });
 
     resizeHandleRD.centerYProperty().addListener((ChangeListener<Number>) (ov, oldY, newY) -> {
-      _shape.setHeight(maxYProperty.get() - _shape.getY());
+      if (maxYProperty.get() - _shape.getY() != _shape.getHeight()) {
+        _shape.setHeight(maxYProperty.get() - _shape.getY());
       // onShapeResized();
+      }
     });
 
     anchors.add(resizeHandleLU);
@@ -288,9 +306,16 @@ public class InteractiveRectangle extends InteractiveShape<Rectangle> {
     closeForm(x, y, 1, 1, new Rotate(0,0,0), color);
   }
 
+  public void closeForm(double x, double y, Rotate rotation, Color color) {
+    closeForm(x, y, 1, 1, rotation, color);
+  }
+
   public double[] getPoints() {
     double[] pos = { getX(), getY(), maxXProperty().get(), getY(), maxXProperty().get(), maxYProperty().get(),
         getX(), maxYProperty().get() };
+    // double[] pos = { _anchors.get(0).getCenterX(), _anchors.get(0).getCenterY(), _anchors.get(1).getCenterX(), _anchors.get(1).getCenterY(),
+    //   _anchors.get(2).getCenterX(), _anchors.get(2).getCenterY(), _anchors.get(3).getCenterX(), _anchors.get(3).getCenterY() };
+    
     return pos;
   }
 

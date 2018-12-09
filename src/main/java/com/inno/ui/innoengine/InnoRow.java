@@ -2,7 +2,7 @@
  * File Created: Tuesday, 27th November 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Friday, 30th November 2018
+ * Last Modified: Friday, 7th December 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Remi
@@ -86,6 +86,7 @@ public class InnoRow {
 
     ArrayList<? extends ImmutableSeat> seats = row.getSeats();
     for (ImmutableSeat seat : seats) {
+      
       double[] points = shape.parentToLocal(
           new double[] { _engine.meterToPixel(seat.getPosition()[0]), _engine.meterToPixel(seat.getPosition()[1]) });
       Circle circle = new Circle(points[0], points[1], vitalSpace[1] / 3);

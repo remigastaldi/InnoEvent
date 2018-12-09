@@ -2,7 +2,7 @@
  * File Created: Sunday, 14th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Friday, 30th November 2018
+ * Last Modified: Friday, 7th December 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -17,25 +17,21 @@ import java.util.HashMap;
 import com.inno.ui.engine.CircleAnchor;
 import com.inno.ui.engine.CustomCursor;
 import com.inno.ui.engine.Engine;
-import com.sun.scenario.effect.Effect;
 
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.event.EventType;
 import javafx.geometry.Point2D;
 import javafx.scene.Group;
-import javafx.scene.Node;
-import javafx.scene.effect.BlurType;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Shape;
 import javafx.scene.transform.Rotate;
-import javafx.scene.transform.Transform;
 
 public abstract class InteractiveShape<T extends Shape> {
-  private Engine  _engine = null;
+  private Engine _engine = null;
   private Pane _pane = null;
   private HashMap<EventType<MouseEvent>, EventHandler<MouseEvent>> _eventHandlers = new HashMap<>();
   private ArrayList<Shape> _outBoundShapes = new ArrayList<>();
@@ -70,8 +66,11 @@ public abstract class InteractiveShape<T extends Shape> {
   public boolean onFormComplete() { return true; }
   public boolean onSelected() { return true; }
   public boolean onDestroy() { return true; }
-  public boolean onShapeResized() { return true; }
+  
   public boolean onShapeMoved() { return true; }
+  
+  public boolean onAnchorDragged() { return true; }
+  public boolean onAnchorReleased() { return true; }
 
   public abstract void start();
 
@@ -194,7 +193,8 @@ public abstract class InteractiveShape<T extends Shape> {
   }
 
   public void setRotationAngle(double rotation) {
-    setRotation(new Rotate(rotation, _currentRotation.getPivotX(), _currentRotation.getPivotY()));
+    _currentRotation.setAngle(rotation);
+    // setRotation(new Rotate(rotation, _currentRotation.getPivotX(), _currentRotation.getPivotY()));
   }
   
   public void setRotation(double angle, double x, double y) {

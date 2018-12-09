@@ -2,7 +2,7 @@
  * File Created: Sunday, 14th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Sunday, 2nd December 2018
+ * Last Modified: Monday, 3rd December 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -121,7 +121,7 @@ public class InnoPolygon extends InteractivePolygon {
   }
 
   @Override
-  public boolean onShapeResized() {
+  public boolean onAnchorDragged() {
     Core.get().updateSectionPositions(getID(), ((InnoEngine)Engine()).pixelToMeter(getPointsInParent()), false);
     // Core.get().setSectionRotation(getID(), getRotation().getAngle());
     updateFromData();

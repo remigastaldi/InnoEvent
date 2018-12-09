@@ -2,7 +2,7 @@
  * File Created: Friday, 12th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Sunday, 2nd December 2018
+ * Last Modified: Monday, 3rd December 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -75,7 +75,7 @@ public class InnoEngine extends Engine {
     InnoRectangle shape = new InnoRectangle(this, getPane(), pos[0], pos[1],
       meterToPixel(dto.getWidth()), meterToPixel(dto.getHeight()), new Rotate(dto.getRotation(), pos[0] + meterToPixel(dto.getWidth()), pos[1] + meterToPixel(dto.getHeight())), Color.ROYALBLUE) {
         @Override
-        public boolean onShapeResized() {
+        public boolean onAnchorDragged() {
           Core.get().setScenePositions(pixelToMeter(getPointsInParent()));
           Core.get().setSceneWidth(pixelToMeter(this.getWidth()));
           Core.get().setSceneHeight(pixelToMeter(this.getHeight()));
