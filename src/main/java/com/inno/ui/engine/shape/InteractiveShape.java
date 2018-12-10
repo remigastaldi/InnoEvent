@@ -69,6 +69,7 @@ public abstract class InteractiveShape<T extends Shape> {
   
   public boolean onShapeMoved() { return true; }
   
+  public boolean onAnchorPressed() { return true; }
   public boolean onAnchorDragged() { return true; }
   public boolean onAnchorReleased() { return true; }
 

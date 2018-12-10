@@ -23,6 +23,7 @@ import com.inno.ui.innoengine.InnoRow;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.transform.Rotate;
 
 public class InnoRectangle extends InteractiveRectangle {
@@ -31,6 +32,8 @@ public class InnoRectangle extends InteractiveRectangle {
   private ImmutableSittingSection _sectionData = null;
   private InnoRow[] _rows = null;
   private boolean _mousePressed = false;
+  private Rectangle _ghost = null;
+  private Rotate _ghostRotation = null;
 
   public InnoRectangle(InnoEngine engine, Pane pane) {
     super(engine, pane);
@@ -118,17 +121,38 @@ public class InnoRectangle extends InteractiveRectangle {
   }
 
   @Override
+  public boolean onAnchorPressed() {
+    _ghost = new Rectangle(getX(), getY(), getWidth(), getHeight());
+    _ghost.setFill(Color.TRANSPARENT);
+    _ghost.setStroke(Color.GOLD);
+    _ghost.setStrokeWidth(1d);
+
+    _ghostRotation = new Rotate(getRotation().getAngle(), getX(), getY());
+    _ghost.getTransforms().add(_ghostRotation);
+
+    Pane().getChildren().add(_ghost);
+    return true;
+  }
+
+  @Override
   public boolean onAnchorDragged() {
     if (_sectionData == null)
       return true;
 
-    Core.get().updateSectionPositions(getID(), ((InnoEngine)Engine()).pixelToMeter(getNoRotatedParentPos()), true);
+    double[] pos = getNoRotatedParentPos();
+    Core.get().updateSectionPositions(getID(), ((InnoEngine)Engine()).pixelToMeter(pos), true);
     updateRowsFromData(true);
+    updateRectangleGhost(pos);
+
     return true;
   }
 
   @Override
   public boolean onAnchorReleased() {
+    Pane().getChildren().remove(_ghost);
+    _ghost = null;
+    _ghostRotation = null;
+
     double[] parent = getPointsInParent();
     
     getRotation().setAngle(0);
@@ -143,6 +167,7 @@ public class InnoRectangle extends InteractiveRectangle {
     double rotation = _sectionData != null ? _sectionData.getRotation() : 0;
     setRotation(new Rotate(rotation, pos[0], pos[1]));
     updateRowsFromData(false);
+
     return true;
   }
 
@@ -254,5 +279,15 @@ public class InnoRectangle extends InteractiveRectangle {
       _rows[i] = new InnoRow(engine, this, _sectionData, row, toParent);
       ++i;
     }
+  }
+
+  private void updateRectangleGhost(double[] pos) {
+	  _ghost.setWidth(getWidth());
+    _ghost.setHeight(getHeight());
+    _ghost.setX(pos[0]);
+    _ghost.setY(pos[1]);
+    _ghostRotation.setPivotX(pos[0]);
+    _ghostRotation.setPivotY(pos[1]);
+    _ghostRotation.setAngle(_sectionData.getRotation());
   }
 }

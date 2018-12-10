@@ -2,7 +2,7 @@
  * File Created: Wednesday, 21st November 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Friday, 7th December 2018
+ * Last Modified: Monday, 10th December 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -72,6 +72,7 @@ public class CircleAnchor extends Circle {
     setOnMousePressed(mouseEvent -> {
       _mousePressed = true;
       _engine.getCursor().setShape(this, true);
+      _interactiveShape.onAnchorPressed();
     });
 
     setOnMouseReleased(mouseEvent -> { 
