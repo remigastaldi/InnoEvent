@@ -237,13 +237,13 @@ public class Room implements ImmutableRoom, Serializable {
 		double vitalSpaceHeight = ((ImmutableSittingSection) section).getImmutableVitalSpace().getHeight();
 		double vitalSpaceWidth = ((ImmutableSittingSection) section).getImmutableVitalSpace().getWidth();
 
-		while (yRow < positions[7] - vitalSpaceWidth) {
+		while (yRow < positions[7] - vitalSpaceHeight * 0.99) {
 		    double[] posStart = { xRow + (vitalSpaceWidth / 2), yRow + (vitalSpaceHeight / 2) };
             double[] posEnd = { positions[0] + (int)((positions[2] - positions[0]) / vitalSpaceWidth) * vitalSpaceWidth - vitalSpaceWidth / 2, yRow + (vitalSpaceHeight / 2) };
             ImmutableSittingRow row = createSittingRow(section.getIdSection(), posStart, posEnd);
 		    Core.get().createPlace(section.getIdSection() + "|" + row.getIdRow(), "#7289DA");
             
-		    while (xSeat < positions[2] - vitalSpaceHeight) {
+		    while (xSeat < positions[2] - vitalSpaceWidth * 0.99) {
                 double[] seatPos = { xSeat + (vitalSpaceWidth / 2), ySeat + (vitalSpaceHeight / 2) };
 		        ImmutableSeat seat = createSeat(section.getIdSection(), row.getIdRow(), seatPos);
 		        Core.get().createPlace(section.getIdSection() + "|" + row.getIdRow() + "|" + seat.getId(), "#FFA500");

@@ -94,9 +94,9 @@ public class InnoRectangle extends InteractiveRectangle {
     _mousePressed = false;
 
     if (getWidth() < (_xVitalSpace))
-      setWidth (_xVitalSpace * 1.05);
+      setWidth (_xVitalSpace);
     if (getHeight() < (_yVitalSpace))
-      setHeight (_yVitalSpace * 1.05);
+      setHeight (_yVitalSpace);
 
     _sectionData = Core.get().createSittingSection(((InnoEngine)Engine()).pixelToMeter(getNoRotatedParentPos()), 0, true);
     setID(_sectionData.getIdSection());
