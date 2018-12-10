@@ -2,7 +2,7 @@
  * File Created: Saturday, 27th October 2018
  * Author: HUBERT Léo
  * -----
- * Last Modified: Wednesday, 28th November 2018
+ * Last Modified: Monday, 10th December 2018
  * Modified By: HUBERT Léo
  * -----
  * Copyright - 2018 HUBERT Léo
@@ -174,6 +174,26 @@ public class Pricing implements Serializable {
     }
   }
 
+  private String getNextOfferConditionName(String offerName) {
+    String name = "Untitled";
+    int i = 1;
+    while (true) {
+      boolean find = false;
+      for (Map.Entry<String, ? extends ImmutableOfferCondition> entry : _offers.get(offerName).getOfferConditions()
+          .entrySet()) {
+        String offerConditionName = entry.getKey();
+        if (offerConditionName.equals(name + i) == true) {
+          find = true;
+        }
+      }
+      if (!find) {
+        return name + i;
+      } else {
+        i = i + 1;
+      }
+    }
+  }
+
   /**
    * Create Offer with a name, description, reduction and reductionType
    * 
@@ -184,13 +204,13 @@ public class Pricing implements Serializable {
    * @return
    */
   public ImmutableOffer createOffer(String name, String description, double reduction, String reductionType) {
-    ReductionType reductionType2 = getEnumFromString(ReductionType.class, reductionType);
+    ReductionType reductionTypeEnum = getEnumFromString(ReductionType.class, reductionType);
 
     if (name == null) {
       name = getNextOfferName();
     }
 
-    Offer offer = new Offer(name, description, reduction, reductionType2);
+    Offer offer = new Offer(name, description, reduction, reductionTypeEnum);
 
     this._offers.put(name, offer);
     return offer;
@@ -226,6 +246,7 @@ public class Pricing implements Serializable {
     if (offer == null) {
       return null;
     }
+
     offer.setName(newName);
 
     this._offers.put(newName, offer);
@@ -261,13 +282,19 @@ public class Pricing implements Serializable {
 
   // TODO: Changes alls enums to string
   public ImmutableOfferCondition createOfferCondition(String offerName, String offerConditionName, String description,
-      LogicalOperator logicalOperator) {
+      String logicalOperator) {
+    LogicalOperator logicalOperatorEnum = getEnumFromString(LogicalOperator.class, logicalOperator);
     Offer offer = this._offers.get(offerName);
 
     if (offer == null) {
       return null;
     }
-    OfferCondition offerCondition = new OfferCondition(offerConditionName, description, logicalOperator);
+
+    if (offerConditionName == null) {
+      offerConditionName = getNextOfferConditionName(offer.getName());
+    }
+
+    OfferCondition offerCondition = new OfferCondition(offerConditionName, description, logicalOperatorEnum);
     offer.addCondition(offerCondition);
     return offerCondition;
   }
@@ -289,6 +316,16 @@ public class Pricing implements Serializable {
       return null;
     }
     return offer.getOfferConditions();
+  }
+
+  public void setOfferConditionName(String offerName, String offerConditionName, String nName) {
+    Offer offer = this._offers.get(offerName);
+
+    if (offer == null) {
+      return;
+    }
+
+    offer.setOfferConditionName(offerConditionName, nName);
   }
 
   public void setOfferConditionDescription(String offerName, String offerConditionName, String description) {
@@ -340,13 +377,21 @@ public class Pricing implements Serializable {
     return offer.getOfferConditions().get(offerConditionName);
   }
 
+  public ImmutableOfferCondition getImmutableOfferCondition(String offerName, String offerConditionName) {
+    return this.getOfferCondition(offerName, offerConditionName);
+  }
+
   public ImmutableOfferOperation createOfferConditionOperation(String offerName, String offerConditionName,
-      String value, RelationalOperator relationalOperator, LogicalOperator logicalOperator) {
+      String value, String relationalOperator, String logicalOperator) {
+
+    LogicalOperator logicalOperatorEnum = getEnumFromString(LogicalOperator.class, logicalOperator);
+    RelationalOperator relationalOperatorEnum = getEnumFromString(RelationalOperator.class, relationalOperator);
+
     OfferCondition offerCondition = this.getOfferCondition(offerName, offerConditionName);
     if (offerCondition == null) {
       return null;
     }
-    OfferOperation offerOperation = new OfferOperation(value, relationalOperator, logicalOperator);
+    OfferOperation offerOperation = new OfferOperation(value, relationalOperatorEnum, logicalOperatorEnum);
     offerCondition.addOperation(offerOperation);
     return offerOperation;
   }
@@ -396,4 +441,5 @@ public class Pricing implements Serializable {
   public String[] getRelationalOperatorTypePossibilities() {
     return this.getEnumToStringArray(RelationalOperator.class);
   }
+
 };

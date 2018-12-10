@@ -2,8 +2,8 @@
  * File Created: Friday, 26th October 2018
  * Author: GASTALDI R??mi
  * -----
- * Last Modified: Monday, 26th November 2018
- * Modified By: MAREL Maud
+ * Last Modified: Monday, 10th December 2018
+ * Modified By: HUBERT Léo
  * -----
  * Copyright - 2018 GASTALDI R??mi
  * <<licensetext>>
@@ -23,18 +23,12 @@ import com.inno.ui.innoengine.shape.InnoRectangle;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
-import javafx.beans.property.SimpleDoubleProperty;
-import javafx.util.converter.NumberStringConverter;
-import javafx.beans.value.ChangeListener;
 
 public class NewSceneController extends ViewController {
   @FXML
   private TextField width_input;
   @FXML
   private TextField height_input;
-
-  private SimpleDoubleProperty widthInput = new SimpleDoubleProperty();
-  private SimpleDoubleProperty heightInput = new SimpleDoubleProperty();
 
   public NewSceneController() {
   }

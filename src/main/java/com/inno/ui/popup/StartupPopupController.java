@@ -2,7 +2,7 @@
  * File Created: Wednesday, 26th September 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Thursday, 6th December 2018
+ * Last Modified: Monday, 10th December 2018
  * Modified By: HUBERT Léo
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -24,7 +24,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
-import javafx.stage.Stage;
 import javafx.scene.layout.Pane;
 
 public class StartupPopupController extends ViewController {
@@ -53,16 +52,10 @@ public class StartupPopupController extends ViewController {
       _path = path;
     }
 
-    /**
-     * @return the _path
-     */
     public String getPath() {
       return _path;
     }
 
-    /**
-     * @return the _name
-     */
     public String getName() {
       return _name;
     }
@@ -94,7 +87,7 @@ public class StartupPopupController extends ViewController {
   }
 
   public void init() {
-    // View().openPopup("offer_manager.fxml");
+    View().openPopup("offer_manager.fxml");
   }
 
   @FXML

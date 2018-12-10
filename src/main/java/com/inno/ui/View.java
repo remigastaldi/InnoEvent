@@ -2,7 +2,7 @@
  * File Created: Wednesday, 10th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Monday, 26th November 2018
+ * Last Modified: Monday, 10th December 2018
  * Modified By: HUBERT Léo
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -140,12 +140,20 @@ public class View extends Application {
   }
 
   public void openViewWithAnimation(String fxmlFileName, AnimationDirection animationTo, AnchorPane anchor_root) {
+    this.openViewWithAnimation(fxmlFileName, animationTo, anchor_root, null);
+  }
+
+  public void openViewWithAnimation(String fxmlFileName, AnimationDirection animationTo, AnchorPane anchor_root, Object intent) {
     StackPane parentContainer = (StackPane) anchor_root.getScene().getRoot();
     Scene scene = parentContainer.getScene();
     try {
       FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/" + fxmlFileName));
-
       Parent newAnchor = (Parent) fxmlLoader.load();
+
+      ViewController view = fxmlLoader.getController();
+      view.setView(this);
+      view.addIntent(intent);
+      view.init();
 
       ViewController viewController = fxmlLoader.<ViewController>getController();
       viewController.setView(this);

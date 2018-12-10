@@ -3,7 +3,7 @@
  * Author: GASTALDI Rémi
  * -----
  * Last Modified: Monday, 10th December 2018
- * Modified By: GASTALDI Rémi
+ * Modified By: HUBERT Léo
  * -----
  * Copyright - 2018 GASTALDI Rémi
  * <<licensetext>>
@@ -25,6 +25,8 @@ import com.inno.service.Point;
 import com.inno.service.SettingsService;
 import com.inno.service.Utils;
 import com.inno.service.pricing.ImmutableOffer;
+import com.inno.service.pricing.ImmutableOfferCondition;
+import com.inno.service.pricing.ImmutableOfferOperation;
 import com.inno.service.pricing.PlaceRate;
 import com.inno.service.pricing.ImmutablePlaceRate;
 import com.inno.service.pricing.Pricing;
@@ -316,8 +318,25 @@ public class Core {
     return _pricing.createOffer(name, description, reduction, reductionType);
   }
 
+  public ImmutableOfferCondition createOfferCondition(String offerName, String offerConditionName, String description,
+      String logicalOperator) {
+    return _pricing.createOfferCondition(offerName, offerConditionName, description, logicalOperator);
+  }
+  
+  public ImmutableOfferOperation createOfferConditionOperation(String offerName, String offerConditionName, String value, String relationalOperator, String logicalOperator) {
+    return  _pricing.createOfferConditionOperation(offerName, offerConditionName, value, relationalOperator, logicalOperator);
+  }
+
   public ImmutableOffer getOffer(String name) {
     return _pricing.getOffer(name);
+  }
+
+  public HashMap<String, ? extends ImmutableOfferCondition> getOfferConditions(String offerName) {
+    return _pricing.getOfferConditions(offerName);
+  }
+
+  public ImmutableOfferCondition getOfferCondition(String offerName, String offerCondtionName) {
+    return _pricing.getImmutableOfferCondition(offerName, offerCondtionName);
   }
 
   public void setOfferReduction(String name, double reduction) {
@@ -327,6 +346,16 @@ public class Core {
   public ImmutableOffer setOfferName(String name, String newName) {
     return _pricing.setOfferName(name, newName);
   }
+
+  public void setOfferConditionName(String offerName, String offerConditionName, String nName) {
+    _pricing.setOfferConditionName(offerName, offerConditionName, nName);
+  }
+  
+  public void setOfferConditionDescription(String offerName, String offerConditionName, String description) {
+    _pricing.setOfferConditionDescription(offerName, offerConditionName, description);
+
+  }
+  
 
   public HashMap<String, ? extends ImmutablePlaceRate> getPrices() {
     return _pricing.getPlaces();
@@ -347,5 +376,4 @@ public class Core {
   public Object getSettingsValue(String key) {
     return _settings.get(key);
   }
-
 };

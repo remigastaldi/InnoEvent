@@ -2,7 +2,7 @@
  * File Created: Friday, 26th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Wednesday, 28th November 2018
+ * Last Modified: Monday, 10th December 2018
  * Modified By: HUBERT Léo
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -16,14 +16,17 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import com.inno.service.pricing.ImmutableOffer;
+import com.inno.service.pricing.ImmutableOfferCondition;
 import com.inno.ui.Validator;
 import com.inno.ui.ViewController;
+import com.inno.ui.View.AnimationDirection;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 
@@ -44,7 +47,8 @@ public class OfferManagerController extends ViewController {
     @FXML
     private StackPane parentContainer;
 
-    ObservableList<String> _items = FXCollections.observableArrayList();
+    ObservableList<String> _offerList = FXCollections.observableArrayList();
+    ObservableList<String> _offerConditionList = FXCollections.observableArrayList();
     ImmutableOffer _selectedOffer = null;
 
     public OfferManagerController() {
@@ -52,7 +56,11 @@ public class OfferManagerController extends ViewController {
         Core().createOffer("toto2", "Je sais pas encore", 50, "PERCENTAGE");
         Core().createOffer("toto4", "Je sais pas encore", 50, "PERCENTAGE");
 
-        // Core().createOfferCondition();
+        Core().createOfferCondition("toto1", "totocondition1", "Je ne sais pas non plus mdr", "AND");
+        Core().createOfferCondition("toto1", "totocondition2", "Je ne sais pas non plus mdr", "AND");
+        Core().createOfferCondition("toto1", "totocondition3", "Je ne sais pas non plus mdr", "AND");
+
+        Core().createOfferConditionOperation("toto1", "totocondition1", "20", "EQUALS", "AND");
     }
 
     private void setSelectedOffer(ImmutableOffer offer) {
@@ -69,7 +77,7 @@ public class OfferManagerController extends ViewController {
                 offerList.scrollTo(i);
             }
         }
-        
+
         if (!offerNameInput.getText().equals(offer.getName())) {
             offerNameInput.setText(offer.getName());
         }
@@ -77,26 +85,51 @@ public class OfferManagerController extends ViewController {
             offerReductionInput.setText(Double.toString(offer.getReduction()));
         }
         _selectedOffer = offer;
+        refreshOfferConditionList(offer.getName());
     }
 
     @FXML
     private void initialize() {
-        offerList.setItems(_items);
+        offerList.setItems(_offerList);
+        offerConditionList.setItems(_offerConditionList);
         refreshOfferList();
     }
 
     @FXML
-    private void onMouseClicked() {
+    private void offerListOnMouseClicked() {
+        System.out.println(offerList.getSelectionModel().getSelectedItem().toString());
         ImmutableOffer offer = Core().getOffer(offerList.getSelectionModel().getSelectedItem().toString());
+        if (offer == null) {
+            return;
+        }
         setSelectedOffer(offer);
     }
 
+    @FXML
+    private void offerConditionListOnMouseClicked(MouseEvent click) {
+        if (click.getClickCount() == 2) {
+            ImmutableOfferCondition offerCondition = Core().getOfferCondition(_selectedOffer.getName(),
+                    offerConditionList.getSelectionModel().getSelectedItem().toString());
+            View().openViewWithAnimation("popup/offer_condition_manager.fxml", AnimationDirection.LEFT, anchor_root,
+                    offerCondition);
+        }
+    }
+
+    private void refreshOfferConditionList(String offerName) {
+        _offerConditionList.clear();
+        HashMap<String, ? extends ImmutableOfferCondition> offersCondition = Core().getOfferConditions(offerName);
+        for (Map.Entry<String, ? extends ImmutableOfferCondition> entry : offersCondition.entrySet()) {
+            String offerConditionName = entry.getKey();
+            _offerConditionList.add(offerConditionName);
+        }
+    }
+
     private void refreshOfferList() {
-        _items.clear();
+        _offerList.clear();
         HashMap<String, ? extends ImmutableOffer> offers = Core().getOffers();
         for (Map.Entry<String, ? extends ImmutableOffer> entry : offers.entrySet()) {
             String offerName = entry.getKey();
-            _items.add(offerName);
+            _offerList.add(offerName);
         }
     }
 
@@ -105,11 +138,15 @@ public class OfferManagerController extends ViewController {
         ImmutableOffer offer = Core().createOffer(null, "", 0, "PERCENTAGE");
         refreshOfferList();
         setSelectedOffer(offer);
+        _offerConditionList.clear();
     }
 
     @FXML
     private void createNewConditionAction() {
-
+        ImmutableOfferCondition offerCondition = Core().createOfferCondition(_selectedOffer.getName(), null, "", "AND");
+        refreshOfferConditionList(_selectedOffer.getName());
+        View().openViewWithAnimation("popup/offer_condition_manager.fxml", AnimationDirection.LEFT, anchor_root,
+                offerCondition);
     }
 
     @FXML
@@ -150,5 +187,10 @@ public class OfferManagerController extends ViewController {
 
     @Override
     public void init() {
+        ImmutableOffer offer = (ImmutableOffer) this.getIntent();
+        if (offer == null) {
+            return;
+        }
+        setSelectedOffer(offer);
     }
 }

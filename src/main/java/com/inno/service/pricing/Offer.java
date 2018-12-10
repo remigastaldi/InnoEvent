@@ -2,7 +2,7 @@
  * File Created: Friday, 12th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Wednesday, 28th November 2018
+ * Last Modified: Monday, 10th December 2018
  * Modified By: HUBERT Léo
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -67,6 +67,7 @@ public class Offer implements ImmutableOffer, Serializable {
   }
 
   public void addCondition(OfferCondition offerCondition) {
+    offerCondition.setParentOffer(this);
     this._offerConditions.put(offerCondition.getName(), offerCondition);
   }
 
@@ -76,5 +77,17 @@ public class Offer implements ImmutableOffer, Serializable {
 
   public HashMap<String, OfferCondition> getOfferConditions() {
     return this._offerConditions;
+  }
+
+  public void setOfferConditionName(String offerConditionName, String nName) {
+    OfferCondition offerCondition = _offerConditions.remove(offerConditionName);
+
+    if (offerCondition == null) {
+      return;
+    }
+
+    offerCondition.setName(nName);
+
+    _offerConditions.put(nName, offerCondition);
   }
 };

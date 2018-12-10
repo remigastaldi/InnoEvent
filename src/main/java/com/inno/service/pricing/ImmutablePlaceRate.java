@@ -2,7 +2,7 @@
  * File Created: Saturday, 27th October 2018
  * Author: HUBERT Léo
  * -----
- * Last Modified: Wednesday, 28th November 2018
+ * Last Modified: Monday, 10th December 2018
  * Modified By: HUBERT Léo
  * -----
  * Copyright - 2018 HUBERT Léo
@@ -15,11 +15,11 @@ import java.util.ArrayList;
 
 public interface ImmutablePlaceRate {
 
-    public String getId();
+  public String getId();
 
-    public double getPrice();
+  public double getPrice();
 
-    public String getColor();
+  public String getColor();
 
-    public ArrayList<String> getOffers();
+  public ArrayList<String> getOffers();
 }
