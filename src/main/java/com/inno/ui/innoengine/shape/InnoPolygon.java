@@ -2,7 +2,7 @@
  * File Created: Sunday, 14th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Monday, 3rd December 2018
+ * Last Modified: Sunday, 9th December 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -169,7 +169,7 @@ public class InnoPolygon extends InteractivePolygon {
     int i = 0;
     for (ImmutableSittingRow row : rows) {
       InnoEngine engine = (InnoEngine) ((InnoEngine)Engine());
-      _rows[i] = new InnoRow(engine, this, _sittingSectionData, row);
+      _rows[i] = new InnoRow(engine, this, _sittingSectionData, row, false);
       ++i;
     }
   }

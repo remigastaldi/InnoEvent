@@ -2,8 +2,8 @@
  * File Created: Friday, 12th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Thursday, 6th December 2018
- * Modified By: MAREL Maud
+ * Last Modified: Sunday, 9th December 2018
+ * Modified By: GASTALDI Rémi
 
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -237,21 +237,19 @@ public class Room implements ImmutableRoom, Serializable {
 		double vitalSpaceHeight = ((ImmutableSittingSection) section).getImmutableVitalSpace().getHeight();
 		double vitalSpaceWidth = ((ImmutableSittingSection) section).getImmutableVitalSpace().getWidth();
 
-		// System.out.println("....................... " + yRow + " : " + positions[7]);
-		while (yRow < positions[7]) {
+		while (yRow < positions[7] - vitalSpaceWidth) {
 		    double[] posStart = { xRow + (vitalSpaceWidth / 2), yRow + (vitalSpaceHeight / 2) };
-		    double[] posEnd = { positions[2] - (vitalSpaceWidth / 2), yRow + (vitalSpaceHeight / 2) };
-		    ImmutableSittingRow row = createSittingRow(section.getIdSection(), posStart, posEnd);
+            double[] posEnd = { positions[0] + (int)((positions[2] - positions[0]) / vitalSpaceWidth) * vitalSpaceWidth - vitalSpaceWidth / 2, yRow + (vitalSpaceHeight / 2) };
+            ImmutableSittingRow row = createSittingRow(section.getIdSection(), posStart, posEnd);
 		    Core.get().createPlace(section.getIdSection() + "|" + row.getIdRow(), "#7289DA");
-
-		    while (xSeat < positions[2]) {
-		        double[] seatPos = { xSeat + (vitalSpaceWidth / 2), ySeat + (vitalSpaceHeight / 2) };
+            
+		    while (xSeat < positions[2] - vitalSpaceHeight) {
+                double[] seatPos = { xSeat + (vitalSpaceWidth / 2), ySeat + (vitalSpaceHeight / 2) };
 		        ImmutableSeat seat = createSeat(section.getIdSection(), row.getIdRow(), seatPos);
-		        Core.get().createPlace(section.getIdSection() + "|" + row.getIdRow() + "|" + seat.getId(),
-		                "#FFA500");
-
+		        Core.get().createPlace(section.getIdSection() + "|" + row.getIdRow() + "|" + seat.getId(), "#FFA500");
 		        xSeat += vitalSpaceWidth;
 		    }
+
 		    yRow += vitalSpaceHeight;
             xSeat = positions[0];
             ySeat += vitalSpaceHeight;

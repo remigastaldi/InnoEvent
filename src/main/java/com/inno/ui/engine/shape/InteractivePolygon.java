@@ -2,7 +2,7 @@
  * File Created: Sunday, 14th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Sunday, 2nd December 2018
+ * Last Modified: Sunday, 9th December 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -274,5 +274,27 @@ public class InteractivePolygon extends InteractiveShape<Polygon> {
   @Override
   public double[] getPointsInParent() {
     return localToParent(getPoints());
-  }  
+  }
+  public double[] getNoRotatedParentPos() {
+    double[] rotated = getPointsInParent();
+    double[] pos = new double[rotated.length];
+    // TODO
+    return pos;
+  }
+
+
+  public double[] noRotatedParentPointsToRotated(double pos[]) {
+    double[] rotated = new double[pos.length];
+    double[] rect = getPointsInParent();
+
+    Rotate rotate = new Rotate(getRotation().getAngle(), rect[0], rect[1]);
+    
+    for (int i = 0; i < pos.length; i += 2) {
+      Point2D pt = rotate.transform(pos[i], pos[i + 1]);
+      rotated[i] = pt.getX();
+      rotated[i + 1] = pt.getY();
+    }
+
+    return rotated;
+  }
 }

@@ -2,7 +2,7 @@
  * File Created: Tuesday, 27th November 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Friday, 7th December 2018
+ * Last Modified: Sunday, 9th December 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Remi
@@ -20,6 +20,7 @@ import com.inno.app.room.ImmutableSittingRow;
 import com.inno.app.room.ImmutableSittingSection;
 import com.inno.ui.engine.shape.InteractiveShape;
 
+import javafx.geometry.Point2D;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
@@ -27,6 +28,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import javafx.scene.transform.Rotate;
 
 public class InnoRow {
   private Line _line = null;
@@ -37,31 +39,53 @@ public class InnoRow {
   private HashMap<Integer, Circle> _seats = new HashMap<>();
   private Shape[] _text = new Shape[2];
   private ImmutableSeat _selectedSeat = null;
+  private boolean _toParent = false;
 
   public InnoRow(InnoEngine engine, InteractiveShape<? extends Shape> shape, ImmutableSittingSection section,
-      ImmutableSittingRow row) {
+      ImmutableSittingRow row, boolean toParent) {
     _engine = engine;
     _intShape = shape;
     _section = section;
     _row = row;
+    _toParent = toParent;
+
     double[] vitalSpace = engine.meterToPixel(new double[]{section.getImmutableVitalSpace().getWidth(), section.getImmutableVitalSpace().getHeight()});
 
-    double[] start = shape.parentToLocal(_engine.meterToPixel(row.getPosStartRow()));
-    double[] end = shape.parentToLocal(_engine.meterToPixel(row.getPosEndRow()));
+
+    double[] start = null;
+    double[] end = null;
+
+    if (toParent) {
+      start = _intShape.noRotatedParentPointsToRotated(_engine.meterToPixel(row.getPosStartRow()));
+      end = _intShape.noRotatedParentPointsToRotated(_engine.meterToPixel(row.getPosEndRow()));
+    } else {
+      start = _intShape.parentToLocal(_intShape.noRotatedParentPointsToRotated(_engine.meterToPixel(row.getPosStartRow())));
+      end =  _intShape.parentToLocal(_intShape.noRotatedParentPointsToRotated(_engine.meterToPixel(row.getPosEndRow())));
+    }
+
     _line = new Line(start[0], start[1], end[0], end[1]);
     _line.setStrokeWidth(vitalSpace[1] / 4);
 
-    shape.addAdditionalShape(_line);
+    if (_toParent)
+      _engine.getPane().getChildren().add(_line);
+    else
+      shape.addAdditionalShape(_line);
+
     _line.setOnMouseClicked(event -> {
       selectRowSidebar();
     });
 
-    Rectangle rect = new Rectangle(_line.getEndX() + vitalSpace[1] / 2, _line.getEndY() - vitalSpace[1] / 4, vitalSpace[1],
+    double[] endX = null;
+
+    if (toParent)
+      endX = _intShape.parentToLocal(new double[]{_line.getEndX() + vitalSpace[1] / 2, _line.getEndY() - vitalSpace[1] / 4});
+    else
+      endX = new double[]{_line.getEndX() + vitalSpace[1] / 2, _line.getEndY() - vitalSpace[1] / 4};
+  
+    Rectangle rect = new Rectangle(endX[0], endX[1], vitalSpace[1],
         vitalSpace[0] / 2);
-    // rect.setStroke(Color.DARKSLATEGRAY);
     rect.setFill(Color.BLACK);
     rect.setOpacity(0.5);
-    // rect.setStroke(Color.ORANGE);
     rect.setArcHeight(3);
     rect.setArcWidth(3);
     rect.setOnMouseClicked(event -> {
@@ -69,9 +93,20 @@ public class InnoRow {
       selectRowSidebar();
       _selectedSeat = null;
     });
-    shape.addSelectShape(rect);
+    
+    if (toParent) {
+      // _engine.getPane().getChildren().add(rect);
+      // rect.getTransforms().add(shape.getRotation());
+    }
+    else
+      shape.addSelectShape(rect);
 
-    Text text = new Text(_line.getEndX() + vitalSpace[1] / 1.5, _line.getEndY() + vitalSpace[1] / 7, row.getIdRow());
+    if (toParent)
+      endX = _intShape.parentToLocal(new double[]{_line.getEndX() + vitalSpace[1] / 1, _line.getEndY() + vitalSpace[1] / 7});
+    else
+      endX = new double[]{_line.getEndX() + vitalSpace[1] / 1, _line.getEndY() + vitalSpace[1] / 7};
+
+    Text text = new Text(endX[0], endX[1], row.getIdRow());
     text.setFill(Color.WHITE);
     text.setFont(new Font(vitalSpace[1] / 3));
     text.setOnMouseClicked(event -> {
@@ -79,16 +114,27 @@ public class InnoRow {
       selectRowSidebar();
       _selectedSeat = null;
     });
-    shape.addSelectShape(text);
+    
+    if (toParent) {
+      // _engine.getPane().getChildren().add(text);
+      // text.getTransforms().add(shape.getRotation());
+    }
+    else
+      shape.addSelectShape(text);
 
     _text[0] = rect;
     _text[1] = text;
 
     ArrayList<? extends ImmutableSeat> seats = row.getSeats();
     for (ImmutableSeat seat : seats) {
-      
-      double[] points = shape.parentToLocal(
+      double[] points = null;
+      if (toParent) {
+        points = _intShape.noRotatedParentPointsToRotated(
           new double[] { _engine.meterToPixel(seat.getPosition()[0]), _engine.meterToPixel(seat.getPosition()[1]) });
+      } else {
+        points = _intShape.parentToLocal(_intShape.noRotatedParentPointsToRotated(
+          new double[] { _engine.meterToPixel(seat.getPosition()[0]), _engine.meterToPixel(seat.getPosition()[1]) }));
+      }
       Circle circle = new Circle(points[0], points[1], vitalSpace[1] / 3);
       circle.setFill(getDeriveColor(Color
           .valueOf(Core.get().getSeatPrice(shape.getID(), row.getIdRow(), Integer.toString(seat.getId())).getColor())
@@ -100,7 +146,11 @@ public class InnoRow {
       });
 
       _seats.put(seat.getId(), circle);
-      shape.addAdditionalShape(circle);
+
+      if (_toParent)
+        _engine.getPane().getChildren().add(circle);
+      else
+        shape.addAdditionalShape(circle);
 
       if (Core.get().getSeatPrice(section.getIdSection(), row.getIdRow(), Integer.toString(seat.getId())).getPrice() != -1) {
         setSeatColor(seat.getId(), Color.valueOf(Core.get().getSeatPrice(section.getIdSection(), row.getIdRow(), Integer.toString(seat.getId())).getColor()));
@@ -113,7 +163,6 @@ public class InnoRow {
       resetRowColor();
     }
   }
-
   public void selectRowSidebar() {
     _engine.getView().setSidebarFromFxmlFileName("sidebar_row.fxml", this);
   }
@@ -177,14 +226,25 @@ public class InnoRow {
   }
 
   public void destroy() {
-    _intShape.removeAdditionalShape(_line);
-
+    if (_toParent)
+      _engine.getPane().getChildren().remove(_line);
+    else
+      _intShape.removeAdditionalShape(_line);
+    
     for (Circle seat : _seats.values()) {
-      _intShape.removeAdditionalShape(seat);
+      if (_toParent)
+        _engine.getPane().getChildren().remove(seat);
+      else
+        _intShape.removeAdditionalShape(seat);
     }
 
-    _intShape.removeSelectShape(_text[0]);
-    _intShape.removeSelectShape(_text[1]);
+    if (_toParent) {
+      _engine.getPane().getChildren().remove(_text[0]);
+      _engine.getPane().getChildren().remove(_text[1]);
+    } else {
+      _intShape.removeSelectShape(_text[0]);
+      _intShape.removeSelectShape(_text[1]);
+    }
   }
 
 }

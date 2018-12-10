@@ -2,7 +2,7 @@
  * File Created: Monday, 15th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Friday, 7th December 2018
+ * Last Modified: Sunday, 9th December 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -321,5 +321,37 @@ public class InteractiveRectangle extends InteractiveShape<Rectangle> {
 
   public double[] getPointsInParent() {
     return localToParent(getPoints());
+  }
+
+  public double[] getNoRotatedParentPos() {
+    double[] rotated = getPointsInParent();
+    double[] pos = new double[rotated.length];
+
+    // All points by clock wise
+    pos[0] = rotated[0];
+    pos[1] = rotated[1];
+    pos[2] = pos[0] + getWidth();
+    pos[3] = pos[1];
+    pos[4] = pos[2];
+    pos[5] = pos[1] + getHeight();
+    pos[6] = pos[0];
+    pos[7] = pos[5];
+
+    return pos;
+  }
+
+  public double[] noRotatedParentPointsToRotated(double pos[]) {
+    double[] rotated = new double[pos.length];
+    double[] rect = getPointsInParent();
+
+    Rotate rotate = new Rotate(getRotation().getAngle(), rect[0], rect[1]);
+    
+    for (int i = 0; i < pos.length; i += 2) {
+      Point2D pt = rotate.transform(pos[i], pos[i + 1]);
+      rotated[i] = pt.getX();
+      rotated[i + 1] = pt.getY();
+    }
+
+    return rotated;
   }
 }

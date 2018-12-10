@@ -2,7 +2,7 @@
  * File Created: Sunday, 14th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Friday, 7th December 2018
+ * Last Modified: Sunday, 9th December 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -78,6 +78,8 @@ public abstract class InteractiveShape<T extends Shape> {
   public abstract void setPoints(double[] points);
   public abstract double[] getPoints();
   public abstract double[] getPointsInParent();
+  public abstract double[] getNoRotatedParentPos();
+  public abstract double[] noRotatedParentPointsToRotated(double pos[]);
 
   protected void addOutboundShape(Shape shape) {
     _outBoundShapes.add(shape);
