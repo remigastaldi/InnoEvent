@@ -137,11 +137,7 @@ public class InteractiveRectangle extends InteractiveShape<Rectangle> {
 
     resizeHandleLU.centerXProperty().addListener((ChangeListener<Number>) (ov, oldX, newX) -> {
       if (maxXProperty.get() - _shape.getX() != _shape.getWidth()) {
-        // Point2D pos = _group.localToParent(new Point2D(newX.doubleValue(), getY()));
-        // System.out.println("++++++++++++++++++++++++++++++++++ X " + pos.getX() + " Y " + pos.getY());
-        // System.out.println("++++++++++++++++++++++++++++++++++= X " + newX.doubleValue() + " Y " + getY());
-        // _group.relocate(newX .doubleValue(), getY());
-        // _shape.setX(newX.doubleValue());
+        _shape.setX(newX.doubleValue());
         _shape.setWidth(maxXProperty.get() - _shape.getX());
         // onShapeResized();
       }
@@ -149,9 +145,7 @@ public class InteractiveRectangle extends InteractiveShape<Rectangle> {
     resizeHandleLU.centerYProperty().addListener((ChangeListener<Number>) (ov, oldY, newY) -> {
       if (maxYProperty.get() - _shape.getY() != _shape.getHeight()) {
         // System.out.println("++++++++++++++++++++++++++++++++++= X" + getX() + " Y " + newY.doubleValue());
-      // Point2D pos = _group.localToParent(new Point2D(getX(), newY.doubleValue()));
-      // _group.relocate(getX(), newY.doubleValue());
-      // _shape.setY(newY.doubleValue());
+      _shape.setY(newY.doubleValue());
       _shape.setHeight(maxYProperty.get() - _shape.getY());
       // onShapeResized();
       }

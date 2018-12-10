@@ -2,8 +2,8 @@
  * File Created: Tuesday, 13th November 2018
  * Author: MAREL Maud
  * -----
- * Last Modified: Saturday, 1st December 2018
- * Modified By: HUBERT Léo
+ * Last Modified: Sunday, 9th December 2018
+ * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 MAREL Maud
  * <<licensetext>>
@@ -11,31 +11,25 @@
 
 package com.inno.ui.mainview.sidebar;
 
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
+
 import com.inno.ui.Validator;
 import com.inno.ui.ViewController;
 import com.inno.ui.engine.shape.InteractiveRectangle;
 import com.inno.ui.innoengine.shape.InnoRectangle;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
-
-import java.util.HashMap;
-
-import javafx.beans.property.SimpleDoubleProperty;
-import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.geometry.Bounds;
 import javafx.geometry.Point2D;
 import javafx.scene.Group;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
-import javafx.util.converter.NumberStringConverter;
 
 public class RectangularSectionController extends ViewController {
 
@@ -196,8 +190,8 @@ public class RectangularSectionController extends ViewController {
 
     HashMap<TextField, String> fields = new LinkedHashMap<>();
     fields.put(section_name_input, "required|max:30");
-    fields.put(section_columns_input, "required|numeric");
-    fields.put(section_rows_input, "required|numeric");
+    fields.put(section_columns_input, "required|numeric|min:1");
+    fields.put(section_rows_input, "required|numeric|min:1");
     fields.put(section_vital_space_width_input, "required|numeric");
     fields.put(section_vital_space_height_input, "required|numeric");
     fields.put(section_rotation_input, "required|numeric|min:0|max:360");

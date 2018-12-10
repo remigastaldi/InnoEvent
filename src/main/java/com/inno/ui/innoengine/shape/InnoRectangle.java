@@ -20,17 +20,9 @@ import com.inno.ui.engine.shape.InteractiveRectangle;
 import com.inno.ui.innoengine.InnoEngine;
 import com.inno.ui.innoengine.InnoRow;
 
-import javafx.beans.property.SimpleDoubleProperty;
-import javafx.beans.value.ChangeListener;
-import javafx.geometry.Point2D;
-import javafx.geometry.Point3D;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
-import javafx.scene.shape.Rectangle;
-import javafx.scene.shape.Shape;
-import javafx.scene.transform.NonInvertibleTransformException;
 import javafx.scene.transform.Rotate;
 
 public class InnoRectangle extends InteractiveRectangle {
@@ -101,10 +93,10 @@ public class InnoRectangle extends InteractiveRectangle {
   public boolean onMouseReleased(MouseEvent event) {
     _mousePressed = false;
 
-    if (getWidth() < ((InnoEngine)Engine()).meterToPixel(_xVitalSpace))
-      setWidth(((InnoEngine)Engine()).meterToPixel(_xVitalSpace));
-    if (getHeight() < ((InnoEngine)Engine()).meterToPixel(_yVitalSpace))
-      setHeight(((InnoEngine)Engine()).meterToPixel(_yVitalSpace));
+    if (getWidth() < (_xVitalSpace))
+      setWidth (_xVitalSpace * 1.05);
+    if (getHeight() < (_yVitalSpace))
+      setHeight (_yVitalSpace * 1.05);
 
     _sectionData = Core.get().createSittingSection(((InnoEngine)Engine()).pixelToMeter(getNoRotatedParentPos()), 0, true);
     setID(_sectionData.getIdSection());
@@ -149,7 +141,8 @@ public class InnoRectangle extends InteractiveRectangle {
     Core.get().updateSectionPositions(getID(), ((InnoEngine)Engine()).pixelToMeter(getPointsInParent()), true);
 
     setPoints(pos);
-    setRotation(new Rotate(_sectionData.getRotation(), pos[0], pos[1]));
+    double rotation = _sectionData != null ? _sectionData.getRotation() : 0;
+    setRotation(new Rotate(rotation, pos[0], pos[1]));
     updateRowsFromData(false);
     return true;
   }
@@ -158,7 +151,6 @@ public class InnoRectangle extends InteractiveRectangle {
   public boolean onFormComplete() {
     if (_mousePressed == true) {
     }
-
     return true;
   }
 
@@ -171,10 +163,14 @@ public class InnoRectangle extends InteractiveRectangle {
 
   public void setColumnNumber(int columns) {
     setWidth(_xVitalSpace * columns);
+    Core.get().updateSectionPositions(getID(), ((InnoEngine)Engine()).pixelToMeter(getNoRotatedParentPos()), true);
+    updateFromData();    
   }
 
   public void setRowNumber(int rows) {
     setHeight(_yVitalSpace * rows);
+    Core.get().updateSectionPositions(getID(), ((InnoEngine)Engine()).pixelToMeter(getNoRotatedParentPos()), true);
+    updateFromData();    
   }
 
   public int getColumnNumber() {
