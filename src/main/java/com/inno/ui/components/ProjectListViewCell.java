@@ -19,6 +19,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
+import javafx.scene.control.Tooltip;
 import javafx.scene.layout.GridPane;
 
 public class ProjectListViewCell extends ListCell<Project> {
@@ -31,19 +32,6 @@ public class ProjectListViewCell extends ListCell<Project> {
     private Label project_path_label;
 
     private FXMLLoader mLLoader;
-
-    public ProjectListViewCell() {
-        this.setOnMouseEntered((e) -> {
-            if (project_name_label != null) {
-                project_name_label.setStyle("-fx-text-fill: -fx-primary");
-            }
-        });
-        this.setOnMouseExited((e) -> {
-            if (project_name_label != null) {
-                project_name_label.setStyle("-fx-text-fill: white");
-            }
-        });
-    }
 
     @Override
     protected void updateItem(Project project, boolean empty) {
@@ -67,8 +55,25 @@ public class ProjectListViewCell extends ListCell<Project> {
 
             }
 
+            Tooltip tp = new Tooltip(project.getPath());
+            Tooltip.install(project_path_label, tp);
+
+
             project_name_label.setText(project.getName());
             project_path_label.setText(project.getPath());
+
+            this.setOnMouseEntered((e) -> {
+                if (project_name_label != null) {
+                    tp.show(project_path_label, e.getX(), e.getY());
+                    project_name_label.setStyle("-fx-text-fill: -fx-primary");
+                }
+            });
+            this.setOnMouseExited((e) -> {
+                if (project_name_label != null) {
+                    tp.hide();
+                    project_name_label.setStyle("-fx-text-fill: white");
+                }
+            });
 
             setText(null);
             setGraphic(grid_pane);
