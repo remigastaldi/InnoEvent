@@ -2,7 +2,7 @@
  * File Created: Thursday, 6th December 2018
  * Author: HUBERT Léo
  * -----
- * Last Modified: Thursday, 6th December 2018
+ * Last Modified: Sunday, 9th December 2018
  * Modified By: HUBERT Léo
  * -----
  * Copyright - 2018 HUBERT Léo
@@ -17,6 +17,8 @@ import com.inno.ui.popup.StartupPopupController.Project;
 
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Bounds;
+import javafx.geometry.Point2D;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.Tooltip;
@@ -52,19 +54,26 @@ public class ProjectListViewCell extends ListCell<Project> {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-
             }
 
             Tooltip tp = new Tooltip(project.getPath());
-            Tooltip.install(project_path_label, tp);
-
 
             project_name_label.setText(project.getName());
             project_path_label.setText(project.getPath());
 
+            project_path_label.setOnMouseEntered((e) -> {
+                Bounds bounds = grid_pane.getBoundsInLocal();
+                Bounds screenBounds = grid_pane.localToScreen(bounds);
+                int x = (int) screenBounds.getMinX();
+                int y = (int) screenBounds.getMinY();
+                tp.show(project_path_label, x, y + grid_pane.getHeight());
+            });
+            project_path_label.setOnMouseExited((e) -> {
+                tp.hide();
+            });
+
             this.setOnMouseEntered((e) -> {
                 if (project_name_label != null) {
-                    tp.show(project_path_label, e.getX(), e.getY());
                     project_name_label.setStyle("-fx-text-fill: -fx-primary");
                 }
             });
