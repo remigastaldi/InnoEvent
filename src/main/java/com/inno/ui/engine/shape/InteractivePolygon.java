@@ -2,7 +2,7 @@
  * File Created: Sunday, 14th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Sunday, 9th December 2018
+ * Last Modified: Monday, 10th December 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -275,17 +275,29 @@ public class InteractivePolygon extends InteractiveShape<Polygon> {
   public double[] getPointsInParent() {
     return localToParent(getPoints());
   }
+
   public double[] getNoRotatedParentPos() {
     double[] rotated = getPointsInParent();
     double[] pos = new double[rotated.length];
-    // TODO
+
+
+    Point2D center = Engine().getCenterOfPoints(getPointsInParent());
+    
+    Rotate rotate = new Rotate(-getRotation().getAngle(), center.getX(), center.getY());
+    
+    for (int i = 0; i < rotated.length; i += 2) {
+      Point2D pt = rotate.transform(rotated[i], rotated[i + 1]);
+      pos[i] = pt.getX();
+      pos[i + 1] = pt.getY();
+    }
+
     return pos;
   }
 
 
   public double[] noRotatedParentPointsToRotated(double pos[]) {
-    double[] rotated = new double[pos.length];
     double[] rect = getPointsInParent();
+    double[] rotated = new double[pos.length];
 
     Rotate rotate = new Rotate(getRotation().getAngle(), rect[0], rect[1]);
     

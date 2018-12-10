@@ -125,8 +125,8 @@ public class InnoRectangle extends InteractiveRectangle {
     if (_sectionData == null)
       return true;
     Core.get().updateSectionPositions(getID(), ((InnoEngine)Engine()).pixelToMeter(getNoRotatedParentPos()), true);
-
     updatePositionFromData();
+
     return true;
   }
 
