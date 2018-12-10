@@ -130,6 +130,8 @@ public class InnoRectangle extends InteractiveRectangle {
     _ghostRotation = new Rotate(getRotation().getAngle(), getX(), getY());
     _ghost.getTransforms().add(_ghostRotation);
 
+    updateRectangleGhost(getNoRotatedParentPos());
+
     Pane().getChildren().add(_ghost);
     return true;
   }
