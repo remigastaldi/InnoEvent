@@ -109,7 +109,11 @@ public class InnoPolygon extends InteractivePolygon {
       System.out.println("FORME COLMPLETE");
       _sittingSectionData = Core.get().createSittingSection(((InnoEngine)Engine()).pixelToMeter(getPointsInParent()), 0, false);
       setID(_sittingSectionData.getIdSection());
-      loadFromData();
+
+      Point2D center = Engine().getCenterOfPoints(getPoints());
+      setRotation(new Rotate(_sittingSectionData.getRotation(), center.getX(), center.getY()));
+  
+      updateFromData();
     }
     return true;
   }
@@ -123,16 +127,15 @@ public class InnoPolygon extends InteractivePolygon {
   @Override
   public boolean onAnchorDragged() {
     Core.get().updateSectionPositions(getID(), ((InnoEngine)Engine()).pixelToMeter(getPointsInParent()), false);
-    // Core.get().setSectionRotation(getID(), getRotation().getAngle());
     updateFromData();
-
+    
     return true;
   }
 
   @Override
   public boolean onSelected() {
     InnoEngine engine = (InnoEngine) Engine();
-    engine.getView().setSidebarFromFxmlFileName("sidebar_room.fxml", this);
+    engine.getView().setSidebarFromFxmlFileName("sidebar_irregular_sitting_section.fxml", this);
     return true;
   }
 
@@ -142,7 +145,7 @@ public class InnoPolygon extends InteractivePolygon {
     double[] pos = ((InnoEngine)Engine()).meterToPixel(parentToLocal(_sittingSectionData.getPositions()));
     closeForm(pos, Color.valueOf(Core.get().getSectionPrice(getID()).getColor()));
 
-    setColor(Color.valueOf(Core.get().getSectionPrice(getID()).getColor()));
+// setColor(Color.valueOf(Core.get().getSectionPrice(getID()).getColor()));
 
     Point2D center = Engine().getCenterOfPoints(getPoints());
     setRotation(new Rotate(_sittingSectionData.getRotation(), center.getX(), center.getY()));
