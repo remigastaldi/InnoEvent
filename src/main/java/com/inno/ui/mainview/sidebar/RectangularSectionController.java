@@ -86,7 +86,8 @@ public class RectangularSectionController extends ViewController {
     section_rows_input.setText(Integer.toString(rectangle.getRowNumber()));
     section_rotation_input.setText(Double.toString(rectangle.getRotation().getAngle()));
 
-    setRotation(rectangle.getRotation().getAngle(), false);
+    // setRotation(rectangle.getRotation().getAngle(), false);
+    section_rotation_input.setText(Double.toString(Core().getImmutableRoom().getSectionById(rectangle.getID()).getUserRotation()));
 
     section_vital_space_width_input
         .setText(Double.toString(rectangle.getSectionData().getImmutableVitalSpace().getWidth()));
@@ -111,17 +112,19 @@ public class RectangularSectionController extends ViewController {
       section_rotation_input.setText("" + (angle));
     }
     InteractiveRectangle rectangle = (InteractiveRectangle) getIntent();
-    rectangle.setRotationAngle(angle);
+
+    Core().setSectionUserRotation(rectangle.getID(), angle);
+    rectangle.setRotationAngle(Core().getImmutableRoom().getSectionById(rectangle.getID()).getRotation());
   }
 
-  private void setRotation(String angle, boolean input) {
-    try {
-      Double nAngle = Double.parseDouble(angle);
-      setRotation(nAngle, input);
-    } catch (Exception e) {
-      System.out.println("Given angle is not double" + e.getMessage());
-    }
-  }
+  // private void setRotation(String angle, boolean input) {
+  //   try {
+  //     Double nAngle = Double.parseDouble(angle);
+  //     setRotation(nAngle, input);
+  //   } catch (Exception e) {
+  //     System.out.println("Given angle is not double" + e.getMessage());
+  //   }
+  // }
 
   @FXML
   private void onMousePressed() {
@@ -134,19 +137,25 @@ public class RectangularSectionController extends ViewController {
       pos2 = sidebar_content.sceneToLocal(pos2);
 
       double angle = Math.atan2(pos.getX() - pos2.getX(), -(pos.getY() - pos2.getY())) * (180 / Math.PI);
+      
+      System.out.println(angle);
+      // angle = convertTo360(angle);
+      setRotation(angle, false);
+    };
+    sidebar_content.addEventHandler(MouseEvent.MOUSE_DRAGGED, _mouseDragged);
+  }
 
-      if (angle < 0) {
+  private double convertTo360(double angle) {
+	  if (angle < 0) {
         angle = ((3600000 + angle) % 360);
       }
 
       if (angle > 0 && angle < 90) {
-        angle = 360 - 90 + angle;
-      } else {
-        angle -= 90;
-      }
-      setRotation(angle, false);
-    };
-    sidebar_content.addEventHandler(MouseEvent.MOUSE_DRAGGED, _mouseDragged);
+      angle = 360 - 90 + angle;
+    } else {
+      angle -= 90;
+    }
+    return angle;
   }
 
   @FXML
@@ -172,7 +181,7 @@ public class RectangularSectionController extends ViewController {
         if (section_rows_input.isFocused())
           rectangle.setRowNumber(Integer.parseInt(section_rows_input.getText()));
         if (section_rotation_input.isFocused())
-          rectangle.setRotationAngle(Double.parseDouble(section_rotation_input.getText()));
+          setRotation(Double.parseDouble(section_rotation_input.getText()), false);
         if (section_vital_space_width_input.isFocused() || section_vital_space_height_input.isFocused()) {
           rectangle.setVitalSpace(Double.parseDouble(section_vital_space_width_input.getText()),
               Double.parseDouble(section_vital_space_height_input.getText()));

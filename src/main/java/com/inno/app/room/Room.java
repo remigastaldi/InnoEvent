@@ -2,7 +2,7 @@
  * File Created: Friday, 12th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Sunday, 9th December 2018
+ * Last Modified: Monday, 10th December 2018
  * Modified By: GASTALDI Rémi
 
  * -----
@@ -190,7 +190,21 @@ public class Room implements ImmutableRoom, Serializable {
             return;
         }
 
+        rotation += section.getUserRotation();
         section.setRotation(rotation);
+    }
+
+    public void setSectionUserRotation(String idSection, double rotation) {
+        Section section = getSectionById(idSection);
+
+        if (section == null) {
+            System.out.println("Bad section ID");
+            return;
+        }
+
+        System.out.println("+++++++>> " + (section.getRotation() - section.getUserRotation()) + rotation);
+        section.setRotation((section.getRotation() - section.getUserRotation()) + rotation);
+        section.setUserRotation(rotation);
     }
 
     public void deleteSection(String idSection) {
@@ -238,7 +252,7 @@ public class Room implements ImmutableRoom, Serializable {
 		double vitalSpaceWidth = ((ImmutableSittingSection) section).getImmutableVitalSpace().getWidth();
 
 		while (yRow < positions[7] - vitalSpaceHeight * 0.99) {
-		    double[] posStart = { xRow + (vitalSpaceWidth / 2), yRow + (vitalSpaceHeight / 2) };
+            double[] posStart = { xRow + (vitalSpaceWidth / 2), yRow + (vitalSpaceHeight / 2) };
             double[] posEnd = { positions[0] + (int)((positions[2] - positions[0]) / vitalSpaceWidth) * vitalSpaceWidth - vitalSpaceWidth / 2, yRow + (vitalSpaceHeight / 2) };
             ImmutableSittingRow row = createSittingRow(section.getIdSection(), posStart, posEnd);
 		    Core.get().createPlace(section.getIdSection() + "|" + row.getIdRow(), "#7289DA");

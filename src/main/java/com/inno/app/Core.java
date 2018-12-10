@@ -2,8 +2,8 @@
  * File Created: Tuesday, 9th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Thursday, 6th December 2018
- * Modified By: HUBERT Léo
+ * Last Modified: Monday, 10th December 2018
+ * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
  * <<licensetext>>
@@ -144,8 +144,9 @@ public class Core {
     this._room.deleteSection(idSection);
   }
 
-  public void setSectionRotation(String idSection, double rotation) {
-    this._room.setSectionRotation(idSection, rotation);
+  public void setSectionUserRotation(String idSection, double rotation) {
+    // this._room.setSectionRotation(idSection, rotation);
+    _room.setSectionUserRotation(idSection, rotation);
   }
 
   public ImmutableSection changeSection(String idSection) {
