@@ -2,7 +2,7 @@
  * File Created: Sunday, 14th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Sunday, 9th December 2018
+ * Last Modified: Monday, 10th December 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -303,7 +303,8 @@ public abstract class InteractiveShape<T extends Shape> {
 
   public void  select() {
     if (Engine().getSelectedShape() != this) {
-      onSelected();
+      if (!onSelected())
+        return;
       _shape.toFront();
       for (Shape additionalShape : _additionalShapes) {
         additionalShape.toFront();
@@ -314,7 +315,7 @@ public abstract class InteractiveShape<T extends Shape> {
       }
       enableGlow();
       Engine().selected(this);
-      System.out.println("SHAPE" + this + " SELECTED");
+      System.out.println("SHAPE " + this + " SELECTED");
     }
   }
 
@@ -324,7 +325,7 @@ public abstract class InteractiveShape<T extends Shape> {
     }
 
     disableGlow();
-    System.out.println("DESELECTED");
+    System.out.println(this + " DESELECTED");
   }
 
   public Shape  getShape() {

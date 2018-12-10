@@ -2,7 +2,7 @@
  * File Created: Monday, 15th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Sunday, 9th December 2018
+ * Last Modified: Monday, 10th December 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -102,9 +102,8 @@ public class InnoRectangle extends InteractiveRectangle {
     setID(_sectionData.getIdSection());
 
     updateFromData();
+    select();
 
-    InnoEngine engine = (InnoEngine) ((InnoEngine)Engine());
-    engine.getView().setSidebarFromFxmlFileName("sidebar_regular_sitting_section.fxml", this);
     return true;
   }
 
@@ -156,6 +155,8 @@ public class InnoRectangle extends InteractiveRectangle {
 
   @Override
   public boolean onSelected() {
+    if (getID() == null)
+      return false;
     InnoEngine engine = (InnoEngine) ((InnoEngine)Engine());
     engine.getView().setSidebarFromFxmlFileName("sidebar_regular_sitting_section.fxml", this);
     return true;

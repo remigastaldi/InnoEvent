@@ -2,7 +2,7 @@
  * File Created: Tuesday, 13th November 2018
  * Author: MAREL Maud
  * -----
- * Last Modified: Sunday, 9th December 2018
+ * Last Modified: Monday, 10th December 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 MAREL Maud
@@ -74,13 +74,13 @@ public class RectangularSectionController extends ViewController {
     if (rectangle == null) {
       System.out.println("Rectangle is null");
       return;
-
     }
 
     if (Core().getSectionPrice(rectangle.getID()) != null
         && Core().getSectionPrice(rectangle.getID()).getPrice() != -1) {
       section_price_input.setText(Double.toString(Core().getSectionPrice(rectangle.getID()).getPrice()));
     }
+    
     section_name_input.setText(Core().getImmutableRoom().getSectionById(rectangle.getID()).getNameSection());
     section_columns_input.setText(Integer.toString(rectangle.getColumnNumber()));
     section_rows_input.setText(Integer.toString(rectangle.getRowNumber()));

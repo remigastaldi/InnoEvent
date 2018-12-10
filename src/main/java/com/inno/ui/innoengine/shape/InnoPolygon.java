@@ -2,7 +2,7 @@
  * File Created: Sunday, 14th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Sunday, 9th December 2018
+ * Last Modified: Monday, 10th December 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -114,6 +114,7 @@ public class InnoPolygon extends InteractivePolygon {
       setRotation(new Rotate(_sittingSectionData.getRotation(), center.getX(), center.getY()));
   
       updateFromData();
+      select();
     }
     return true;
   }
@@ -134,6 +135,8 @@ public class InnoPolygon extends InteractivePolygon {
 
   @Override
   public boolean onSelected() {
+    if (getID() == null)
+      return false;
     InnoEngine engine = (InnoEngine) Engine();
     engine.getView().setSidebarFromFxmlFileName("sidebar_irregular_sitting_section.fxml", this);
     return true;
