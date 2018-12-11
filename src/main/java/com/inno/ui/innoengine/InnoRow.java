@@ -2,7 +2,7 @@
  * File Created: Tuesday, 27th November 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Sunday, 9th December 2018
+ * Last Modified: Monday, 10th December 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Remi
@@ -20,7 +20,6 @@ import com.inno.app.room.ImmutableSittingRow;
 import com.inno.app.room.ImmutableSittingSection;
 import com.inno.ui.engine.shape.InteractiveShape;
 
-import javafx.geometry.Point2D;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
@@ -28,7 +27,6 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
-import javafx.scene.transform.Rotate;
 
 public class InnoRow {
   private Line _line = null;
@@ -64,7 +62,7 @@ public class InnoRow {
     }
 
     _line = new Line(start[0], start[1], end[0], end[1]);
-    _line.setStrokeWidth(vitalSpace[1] / 4);
+    _line.setStrokeWidth(3d);
 
     if (_toParent)
       _engine.getPane().getChildren().add(_line);
@@ -82,8 +80,7 @@ public class InnoRow {
     else
       endX = new double[]{_line.getEndX() + vitalSpace[1] / 2, _line.getEndY() - vitalSpace[1] / 4};
   
-    Rectangle rect = new Rectangle(endX[0], endX[1], vitalSpace[1],
-        vitalSpace[0] / 2);
+    Rectangle rect = new Rectangle(endX[0], endX[1], vitalSpace[1], vitalSpace[0] / 2);
     rect.setFill(Color.BLACK);
     rect.setOpacity(0.5);
     rect.setArcHeight(3);
@@ -135,7 +132,7 @@ public class InnoRow {
         points = _intShape.parentToLocal(_intShape.noRotatedParentPointsToRotated(
           new double[] { _engine.meterToPixel(seat.getPosition()[0]), _engine.meterToPixel(seat.getPosition()[1]) }));
       }
-      Circle circle = new Circle(points[0], points[1], vitalSpace[1] / 3);
+      Circle circle = new Circle(points[0], points[1], 6d);
       circle.setFill(getDeriveColor(Color
           .valueOf(Core.get().getSeatPrice(shape.getID(), row.getIdRow(), Integer.toString(seat.getId())).getColor())
           .deriveColor(1, 1, 1, 0.85)));
