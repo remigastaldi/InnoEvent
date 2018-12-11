@@ -52,17 +52,17 @@ public class OfferManagerController extends ViewController {
     ImmutableOffer _selectedOffer = null;
 
     public OfferManagerController() {
-        Core().createOffer("toto1", "Je sais pas encore", 50, "PERCENTAGE");
-        Core().createOffer("toto2", "Je sais pas encore", 50, "PERCENTAGE");
-        Core().createOffer("toto4", "Je sais pas encore", 50, "PERCENTAGE");
+        // Core().createOffer("toto1", "Je sais pas encore", 50, "PERCENTAGE");
+        // Core().createOffer("toto2", "Je sais pas encore", 50, "PERCENTAGE");
+        // Core().createOffer("toto4", "Je sais pas encore", 50, "PERCENTAGE");
 
-        Core().createOfferCondition("toto1", "totocondition1", "Je ne sais pas non plus mdr", "AND");
-        Core().createOfferCondition("toto1", "totocondition2", "Je ne sais pas non plus mdr", "AND");
-        Core().createOfferCondition("toto1", "totocondition3", "Je ne sais pas non plus mdr", "AND");
+        // Core().createOfferCondition("toto1", "totocondition1", "Je ne sais pas non plus mdr", "AND");
+        // Core().createOfferCondition("toto1", "totocondition2", "Je ne sais pas non plus mdr", "AND");
+        // Core().createOfferCondition("toto1", "totocondition3", "Je ne sais pas non plus mdr", "AND");
 
-        Core().createOfferConditionOperation("toto1", "totocondition1", "20", "EQUALS", "AND");
-        Core().createOfferConditionOperation("toto1", "totocondition1", "10", "INFERIOR_OR_EQUALS", "AND");
-        Core().createOfferConditionOperation("toto1", "totocondition1", "50", "SUPERIOR", "AND");
+        // Core().createOfferConditionOperation("toto1", "totocondition1", "20", "EQUALS", "AND");
+        // Core().createOfferConditionOperation("toto1", "totocondition1", "10", "INFERIOR_OR_EQUALS", "AND");
+        // Core().createOfferConditionOperation("toto1", "totocondition1", "50", "SUPERIOR", "AND");
     }
 
     private void setSelectedOffer(ImmutableOffer offer) {

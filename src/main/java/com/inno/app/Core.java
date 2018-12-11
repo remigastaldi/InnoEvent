@@ -364,22 +364,6 @@ public class Core {
   public HashMap<String, ? extends ImmutablePlaceRate> getPrices() {
     return _pricing.getPlaces();
   }
-  // Save Methods
-
-  public void closeProject() {
-    _saveService = new InnoSave();
-    _pricing = new Pricing();
-    _room = null;
-  }
-
-  // Settings methods
-  public void setSettingsValue(String key, String value) {
-    _settings.set(key, value);
-  }
-
-  public Object getSettingsValue(String key) {
-    return _settings.get(key);
-  }
 
   public void setOfferConditionOperationValue(String offerName, String offerConditionName, int index, String value) {
     _pricing.setOfferConditionOperationValue(offerName, offerConditionName, index, value);
@@ -398,6 +382,25 @@ public class Core {
   public void removeOfferConditionOperation(String offerName, String offerConditionName, int index) {
     _pricing.removeOfferConditionOperation(offerName, offerConditionName, index);
   }
+
+  // Save Methods
+
+  public void closeProject() {
+    _saveService = new InnoSave();
+    _pricing = new Pricing();
+    _room = null;
+  }
+
+  // Settings methods
+  public void setSettingsValue(String key, Object value) {
+    _settings.set(key, value);
+  }
+
+  public Object getSettingsValue(String key) {
+    return _settings.get(key);
+  }
+
+ 
 
 
 };

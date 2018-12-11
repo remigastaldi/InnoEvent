@@ -2,8 +2,8 @@
  * File Created: Tuesday, 13th November 2018
  * Author: MAREL Maud
  * -----
- * Last Modified: Monday, 10th December 2018
- * Modified By: GASTALDI Rémi
+ * Last Modified: Tuesday, 11th December 2018
+ * Modified By: HUBERT Léo
  * -----
  * Copyright - 2018 MAREL Maud
  * <<licensetext>>
@@ -21,10 +21,12 @@ import com.inno.ui.engine.shape.InteractiveRectangle;
 import com.inno.ui.innoengine.shape.InnoRectangle;
 
 import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Point2D;
 import javafx.scene.Group;
+import javafx.scene.control.Accordion;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
@@ -33,6 +35,8 @@ import javafx.scene.shape.Circle;
 
 public class RectangularSectionController extends ViewController {
 
+  @FXML
+  private Accordion accordion;
   @FXML
   private AnchorPane anchor_root;
   @FXML
@@ -66,6 +70,23 @@ public class RectangularSectionController extends ViewController {
 
   @FXML
   private void initialize() {
+
+    if (Core().getSettingsValue("opened" + getClass().getName()) != null) {
+      accordion.getPanes().forEach((pane) -> {
+        if (pane.getText().equals(Core().getSettingsValue("opened" + getClass().getName()))) {
+          accordion.expandedPaneProperty().set(pane);
+        }
+      });
+    } else {
+      accordion.expandedPaneProperty().set(accordion.getPanes().get(0));
+      Core().setSettingsValue("opened" + getClass().getName(), accordion.expandedPaneProperty().getValue().getText());
+    }
+
+    accordion.expandedPaneProperty().addListener((e) -> {
+      if (accordion.expandedPaneProperty().getValue() != null) {
+        Core().setSettingsValue("opened" + getClass().getName(), accordion.expandedPaneProperty().getValue().getText());
+      }
+    });
   }
 
   public void init() {
@@ -80,14 +101,15 @@ public class RectangularSectionController extends ViewController {
         && Core().getSectionPrice(rectangle.getID()).getPrice() != -1) {
       section_price_input.setText(Double.toString(Core().getSectionPrice(rectangle.getID()).getPrice()));
     }
-    
+
     section_name_input.setText(Core().getImmutableRoom().getSectionById(rectangle.getID()).getNameSection());
     section_columns_input.setText(Integer.toString(rectangle.getColumnNumber()));
     section_rows_input.setText(Integer.toString(rectangle.getRowNumber()));
     section_rotation_input.setText(Double.toString(rectangle.getRotation().getAngle()));
 
     // setRotation(rectangle.getRotation().getAngle(), false);
-    section_rotation_input.setText(Double.toString(Core().getImmutableRoom().getSectionById(rectangle.getID()).getUserRotation()));
+    section_rotation_input
+        .setText(Double.toString(Core().getImmutableRoom().getSectionById(rectangle.getID()).getUserRotation()));
 
     section_vital_space_width_input
         .setText(Double.toString(rectangle.getSectionData().getImmutableVitalSpace().getWidth()));
@@ -118,12 +140,12 @@ public class RectangularSectionController extends ViewController {
   }
 
   // private void setRotation(String angle, boolean input) {
-  //   try {
-  //     Double nAngle = Double.parseDouble(angle);
-  //     setRotation(nAngle, input);
-  //   } catch (Exception e) {
-  //     System.out.println("Given angle is not double" + e.getMessage());
-  //   }
+  // try {
+  // Double nAngle = Double.parseDouble(angle);
+  // setRotation(nAngle, input);
+  // } catch (Exception e) {
+  // System.out.println("Given angle is not double" + e.getMessage());
+  // }
   // }
 
   @FXML
@@ -137,7 +159,7 @@ public class RectangularSectionController extends ViewController {
       pos2 = sidebar_content.sceneToLocal(pos2);
 
       double angle = Math.atan2(pos.getX() - pos2.getX(), -(pos.getY() - pos2.getY())) * (180 / Math.PI);
-      
+
       System.out.println(angle);
       // angle = convertTo360(angle);
       setRotation(angle, false);
@@ -146,11 +168,11 @@ public class RectangularSectionController extends ViewController {
   }
 
   private double convertTo360(double angle) {
-	  if (angle < 0) {
-        angle = ((3600000 + angle) % 360);
-      }
+    if (angle < 0) {
+      angle = ((3600000 + angle) % 360);
+    }
 
-      if (angle > 0 && angle < 90) {
+    if (angle > 0 && angle < 90) {
       angle = 360 - 90 + angle;
     } else {
       angle -= 90;
