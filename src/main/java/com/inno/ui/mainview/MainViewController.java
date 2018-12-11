@@ -193,10 +193,12 @@ public class MainViewController extends ViewController {
 
   @FXML
   private void menuZoomInAction() {
+    Engine().zoom(1.2);
   }
 
   @FXML
   private void menuZoomOutAction() {
+    Engine().zoom(0.83);
   }
 
   @FXML
