@@ -2,8 +2,8 @@
  * File Created: Friday, 26th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Monday, 10th December 2018
- * Modified By: GASTALDI Rémi
+ * Last Modified: Tuesday, 11th December 2018
+ * Modified By: HUBERT Léo
  * -----
  * Copyright - 2018 GASTALDI Rémi
  * <<licensetext>>
@@ -43,17 +43,16 @@ public class OfferConditionManagerController extends ViewController {
   private TextArea offer_condition_description_input;
 
   @FXML
-  private ListView<ImmutableOfferOperation> offer_condition_operation_list;
+  private ListView<OfferConditionOperationCell> offer_condition_operation_list;
 
-  ObservableList<ImmutableOfferOperation> _offerConditionOperatorList = FXCollections.observableArrayList();
-  ArrayList<OfferConditionOperationListViewCell> _test = new ArrayList<>();
+  ObservableList<OfferConditionOperationCell> _offerConditionOperationList = FXCollections.observableArrayList();
 
   public OfferConditionManagerController() {
   }
 
   @FXML
   private void initialize() {
-    offer_condition_operation_list.setItems(_offerConditionOperatorList);
+    offer_condition_operation_list.setItems(_offerConditionOperationList);
   }
 
   @Override
@@ -68,13 +67,50 @@ public class OfferConditionManagerController extends ViewController {
     offer_condition_description_input.setText(offerCondition.getDescription());
 
     refreshOfferConditionList();
-    offer_condition_operation_list.setCellFactory(studentListView -> {
-      OfferConditionOperationListViewCell asd = new OfferConditionOperationListViewCell();
-      _test.add(asd);
-      return asd;
-    });
-    // offer_condition_operation_list.setCellFactory(studentListView -> new OfferConditionOperationListViewCell());
+    offer_condition_operation_list.setCellFactory(studentListView -> new OfferConditionOperationListViewCell());
 
+  }
+
+  public class OfferConditionOperationCell {
+    protected int _index;
+    protected String _value;
+    protected String _logicalOperator;
+    protected String _relationalOperator;
+
+    OfferConditionOperationCell(int index, String value, String logicalOperator, String relationalOperator) {
+      _index = index;
+      _value = value;
+      _relationalOperator = relationalOperator;
+      _logicalOperator = logicalOperator;
+    }
+
+    public int getIndex() {
+      return _index;
+    }
+
+    public String getValue() {
+      return _value;
+    }
+
+    public void setValue(String value) {
+      _value = value;
+    }
+
+    public String getRelationalOperator() {
+      return _relationalOperator;
+    }
+
+    public void setRelationalOperator(String relationalOperator) {
+      _relationalOperator = relationalOperator;
+    }
+
+    public String getLogicalOperator() {
+      return _logicalOperator;
+    }
+
+    public void setLogicalOperator(String logicalOperator) {
+      _logicalOperator = logicalOperator;
+    }
   }
 
   @FXML
@@ -96,6 +132,7 @@ public class OfferConditionManagerController extends ViewController {
   }
 
   private void refreshOfferConditionList() {
+
     ImmutableOfferCondition offerCondition = (ImmutableOfferCondition) this.getIntent();
 
     if (offerCondition == null) {
@@ -103,18 +140,16 @@ public class OfferConditionManagerController extends ViewController {
       return;
     }
 
-    _offerConditionOperatorList.clear();
+    _offerConditionOperationList.clear();
     ArrayList<? extends ImmutableOfferOperation> offerConditionOperations = Core()
         .getOfferCondition(offerCondition.getParentOffer().getName(), offerCondition.getName())
         .getImmutableOfferOperations();
-    System.out.println("+++ " + _test.size());
-    offerConditionOperations.forEach((operation) -> {
-      _offerConditionOperatorList.add((ImmutableOfferOperation) operation);
-    });
-    for (OfferConditionOperationListViewCell test : _test) {
-      test.getTest();
+
+    for (int i = 0; i < offerConditionOperations.size(); i++) {
+      _offerConditionOperationList.add(new OfferConditionOperationCell(i, offerConditionOperations.get(i).getValue(),
+          offerConditionOperations.get(i).getLogicalOperator().toString(),
+          offerConditionOperations.get(i).getRelationalOperator().toString()));
     }
-    
   }
 
   @FXML
@@ -135,9 +170,31 @@ public class OfferConditionManagerController extends ViewController {
             offer_condition_description_input.getText());
       }
 
+      _offerConditionOperationList.forEach((operation) -> {
+        Core().setOfferConditionOperationValue(offerCondition.getParentOffer().getName(), offerCondition.getName(),
+            operation.getIndex(), operation.getValue());
+        Core().setOfferConditionOperationLogicalOperator(offerCondition.getParentOffer().getName(),
+            offerCondition.getName(), operation.getIndex(), operation.getLogicalOperator());
+        Core().setOfferConditionOperationRelationalOperator(offerCondition.getParentOffer().getName(),
+            offerCondition.getName(), operation.getIndex(), operation.getRelationalOperator());
+      });
+
       View().openViewWithAnimation("popup/offer_manager.fxml", AnimationDirection.RIGHT, anchor_root,
           offerCondition.getParentOffer());
     }
+  }
+
+  @FXML
+  private void createOfferConditionAction() {
+    ImmutableOfferCondition offerCondition = (ImmutableOfferCondition) this.getIntent();
+
+    if (offerCondition == null) {
+      System.out.println("OfferConditon not found ");
+      return;
+    }
+
+    Core().createOfferConditionOperation(offerCondition.getParentOffer().getName(), offerCondition.getName(), "", "EQUALS", "AND");
+    refreshOfferConditionList();
   }
 
   private boolean checkInputs() {

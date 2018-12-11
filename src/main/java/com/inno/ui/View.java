@@ -155,10 +155,6 @@ public class View extends Application {
       view.addIntent(intent);
       view.init();
 
-      ViewController viewController = fxmlLoader.<ViewController>getController();
-      viewController.setView(this);
-      viewController.init();
-
       KeyValue kv;
       KeyValue kv2;
 

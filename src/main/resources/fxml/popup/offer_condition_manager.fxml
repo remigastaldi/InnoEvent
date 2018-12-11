@@ -8,7 +8,6 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 
-
 <AnchorPane fx:id="anchor_root" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@../../dark-theme.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.inno.ui.popup.OfferConditionManagerController">
    <children>
       <ButtonBar layoutY="360.0" prefHeight="40.0" prefWidth="600.0">
@@ -25,6 +24,7 @@
       </ButtonBar>
       <TextField fx:id="offer_condition_name_input" layoutX="20.0" layoutY="14.0" onKeyReleased="#onKeyReleased" prefHeight="47.0" prefWidth="231.0" promptText="Condition (ex: age)" />
       <ListView fx:id="offer_condition_operation_list" layoutX="271.0" layoutY="14.0" prefHeight="347.0" prefWidth="315.0" />
-      <TextArea fx:id="offer_condition_description_input" layoutX="20.0" layoutY="73.0" onKeyReleased="#onKeyReleased" prefHeight="291.0" prefWidth="231.0" promptText="Description" />
+      <TextArea fx:id="offer_condition_description_input" layoutX="20.0" layoutY="73.0" onKeyReleased="#onKeyReleased" prefHeight="253.0" prefWidth="231.0" promptText="Description" />
+      <Button layoutX="20.0" layoutY="334.0" mnemonicParsing="false" onAction="#createOfferConditionAction" prefHeight="27.0" prefWidth="231.0" text="Create condition" />
    </children>
 </AnchorPane>

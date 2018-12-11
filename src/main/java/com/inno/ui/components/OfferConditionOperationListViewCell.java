@@ -2,8 +2,8 @@
  * File Created: Thursday, 6th December 2018
  * Author: HUBERT Léo
  * -----
- * Last Modified: Monday, 10th December 2018
- * Modified By: GASTALDI Rémi
+ * Last Modified: Tuesday, 11th December 2018
+ * Modified By: HUBERT Léo
  * -----
  * Copyright - 2018 HUBERT Léo
  * <<licensetext>>
@@ -14,7 +14,7 @@ package com.inno.ui.components;
 import java.io.IOException;
 
 import com.inno.app.Core;
-import com.inno.service.pricing.ImmutableOfferOperation;
+import com.inno.ui.popup.OfferConditionManagerController.OfferConditionOperationCell;
 
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
@@ -24,7 +24,7 @@ import javafx.scene.control.ListCell;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 
-public class OfferConditionOperationListViewCell extends ListCell<ImmutableOfferOperation> {
+public class OfferConditionOperationListViewCell extends ListCell<OfferConditionOperationCell> {
 
     @FXML
     private GridPane grid_pane;
@@ -40,12 +40,8 @@ public class OfferConditionOperationListViewCell extends ListCell<ImmutableOffer
 
     private FXMLLoader mLLoader;
 
-    public String getTest() {
-        return "BITE";
-    }
-
     @Override
-    protected void updateItem(ImmutableOfferOperation offerOperation, boolean empty) {
+    protected void updateItem(OfferConditionOperationCell offerOperation, boolean empty) {
         super.updateItem(offerOperation, empty);
 
         if (empty || offerOperation == null) {
@@ -71,10 +67,22 @@ public class OfferConditionOperationListViewCell extends ListCell<ImmutableOffer
             operation_logical.setItems(FXCollections.observableArrayList(logicalOperators));
             operation_relational.setItems(FXCollections.observableArrayList(relationalOperators));
 
-            operation_logical.getSelectionModel().select(offerOperation.getLogicalOperator().toString());
-            operation_relational.getSelectionModel().select(offerOperation.getRelationalOperator().toString());
+            operation_logical.getSelectionModel().select(offerOperation.getLogicalOperator());
+            operation_relational.getSelectionModel().select(offerOperation.getRelationalOperator());
 
             operation_value.setText(offerOperation.getValue());
+
+            operation_logical.setOnAction((e) -> {
+                offerOperation.setLogicalOperator(operation_logical.getSelectionModel().getSelectedItem());
+            });
+
+            operation_relational.setOnAction((e) -> {
+                offerOperation.setRelationalOperator(operation_relational.getSelectionModel().getSelectedItem());
+            });
+
+            operation_value.setOnKeyReleased((e) -> {
+                offerOperation.setValue(operation_value.getText());
+            });
 
             setText(null);
             setGraphic(grid_pane);

@@ -2,7 +2,7 @@
  * File Created: Friday, 26th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Monday, 10th December 2018
+ * Last Modified: Tuesday, 11th December 2018
  * Modified By: HUBERT Léo
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -61,6 +61,8 @@ public class OfferManagerController extends ViewController {
         Core().createOfferCondition("toto1", "totocondition3", "Je ne sais pas non plus mdr", "AND");
 
         Core().createOfferConditionOperation("toto1", "totocondition1", "20", "EQUALS", "AND");
+        Core().createOfferConditionOperation("toto1", "totocondition1", "10", "INFERIOR_OR_EQUALS", "AND");
+        Core().createOfferConditionOperation("toto1", "totocondition1", "50", "SUPERIOR", "AND");
     }
 
     private void setSelectedOffer(ImmutableOffer offer) {
@@ -97,21 +99,24 @@ public class OfferManagerController extends ViewController {
 
     @FXML
     private void offerListOnMouseClicked() {
-        System.out.println(offerList.getSelectionModel().getSelectedItem().toString());
-        ImmutableOffer offer = Core().getOffer(offerList.getSelectionModel().getSelectedItem().toString());
-        if (offer == null) {
-            return;
+        if (offerList.getSelectionModel().getSelectedItem() != null) {
+            ImmutableOffer offer = Core().getOffer(offerList.getSelectionModel().getSelectedItem().toString());
+            if (offer == null) {
+                return;
+            }
+            setSelectedOffer(offer);
         }
-        setSelectedOffer(offer);
     }
 
     @FXML
     private void offerConditionListOnMouseClicked(MouseEvent click) {
-        if (click.getClickCount() == 2) {
+        if (click.getClickCount() == 2 && _selectedOffer != null) {
             ImmutableOfferCondition offerCondition = Core().getOfferCondition(_selectedOffer.getName(),
                     offerConditionList.getSelectionModel().getSelectedItem().toString());
-            View().openViewWithAnimation("popup/offer_condition_manager.fxml", AnimationDirection.LEFT, anchor_root,
-                    offerCondition);
+            if (offerCondition != null) {
+                View().openViewWithAnimation("popup/offer_condition_manager.fxml", AnimationDirection.LEFT, anchor_root,
+                        offerCondition);
+            }
         }
     }
 

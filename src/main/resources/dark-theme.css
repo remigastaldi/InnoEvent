@@ -196,3 +196,16 @@
 .titled-pane>*.content {
     -fx-border-color: transparent;
 }
+
+.choice-box {
+    -fx-background-color: -fx-dark;
+    -fx-mark-color: -fx-primary;
+    -fx-border-color: none !important;
+    -fx-background-insets: 0;
+    -fx-focus-color: transparent;
+    -fx-background-insets: 0;
+}
+
+.choice-box>.label {
+    -fx-text-fill: white;
+}

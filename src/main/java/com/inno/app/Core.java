@@ -2,8 +2,8 @@
  * File Created: Tuesday, 9th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Monday, 10th December 2018
- * Modified By: GASTALDI Rémi
+ * Last Modified: Tuesday, 11th December 2018
+ * Modified By: HUBERT Léo
  * -----
  * Copyright - 2018 GASTALDI Rémi
  * <<licensetext>>
@@ -11,7 +11,6 @@
 
 package com.inno.app;
 
-import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -381,4 +380,20 @@ public class Core {
   public Object getSettingsValue(String key) {
     return _settings.get(key);
   }
+
+  public void setOfferConditionOperationValue(String offerName, String offerConditionName, int index, String value) {
+    _pricing.setOfferConditionOperationValue(offerName, offerConditionName, index, value);
+  }
+
+  public void setOfferConditionOperationLogicalOperator(String offerName, String offerConditionName, int index,
+      String logicalOperator) {
+    _pricing.setOfferConditionOperationLogicalOperator(offerName, offerConditionName, index, logicalOperator);
+  }
+
+  public void setOfferConditionOperationRelationalOperator(String offerName, String offerConditionName, int index,
+      String relationalOperator) {
+    _pricing.setOfferConditionOperationRelationalOperator(offerName, offerConditionName, index, relationalOperator);
+
+  }
+
 };

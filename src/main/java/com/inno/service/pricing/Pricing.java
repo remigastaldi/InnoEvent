@@ -2,7 +2,7 @@
  * File Created: Saturday, 27th October 2018
  * Author: HUBERT Léo
  * -----
- * Last Modified: Monday, 10th December 2018
+ * Last Modified: Tuesday, 11th December 2018
  * Modified By: HUBERT Léo
  * -----
  * Copyright - 2018 HUBERT Léo
@@ -415,15 +415,20 @@ public class Pricing implements Serializable {
   }
 
   public void setOfferConditionOperationLogicalOperator(String offerName, String offerConditionName, int index,
-      LogicalOperator logicalOperator) {
+      String logicalOperator) {
+    LogicalOperator logicalOperatorEnum = getEnumFromString(LogicalOperator.class, logicalOperator);
+
+
     OfferOperation offerOperation = this.getOfferOperation(offerName, offerConditionName, index);
-    offerOperation.setLogicalOperator(logicalOperator);
+    offerOperation.setLogicalOperator(logicalOperatorEnum);
   }
 
   public void setOfferConditionOperationRelationalOperator(String offerName, String offerConditionName, int index,
-      RelationalOperator relationalOperator) {
+      String relationalOperator) {
+    RelationalOperator relationalOperatorEnum = getEnumFromString(RelationalOperator.class, relationalOperator);
+
     OfferOperation offerOperation = this.getOfferOperation(offerName, offerConditionName, index);
-    offerOperation.setRelationalOperator(relationalOperator);
+    offerOperation.setRelationalOperator(relationalOperatorEnum);
   }
 
   private String[] getEnumToStringArray(Class<? extends Enum<?>> e) {
