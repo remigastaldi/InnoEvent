@@ -82,6 +82,10 @@ public abstract class InteractiveShape<T extends Shape> {
   public abstract double[] getNoRotatedParentPos();
   public abstract double[] noRotatedParentPointsToRotated(double pos[]);
 
+
+  // REMOVE THIS ASDYASUDYASIUDYASIDYTASIUDTIUYWQTEIUYWQTEIYTQWIEUTQWIEYTQWIEUYT
+  public void updateRowsFromData(boolean toParent){};
+
   protected void addOutboundShape(Shape shape) {
     _outBoundShapes.add(shape);
     _group.getChildren().add(shape);

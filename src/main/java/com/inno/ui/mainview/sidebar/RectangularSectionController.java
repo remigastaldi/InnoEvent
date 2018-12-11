@@ -183,8 +183,10 @@ public class RectangularSectionController extends ViewController {
         if (section_rotation_input.isFocused())
           setRotation(Double.parseDouble(section_rotation_input.getText()), false);
         if (section_vital_space_width_input.isFocused() || section_vital_space_height_input.isFocused()) {
-          rectangle.setVitalSpace(Double.parseDouble(section_vital_space_width_input.getText()),
-              Double.parseDouble(section_vital_space_height_input.getText()));
+          double width = Double.parseDouble(section_vital_space_width_input.getText());
+          double height = Double.parseDouble(section_vital_space_height_input.getText());
+          rectangle.setVitalSpace(width, height);
+          rectangle.updateFromData();
         }
         if (section_name_input.isFocused())
           Core().setSectionName(rectangle.getID(), section_name_input.getText());

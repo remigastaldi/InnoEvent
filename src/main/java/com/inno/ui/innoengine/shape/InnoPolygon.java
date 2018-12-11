@@ -189,7 +189,8 @@ public class InnoPolygon extends InteractivePolygon {
     setPoints(parentToLocal(((InnoEngine)Engine()).meterToPixel(_sittingSectionData.getPositions())));
   }
 
-  private void updateRowsFromData(boolean toParent) {
+  // TODO: private this
+  public void updateRowsFromData(boolean toParent) {
     if (_rows != null) {
       for (int i = 0; i < _rows.length; ++i) {
         _rows[i].destroy();

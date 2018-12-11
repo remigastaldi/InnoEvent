@@ -3,7 +3,7 @@
  * Author: HUBERT Léo
  * -----
  * Last Modified: Monday, 10th December 2018
- * Modified By: HUBERT Léo
+ * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 HUBERT Léo
  * <<licensetext>>
@@ -39,6 +39,10 @@ public class OfferConditionOperationListViewCell extends ListCell<ImmutableOffer
     private TextField operation_value;
 
     private FXMLLoader mLLoader;
+
+    public String getTest() {
+        return "BITE";
+    }
 
     @Override
     protected void updateItem(ImmutableOfferOperation offerOperation, boolean empty) {

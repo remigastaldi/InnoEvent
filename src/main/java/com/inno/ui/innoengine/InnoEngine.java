@@ -2,7 +2,7 @@
  * File Created: Friday, 12th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Monday, 3rd December 2018
+ * Last Modified: Monday, 10th December 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -20,6 +20,7 @@ import com.inno.app.room.ImmutableScene;
 import com.inno.app.room.ImmutableSittingSection;
 import com.inno.ui.View;
 import com.inno.ui.engine.Engine;
+import com.inno.ui.engine.shape.InteractiveShape;
 import com.inno.ui.innoengine.shape.InnoPolygon;
 import com.inno.ui.innoengine.shape.InnoRectangle;
 
@@ -28,6 +29,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.scene.shape.Shape;
 import javafx.scene.transform.Rotate;
 
 
@@ -52,13 +54,13 @@ public class InnoEngine extends Engine {
 
   private void loadSections(ImmutableRoom roomData) {
   	Collection<? extends ImmutableSittingSection> sections = roomData.getImmutableSittingSections().values();
-    for (ImmutableSittingSection section : sections) {
-      if (section.isRectangle()) {
-        System.out.println("Load rectangular section");
-        createRectangularSection(section.getIdSection());
+    for (ImmutableSittingSection shape : sections) {
+      if (shape.isRectangle()) {
+        System.out.println("Load rectangular shape");
+        createRectangularSection(shape.getIdSection());
       } else {
-        System.out.println("Load irregular section");
-        createIrregularSection(section.getIdSection());
+        System.out.println("Load irregular shape");
+        createIrregularSection(shape.getIdSection());
         }
     }
   }
@@ -111,21 +113,22 @@ public class InnoEngine extends Engine {
 
   public void createIrregularSection() {
     deselect();
-    InnoPolygon section = new InnoPolygon(this, getPane());
-    section.start();
+    InnoPolygon shape = new InnoPolygon(this, getPane());
+    shape.start();
+    addInteractiveShape(shape);
   }
 
   public void createIrregularSection(String id, double[] pos, Rotate rotation, Color color) {
     deselect();
-    InnoPolygon section = new InnoPolygon(this, getPane(), id, pos, rotation, color);
-    addInteractiveShape(section);
+    InnoPolygon shape = new InnoPolygon(this, getPane(), id, pos, rotation, color);
+    addInteractiveShape(shape);
     deselect();
   }
 
   public void createIrregularSection(String id) {
-    InnoPolygon section = new InnoPolygon(this, getPane(), id);
-    addInteractiveShape(section);
     deselect();
+    InnoPolygon shape = new InnoPolygon(this, getPane(), id);
+    addInteractiveShape(shape);
   }
 
 
@@ -136,15 +139,15 @@ public class InnoEngine extends Engine {
   }
 
   public void createRectangularSection(double x, double y, double width, double height, Rotate rotation, Color color) {
-    InnoRectangle section = new InnoRectangle(this, getPane(), x, y, width, height, rotation, color);
-    addInteractiveShape(section);
     deselect();
+    InnoRectangle shape = new InnoRectangle(this, getPane(), x, y, width, height, rotation, color);
+    addInteractiveShape(shape);
   }
 
   public void createRectangularSection(String id) {
-    InnoRectangle section = new InnoRectangle(this, getPane(), id);
-    addInteractiveShape(section);
     deselect();
+    InnoRectangle shape = new InnoRectangle(this, getPane(), id);
+    addInteractiveShape(shape);
   }
 
   public View getView() {
@@ -197,5 +200,16 @@ public class InnoEngine extends Engine {
     setBoardHeight(pixHeight);
     Core.get().setRoomHeight(pixHeight);
     
+  }
+
+  /**
+   * Update all sections vital which have old one
+   * @param width old width
+   * @param height old height
+   */
+  public void updateSectionsVitalSpaceFromData(double width, double height) {
+    for (InteractiveShape<? extends Shape> shape : getShapes()) {
+      shape.updateRowsFromData(false);
+    }
   }
 }

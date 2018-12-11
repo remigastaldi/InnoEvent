@@ -2,7 +2,7 @@
  * File Created: Tuesday, 13th November 2018
  * Author: MAREL Maud
  * -----
- * Last Modified: Saturday, 24th November 2018
+ * Last Modified: Monday, 10th December 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 MAREL Maud
@@ -19,12 +19,8 @@ public class VitalSpace implements ImmutableVitalSpace, Serializable {
     private double _height;
     private double _width;
 
-    public VitalSpace(double height, double width) {
-        this._height = height;
+    public VitalSpace(double width, double height) {
         this._width = width;
-    }
-
-    public void setHeight(double height) {
         this._height = height;
     }
 
@@ -32,11 +28,15 @@ public class VitalSpace implements ImmutableVitalSpace, Serializable {
         this._width = width;
     }
 
-    public double getHeight() {
-        return this._height;
+    public void setHeight(double height) {
+        this._height = height;
     }
 
     public double getWidth() {
         return this._width;
+    }
+
+    public double getHeight() {
+        return this._height;
     }
 }

@@ -3,7 +3,7 @@
  * Author: GASTALDI Rémi
  * -----
  * Last Modified: Monday, 10th December 2018
- * Modified By: HUBERT Léo
+ * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
  * <<licensetext>>
@@ -60,8 +60,8 @@ public class Core {
   }
 
   // Room methods
-  public void createRoom(String name, double width, double height, double heightVitalSpace, double widthVitalSpace) {
-    this._room = new Room(name, height, width, heightVitalSpace, widthVitalSpace);
+  public void createRoom(String name, double width, double height, double widthVitalSpace, double heightVitalSpace) {
+    this._room = new Room(name, width, height, widthVitalSpace, heightVitalSpace);
   }
 
   public ImmutableRoom getImmutableRoom() {
@@ -72,20 +72,17 @@ public class Core {
     this._room.setName(name);
   }
 
-  public void setRoomHeight(double height) {
-    this._room.setHeight(height);
-  }
-
+  
   public void setRoomWidth(double width) {
     this._room.setWidth(width);
   }
 
-  public void setRoomVitalSpaceHeight(double height) {
-    this._room.setHeightVitalSpace(height);
+  public void setRoomHeight(double height) {
+    this._room.setHeight(height);
   }
 
-  public void setRoomVitalSpaceWidth(double width) {
-    this._room.setWidthVitalSpace(width);
+  public void setRoomVitalSpace(double width, double height) {
+    _room.setVitalSpace(width, height);
   }
 
   // Scene methods
@@ -126,7 +123,6 @@ public class Core {
     if (rectangular) {
       Point pt = new Point(getImmutableRoom().getImmutableScene().getCenter()[0],
           getImmutableRoom().getImmutableScene().getCenter()[1]);
-      // double[] newPos = Utils.rotateRectangle(pt, positions);
       double rotation = Utils.calculateRectangleRotation(pt, positions);
       if (rotation != rotation)
         rotation = 0.0;

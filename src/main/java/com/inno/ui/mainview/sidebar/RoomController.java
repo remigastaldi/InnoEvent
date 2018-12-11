@@ -2,8 +2,8 @@
  * File Created: Wednesday, 26th September 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Thursday, 6th December 2018
- * Modified By: MAREL Maud
+ * Last Modified: Monday, 10th December 2018
+ * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
  * <<licensetext>>
@@ -45,10 +45,6 @@ public class RoomController extends ViewController {
   }
 
   public void init() {
-    InnoEngine engine = (InnoEngine) getIntent();
-
-       
-
     project_name_input.setText(Core.get().getImmutableRoom().getName());
     room_height_input.setText(Integer.toString((int) Core.get().getImmutableRoom().getHeight()));
     room_width_input.setText(Integer.toString((int) Core.get().getImmutableRoom().getWidth()));
@@ -76,10 +72,12 @@ public class RoomController extends ViewController {
           engine.setBoardWidth(engine.meterToPixel(Double.parseDouble(room_width_input.getText())));
           Core.get().setRoomWidth(Double.parseDouble(room_width_input.getText()));
         }
-        if (vital_space_height_input.isFocused())
-          Core.get().setRoomVitalSpaceHeight(Double.parseDouble(vital_space_height_input.getText()));
-        if (vital_space_width_input.isFocused())
-          Core.get().setRoomVitalSpaceWidth(Double.parseDouble(vital_space_width_input.getText()));
+        if (vital_space_height_input.isFocused() || vital_space_width_input.isFocused()) {
+          double width = Double.parseDouble(vital_space_width_input.getText());
+          double height = Double.parseDouble(vital_space_height_input.getText());
+          Core().setRoomVitalSpace(width, height);
+          Engine().updateSectionsVitalSpaceFromData(width, height);
+        }
       } catch (Exception e) {
         System.out.println(e);
       }

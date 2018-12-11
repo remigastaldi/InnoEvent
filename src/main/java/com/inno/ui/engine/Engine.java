@@ -2,7 +2,7 @@
  * File Created: Friday, 12th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Wednesday, 5th December 2018
+ * Last Modified: Monday, 10th December 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -360,6 +360,10 @@ public class Engine {
 
   public void computeCursorPosition(MouseEvent event) {
     computeCursorPosition(event, null);
+  }
+
+  public ArrayList<InteractiveShape<? extends Shape>> getShapes() {
+    return _shapes;
   }
 }
 

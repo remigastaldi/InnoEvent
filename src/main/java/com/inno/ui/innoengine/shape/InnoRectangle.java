@@ -261,7 +261,7 @@ public class InnoRectangle extends InteractiveRectangle {
     updateFromData();
   } 
 
-  private void updateFromData() {
+  public void updateFromData() {
     updatePositionFromData();
     updateRowsFromData(false);
   }
@@ -275,7 +275,8 @@ public class InnoRectangle extends InteractiveRectangle {
     getRotation().setAngle(_sectionData.getRotation());
   }
 
-  private void updateRowsFromData(boolean toParent) {
+  // TODO: private this
+  public void updateRowsFromData(boolean toParent) {
     if (_rows != null) {
       for (int i = 0; i < _rows.length; ++i) {
         _rows[i].destroy();

@@ -3,7 +3,7 @@
  * Author: GASTALDI Rémi
  * -----
  * Last Modified: Monday, 10th December 2018
- * Modified By: HUBERT Léo
+ * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
  * <<licensetext>>
@@ -46,6 +46,7 @@ public class OfferConditionManagerController extends ViewController {
   private ListView<ImmutableOfferOperation> offer_condition_operation_list;
 
   ObservableList<ImmutableOfferOperation> _offerConditionOperatorList = FXCollections.observableArrayList();
+  ArrayList<OfferConditionOperationListViewCell> _test = new ArrayList<>();
 
   public OfferConditionManagerController() {
   }
@@ -67,7 +68,12 @@ public class OfferConditionManagerController extends ViewController {
     offer_condition_description_input.setText(offerCondition.getDescription());
 
     refreshOfferConditionList();
-    offer_condition_operation_list.setCellFactory(studentListView -> new OfferConditionOperationListViewCell());
+    offer_condition_operation_list.setCellFactory(studentListView -> {
+      OfferConditionOperationListViewCell asd = new OfferConditionOperationListViewCell();
+      _test.add(asd);
+      return asd;
+    });
+    // offer_condition_operation_list.setCellFactory(studentListView -> new OfferConditionOperationListViewCell());
 
   }
 
@@ -101,9 +107,14 @@ public class OfferConditionManagerController extends ViewController {
     ArrayList<? extends ImmutableOfferOperation> offerConditionOperations = Core()
         .getOfferCondition(offerCondition.getParentOffer().getName(), offerCondition.getName())
         .getImmutableOfferOperations();
+    System.out.println("+++ " + _test.size());
     offerConditionOperations.forEach((operation) -> {
       _offerConditionOperatorList.add((ImmutableOfferOperation) operation);
     });
+    for (OfferConditionOperationListViewCell test : _test) {
+      test.getTest();
+    }
+    
   }
 
   @FXML
