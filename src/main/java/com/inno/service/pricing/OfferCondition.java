@@ -2,7 +2,7 @@
  * File Created: Friday, 12th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Monday, 10th December 2018
+ * Last Modified: Tuesday, 11th December 2018
  * Modified By: HUBERT Léo
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -69,6 +69,7 @@ public class OfferCondition implements ImmutableOfferCondition, Serializable {
   }
 
   public void addOperation(OfferOperation offerOperation) {
+    offerOperation.setParentCondition(this);
     this._offerOperations.add(offerOperation);
   }
 

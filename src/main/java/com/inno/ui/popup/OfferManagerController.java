@@ -110,7 +110,7 @@ public class OfferManagerController extends ViewController {
 
     @FXML
     private void offerConditionListOnMouseClicked(MouseEvent click) {
-        if (click.getClickCount() == 2 && _selectedOffer != null) {
+        if (click.getClickCount() == 2 && _selectedOffer != null && offerConditionList.getSelectionModel().getSelectedItem() != null) {
             ImmutableOfferCondition offerCondition = Core().getOfferCondition(_selectedOffer.getName(),
                     offerConditionList.getSelectionModel().getSelectedItem().toString());
             if (offerCondition != null) {

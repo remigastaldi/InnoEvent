@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.function.Function;
 
 import com.inno.service.pricing.ImmutableOfferCondition;
 import com.inno.service.pricing.ImmutableOfferOperation;
@@ -58,6 +59,7 @@ public class OfferConditionManagerController extends ViewController {
   @Override
   public void init() {
     ImmutableOfferCondition offerCondition = (ImmutableOfferCondition) this.getIntent();
+
     if (offerCondition == null) {
       System.out.println("OfferConditon not found ");
       return;
@@ -65,23 +67,31 @@ public class OfferConditionManagerController extends ViewController {
 
     offer_condition_name_input.setText(offerCondition.getName());
     offer_condition_description_input.setText(offerCondition.getDescription());
-
-    refreshOfferConditionList();
     offer_condition_operation_list.setCellFactory(studentListView -> new OfferConditionOperationListViewCell());
 
+    refreshOfferConditionList();
   }
 
   public class OfferConditionOperationCell {
-    protected int _index;
-    protected String _value;
-    protected String _logicalOperator;
-    protected String _relationalOperator;
+    private int _index;
+    private String _value;
+    private String _logicalOperator;
+    private String _relationalOperator;
+    private Function<Integer, Boolean> _deleteFunction;
 
-    OfferConditionOperationCell(int index, String value, String logicalOperator, String relationalOperator) {
+    OfferConditionOperationCell(int index, String value, String logicalOperator, String relationalOperator,
+        Function<Integer, Boolean> deleteFunction) {
       _index = index;
       _value = value;
       _relationalOperator = relationalOperator;
       _logicalOperator = logicalOperator;
+      _deleteFunction = deleteFunction;
+    }
+
+    public void callDeleteFunction() {
+      if (_deleteFunction != null) {
+        _deleteFunction.apply(_index);
+      }
     }
 
     public int getIndex() {
@@ -146,9 +156,15 @@ public class OfferConditionManagerController extends ViewController {
         .getImmutableOfferOperations();
 
     for (int i = 0; i < offerConditionOperations.size(); i++) {
+
       _offerConditionOperationList.add(new OfferConditionOperationCell(i, offerConditionOperations.get(i).getValue(),
           offerConditionOperations.get(i).getLogicalOperator().toString(),
-          offerConditionOperations.get(i).getRelationalOperator().toString()));
+          offerConditionOperations.get(i).getRelationalOperator().toString(), (index) -> {
+            Core().removeOfferConditionOperation(offerCondition.getParentOffer().getName(), offerCondition.getName(),
+                index);
+            refreshOfferConditionList();
+            return false;
+          }));
     }
   }
 
@@ -193,7 +209,8 @@ public class OfferConditionManagerController extends ViewController {
       return;
     }
 
-    Core().createOfferConditionOperation(offerCondition.getParentOffer().getName(), offerCondition.getName(), "", "EQUALS", "AND");
+    Core().createOfferConditionOperation(offerCondition.getParentOffer().getName(), offerCondition.getName(), "",
+        "EQUALS", "AND");
     refreshOfferConditionList();
   }
 

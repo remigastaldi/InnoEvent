@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Font?>
 
-<StackPane fx:id="parentContainer" prefHeight="400.0" prefWidth="600.0" stylesheets="@../../dark-theme.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.inno.ui.popup.OfferManagerController">
+<StackPane fx:id="parentContainer" prefHeight="400.0" prefWidth="650.0" stylesheets="@../../dark-theme.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.inno.ui.popup.OfferManagerController">
    <children>
       <AnchorPane fx:id="anchor_root" prefHeight="400.0" prefWidth="603.0">
          <children>
@@ -20,18 +20,18 @@
                   <Label layoutY="-22.0" text="Offers" />
                </children>
             </Group>
-            <Label layoutX="312.0" layoutY="160.0" prefHeight="80.0" prefWidth="246.0" text="Select an offer to view his properties" textAlignment="CENTER" wrapText="true">
+            <Label contentDisplay="CENTER" layoutX="312.0" layoutY="160.0" prefHeight="80.0" prefWidth="308.0" text="Select an offer to view his properties" textAlignment="CENTER" wrapText="true">
                <font>
-                  <Font name="System Bold" size="17.0" />
+                  <Font name="System Bold" size="18.0" />
                </font>
             </Label>
-            <AnchorPane fx:id="offerProperties" layoutX="294.0" layoutY="39.0" prefHeight="310.0" prefWidth="282.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <AnchorPane fx:id="offerProperties" layoutX="294.0" layoutY="39.0" prefHeight="400.0" prefWidth="344.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
                   <TextField fx:id="offerReductionInput" layoutX="109.0" layoutY="100.0" onKeyReleased="#onTextChanged" prefHeight="29.0" prefWidth="156.0" AnchorPane.rightAnchor="17.0" />
                   <TextField fx:id="offerNameInput" layoutX="18.0" layoutY="41.0" onKeyReleased="#onTextChanged" prefHeight="45.0" prefWidth="256.0" promptText="Name" AnchorPane.leftAnchor="18.0" AnchorPane.rightAnchor="18.0" />
                   <Label layoutX="18.0" layoutY="106.0" text="Reduction" />
-                  <ListView fx:id="offerConditionList" layoutX="16.0" layoutY="161.0" onMouseClicked="#offerConditionListOnMouseClicked" prefHeight="194.0" prefWidth="250.0" />
-                  <Button layoutX="16.0" layoutY="355.0" mnemonicParsing="false" onAction="#createNewConditionAction" prefHeight="27.0" prefWidth="250.0" text="Create New Condition" />
+                  <ListView fx:id="offerConditionList" layoutX="16.0" layoutY="161.0" onMouseClicked="#offerConditionListOnMouseClicked" prefHeight="194.0" prefWidth="308.0" />
+                  <Button layoutX="16.0" layoutY="355.0" mnemonicParsing="false" onAction="#createNewConditionAction" prefHeight="27.0" prefWidth="308.0" text="Create New Condition" />
                   <Label layoutX="16.0" layoutY="141.0" text="Conditions" />
                </children>
             </AnchorPane>

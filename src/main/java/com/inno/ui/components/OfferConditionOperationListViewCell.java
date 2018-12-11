@@ -40,9 +40,12 @@ public class OfferConditionOperationListViewCell extends ListCell<OfferCondition
 
     private FXMLLoader mLLoader;
 
+    OfferConditionOperationCell _offerOperation;
+
     @Override
     protected void updateItem(OfferConditionOperationCell offerOperation, boolean empty) {
         super.updateItem(offerOperation, empty);
+        _offerOperation = offerOperation;
 
         if (empty || offerOperation == null) {
 
@@ -59,7 +62,7 @@ public class OfferConditionOperationListViewCell extends ListCell<OfferCondition
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-            }
+            }            
 
             String[] relationalOperators = Core.get().getRelationalOperatorTypePossibilities();
             String[] logicalOperators = Core.get().getLogicalOperatorTypePossibilities();
@@ -73,11 +76,15 @@ public class OfferConditionOperationListViewCell extends ListCell<OfferCondition
             operation_value.setText(offerOperation.getValue());
 
             operation_logical.setOnAction((e) -> {
-                offerOperation.setLogicalOperator(operation_logical.getSelectionModel().getSelectedItem());
+                if (operation_logical.getSelectionModel().getSelectedItem() != null) {
+                    offerOperation.setLogicalOperator(operation_logical.getSelectionModel().getSelectedItem());
+                }
             });
 
             operation_relational.setOnAction((e) -> {
-                offerOperation.setRelationalOperator(operation_relational.getSelectionModel().getSelectedItem());
+                if (operation_relational.getSelectionModel().getSelectedItem() != null) {
+                    offerOperation.setRelationalOperator(operation_relational.getSelectionModel().getSelectedItem());
+                }
             });
 
             operation_value.setOnKeyReleased((e) -> {
@@ -87,5 +94,10 @@ public class OfferConditionOperationListViewCell extends ListCell<OfferCondition
             setText(null);
             setGraphic(grid_pane);
         }
+    }
+
+    @FXML
+    private void deleteButtonAction() {
+        _offerOperation.callDeleteFunction();
     }
 }

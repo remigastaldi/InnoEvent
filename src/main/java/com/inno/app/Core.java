@@ -393,7 +393,11 @@ public class Core {
   public void setOfferConditionOperationRelationalOperator(String offerName, String offerConditionName, int index,
       String relationalOperator) {
     _pricing.setOfferConditionOperationRelationalOperator(offerName, offerConditionName, index, relationalOperator);
-
   }
+
+  public void removeOfferConditionOperation(String offerName, String offerConditionName, int index) {
+    _pricing.removeOfferConditionOperation(offerName, offerConditionName, index);
+  }
+
 
 };
