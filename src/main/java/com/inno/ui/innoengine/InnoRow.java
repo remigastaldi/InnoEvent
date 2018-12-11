@@ -2,7 +2,7 @@
  * File Created: Tuesday, 27th November 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Monday, 10th December 2018
+ * Last Modified: Tuesday, 11th December 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Remi
@@ -48,8 +48,6 @@ public class InnoRow {
     _toParent = toParent;
 
     double[] vitalSpace = engine.meterToPixel(new double[]{section.getImmutableVitalSpace().getWidth(), section.getImmutableVitalSpace().getHeight()});
-
-
     double[] start = null;
     double[] end = null;
 
@@ -76,11 +74,11 @@ public class InnoRow {
     double[] endX = null;
 
     if (toParent)
-      endX = _intShape.parentToLocal(new double[]{_line.getEndX() + vitalSpace[1] / 2, _line.getEndY() - vitalSpace[1] / 4});
+      endX = _intShape.parentToLocal(new double[]{_line.getEndX() + 15, _line.getEndY() - vitalSpace[1] / 4});
     else
-      endX = new double[]{_line.getEndX() + vitalSpace[1] / 2, _line.getEndY() - vitalSpace[1] / 4};
+      endX = new double[]{_line.getEndX() + 15, _line.getEndY() - vitalSpace[1] / 4};
   
-    Rectangle rect = new Rectangle(endX[0], endX[1], vitalSpace[1], vitalSpace[0] / 2);
+    Rectangle rect = new Rectangle(endX[0], endX[1], 10 + vitalSpace[1] / 4, vitalSpace[1] / 2);
     rect.setFill(Color.BLACK);
     rect.setOpacity(0.5);
     rect.setArcHeight(3);
@@ -90,7 +88,7 @@ public class InnoRow {
       selectRowSidebar();
       _selectedSeat = null;
     });
-    
+
     if (toParent) {
       // _engine.getPane().getChildren().add(rect);
       // rect.getTransforms().add(shape.getRotation());
@@ -99,9 +97,9 @@ public class InnoRow {
       shape.addSelectShape(rect);
 
     if (toParent)
-      endX = _intShape.parentToLocal(new double[]{_line.getEndX() + vitalSpace[1] / 1, _line.getEndY() + vitalSpace[1] / 7});
+      endX = _intShape.parentToLocal(new double[]{_line.getEndX() + 20, _line.getEndY() + vitalSpace[1] / 10});
     else
-      endX = new double[]{_line.getEndX() + vitalSpace[1] / 1, _line.getEndY() + vitalSpace[1] / 7};
+      endX = new double[]{_line.getEndX() + 20, _line.getEndY() + vitalSpace[1] / 10};
 
     Text text = new Text(endX[0], endX[1], row.getIdRow());
     text.setFill(Color.WHITE);
@@ -111,7 +109,7 @@ public class InnoRow {
       selectRowSidebar();
       _selectedSeat = null;
     });
-    
+
     if (toParent) {
       // _engine.getPane().getChildren().add(text);
       // text.getTransforms().add(shape.getRotation());
