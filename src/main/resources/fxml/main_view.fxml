@@ -117,9 +117,9 @@
                               <Tooltip text="Price Manager" />
                            </tooltip>
                         </Button>
-                        <Button maxHeight="25.0" maxWidth="25.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="25.0" ButtonBar.buttonData="LEFT">
+                        <Button fx:id="magnet_button" maxHeight="25.0" maxWidth="25.0" mnemonicParsing="false" onAction="#toggleMagnetismAction" prefHeight="25.0" prefWidth="25.0" ButtonBar.buttonData="LEFT">
                            <graphic>
-                              <ImageView fitHeight="15.0" fitWidth="15.0" preserveRatio="true">
+                              <ImageView fx:id="magnet_icon" fitHeight="15.0" fitWidth="15.0" preserveRatio="true">
                                  <image>
                                     <Image url="@../icon/magnet.png" />
                                  </image>

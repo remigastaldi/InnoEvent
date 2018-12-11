@@ -2,7 +2,7 @@
  * File Created: Wednesday, 26th September 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Sunday, 2nd December 2018
+ * Last Modified: Tuesday, 11th December 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -12,16 +12,8 @@
 package com.inno.ui.mainview;
 
 import java.io.File;
-import java.util.HashMap;
-import java.util.Map;
 
-import com.inno.app.room.ImmutableSeat;
-import com.inno.app.room.ImmutableSittingRow;
-import com.inno.app.room.ImmutableSittingSection;
-import com.inno.service.pricing.PlaceRate;
-import com.inno.service.pricing.ImmutablePlaceRate;
 import com.inno.ui.ViewController;
-import com.inno.ui.engine.Engine;
 import com.inno.ui.innoengine.InnoEngine;
 
 import javafx.animation.Interpolator;
@@ -30,7 +22,9 @@ import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.control.SplitPane;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
@@ -48,6 +42,10 @@ public class MainViewController extends ViewController {
   private StackPane stack_pane;
   @FXML
   private SplitPane mainSplitPane;
+  @FXML
+  private ImageView magnet_icon;
+  @FXML
+  private Button magnet_button;
 
   Node componentsPane = null;
 
@@ -120,9 +118,6 @@ public class MainViewController extends ViewController {
     case "r":
       Engine().createRectangularSection();
       break;
-    case "n":
-      Engine().changeRoomWidth(80);
-      Engine().changeRoomHeight(80);
     }
 
     if (evt.getCode() == KeyCode.DELETE)
@@ -220,5 +215,10 @@ public class MainViewController extends ViewController {
       InnoEngine innoEngine = View().getEngine();
       innoEngine.getView().openPopup("new_scene.fxml");
     }
+  }
+
+  @FXML
+  private void toggleMagnetismAction() {
+    Engine().toggleMagnetism();
   }
 }

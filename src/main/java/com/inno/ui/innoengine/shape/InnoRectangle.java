@@ -2,7 +2,7 @@
  * File Created: Monday, 15th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Monday, 10th December 2018
+ * Last Modified: Tuesday, 11th December 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -132,6 +132,9 @@ public class InnoRectangle extends InteractiveRectangle {
 
   @Override
   public boolean onAnchorPressed() {
+    if (_sectionData == null)
+      return true;
+
     _ghost = new Rectangle(getX(), getY(), getWidth(), getHeight());
     _ghost.setFill(Color.TRANSPARENT);
     _ghost.setStroke(Color.GOLD);
@@ -161,6 +164,9 @@ public class InnoRectangle extends InteractiveRectangle {
 
   @Override
   public boolean onAnchorReleased() {
+    if (_sectionData == null)
+      return true;
+
     Pane().getChildren().remove(_ghost);
     _ghost = null;
     _ghostRotation = null;

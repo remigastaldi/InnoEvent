@@ -2,7 +2,7 @@
  * File Created: Friday, 12th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Monday, 10th December 2018
+ * Last Modified: Tuesday, 11th December 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -364,6 +364,10 @@ public class Engine {
 
   public ArrayList<InteractiveShape<? extends Shape>> getShapes() {
     return _shapes;
+  }
+
+  public void toggleMagnetism() {
+    _magenetismManager.toggleMagnetism();
   }
 }
 
