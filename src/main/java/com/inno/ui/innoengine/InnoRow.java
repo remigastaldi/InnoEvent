@@ -88,6 +88,8 @@ public class InnoRow {
       selectRowSidebar();
       _selectedSeat = null;
     });
+    if (_engine.getSelectedShape() != _intShape)
+      rect.setVisible(false);
 
     if (toParent) {
       // _engine.getPane().getChildren().add(rect);
@@ -109,6 +111,8 @@ public class InnoRow {
       selectRowSidebar();
       _selectedSeat = null;
     });
+    if (_engine.getSelectedShape() != _intShape)
+      text.setVisible(false);
 
     if (toParent) {
       // _engine.getPane().getChildren().add(text);
