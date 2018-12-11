@@ -2,7 +2,7 @@
  * File Created: Thursday, 6th December 2018
  * Author: HUBERT Léo
  * -----
- * Last Modified: Sunday, 9th December 2018
+ * Last Modified: Monday, 10th December 2018
  * Modified By: HUBERT Léo
  * -----
  * Copyright - 2018 HUBERT Léo
@@ -18,7 +18,6 @@ import com.inno.ui.popup.StartupPopupController.Project;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Bounds;
-import javafx.geometry.Point2D;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.Tooltip;

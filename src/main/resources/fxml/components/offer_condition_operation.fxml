@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+
+<GridPane fx:id="grid_pane" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="290.0" stylesheets="@../../dark-theme.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+  <columnConstraints>
+    <ColumnConstraints halignment="CENTER" minWidth="10.0" prefWidth="100.0" />
+    <ColumnConstraints halignment="CENTER" minWidth="10.0" prefWidth="100.0" />
+      <ColumnConstraints halignment="CENTER" minWidth="10.0" prefWidth="100.0" />
+  </columnConstraints>
+  <rowConstraints>
+    <RowConstraints minHeight="10.0" prefHeight="30.0" valignment="CENTER" vgrow="SOMETIMES" />
+  </rowConstraints>
+   <children>
+      <ChoiceBox fx:id="operation_relational" prefHeight="27.0" prefWidth="60.0" />
+      <TextField fx:id="operation_value" alignment="CENTER" promptText="Value" GridPane.columnIndex="1" />
+      <ChoiceBox fx:id="operation_logical" prefHeight="27.0" prefWidth="60.0" GridPane.columnIndex="2" />
+   </children>
+</GridPane>

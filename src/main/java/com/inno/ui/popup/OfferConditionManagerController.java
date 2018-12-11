@@ -21,6 +21,7 @@ import com.inno.service.pricing.ImmutableOfferOperation;
 import com.inno.ui.Validator;
 import com.inno.ui.ViewController;
 import com.inno.ui.View.AnimationDirection;
+import com.inno.ui.components.OfferConditionOperationListViewCell;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -42,10 +43,9 @@ public class OfferConditionManagerController extends ViewController {
   private TextArea offer_condition_description_input;
 
   @FXML
-  private ListView<String> offer_condition_operation_list;
+  private ListView<ImmutableOfferOperation> offer_condition_operation_list;
 
-  ObservableList<String> _offerConditionOperatorList = FXCollections.observableArrayList();
-
+  ObservableList<ImmutableOfferOperation> _offerConditionOperatorList = FXCollections.observableArrayList();
 
   public OfferConditionManagerController() {
   }
@@ -67,6 +67,7 @@ public class OfferConditionManagerController extends ViewController {
     offer_condition_description_input.setText(offerCondition.getDescription());
 
     refreshOfferConditionList();
+    offer_condition_operation_list.setCellFactory(studentListView -> new OfferConditionOperationListViewCell());
 
   }
 
@@ -97,12 +98,13 @@ public class OfferConditionManagerController extends ViewController {
     }
 
     _offerConditionOperatorList.clear();
-    ArrayList<? extends ImmutableOfferOperation> offerConditionOperations = Core().getOfferCondition(offerCondition.getParentOffer().getName(), offerCondition.getName()).getOfferOperations();
-    offerConditionOperations.forEach((operation ) -> {
-
-      _offerConditionOperatorList.add(operation.getValue());
+    ArrayList<? extends ImmutableOfferOperation> offerConditionOperations = Core()
+        .getOfferCondition(offerCondition.getParentOffer().getName(), offerCondition.getName())
+        .getImmutableOfferOperations();
+    offerConditionOperations.forEach((operation) -> {
+      _offerConditionOperatorList.add((ImmutableOfferOperation) operation);
     });
-}
+  }
 
   @FXML
   private void doneButtonAction() {

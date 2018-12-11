@@ -79,4 +79,9 @@ public class OfferCondition implements ImmutableOfferCondition, Serializable {
   public ArrayList<OfferOperation> getOfferOperations() {
     return this._offerOperations;
   }
+
+  @Override
+  public ArrayList<? extends ImmutableOfferOperation> getImmutableOfferOperations() {
+    return this._offerOperations;
+  }
 };

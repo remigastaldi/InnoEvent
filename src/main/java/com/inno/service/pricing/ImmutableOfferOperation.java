@@ -14,11 +14,11 @@ package com.inno.service.pricing;
 public interface ImmutableOfferOperation {
 
   public enum RelationalOperator {
-    INFERIOR, INFERIOR_OR_EQUALS, SUPERIOR, SUPERIOR_OR_EQUALS, EQUALS, NOT
+    INFERIOR, INFERIOR_OR_EQUALS, SUPERIOR, SUPERIOR_OR_EQUALS, EQUALS
   }
 
   public enum LogicalOperator {
-    AND, OR
+    AND, OR, NOT
   }
 
   public String getValue();

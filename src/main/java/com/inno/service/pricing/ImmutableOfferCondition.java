@@ -23,7 +23,7 @@ public interface ImmutableOfferCondition {
 
   public LogicalOperator getLogicalOperator();
 
-  public ArrayList<? extends ImmutableOfferOperation> getOfferOperations();
+  public ArrayList<? extends ImmutableOfferOperation> getImmutableOfferOperations();
 
   public ImmutableOffer getParentOffer();
 }

@@ -322,9 +322,11 @@ public class Core {
       String logicalOperator) {
     return _pricing.createOfferCondition(offerName, offerConditionName, description, logicalOperator);
   }
-  
-  public ImmutableOfferOperation createOfferConditionOperation(String offerName, String offerConditionName, String value, String relationalOperator, String logicalOperator) {
-    return  _pricing.createOfferConditionOperation(offerName, offerConditionName, value, relationalOperator, logicalOperator);
+
+  public ImmutableOfferOperation createOfferConditionOperation(String offerName, String offerConditionName,
+      String value, String relationalOperator, String logicalOperator) {
+    return _pricing.createOfferConditionOperation(offerName, offerConditionName, value, relationalOperator,
+        logicalOperator);
   }
 
   public ImmutableOffer getOffer(String name) {
@@ -350,12 +352,19 @@ public class Core {
   public void setOfferConditionName(String offerName, String offerConditionName, String nName) {
     _pricing.setOfferConditionName(offerName, offerConditionName, nName);
   }
-  
+
   public void setOfferConditionDescription(String offerName, String offerConditionName, String description) {
     _pricing.setOfferConditionDescription(offerName, offerConditionName, description);
 
   }
-  
+
+  public String[] getRelationalOperatorTypePossibilities() {
+    return _pricing.getRelationalOperatorTypePossibilities();
+  }
+
+  public String[] getLogicalOperatorTypePossibilities() {
+    return _pricing.getLogicalOperatorTypePossibilities();
+  }
 
   public HashMap<String, ? extends ImmutablePlaceRate> getPrices() {
     return _pricing.getPlaces();
