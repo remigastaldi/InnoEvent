@@ -2,7 +2,7 @@
  * File Created: Tuesday, 27th November 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Tuesday, 11th December 2018
+ * Last Modified: Wednesday, 12th December 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Remi
@@ -47,16 +47,20 @@ public class InnoRow {
     _row = row;
     _toParent = toParent;
 
-    double[] vitalSpace = engine.meterToPixel(new double[]{section.getImmutableVitalSpace().getWidth(), section.getImmutableVitalSpace().getHeight()});
+    createAll();
+  }
+
+  private void createAll() {
+    double[] vitalSpace = _engine.meterToPixel(new double[]{_section.getImmutableVitalSpace().getWidth(), _section.getImmutableVitalSpace().getHeight()});
     double[] start = null;
     double[] end = null;
 
-    if (toParent) {
-      start = _intShape.noRotatedParentPointsToRotated(_engine.meterToPixel(row.getPosStartRow()));
-      end = _intShape.noRotatedParentPointsToRotated(_engine.meterToPixel(row.getPosEndRow()));
+    if (_toParent) {
+      start = _intShape.noRotatedParentPointsToRotated(_engine.meterToPixel(_row.getPosStartRow()));
+      end = _intShape.noRotatedParentPointsToRotated(_engine.meterToPixel(_row.getPosEndRow()));
     } else {
-      start = _intShape.parentToLocal(_intShape.noRotatedParentPointsToRotated(_engine.meterToPixel(row.getPosStartRow())));
-      end =  _intShape.parentToLocal(_intShape.noRotatedParentPointsToRotated(_engine.meterToPixel(row.getPosEndRow())));
+      start = _intShape.parentToLocal(_intShape.noRotatedParentPointsToRotated(_engine.meterToPixel(_row.getPosStartRow())));
+      end =  _intShape.parentToLocal(_intShape.noRotatedParentPointsToRotated(_engine.meterToPixel(_row.getPosEndRow())));
     }
 
     _line = new Line(start[0], start[1], end[0], end[1]);
@@ -65,66 +69,26 @@ public class InnoRow {
     if (_toParent)
       _engine.getPane().getChildren().add(_line);
     else
-      shape.addAdditionalShape(_line);
+      _intShape.addAdditionalShape(_line);
 
     _line.setOnMouseClicked(event -> {
       selectRowSidebar();
     });
 
-    double[] endX = null;
+    createLabel(_toParent, vitalSpace);
 
-    if (toParent)
-      endX = _intShape.parentToLocal(new double[]{_line.getEndX() + 15, _line.getEndY() - vitalSpace[1] / 4});
-    else
-      endX = new double[]{_line.getEndX() + 15, _line.getEndY() - vitalSpace[1] / 4};
-  
-    Rectangle rect = new Rectangle(endX[0], endX[1], 10 + vitalSpace[1] / 4, vitalSpace[1] / 2);
-    rect.setFill(Color.BLACK);
-    rect.setOpacity(0.5);
-    rect.setArcHeight(3);
-    rect.setArcWidth(3);
-    rect.setOnMouseClicked(event -> {
-      System.out.println("Row " + row.getIdRow());
-      selectRowSidebar();
-      _selectedSeat = null;
-    });
-    if (_engine.getSelectedShape() != _intShape)
-      rect.setVisible(false);
+    createSeats(_toParent);
 
-    if (toParent) {
-      // _engine.getPane().getChildren().add(rect);
-      // rect.getTransforms().add(shape.getRotation());
+    if (Core.get().getRowPrice(_section.getIdSection(), _row.getIdRow()).getPrice() != -1) {
+      setRowColor(Color.valueOf(Core.get().getRowPrice(_section.getIdSection(), _row.getIdRow()).getColor()));
+    } else {
+      resetRowColor();
     }
-    else
-      shape.addSelectShape(rect);
+  }
 
-    if (toParent)
-      endX = _intShape.parentToLocal(new double[]{_line.getEndX() + 20, _line.getEndY() + vitalSpace[1] / 10});
-    else
-      endX = new double[]{_line.getEndX() + 20, _line.getEndY() + vitalSpace[1] / 10};
-
-    Text text = new Text(endX[0], endX[1], row.getIdRow());
-    text.setFill(Color.WHITE);
-    text.setFont(new Font(vitalSpace[1] / 3));
-    text.setOnMouseClicked(event -> {
-      System.out.println("Row " + row.getIdRow());
-      selectRowSidebar();
-      _selectedSeat = null;
-    });
-    if (_engine.getSelectedShape() != _intShape)
-      text.setVisible(false);
-
-    if (toParent) {
-      // _engine.getPane().getChildren().add(text);
-      // text.getTransforms().add(shape.getRotation());
-    }
-    else
-      shape.addSelectShape(text);
-
-    _text[0] = rect;
-    _text[1] = text;
-
-    ArrayList<? extends ImmutableSeat> seats = row.getSeats();
+  private void createSeats(boolean toParent) {
+	  ArrayList<? extends ImmutableSeat> seats = _row.getSeats();
+    
     for (ImmutableSeat seat : seats) {
       double[] points = null;
       if (toParent) {
@@ -136,12 +100,12 @@ public class InnoRow {
       }
       Circle circle = new Circle(points[0], points[1], 6d);
       circle.setFill(getDeriveColor(Color
-          .valueOf(Core.get().getSeatPrice(shape.getID(), row.getIdRow(), Integer.toString(seat.getId())).getColor())
+          .valueOf(Core.get().getSeatPrice(_intShape.getID(), _row.getIdRow(), Integer.toString(seat.getId())).getColor())
           .deriveColor(1, 1, 1, 0.85)));
       circle.setStroke(Color.TRANSPARENT);
       circle.setOnMouseClicked(event -> {
         _selectedSeat = seat;
-        engine.getView().setSidebarFromFxmlFileName("sidebar_seat.fxml", this);
+        _engine.getView().setSidebarFromFxmlFileName("sidebar_seat.fxml", this);
       });
 
       _seats.put(seat.getId(), circle);
@@ -149,19 +113,68 @@ public class InnoRow {
       if (_toParent)
         _engine.getPane().getChildren().add(circle);
       else
-        shape.addAdditionalShape(circle);
+        _intShape.addAdditionalShape(circle);
 
-      if (Core.get().getSeatPrice(section.getIdSection(), row.getIdRow(), Integer.toString(seat.getId())).getPrice() != -1) {
-        setSeatColor(seat.getId(), Color.valueOf(Core.get().getSeatPrice(section.getIdSection(), row.getIdRow(), Integer.toString(seat.getId())).getColor()));
+      if (Core.get().getSeatPrice(_section.getIdSection(), _row.getIdRow(), Integer.toString(seat.getId())).getPrice() != -1) {
+        setSeatColor(seat.getId(), Color.valueOf(Core.get().getSeatPrice(_section.getIdSection(), _row.getIdRow(), Integer.toString(seat.getId())).getColor()));
       }
     }
-
-    if (Core.get().getRowPrice(section.getIdSection(), row.getIdRow()).getPrice() != -1) {
-      setRowColor(Color.valueOf(Core.get().getRowPrice(section.getIdSection(), row.getIdRow()).getColor()));
-    } else {
-      resetRowColor();
-    }
   }
+
+  private void createLabel(boolean toParent, double[] vitalSpace) {
+    double[] endX = null;
+
+    if (toParent)
+      endX = _intShape.parentToLocal(new double[] { _line.getEndX() + 15, _line.getEndY() - vitalSpace[1] / 4 });
+    else
+      endX = new double[] { _line.getEndX() + 15, _line.getEndY() - vitalSpace[1] / 4 };
+
+    Rectangle rect = new Rectangle(endX[0], endX[1], 10 + vitalSpace[1] / 4, vitalSpace[1] / 2);
+    rect.setFill(Color.BLACK);
+    rect.setOpacity(0.5);
+    rect.setArcHeight(3);
+    rect.setArcWidth(3);
+    rect.setOnMouseClicked(event -> {
+      System.out.println("Row " + _row.getIdRow());
+      selectRowSidebar();
+      _selectedSeat = null;
+    });
+    if (_engine.getSelectedShape() != _intShape)
+      rect.setVisible(false);
+
+    if (toParent) {
+      // _engine.getPane().getChildren().add(rect);
+      // rect.getTransforms().add(shape.getRotation());
+    } else
+      _intShape.addSelectShape(rect);
+
+    if (toParent)
+      endX = _intShape.parentToLocal(new double[]{_line.getEndX() + 20, _line.getEndY() + vitalSpace[1] / 10});
+    else
+      endX = new double[]{_line.getEndX() + 20, _line.getEndY() + vitalSpace[1] / 10};
+
+    Text text = new Text(endX[0], endX[1], _row.getIdRow());
+    text.setFill(Color.WHITE);
+    text.setFont(new Font(vitalSpace[1] / 3));
+    text.setOnMouseClicked(event -> {
+      System.out.println("Row " + _row.getIdRow());
+      selectRowSidebar();
+      _selectedSeat = null;
+    });
+    if (_engine.getSelectedShape() != _intShape)
+      text.setVisible(false);
+
+    if (toParent) {
+      // _engine.getPane().getChildren().add(text);
+      // text.getTransforms().add(_intShape.getRotation());
+    }
+    else
+      _intShape.addSelectShape(text);
+
+    _text[0] = rect;
+    _text[1] = text;
+  }
+
   public void selectRowSidebar() {
     _engine.getView().setSidebarFromFxmlFileName("sidebar_row.fxml", this);
   }
@@ -246,4 +259,8 @@ public class InnoRow {
     }
   }
 
+  public void updateRowFromData() {
+    destroy();
+    createAll();
+  }
 }

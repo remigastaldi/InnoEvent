@@ -3,7 +3,7 @@
  * Author: GASTALDI Rémi
  * -----
  * Last Modified: Wednesday, 12th December 2018
- * Modified By: MAREL Maud
+ * Modified By: HUBERT Léo
  * -----
  * Copyright - 2018 GASTALDI Rémi
  * <<licensetext>>
@@ -34,6 +34,9 @@ import com.inno.service.pricing.PlaceRate;
 import com.inno.service.pricing.ImmutablePlaceRate;
 import com.inno.service.pricing.Pricing;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
 public class Core {
 
   private static Core _instance = null;
@@ -42,6 +45,7 @@ public class Core {
   private InnoSave _saveService = new InnoSave();
   private Pricing _pricing = new Pricing();
   private SettingsService _settings = new SettingsService();
+  private ObservableList<String> _availableOffers = FXCollections.observableArrayList();
 
   private ArrayList<String> _recentPaths = new ArrayList<>();
 
@@ -75,7 +79,6 @@ public class Core {
     this._room.setName(name);
   }
 
-  
   public void setRoomWidth(double width) {
     this._room.setWidth(width);
   }
@@ -202,6 +205,24 @@ public class Core {
     }
   }
 
+  public void addSectionOffer(String id, String offerName) {
+    HashMap<String, ? extends ImmutablePlaceRate> places = _pricing.getPlaces(id + "|");
+    _pricing.addPlaceRateOffer(id, offerName);
+    for (Map.Entry<String, ? extends ImmutablePlaceRate> entry : places.entrySet()) {
+      String key = entry.getKey();
+      _pricing.addPlaceRateOffer(key, offerName);
+    }
+  }
+
+  public void removeSectionOffer(String id, String offerName) {
+    HashMap<String, ? extends ImmutablePlaceRate> places = _pricing.getPlaces(id + "|");
+    _pricing.removePlaceRateOffer(id, offerName);
+    for (Map.Entry<String, ? extends ImmutablePlaceRate> entry : places.entrySet()) {
+      String key = entry.getKey();
+      _pricing.removePlaceRateOffer(key, offerName);
+    }
+  }
+
   public void setSectionPrice(String idSection, double price) {
     setSectionPrice(idSection, price, null);
   }
@@ -292,6 +313,15 @@ public class Core {
     _settings.set("recent_paths", _recentPaths);
     _room = (Room) save.getRoomData();
     _pricing = save.getPricing();
+    refreshOfferList();
+  }
+
+  public void refreshOfferList() {
+    _availableOffers.clear();
+    HashMap<String, ? extends ImmutableOffer> offers = getOffers();
+    for (Map.Entry<String, ? extends ImmutableOffer> entry : offers.entrySet()) {
+      _availableOffers.add(entry.getKey());
+    }
   }
 
   public ArrayList<String> getRecentPaths() {
@@ -333,7 +363,9 @@ public class Core {
   }
 
   public ImmutableOffer createOffer(String name, String description, double reduction, String reductionType) {
-    return _pricing.createOffer(name, description, reduction, reductionType);
+    ImmutableOffer offer = _pricing.createOffer(name, description, reduction, reductionType);
+    refreshOfferList();
+    return offer;
   }
 
   public ImmutableOfferCondition createOfferCondition(String offerName, String offerConditionName, String description,
@@ -364,7 +396,9 @@ public class Core {
   }
 
   public ImmutableOffer setOfferName(String name, String newName) {
-    return _pricing.setOfferName(name, newName);
+    ImmutableOffer offer = _pricing.setOfferName(name, newName);
+    refreshOfferList();
+    return offer;
   }
 
   public void setOfferConditionName(String offerName, String offerConditionName, String nName) {
@@ -406,6 +440,10 @@ public class Core {
     _pricing.removeOfferConditionOperation(offerName, offerConditionName, index);
   }
 
+  public void addPlaceRateOffer(String id, String offerName) {
+    _pricing.addPlaceRateOffer(id, offerName);
+  }
+
   // Save Methods
 
   public void closeProject() {
@@ -422,5 +460,10 @@ public class Core {
   public Object getSettingsValue(String key) {
     return _settings.get(key);
   }
+
+  public ObservableList<String> getObservableOffersList() {
+    return _availableOffers;
+  }
+
 
 };

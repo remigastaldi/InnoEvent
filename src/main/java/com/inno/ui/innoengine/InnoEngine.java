@@ -2,7 +2,7 @@
  * File Created: Friday, 12th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Monday, 10th December 2018
+ * Last Modified: Wednesday, 12th December 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -18,17 +18,16 @@ import com.inno.app.Core;
 import com.inno.app.room.ImmutableRoom;
 import com.inno.app.room.ImmutableScene;
 import com.inno.app.room.ImmutableSittingSection;
+import com.inno.app.room.ImmutableStandingSection;
 import com.inno.ui.View;
 import com.inno.ui.engine.Engine;
 import com.inno.ui.engine.shape.InteractiveShape;
 import com.inno.ui.innoengine.shape.InnoPolygon;
 import com.inno.ui.innoengine.shape.InnoRectangle;
 
-import javafx.geometry.Point2D;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
 import javafx.scene.shape.Shape;
 import javafx.scene.transform.Rotate;
 
@@ -47,21 +46,25 @@ public class InnoEngine extends Engine {
     setBackgroundColor(Color.valueOf("#282C34"));
     activateGrid(true);
 
-
     loadSections(roomData);
     loadScene();
   }
 
   private void loadSections(ImmutableRoom roomData) {
-  	Collection<? extends ImmutableSittingSection> sections = roomData.getImmutableSittingSections().values();
-    for (ImmutableSittingSection shape : sections) {
-      if (shape.isRectangle()) {
-        System.out.println("Load rectangular shape");
-        createRectangularSection(shape.getIdSection());
+  	Collection<? extends ImmutableSittingSection> sittingSections = roomData.getImmutableSittingSections().values();
+    for (ImmutableSittingSection section : sittingSections) {
+      if (section.isRectangle()) {
+        System.out.println("Load rectangular sitting section");
+        createRectangularSection(section.getIdSection());
       } else {
-        System.out.println("Load irregular shape");
-        createIrregularSection(shape.getIdSection());
-        }
+        System.out.println("Load irregular sitting shape");
+        createIrregularSection(section.getIdSection(), false);
+      }
+    }
+  	Collection<? extends ImmutableStandingSection> standingSection = roomData.getImmutableStandingSections().values();
+    for (ImmutableStandingSection section : standingSection) {
+      System.out.println("Load irregular standing shape");
+      createIrregularSection(section.getIdSection(), true);
     }
   }
 
@@ -125,9 +128,9 @@ public class InnoEngine extends Engine {
     deselect();
   }
 
-  public void createIrregularSection(String id) {
+  public void createIrregularSection(String id, boolean isStanding) {
     deselect();
-    InnoPolygon shape = new InnoPolygon(this, getPane(), id);
+    InnoPolygon shape = new InnoPolygon(this, getPane(), id, isStanding);
     addInteractiveShape(shape);
   }
 

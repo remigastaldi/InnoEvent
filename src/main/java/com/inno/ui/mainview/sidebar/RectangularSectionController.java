@@ -2,7 +2,7 @@
  * File Created: Tuesday, 13th November 2018
  * Author: MAREL Maud
  * -----
- * Last Modified: Tuesday, 11th December 2018
+ * Last Modified: Wednesday, 12th December 2018
  * Modified By: HUBERT Léo
  * -----
  * Copyright - 2018 MAREL Maud
@@ -11,26 +11,30 @@
 
 package com.inno.ui.mainview.sidebar;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import com.inno.service.pricing.ImmutableOffer;
+import com.inno.service.pricing.ImmutablePlaceRate;
 import com.inno.ui.Validator;
 import com.inno.ui.ViewController;
 import com.inno.ui.engine.shape.InteractiveRectangle;
 import com.inno.ui.innoengine.shape.InnoRectangle;
 
 import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Point2D;
 import javafx.scene.Group;
 import javafx.scene.control.Accordion;
 import javafx.scene.control.ColorPicker;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 
 public class RectangularSectionController extends ViewController {
@@ -65,6 +69,11 @@ public class RectangularSectionController extends ViewController {
   private TextField section_price_input;
   @FXML
   private ColorPicker section_price_color_picker;
+
+  @FXML
+  private ListView<String> attributed_offers_list;
+  @FXML
+  private ListView<String> available_offers_list;
 
   EventHandler<MouseEvent> _mouseDragged;
 
@@ -125,6 +134,53 @@ public class RectangularSectionController extends ViewController {
       if (!section_rows_input.getText().equals(Integer.toString(rectangle.getRowNumber()))) {
         section_rows_input.setText(Integer.toString(rectangle.getRowNumber()));
       }
+    });
+
+    // Price color
+    ImmutablePlaceRate place = Core().getSectionPrice(rectangle.getID());
+    if (place != null) {
+      if (place.getPrice() != -1) {
+        section_price_input.setText(Double.toString(place.getPrice()));
+        section_price_color_picker.setDisable(false);
+      }
+      section_price_color_picker.setValue(Color.valueOf(place.getColor()));
+    }
+
+    // Offers
+    available_offers_list.setItems(Core().getObservableOffersList());
+    refreshAttributedOffer();
+
+    available_offers_list.setOnMouseClicked((e) -> {
+      if (e.getClickCount() == 2) {
+        Core().addSectionOffer(rectangle.getID(), available_offers_list.getFocusModel().getFocusedItem());
+        available_offers_list.getItems().remove(available_offers_list.getFocusModel().getFocusedItem());
+        refreshAttributedOffer();
+      }
+    });
+
+    attributed_offers_list.setOnMouseClicked((e) -> {
+      if (e.getClickCount() == 2) {
+        Core().removeSectionOffer(rectangle.getID(), attributed_offers_list.getFocusModel().getFocusedItem());
+        available_offers_list.getItems().add(attributed_offers_list.getFocusModel().getFocusedItem());
+        refreshAttributedOffer();
+      }
+    });
+
+  }
+
+  private void refreshAttributedOffer() {
+    InnoRectangle rectangle = (InnoRectangle) getIntent();
+
+    if (rectangle == null) {
+      System.out.println("Rectangle is null");
+      return;
+    }
+
+    ArrayList<? extends ImmutableOffer> offers = Core().getSectionPrice(rectangle.getID()).getImmutableOffers();
+    attributed_offers_list.getItems().clear();
+    offers.forEach((offer) -> {
+      available_offers_list.getItems().remove(offer.getName());
+      attributed_offers_list.getItems().add(offer.getName());
     });
   }
 
@@ -212,6 +268,25 @@ public class RectangularSectionController extends ViewController {
         }
         if (section_name_input.isFocused())
           Core().setSectionName(rectangle.getID(), section_name_input.getText());
+
+        if (section_price_input.getText().trim().length() != 0) {
+          section_price_color_picker.setDisable(false);
+          Core().setSectionPrice(rectangle.getID(),
+              Double.parseDouble(
+                  section_price_input.getText().trim().length() != 0 ? section_price_input.getText() : "-1"),
+              "#" + Integer.toHexString(section_price_color_picker.getValue().hashCode()));
+          if (section_price_color_picker.isFocused()) {
+            rectangle.updateRowsFromData(false);
+          }
+        } else {
+          Core().setSectionPrice(rectangle.getID(),
+              Double.parseDouble(
+                  section_price_input.getText().trim().length() != 0 ? section_price_input.getText() : "-1"),
+              "#6378bf");
+          section_price_color_picker.setDisable(true);
+          section_price_color_picker.setValue(Color.valueOf("#6378bf"));
+        }
+
       } catch (Exception e) {
         System.out.println(e);
       }
