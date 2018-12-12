@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
+
+<GridPane fx:id="grid_pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="45.0" prefWidth="213.0" stylesheets="@../../dark-theme.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+  <columnConstraints>
+    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+  </columnConstraints>
+  <rowConstraints>
+    <RowConstraints maxHeight="267.0" minHeight="0.0" prefHeight="131.0" vgrow="SOMETIMES" />
+      <RowConstraints maxHeight="267.0" minHeight="10.0" prefHeight="131.0" vgrow="SOMETIMES" />
+  </rowConstraints>
+   <children>
+      <Label fx:id="project_name_label" prefHeight="17.0" prefWidth="213.0" style="-fx-text-fill: white;" text="Project Name" textAlignment="CENTER" GridPane.halignment="LEFT">
+         <font>
+            <Font name="Arial Bold" size="15.0" />
+         </font>
+         <padding>
+            <Insets left="10.0" right="10.0" />
+         </padding>
+      </Label>
+      <Label fx:id="project_path_label" prefHeight="17.0" text="/uhf/fehif/deuhfiehihfi/uehiofuihiuehi/toto.inevtn" textAlignment="CENTER" textOverrun="CENTER_ELLIPSIS" GridPane.columnSpan="2147483647" GridPane.halignment="LEFT" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.rowSpan="2147483647" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS">
+         <font>
+            <Font name="Arial" size="13.0" />
+         </font>
+         <padding>
+            <Insets left="10.0" right="10.0" />
+         </padding>
+         <GridPane.margin>
+            <Insets />
+         </GridPane.margin></Label>
+   </children>
+</GridPane>

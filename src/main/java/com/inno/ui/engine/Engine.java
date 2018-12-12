@@ -2,7 +2,7 @@
  * File Created: Friday, 12th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Sunday, 2nd December 2018
+ * Last Modified: Tuesday, 11th December 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -41,6 +41,7 @@ public class Engine {
   private CustomCursor _cursor = null;
   private double _scale = 10.0;
   private MagnetismManager _magenetismManager = null;
+  private Group _paneGroup = null;
 
   private ScrollPane scrollPane;
 
@@ -52,11 +53,11 @@ public class Engine {
 
     _pane.setPrefSize(width, height);
 
-    Group group = new Group(_pane);
-    StackPane content = new StackPane(group);
+    _paneGroup = new Group(_pane);
+    StackPane content = new StackPane(_paneGroup);
     content.setStyle("-fx-background-color: #1E1E1E");
 
-    group.layoutBoundsProperty().addListener((observable, oldBounds, newBounds) -> {
+    _paneGroup.layoutBoundsProperty().addListener((observable, oldBounds, newBounds) -> {
       // keep it at least as large as the content
       content.setMinWidth(newBounds.getWidth());
       content.setMinHeight(newBounds.getHeight());
@@ -73,20 +74,10 @@ public class Engine {
 
     content.setOnScroll(evt -> {
       if (evt.isControlDown()) {
-          evt.consume();
+        evt.consume();
 
-          final double zoomFactor = evt.getDeltaY() > 0 ? 1.2 : 1 / 1.2;
-
-          Point2D scrollOffset = figureScrollOffset(group, scrollPane);
-
-          // do the resizing
-          _pane.setScaleX(zoomFactor * _pane.getScaleX());
-          _pane.setScaleY(zoomFactor * _pane.getScaleY());
-
-          // refresh ScrollPane scroll positions & content bounds
-          scrollPane.layout();
-
-          repositionScroller(group, scrollPane, zoomFactor, scrollOffset);
+        final double zoomFactor = evt.getDeltaY() > 0 ? 1.2 : 1 / 1.2;
+        zoom(zoomFactor);
       }
     });
     stackPane.getChildren().add(scrollPane);
@@ -113,6 +104,19 @@ public class Engine {
     _pane.getChildren().add(_board);
 
     _cursor = new CustomCursor(_pane);
+  }
+
+  public void zoom(double factor) {
+    Point2D scrollOffset = figureScrollOffset(_paneGroup, scrollPane);
+
+    // do the resizing
+    _pane.setScaleX(factor * _pane.getScaleX());
+    _pane.setScaleY(factor * _pane.getScaleY());
+
+    // refresh ScrollPane scroll positions & content bounds
+    scrollPane.layout();
+
+    repositionScroller(_paneGroup, scrollPane, factor, scrollOffset);
   }
 
   public void setBackgroundColor(Color color) {
@@ -157,16 +161,18 @@ public class Engine {
   public void activateGrid(boolean val) {
     if (val) {
       if (_grid == null) {
-        _grid = new Grid(_pane);
-        activateGridMagnetism();
-      } else {
-        _grid.destroy();        
-      }
-      _grid.setColor(Color.valueOf("#777A81"));
-      _grid.setLinesWidth(0.4);
-      _grid.setXSpacing(6);
-      _grid.setYSpacing(6);
-      _grid.activate();
+      _grid = new Grid(_pane);
+    } else {
+      _grid.destroy();        
+      _grid = new Grid(_pane);
+      // activateGridMagnetism();
+    }
+    _grid.setColor(Color.valueOf("#777A81"));
+    _grid.setLinesWidth(0.4);
+    _grid.setXSpacing(6);
+    _grid.setYSpacing(6);
+    _grid.activate();
+    activateGridMagnetism();
     } else {
       _grid.disable();
       _grid = null;
@@ -174,8 +180,8 @@ public class Engine {
   }
 
   public void activateGridMagnetism() {
-    for (Shape line : _grid.getLines()) {
-      _magenetismManager.registerShape(line);
+      for (Shape line : _grid.getLines()) {
+        _magenetismManager.registerShape(line);
     }
   }
 
@@ -358,6 +364,14 @@ public class Engine {
 
   public void computeCursorPosition(MouseEvent event) {
     computeCursorPosition(event, null);
+  }
+
+  public ArrayList<InteractiveShape<? extends Shape>> getShapes() {
+    return _shapes;
+  }
+
+  public void toggleMagnetism() {
+    _magenetismManager.toggleMagnetism();
   }
 }
 

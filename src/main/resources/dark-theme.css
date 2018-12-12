@@ -49,6 +49,11 @@
     -fx-text-fill: -fx-light-grey;
 }
 
+.text-area .viewport .content {
+    -fx-background-color: -fx-dark;
+    -fx-background-radius: 0;
+}
+
 .text-input {
     -fx-background-color: -fx-grey;
     -fx-text-fill: -fx-light-grey;
@@ -164,7 +169,6 @@
     -fx-text-fill: white;
 }
 
-
 .titled-pane:expanded>.title>.arrow-button .arrow {
     -fx-background-color: -fx-primary;
 }
@@ -174,7 +178,6 @@
     -fx-background-insets: 0;
     -fx-focus-color: transparent;
     -fx-background-insets: 0;
-
 }
 
 .titled-pane .title .text {
@@ -192,4 +195,17 @@
 
 .titled-pane>*.content {
     -fx-border-color: transparent;
+}
+
+.choice-box {
+    -fx-background-color: -fx-dark;
+    -fx-mark-color: -fx-primary;
+    -fx-border-color: none !important;
+    -fx-background-insets: 0;
+    -fx-focus-color: transparent;
+    -fx-background-insets: 0;
+}
+
+.choice-box>.label {
+    -fx-text-fill: white;
 }

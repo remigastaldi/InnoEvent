@@ -2,7 +2,7 @@
  * File Created: Tuesday, 13th November 2018
  * Author: MAREL Maud
  * -----
- * Last Modified: Tuesday, 27th November 2018
+ * Last Modified: Monday, 10th December 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 MAREL Maud
@@ -21,6 +21,7 @@ public class Section implements ImmutableSection, Serializable {
   private double _elevation;
   private double[] _positions; //[3...*]
   private double _rotation;
+  private double _userRotation = 0d;
 
   public Section(String nameSection, String idSection, double[] positions, double rotation) {
     this._nameSection = nameSection;
@@ -66,4 +67,11 @@ public class Section implements ImmutableSection, Serializable {
     return this._rotation;
   }
 
+  public void setUserRotation(double rotation) {
+    _userRotation = rotation;
+  }
+
+  public double getUserRotation() {
+    return _userRotation;
+  }
 }

@@ -2,7 +2,7 @@
  * File Created: Tuesday, 13th November 2018
  * Author: MAREL Maud
  * -----
- * Last Modified: Friday, 30th November 2018
+ * Last Modified: Tuesday, 11th December 2018
  * Modified By: HUBERT Léo
  * -----
  * Copyright - 2018 MAREL Maud
@@ -21,6 +21,7 @@ import java.util.Map;
 import java.util.HashMap;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.Accordion;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
@@ -50,7 +51,26 @@ public class SeatController extends ViewController {
   private ColorPicker seat_price_color_picker;
 
   @FXML
+  private Accordion accordion;
+
+  @FXML
   private void initialize() {
+    if (Core().getSettingsValue("opened" + getClass().getName()) != null) {
+      accordion.getPanes().forEach((pane) -> {
+        if (pane.getText().equals(Core().getSettingsValue("opened" + getClass().getName()))) {
+          accordion.expandedPaneProperty().set(pane);
+        }
+      });
+    } else {
+      accordion.expandedPaneProperty().set(accordion.getPanes().get(0));
+      Core().setSettingsValue("opened" + getClass().getName(), accordion.expandedPaneProperty().getValue().getText());
+    }
+
+    accordion.expandedPaneProperty().addListener((e) -> {
+      if (accordion.expandedPaneProperty().getValue() != null) {
+        Core().setSettingsValue("opened" + getClass().getName(), accordion.expandedPaneProperty().getValue().getText());
+      }
+    });
   }
 
   public void init() {

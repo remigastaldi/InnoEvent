@@ -2,7 +2,7 @@
  * File Created: Sunday, 14th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Sunday, 2nd December 2018
+ * Last Modified: Wednesday, 12th December 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -15,6 +15,7 @@ package com.inno.ui.innoengine.shape;
 import java.util.ArrayList;
 
 import com.inno.app.Core;
+import com.inno.app.room.ImmutableSection;
 import com.inno.app.room.ImmutableSittingRow;
 import com.inno.app.room.ImmutableSittingSection;
 import com.inno.app.room.ImmutableStandingSection;
@@ -44,12 +45,12 @@ public class InnoPolygon extends InteractivePolygon {
     setID(id);
   }
 
-  public InnoPolygon(InnoEngine engine, Pane pane, String id) {
+  public InnoPolygon(InnoEngine engine, Pane pane, String id, boolean isStanding) {
     super(engine, pane);
 
     setID(id);
 
-    loadFromData();
+    loadFromData(isStanding);
     // deselect();
   }
 
@@ -96,10 +97,11 @@ public class InnoPolygon extends InteractivePolygon {
       return true;
 
     Core.get().updateSectionPositions(getID(), ((InnoEngine)Engine()).pixelToMeter(getPointsInParent()), false);
-    double[] pos = parentToLocal(((InnoEngine)Engine()).meterToPixel(_sittingSectionData.getPositions()));
-    setPoints(pos);
-    setRotation(new Rotate(_sittingSectionData.getRotation(), pos[0], pos[1]));
-  
+    // double[] pos = parentToLocal(((InnoEngine)Engine()).meterToPixel(_sittingSectionData.getPositions()));
+    // setPoints(pos);
+    // setRotation(new Rotate(_sittingSectionData.getRotation(), pos[0], pos[1]));
+    updatePositionFromData();
+    
     return true;
   }
 
@@ -109,7 +111,12 @@ public class InnoPolygon extends InteractivePolygon {
       System.out.println("FORME COLMPLETE");
       _sittingSectionData = Core.get().createSittingSection(((InnoEngine)Engine()).pixelToMeter(getPointsInParent()), 0, false);
       setID(_sittingSectionData.getIdSection());
-      loadFromData();
+
+      Point2D center = Engine().getCenterOfPoints(getPoints());
+      setRotation(new Rotate(_sittingSectionData.getRotation(), center.getX(), center.getY()));
+  
+      updateFromData();
+      select();
     }
     return true;
   }
@@ -121,60 +128,129 @@ public class InnoPolygon extends InteractivePolygon {
   }
 
   @Override
-  public boolean onShapeResized() {
-    Core.get().updateSectionPositions(getID(), ((InnoEngine)Engine()).pixelToMeter(getPointsInParent()), false);
-    // Core.get().setSectionRotation(getID(), getRotation().getAngle());
-    updateFromData();
+  public boolean onAnchorDragged() {
+    Core.get().updateSectionPositions(getID(), ((InnoEngine)Engine()).pixelToMeter(getNoRotatedParentPos()), false);
+    updatePositionFromData();
+    updateRowsFromData(true);
+    
+    return true;
+  }
 
+  @Override
+  public boolean onAnchorReleased() {
+    Core.get().updateSectionPositions(getID(), ((InnoEngine)Engine()).pixelToMeter(getNoRotatedParentPos()), false);
+    updateFromData();
+    // double[] parent = getPointsInParent();
+    
+    // getRotation().setAngle(0);
+    // double [] pos = parentToLocal(parent);
+ 
+    // getGroup().getTransforms().clear();
+    // setPoints(pos);
+
+    // Core.get().updateSectionPositions(getID(), ((InnoEngine)Engine()).pixelToMeter(getPointsInParent()), true);
+
+    // setPoints(pos);
+    // double rotation = _sittingSectionData != null ? _sittingSectionData.getRotation() : 0;
+    // setRotation(new Rotate(rotation, pos[0], pos[1]));
+    // updateRowsFromData(false);
+ 
     return true;
   }
 
   @Override
   public boolean onSelected() {
+    if (getID() == null)
+      return false;
     InnoEngine engine = (InnoEngine) Engine();
-    engine.getView().setSidebarFromFxmlFileName("sidebar_room.fxml", this);
+    if (_sittingSectionData != null)
+      engine.getView().setSidebarFromFxmlFileName("sidebar_irregular_sitting_section.fxml", this);
+    else
+      engine.getView().setSidebarFromFxmlFileName("sidebar_standing_section.fxml", this);
     return true;
   }
 
-  public void loadFromData() {
-    _sittingSectionData = Core.get().getImmutableRoom().getImmutableSittingSections().get(getID());
+  public void loadFromData(boolean isStanding) {
+    ImmutableSection section = null;
 
-    double[] pos = ((InnoEngine)Engine()).meterToPixel(parentToLocal(_sittingSectionData.getPositions()));
+    if (isStanding) {
+      section = Core.get().getImmutableRoom().getImmutableStandingSections().get(getID());
+      _standingSectionData = (ImmutableStandingSection) section;
+    }
+    else {
+      section = Core.get().getImmutableRoom().getImmutableSittingSections().get(getID());
+      _sittingSectionData = (ImmutableSittingSection) section;
+    }
+
+    double[] pos = ((InnoEngine)Engine()).meterToPixel(parentToLocal(section.getPositions()));
     closeForm(pos, Color.valueOf(Core.get().getSectionPrice(getID()).getColor()));
 
-    setColor(Color.valueOf(Core.get().getSectionPrice(getID()).getColor()));
-
     Point2D center = Engine().getCenterOfPoints(getPoints());
-    setRotation(new Rotate(_sittingSectionData.getRotation(), center.getX(), center.getY()));
+    setRotation(new Rotate(section.getRotation(), center.getX(), center.getY()));
 
-    updateFromData();
+
+    if (!isStanding)
+      updateFromData();
   }
 
   private void updateFromData() {
+    updatePositionFromData();
+    updateRowsFromData(false);
+  }
+
+  private void updatePositionFromData() {
     setPoints(parentToLocal(((InnoEngine)Engine()).meterToPixel(_sittingSectionData.getPositions())));
+  }
 
-    // Point2D center = Engine().getCenterOfPoints(getPoints());
-    // setRotation(new Rotate(_sittingSectionData.getRotation(),center.getX(), center.getY()));
+  // TODO: private this
+  public void updateRowsFromData(boolean toParent) {
+    destroyRows();
 
+    ArrayList<? extends ImmutableSittingRow> rows =  _sittingSectionData.getImmutableSittingRows();
+    _rows = new InnoRow[rows.size()];
+ 
+  
+    int i = 0;
+    for (ImmutableSittingRow row : rows) {
+      InnoEngine engine = (InnoEngine) ((InnoEngine)Engine());
+      _rows[i] = new InnoRow(engine, this, _sittingSectionData, row, toParent);
+      ++i;
+    }
+  }
+
+  public void destroyRows() {
     if (_rows != null) {
       for (int i = 0; i < _rows.length; ++i) {
         _rows[i].destroy();
       }
     }
+  }
+  // private void updateFromData() {
+  //   // setPoints(parentToLocal(((InnoEngine)Engine()).meterToPixel(_sittingSectionData.getPositions())));
 
-    ArrayList<? extends ImmutableSittingRow> rows =  _sittingSectionData.getImmutableSittingRows();
-    _rows = new InnoRow[rows.size()];
+  //   // Point2D center = Engine().getCenterOfPoints(getPoints());
+  //   // setRotation(new Rotate(_sittingSectionData.getRotation(),center.getX(), center.getY()));
+
+  // }
+
+  public void sittingToStanding() {
+    _standingSectionData = Core.get().sittingToStandingSection(_sittingSectionData.getIdSection());
+    _sittingSectionData = null;
     
-    
-    int i = 0;
-    for (ImmutableSittingRow row : rows) {
-      InnoEngine engine = (InnoEngine) ((InnoEngine)Engine());
-      _rows[i] = new InnoRow(engine, this, _sittingSectionData, row);
-      ++i;
-    }
+    destroyRows();
   }
 
-  public void changeSectionType() {
-    //TODO Sitting to standing anv vis versa
+  public void standingToSitting() {
+    _sittingSectionData = Core.get().standingToSittingSection(_standingSectionData.getIdSection());
+    _standingSectionData = null;
+    updateFromData();
+  }
+
+  public ImmutableSittingSection getSittingData() {
+    return _sittingSectionData;
+  }
+
+  public ImmutableStandingSection getStandingData() {
+    return _standingSectionData;
   }
 }

@@ -2,8 +2,8 @@
  * File Created: Wednesday, 26th September 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Wednesday, 28th November 2018
- * Modified By: HUBERT Léo
+ * Last Modified: Monday, 10th December 2018
+ * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
  * <<licensetext>>
@@ -11,8 +11,10 @@
 
 package com.inno.ui.mainview.sidebar;
 
+import com.inno.app.Core;
 import com.inno.ui.Validator;
 import com.inno.ui.ViewController;
+import com.inno.ui.innoengine.InnoEngine;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -43,12 +45,42 @@ public class RoomController extends ViewController {
   }
 
   public void init() {
+    project_name_input.setText(Core.get().getImmutableRoom().getName());
+    room_height_input.setText(Integer.toString((int) Core.get().getImmutableRoom().getHeight()));
+    room_width_input.setText(Integer.toString((int) Core.get().getImmutableRoom().getWidth()));
+    vital_space_height_input.setText(Integer.toString((int) Core.get().getImmutableRoom().getImmutableVitalSpace().getHeight()));
+    vital_space_width_input.setText(Integer.toString((int) Core.get().getImmutableRoom().getImmutableVitalSpace().getWidth()));
   }
 
   @FXML
   private void onKeyReleased() {
     if (checkInputs()) {
-      // TODO: Add function to change room settings
+      InnoEngine engine = (InnoEngine) getIntent();
+      
+      if (engine == null) {
+        System.out.println("Engine is null");
+        return;
+      }
+      try {
+        if (project_name_input.isFocused())
+          Core.get().setRoomName(project_name_input.getText());
+        if (room_height_input.isFocused()) {
+          engine.setBoardHeight(engine.meterToPixel(Double.parseDouble(room_height_input.getText())));
+          Core.get().setRoomHeight(Double.parseDouble(room_height_input.getText()));
+        }
+        if (room_width_input.isFocused()) {
+          engine.setBoardWidth(engine.meterToPixel(Double.parseDouble(room_width_input.getText())));
+          Core.get().setRoomWidth(Double.parseDouble(room_width_input.getText()));
+        }
+        if (vital_space_height_input.isFocused() || vital_space_width_input.isFocused()) {
+          double width = Double.parseDouble(vital_space_width_input.getText());
+          double height = Double.parseDouble(vital_space_height_input.getText());
+          Core().setRoomVitalSpace(width, height);
+          Engine().updateSectionsVitalSpaceFromData(width, height);
+        }
+      } catch (Exception e) {
+        System.out.println(e);
+      }
     }
   }
 

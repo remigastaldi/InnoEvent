@@ -2,8 +2,8 @@
  * File Created: Friday, 12th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Sunday, 2nd December 2018
- * Modified By: GASTALDI Rémi
+ * Last Modified: Wednesday, 12th December 2018
+ * Modified By: MAREL Maud
 
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -31,11 +31,11 @@ public class Room implements ImmutableRoom, Serializable {
     private HashMap<String, SittingSection> _sittingSections = new HashMap<String, SittingSection>();
     private HashMap<String, StandingSection> _standingSections = new HashMap<String, StandingSection>();
 
-    public Room(String name, double height, double width, double heightVitalSpace, double widthVitalSpace) {
+    public Room(String name, double width, double height, double widthVitalSpace, double heightVitalSpace) {
         this._name = name;
-        this._height = height;
         this._width = width;
-        this._vitalSpace = new VitalSpace(heightVitalSpace, widthVitalSpace);
+        this._height = height;
+        this._vitalSpace = new VitalSpace(widthVitalSpace, heightVitalSpace);
     }
 
     // Room Methods
@@ -63,12 +63,16 @@ public class Room implements ImmutableRoom, Serializable {
         return this._width;
     }
 
-    public void setHeightVitalSpace(double height) {
-        this._vitalSpace.setHeight(height);
-    }
-
-    public void setWidthVitalSpace(double width) {
-        this._vitalSpace.setWidth(width);
+    public void setVitalSpace(double width, double height) {
+        for (SittingSection section : _sittingSections.values()) {
+            if (section.getImmutableVitalSpace().getWidth() == _vitalSpace.getWidth()
+                && section.getImmutableVitalSpace().getHeight() == _vitalSpace.getHeight()) {
+                    section.setVitalSpace(width, height);
+                    Core.get().updateSectionPositions(section.getIdSection(), section.getPositions(), section.isRectangle()); // Just to recalculate seats positions
+            }
+        }
+        _vitalSpace.setWidth(width);
+        _vitalSpace.setHeight(height);
     }
 
     public ImmutableVitalSpace getImmutableVitalSpace() {
@@ -121,6 +125,30 @@ public class Room implements ImmutableRoom, Serializable {
         return section;
     }
 
+    public ImmutableStandingSection sittingToStandingSection(String idSection) {
+        ImmutableSittingSection oldSection = null;
+        ImmutableStandingSection newSection = null;
+
+        oldSection = this._sittingSections.get(idSection);
+        newSection = this.createStandingSection(0, oldSection.getPositions(), oldSection.getRotation());
+        this.getSectionById(newSection.getIdSection()).setNameSection(oldSection.getNameSection());
+        this.getSectionById(newSection.getIdSection()).setElevation(oldSection.getElevation());
+        deleteSection(idSection);
+        return newSection;
+    }
+
+    public ImmutableSittingSection standingToSittingSection(String idSection) {
+        ImmutableStandingSection oldSection = null;
+        ImmutableSittingSection newSection = null;
+
+        oldSection = this._standingSections.get(idSection);
+        newSection = this.createSittingSection(oldSection.getPositions(), oldSection.getRotation(), false);
+        this.getSectionById(newSection.getIdSection()).setNameSection(oldSection.getNameSection());
+        this.getSectionById(newSection.getIdSection()).setElevation(oldSection.getElevation());
+        deleteSection(idSection);
+        return newSection;
+    }
+
     public void setSectionName(String idSection, String name) {
         SittingSection sittingSection = null;
         StandingSection standingSection = null;
@@ -152,12 +180,9 @@ public class Room implements ImmutableRoom, Serializable {
         if ((section = this._sittingSections.get(idSection)) != null) {
             clearAllSittingRows(section.getIdSection());
             if (((ImmutableSittingSection) section).isRectangle()) {
-                updateRectangeRows(positions, section);
+                updateRectangleRows(positions, section);
             } else {
-                double vitalSpaceHeight = this.getImmutableVitalSpace().getHeight();
-                double vitalSpaceWidth = this.getImmutableVitalSpace().getWidth();
-        
-                updatePolygonRows(positions, vitalSpaceHeight, vitalSpaceWidth, (SittingSection) section);
+                updatePolygonRows(positions, (SittingSection) section);
             }
             section.updatePosition(positions);
         } else if ((section = this._standingSections.get(idSection)) != null) {
@@ -173,7 +198,21 @@ public class Room implements ImmutableRoom, Serializable {
             return;
         }
 
+        rotation += section.getUserRotation();
         section.setRotation(rotation);
+    }
+
+    public void setSectionUserRotation(String idSection, double rotation) {
+        Section section = getSectionById(idSection);
+
+        if (section == null) {
+            System.out.println("Bad section ID");
+            return;
+        }
+
+        System.out.println("+++++++>> " + (section.getRotation() - section.getUserRotation()) + rotation);
+        section.setRotation((section.getRotation() - section.getUserRotation()) + rotation);
+        section.setUserRotation(rotation);
     }
 
     public void deleteSection(String idSection) {
@@ -197,22 +236,22 @@ public class Room implements ImmutableRoom, Serializable {
     // sittingSection Methods
     public ImmutableSittingSection createSittingSection(double[] positions, double rotation, boolean isRectangle) {
         String id = Integer.toString(this._sittingSections.size() + this._standingSections.size() + 1);
-        double vitalSpaceHeight = this.getImmutableVitalSpace().getHeight();
         double vitalSpaceWidth = this.getImmutableVitalSpace().getWidth();
-        SittingSection sittingSection = new SittingSection("Untitled" + id, id, positions, rotation, vitalSpaceHeight,
-                vitalSpaceWidth, isRectangle);
+        double vitalSpaceHeight = this.getImmutableVitalSpace().getHeight();
+        SittingSection sittingSection = new SittingSection("Untitled" + id, id, positions, rotation, vitalSpaceWidth,
+                vitalSpaceHeight, isRectangle);
         this._sittingSections.put(id, sittingSection);
 
         if (isRectangle) {
-            updateRectangeRows(positions, sittingSection);
+            updateRectangleRows(positions, sittingSection);
         } else {
-            updatePolygonRows(positions, vitalSpaceHeight, vitalSpaceWidth, sittingSection);
+            updatePolygonRows(positions, sittingSection);
         }
 
         return sittingSection;
     }
 
-	private void updateRectangeRows(double[] positions, Section section) {
+	private void updateRectangleRows(double[] positions, Section section) {
 		double xRow = positions[0];
 		double yRow = positions[1];
 		double xSeat = positions[0];
@@ -220,29 +259,29 @@ public class Room implements ImmutableRoom, Serializable {
 		double vitalSpaceHeight = ((ImmutableSittingSection) section).getImmutableVitalSpace().getHeight();
 		double vitalSpaceWidth = ((ImmutableSittingSection) section).getImmutableVitalSpace().getWidth();
 
-		// System.out.println("....................... " + yRow + " : " + positions[7]);
-		while (yRow < positions[7]) {
-		    double[] posStart = { xRow + (vitalSpaceWidth / 2), yRow + (vitalSpaceHeight / 2) };
-		    double[] posEnd = { positions[2] - (vitalSpaceWidth / 2), yRow + (vitalSpaceHeight / 2) };
-		    ImmutableSittingRow row = createSittingRow(section.getIdSection(), posStart, posEnd);
+		while (yRow < positions[7] - vitalSpaceHeight * 0.99) {
+            double[] posStart = { xRow + (vitalSpaceWidth / 2), yRow + (vitalSpaceHeight / 2) };
+            double[] posEnd = { positions[0] + (int)((positions[2] - positions[0]) / vitalSpaceWidth) * vitalSpaceWidth - vitalSpaceWidth / 2, yRow + (vitalSpaceHeight / 2) };
+            ImmutableSittingRow row = createSittingRow(section.getIdSection(), posStart, posEnd);
 		    Core.get().createPlace(section.getIdSection() + "|" + row.getIdRow(), "#7289DA");
-
-		    while (xSeat < positions[2]) {
-		        double[] seatPos = { xSeat + (vitalSpaceWidth / 2), ySeat + (vitalSpaceHeight / 2) };
+            
+		    while (xSeat < positions[2] - vitalSpaceWidth * 0.99) {
+                double[] seatPos = { xSeat + (vitalSpaceWidth / 2), ySeat + (vitalSpaceHeight / 2) };
 		        ImmutableSeat seat = createSeat(section.getIdSection(), row.getIdRow(), seatPos);
-		        Core.get().createPlace(section.getIdSection() + "|" + row.getIdRow() + "|" + seat.getId(),
-		                "#FFA500");
-
+		        Core.get().createPlace(section.getIdSection() + "|" + row.getIdRow() + "|" + seat.getId(), "#FFA500");
 		        xSeat += vitalSpaceWidth;
 		    }
+
 		    yRow += vitalSpaceHeight;
             xSeat = positions[0];
             ySeat += vitalSpaceHeight;
         }
     }
 
-	private void updatePolygonRows(double[] positions, double vitalSpaceHeight, double vitalSpaceWidth,
-			SittingSection sittingSection) {
+	private void updatePolygonRows(double[] positions, SittingSection sittingSection) {
+        // TODO: Why width and height are inverted
+        double vitalSpaceWidth = sittingSection.getImmutableVitalSpace().getHeight();
+        double vitalSpaceHeight = sittingSection.getImmutableVitalSpace().getWidth();
 		boolean firstSeat = false;
 		Point sceneCenter = new Point(_scene.getCenter()[0], _scene.getCenter()[1]);
 		Point[] p_Polygon = Utils.dArray_To_pArray(positions);
@@ -317,6 +356,7 @@ public class Room implements ImmutableRoom, Serializable {
     public void setSittingSectionVitalSpace(String sectionId, double width, double height) {
         SittingSection sittingSection = this._sittingSections.get(sectionId);
         sittingSection.setVitalSpace(width, height);
+        updateSectionPositions(sittingSection.getIdSection(), sittingSection.getPositions());
     }
 
     public void setSittingSectionAutoDistribution(String sectionId, boolean autoDistrib) {

@@ -2,8 +2,8 @@
  * File Created: Tuesday, 13th November 2018
  * Author: MAREL Maud
  * -----
- * Last Modified: Thursday, 29th November 2018
- * Modified By: MAREL Maud
+ * Last Modified: Monday, 10th December 2018
+ * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 MAREL Maud
  * <<licensetext>>
@@ -22,10 +22,10 @@ public class SittingSection extends Section implements ImmutableSection, Immutab
   private VitalSpace _vitalSpace;
   private boolean _isRectangle = false;
 
-  public SittingSection(String nameSection, String idSection, double[] points, double rotation, double vitalSpaceHeight, double vitalSpaceWidth, boolean isRectangle) {
+  public SittingSection(String nameSection, String idSection, double[] points, double rotation, double vitalSpaceWidth, double vitalSpaceHeight, boolean isRectangle) {
     super(nameSection, idSection, points, rotation);
     this._autoDistrib = true;
-    this._vitalSpace = new VitalSpace(vitalSpaceHeight, vitalSpaceWidth);
+    this._vitalSpace = new VitalSpace(vitalSpaceWidth, vitalSpaceHeight);
     _isRectangle = isRectangle;
   }
 

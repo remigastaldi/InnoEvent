@@ -2,7 +2,7 @@
  * File Created: Tuesday, 9th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Monday, 3rd December 2018
+ * Last Modified: Wednesday, 12th December 2018
  * Modified By: HUBERT Léo
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -11,19 +11,31 @@
 
 package com.inno.app;
 
+import java.io.FileWriter;
+import java.io.Writer;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.inno.app.InnoSave;
 import com.inno.app.room.*;
 import com.inno.service.Point;
 import com.inno.service.SettingsService;
 import com.inno.service.Utils;
 import com.inno.service.pricing.ImmutableOffer;
+import com.inno.service.pricing.ImmutableOfferCondition;
+import com.inno.service.pricing.ImmutableOfferOperation;
 import com.inno.service.pricing.PlaceRate;
 import com.inno.service.pricing.ImmutablePlaceRate;
 import com.inno.service.pricing.Pricing;
+
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 public class Core {
 
@@ -33,7 +45,7 @@ public class Core {
   private InnoSave _saveService = new InnoSave();
   private Pricing _pricing = new Pricing();
   private SettingsService _settings = new SettingsService();
-
+  private ObservableList<String> _availableOffers = FXCollections.observableArrayList();
 
   private ArrayList<String> _recentPaths = new ArrayList<>();
 
@@ -42,7 +54,7 @@ public class Core {
 
   private Core() {
     if (_settings.has("recent_paths")) {
-      _recentPaths =  (ArrayList<String>)_settings.get("recent_paths");
+      _recentPaths = (ArrayList<String>) _settings.get("recent_paths");
     }
   }
 
@@ -55,8 +67,8 @@ public class Core {
   }
 
   // Room methods
-  public void createRoom(String name, double width, double height, double heightVitalSpace, double widthVitalSpace) {
-    this._room = new Room(name, height, width, heightVitalSpace, widthVitalSpace);
+  public void createRoom(String name, double width, double height, double widthVitalSpace, double heightVitalSpace) {
+    this._room = new Room(name, width, height, widthVitalSpace, heightVitalSpace);
   }
 
   public ImmutableRoom getImmutableRoom() {
@@ -67,20 +79,16 @@ public class Core {
     this._room.setName(name);
   }
 
-  public void setRoomHeight(double height) {
-    this._room.setHeight(height);
-  }
-
   public void setRoomWidth(double width) {
     this._room.setWidth(width);
   }
 
-  public void setRoomVitalSpaceHeight(double height) {
-    this._room.setHeightVitalSpace(height);
+  public void setRoomHeight(double height) {
+    this._room.setHeight(height);
   }
 
-  public void setRoomVitalSpaceWidth(double width) {
-    this._room.setWidthVitalSpace(width);
+  public void setRoomVitalSpace(double width, double height) {
+    _room.setVitalSpace(width, height);
   }
 
   // Scene methods
@@ -121,7 +129,6 @@ public class Core {
     if (rectangular) {
       Point pt = new Point(getImmutableRoom().getImmutableScene().getCenter()[0],
           getImmutableRoom().getImmutableScene().getCenter()[1]);
-      // double[] newPos = Utils.rotateRectangle(pt, positions);
       double rotation = Utils.calculateRectangleRotation(pt, positions);
       if (rotation != rotation)
         rotation = 0.0;
@@ -141,13 +148,21 @@ public class Core {
     this._room.deleteSection(idSection);
   }
 
-  public void setSectionRotation(String idSection, double rotation) {
-    this._room.setSectionRotation(idSection, rotation);
+  public void setSectionUserRotation(String idSection, double rotation) {
+    // this._room.setSectionRotation(idSection, rotation);
+    _room.setSectionUserRotation(idSection, rotation);
+  }
+
+  public ImmutableStandingSection sittingToStandingSection(String idSection) {
+    return this._room.sittingToStandingSection(idSection);
+  }
+
+  public ImmutableSittingSection standingToSittingSection(String idSection) {
+    return this._room.standingToSittingSection(idSection);
   }
 
   // standingSection Methods
   public ImmutableStandingSection createStandingSection(int nbPeople, double[] positions, double rotation) {
-
     return this._room.createStandingSection(nbPeople, positions, rotation);
   }
 
@@ -183,6 +198,24 @@ public class Core {
       if (color != null) {
         _pricing.setPlaceRateColor(key, color);
       }
+    }
+  }
+
+  public void addSectionOffer(String id, String offerName) {
+    HashMap<String, ? extends ImmutablePlaceRate> places = _pricing.getPlaces(id + "|");
+    _pricing.addPlaceRateOffer(id, offerName);
+    for (Map.Entry<String, ? extends ImmutablePlaceRate> entry : places.entrySet()) {
+      String key = entry.getKey();
+      _pricing.addPlaceRateOffer(key, offerName);
+    }
+  }
+
+  public void removeSectionOffer(String id, String offerName) {
+    HashMap<String, ? extends ImmutablePlaceRate> places = _pricing.getPlaces(id + "|");
+    _pricing.removePlaceRateOffer(id, offerName);
+    for (Map.Entry<String, ? extends ImmutablePlaceRate> entry : places.entrySet()) {
+      String key = entry.getKey();
+      _pricing.removePlaceRateOffer(key, offerName);
     }
   }
 
@@ -276,10 +309,40 @@ public class Core {
     _settings.set("recent_paths", _recentPaths);
     _room = (Room) save.getRoomData();
     _pricing = save.getPricing();
+    refreshOfferList();
+  }
+
+  public void refreshOfferList() {
+    _availableOffers.clear();
+    HashMap<String, ? extends ImmutableOffer> offers = getOffers();
+    for (Map.Entry<String, ? extends ImmutableOffer> entry : offers.entrySet()) {
+      _availableOffers.add(entry.getKey());
+    }
   }
 
   public ArrayList<String> getRecentPaths() {
+    try {
+      _recentPaths.forEach(path -> {
+        Path nPath = Paths.get(path);
+        if (!Files.exists(nPath)) {
+          _recentPaths.remove(path);
+          _settings.set("recent_paths", _recentPaths);
+        }
+      });
+    } catch (Exception e) {
+    }
     return _recentPaths;
+  }
+
+  public void exportAsJson(String path) {
+    try (Writer writer = new FileWriter(path)) {
+      System.out.println(path);
+      Gson gson = new GsonBuilder().create();
+      gson.toJson(_room, writer);
+      gson.toJson(_pricing, writer);
+    } catch (Exception e) {
+      System.out.println(e);
+    }
   }
 
   // Pricing && Offers
@@ -296,11 +359,32 @@ public class Core {
   }
 
   public ImmutableOffer createOffer(String name, String description, double reduction, String reductionType) {
-    return _pricing.createOffer(name, description, reduction, reductionType);
+    ImmutableOffer offer = _pricing.createOffer(name, description, reduction, reductionType);
+    refreshOfferList();
+    return offer;
+  }
+
+  public ImmutableOfferCondition createOfferCondition(String offerName, String offerConditionName, String description,
+      String logicalOperator) {
+    return _pricing.createOfferCondition(offerName, offerConditionName, description, logicalOperator);
+  }
+
+  public ImmutableOfferOperation createOfferConditionOperation(String offerName, String offerConditionName,
+      String value, String relationalOperator, String logicalOperator) {
+    return _pricing.createOfferConditionOperation(offerName, offerConditionName, value, relationalOperator,
+        logicalOperator);
   }
 
   public ImmutableOffer getOffer(String name) {
     return _pricing.getOffer(name);
+  }
+
+  public HashMap<String, ? extends ImmutableOfferCondition> getOfferConditions(String offerName) {
+    return _pricing.getOfferConditions(offerName);
+  }
+
+  public ImmutableOfferCondition getOfferCondition(String offerName, String offerCondtionName) {
+    return _pricing.getImmutableOfferCondition(offerName, offerCondtionName);
   }
 
   public void setOfferReduction(String name, double reduction) {
@@ -308,12 +392,54 @@ public class Core {
   }
 
   public ImmutableOffer setOfferName(String name, String newName) {
-    return _pricing.setOfferName(name, newName);
+    ImmutableOffer offer = _pricing.setOfferName(name, newName);
+    refreshOfferList();
+    return offer;
+  }
+
+  public void setOfferConditionName(String offerName, String offerConditionName, String nName) {
+    _pricing.setOfferConditionName(offerName, offerConditionName, nName);
+  }
+
+  public void setOfferConditionDescription(String offerName, String offerConditionName, String description) {
+    _pricing.setOfferConditionDescription(offerName, offerConditionName, description);
+
+  }
+
+  public String[] getRelationalOperatorTypePossibilities() {
+    return _pricing.getRelationalOperatorTypePossibilities();
+  }
+
+  public String[] getLogicalOperatorTypePossibilities() {
+    return _pricing.getLogicalOperatorTypePossibilities();
   }
 
   public HashMap<String, ? extends ImmutablePlaceRate> getPrices() {
     return _pricing.getPlaces();
   }
+
+  public void setOfferConditionOperationValue(String offerName, String offerConditionName, int index, String value) {
+    _pricing.setOfferConditionOperationValue(offerName, offerConditionName, index, value);
+  }
+
+  public void setOfferConditionOperationLogicalOperator(String offerName, String offerConditionName, int index,
+      String logicalOperator) {
+    _pricing.setOfferConditionOperationLogicalOperator(offerName, offerConditionName, index, logicalOperator);
+  }
+
+  public void setOfferConditionOperationRelationalOperator(String offerName, String offerConditionName, int index,
+      String relationalOperator) {
+    _pricing.setOfferConditionOperationRelationalOperator(offerName, offerConditionName, index, relationalOperator);
+  }
+
+  public void removeOfferConditionOperation(String offerName, String offerConditionName, int index) {
+    _pricing.removeOfferConditionOperation(offerName, offerConditionName, index);
+  }
+
+  public void addPlaceRateOffer(String id, String offerName) {
+    _pricing.addPlaceRateOffer(id, offerName);
+  }
+
   // Save Methods
 
   public void closeProject() {
@@ -323,12 +449,17 @@ public class Core {
   }
 
   // Settings methods
-  public void setSettingsValue(String key, String value) {
+  public void setSettingsValue(String key, Object value) {
     _settings.set(key, value);
   }
 
   public Object getSettingsValue(String key) {
     return _settings.get(key);
   }
-  
+
+  public ObservableList<String> getObservableOffersList() {
+    return _availableOffers;
+  }
+
+
 };

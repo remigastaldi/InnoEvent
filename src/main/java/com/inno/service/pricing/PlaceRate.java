@@ -2,7 +2,7 @@
  * File Created: Friday, 12th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Wednesday, 28th November 2018
+ * Last Modified: Wednesday, 12th December 2018
  * Modified By: HUBERT Léo
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -20,7 +20,7 @@ public class PlaceRate implements ImmutablePlaceRate, Serializable {
   protected String _id;
   protected String _color;
   protected double _price;
-  protected ArrayList<String> _offers = new ArrayList<String>();
+  protected ArrayList<Offer> _offers = new ArrayList<Offer>();
 
   public PlaceRate(String id, String color, double price) {
     _id = id;
@@ -44,7 +44,11 @@ public class PlaceRate implements ImmutablePlaceRate, Serializable {
   }
 
   @Override
-  public ArrayList<String> getOffers() {
+  public ArrayList<? extends ImmutableOffer> getImmutableOffers() {
+    return _offers;
+  }
+
+  public ArrayList<Offer> getOffers() {
     return _offers;
   }
 
@@ -56,11 +60,11 @@ public class PlaceRate implements ImmutablePlaceRate, Serializable {
     this._color = color;
   }
 
-  public boolean addOffer(String offerName) {
-    return this._offers.add(offerName);
+  public boolean addOffer(Offer offer) {
+    return this._offers.add(offer);
   }
 
-  public boolean removeOffer(String offerName) {
-    return this._offers.remove(offerName);
+  public boolean removeOffer(Offer offer) {
+    return this._offers.remove(offer);
   }
 };

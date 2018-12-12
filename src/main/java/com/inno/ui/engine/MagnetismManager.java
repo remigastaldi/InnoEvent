@@ -2,7 +2,7 @@
  * File Created: Friday, 23rd November 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Friday, 23rd November 2018
+ * Last Modified: Tuesday, 11th December 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -22,10 +22,11 @@ import javafx.scene.Group;
 import javafx.scene.shape.Shape;
 
 public class MagnetismManager {
-  ArrayList<InteractiveShape<? extends Shape>> _interactiveShapes = new ArrayList<>();
-  ArrayList<Shape> _shapes = new ArrayList<>();
+  private ArrayList<InteractiveShape<? extends Shape>> _interactiveShapes = new ArrayList<>();
+  private ArrayList<Shape> _shapes = new ArrayList<>();
   private Shape _currentMagnetism = null;
-  Engine _engine = null;
+  private Engine _engine = null;
+  private boolean _isActive = true;
 
   public MagnetismManager(Engine engine){
     _engine = engine;
@@ -48,6 +49,8 @@ public class MagnetismManager {
   }
     
   public Point2D checkMagnetism(Shape shape, InteractiveShape<? extends Shape> interactiveShape) {
+    if (!_isActive)
+      return null;
     Shape element = getShapeUnder(shape, interactiveShape);
     if (element != null) {
     // System.out.println("Collision " + mousePos.getX());
@@ -125,4 +128,15 @@ public class MagnetismManager {
     return getCollisionCenter(first, second, null);
   }
 
+  public void enableMagnetism() {
+    _isActive = true;
+  }
+
+  public void disableMagnetism() {
+    _isActive = false;    
+  }
+
+  public void toggleMagnetism() {    
+    _isActive = !_isActive;
+  }
 }

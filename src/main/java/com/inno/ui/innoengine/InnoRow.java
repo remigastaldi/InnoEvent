@@ -2,7 +2,7 @@
  * File Created: Tuesday, 27th November 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Friday, 30th November 2018
+ * Last Modified: Tuesday, 11th December 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Remi
@@ -37,31 +37,50 @@ public class InnoRow {
   private HashMap<Integer, Circle> _seats = new HashMap<>();
   private Shape[] _text = new Shape[2];
   private ImmutableSeat _selectedSeat = null;
+  private boolean _toParent = false;
 
   public InnoRow(InnoEngine engine, InteractiveShape<? extends Shape> shape, ImmutableSittingSection section,
-      ImmutableSittingRow row) {
+      ImmutableSittingRow row, boolean toParent) {
     _engine = engine;
     _intShape = shape;
     _section = section;
     _row = row;
+    _toParent = toParent;
+
     double[] vitalSpace = engine.meterToPixel(new double[]{section.getImmutableVitalSpace().getWidth(), section.getImmutableVitalSpace().getHeight()});
+    double[] start = null;
+    double[] end = null;
 
-    double[] start = shape.parentToLocal(_engine.meterToPixel(row.getPosStartRow()));
-    double[] end = shape.parentToLocal(_engine.meterToPixel(row.getPosEndRow()));
+    if (toParent) {
+      start = _intShape.noRotatedParentPointsToRotated(_engine.meterToPixel(row.getPosStartRow()));
+      end = _intShape.noRotatedParentPointsToRotated(_engine.meterToPixel(row.getPosEndRow()));
+    } else {
+      start = _intShape.parentToLocal(_intShape.noRotatedParentPointsToRotated(_engine.meterToPixel(row.getPosStartRow())));
+      end =  _intShape.parentToLocal(_intShape.noRotatedParentPointsToRotated(_engine.meterToPixel(row.getPosEndRow())));
+    }
+
     _line = new Line(start[0], start[1], end[0], end[1]);
-    _line.setStrokeWidth(vitalSpace[1] / 4);
+    _line.setStrokeWidth(3d);
 
-    shape.addAdditionalShape(_line);
+    if (_toParent)
+      _engine.getPane().getChildren().add(_line);
+    else
+      shape.addAdditionalShape(_line);
+
     _line.setOnMouseClicked(event -> {
       selectRowSidebar();
     });
 
-    Rectangle rect = new Rectangle(_line.getEndX() + vitalSpace[1] / 2, _line.getEndY() - vitalSpace[1] / 4, vitalSpace[1],
-        vitalSpace[0] / 2);
-    // rect.setStroke(Color.DARKSLATEGRAY);
+    double[] endX = null;
+
+    if (toParent)
+      endX = _intShape.parentToLocal(new double[]{_line.getEndX() + 15, _line.getEndY() - vitalSpace[1] / 4});
+    else
+      endX = new double[]{_line.getEndX() + 15, _line.getEndY() - vitalSpace[1] / 4};
+  
+    Rectangle rect = new Rectangle(endX[0], endX[1], 10 + vitalSpace[1] / 4, vitalSpace[1] / 2);
     rect.setFill(Color.BLACK);
     rect.setOpacity(0.5);
-    // rect.setStroke(Color.ORANGE);
     rect.setArcHeight(3);
     rect.setArcWidth(3);
     rect.setOnMouseClicked(event -> {
@@ -69,9 +88,22 @@ public class InnoRow {
       selectRowSidebar();
       _selectedSeat = null;
     });
-    shape.addSelectShape(rect);
+    if (_engine.getSelectedShape() != _intShape)
+      rect.setVisible(false);
 
-    Text text = new Text(_line.getEndX() + vitalSpace[1] / 1.5, _line.getEndY() + vitalSpace[1] / 7, row.getIdRow());
+    if (toParent) {
+      // _engine.getPane().getChildren().add(rect);
+      // rect.getTransforms().add(shape.getRotation());
+    }
+    else
+      shape.addSelectShape(rect);
+
+    if (toParent)
+      endX = _intShape.parentToLocal(new double[]{_line.getEndX() + 20, _line.getEndY() + vitalSpace[1] / 10});
+    else
+      endX = new double[]{_line.getEndX() + 20, _line.getEndY() + vitalSpace[1] / 10};
+
+    Text text = new Text(endX[0], endX[1], row.getIdRow());
     text.setFill(Color.WHITE);
     text.setFont(new Font(vitalSpace[1] / 3));
     text.setOnMouseClicked(event -> {
@@ -79,16 +111,30 @@ public class InnoRow {
       selectRowSidebar();
       _selectedSeat = null;
     });
-    shape.addSelectShape(text);
+    if (_engine.getSelectedShape() != _intShape)
+      text.setVisible(false);
+
+    if (toParent) {
+      // _engine.getPane().getChildren().add(text);
+      // text.getTransforms().add(shape.getRotation());
+    }
+    else
+      shape.addSelectShape(text);
 
     _text[0] = rect;
     _text[1] = text;
 
     ArrayList<? extends ImmutableSeat> seats = row.getSeats();
     for (ImmutableSeat seat : seats) {
-      double[] points = shape.parentToLocal(
+      double[] points = null;
+      if (toParent) {
+        points = _intShape.noRotatedParentPointsToRotated(
           new double[] { _engine.meterToPixel(seat.getPosition()[0]), _engine.meterToPixel(seat.getPosition()[1]) });
-      Circle circle = new Circle(points[0], points[1], vitalSpace[1] / 3);
+      } else {
+        points = _intShape.parentToLocal(_intShape.noRotatedParentPointsToRotated(
+          new double[] { _engine.meterToPixel(seat.getPosition()[0]), _engine.meterToPixel(seat.getPosition()[1]) }));
+      }
+      Circle circle = new Circle(points[0], points[1], 6d);
       circle.setFill(getDeriveColor(Color
           .valueOf(Core.get().getSeatPrice(shape.getID(), row.getIdRow(), Integer.toString(seat.getId())).getColor())
           .deriveColor(1, 1, 1, 0.85)));
@@ -99,7 +145,11 @@ public class InnoRow {
       });
 
       _seats.put(seat.getId(), circle);
-      shape.addAdditionalShape(circle);
+
+      if (_toParent)
+        _engine.getPane().getChildren().add(circle);
+      else
+        shape.addAdditionalShape(circle);
 
       if (Core.get().getSeatPrice(section.getIdSection(), row.getIdRow(), Integer.toString(seat.getId())).getPrice() != -1) {
         setSeatColor(seat.getId(), Color.valueOf(Core.get().getSeatPrice(section.getIdSection(), row.getIdRow(), Integer.toString(seat.getId())).getColor()));
@@ -112,7 +162,6 @@ public class InnoRow {
       resetRowColor();
     }
   }
-
   public void selectRowSidebar() {
     _engine.getView().setSidebarFromFxmlFileName("sidebar_row.fxml", this);
   }
@@ -176,14 +225,25 @@ public class InnoRow {
   }
 
   public void destroy() {
-    _intShape.removeAdditionalShape(_line);
-
+    if (_toParent)
+      _engine.getPane().getChildren().remove(_line);
+    else
+      _intShape.removeAdditionalShape(_line);
+    
     for (Circle seat : _seats.values()) {
-      _intShape.removeAdditionalShape(seat);
+      if (_toParent)
+        _engine.getPane().getChildren().remove(seat);
+      else
+        _intShape.removeAdditionalShape(seat);
     }
 
-    _intShape.removeSelectShape(_text[0]);
-    _intShape.removeSelectShape(_text[1]);
+    if (_toParent) {
+      _engine.getPane().getChildren().remove(_text[0]);
+      _engine.getPane().getChildren().remove(_text[1]);
+    } else {
+      _intShape.removeSelectShape(_text[0]);
+      _intShape.removeSelectShape(_text[1]);
+    }
   }
 
 }

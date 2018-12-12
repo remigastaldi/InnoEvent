@@ -2,7 +2,7 @@
  * File Created: Friday, 12th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Wednesday, 28th November 2018
+ * Last Modified: Tuesday, 11th December 2018
  * Modified By: HUBERT Léo
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -16,7 +16,6 @@ import java.util.ArrayList;
 
 import com.inno.service.pricing.ImmutableOfferOperation.LogicalOperator;
 
-
 public class OfferCondition implements ImmutableOfferCondition, Serializable {
 
   private static final long serialVersionUID = 1L;
@@ -24,6 +23,8 @@ public class OfferCondition implements ImmutableOfferCondition, Serializable {
   protected String _description = new String();
   protected LogicalOperator _logicalOperator;
   protected ArrayList<OfferOperation> _offerOperations = new ArrayList<>();
+
+  protected Offer _parentOffer;
 
   public OfferCondition(String name, String description, LogicalOperator logicalOperator) {
     this._name = name;
@@ -46,6 +47,15 @@ public class OfferCondition implements ImmutableOfferCondition, Serializable {
     return _logicalOperator;
   }
 
+  @Override
+  public ImmutableOffer getParentOffer() {
+    return _parentOffer;
+  }
+
+  public void setParentOffer(Offer offer) {
+    _parentOffer = offer;
+  }
+
   public void setName(String name) {
     this._name = name;
   }
@@ -59,6 +69,7 @@ public class OfferCondition implements ImmutableOfferCondition, Serializable {
   }
 
   public void addOperation(OfferOperation offerOperation) {
+    offerOperation.setParentCondition(this);
     this._offerOperations.add(offerOperation);
   }
 
@@ -67,6 +78,11 @@ public class OfferCondition implements ImmutableOfferCondition, Serializable {
   }
 
   public ArrayList<OfferOperation> getOfferOperations() {
+    return this._offerOperations;
+  }
+
+  @Override
+  public ArrayList<? extends ImmutableOfferOperation> getImmutableOfferOperations() {
     return this._offerOperations;
   }
 };

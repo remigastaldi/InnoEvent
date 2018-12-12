@@ -2,7 +2,7 @@
  * File Created: Friday, 12th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Wednesday, 28th November 2018
+ * Last Modified: Tuesday, 11th December 2018
  * Modified By: HUBERT Léo
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -16,9 +16,10 @@ import java.io.Serializable;
 public class OfferOperation implements ImmutableOfferOperation, Serializable {
 
   private static final long serialVersionUID = 1L;
-  protected String _value;
-  protected RelationalOperator _relationalOperator;
-  protected LogicalOperator _logicalOperator;
+  private String _value;
+  private RelationalOperator _relationalOperator;
+  private LogicalOperator _logicalOperator;
+  private OfferCondition _parentOfferCondition;
 
   public OfferOperation(String value, RelationalOperator relationalOperator, LogicalOperator logicalOperator) {
     this._value = value;
@@ -41,6 +42,15 @@ public class OfferOperation implements ImmutableOfferOperation, Serializable {
     return _logicalOperator;
   }
 
+  @Override
+  public ImmutableOfferCondition getParentCondition() {
+    return _parentOfferCondition;
+  }
+
+  public void setParentCondition(OfferCondition offerCondition) {
+    _parentOfferCondition = offerCondition;
+  }
+
   public void setValue(String value) {
     this._value = value;
   }
@@ -52,4 +62,5 @@ public class OfferOperation implements ImmutableOfferOperation, Serializable {
   public void setLogicalOperator(LogicalOperator logicalOperator) {
     this._logicalOperator = logicalOperator;
   }
+
 };
