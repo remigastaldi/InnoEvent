@@ -2,8 +2,8 @@
  * File Created: Tuesday, 9th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Tuesday, 11th December 2018
- * Modified By: HUBERT Léo
+ * Last Modified: Wednesday, 12th December 2018
+ * Modified By: MAREL Maud
  * -----
  * Copyright - 2018 GASTALDI Rémi
  * <<licensetext>>
@@ -146,8 +146,12 @@ public class Core {
     _room.setSectionUserRotation(idSection, rotation);
   }
 
-  public ImmutableSection changeSection(String idSection) {
-    return this._room.changeSection(idSection);
+  public ImmutableStandingSection sittingToStandingSection(String idSection) {
+    return this._room.sittingToStandingSection(idSection);
+  }
+
+  public ImmutableSittingSection standingToSittingSection(String idSection) {
+    return this._room.standingToSittingSection(idSection);
   }
 
   // standingSection Methods
@@ -399,8 +403,5 @@ public class Core {
   public Object getSettingsValue(String key) {
     return _settings.get(key);
   }
-
- 
-
 
 };

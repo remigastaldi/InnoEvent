@@ -2,8 +2,8 @@
  * File Created: Friday, 12th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Monday, 10th December 2018
- * Modified By: GASTALDI Rémi
+ * Last Modified: Wednesday, 12th December 2018
+ * Modified By: MAREL Maud
 
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -125,21 +125,28 @@ public class Room implements ImmutableRoom, Serializable {
         return section;
     }
 
-    public ImmutableSection changeSection(String idSection) {
-        ImmutableSection oldSection = null;
-        ImmutableSection newSection = null;
-        Section returnSection = null;
+    public ImmutableStandingSection sittingToStandingSection(String idSection) {
+        ImmutableSittingSection oldSection = null;
+        ImmutableStandingSection newSection = null;
 
-        if ((oldSection = this._sittingSections.get(idSection)) != null) {
-            newSection = this.createStandingSection(0, oldSection.getPositions(), oldSection.getRotation());
-        } else if ((oldSection = this._standingSections.get(idSection)) != null) {
-            newSection = this.createSittingSection(oldSection.getPositions(), oldSection.getRotation(), false);
-        }
-        returnSection = this.getSectionById(newSection.getIdSection());
-        returnSection.setNameSection(oldSection.getNameSection());
-        returnSection.setElevation(oldSection.getElevation());
+        oldSection = this._sittingSections.get(idSection);
+        newSection = this.createStandingSection(0, oldSection.getPositions(), oldSection.getRotation());
+        this.getSectionById(newSection.getIdSection()).setNameSection(oldSection.getNameSection());
+        this.getSectionById(newSection.getIdSection()).setElevation(oldSection.getElevation());
         deleteSection(idSection);
-        return returnSection;
+        return newSection;
+    }
+
+    public ImmutableSittingSection standingToSittingSection(String idSection) {
+        ImmutableStandingSection oldSection = null;
+        ImmutableSittingSection newSection = null;
+
+        oldSection = this._standingSections.get(idSection);
+        newSection = this.createSittingSection(oldSection.getPositions(), oldSection.getRotation(), false);
+        this.getSectionById(newSection.getIdSection()).setNameSection(oldSection.getNameSection());
+        this.getSectionById(newSection.getIdSection()).setElevation(oldSection.getElevation());
+        deleteSection(idSection);
+        return newSection;
     }
 
     public void setSectionName(String idSection, String name) {
