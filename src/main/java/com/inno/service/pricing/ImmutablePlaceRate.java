@@ -2,7 +2,7 @@
  * File Created: Saturday, 27th October 2018
  * Author: HUBERT Léo
  * -----
- * Last Modified: Monday, 10th December 2018
+ * Last Modified: Wednesday, 12th December 2018
  * Modified By: HUBERT Léo
  * -----
  * Copyright - 2018 HUBERT Léo
@@ -21,5 +21,5 @@ public interface ImmutablePlaceRate {
 
   public String getColor();
 
-  public ArrayList<String> getOffers();
+  public ArrayList<? extends ImmutableOffer> getImmutableOffers();
 }

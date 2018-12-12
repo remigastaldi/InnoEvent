@@ -2,7 +2,7 @@
  * File Created: Saturday, 27th October 2018
  * Author: HUBERT Léo
  * -----
- * Last Modified: Tuesday, 11th December 2018
+ * Last Modified: Wednesday, 12th December 2018
  * Modified By: HUBERT Léo
  * -----
  * Copyright - 2018 HUBERT Léo
@@ -133,11 +133,12 @@ public class Pricing implements Serializable {
    */
   public void addPlaceRateOffer(String id, String offerName) {
     PlaceRate place = this._places.get(id);
+    Offer offer = this._offers.get(offerName);
 
     if (place == null) {
       return;
     }
-    place.addOffer(offerName);
+    place.addOffer(offer);
   }
 
   /**
@@ -148,11 +149,12 @@ public class Pricing implements Serializable {
    */
   public void removePlaceRateOffer(String id, String offerName) {
     PlaceRate place = this._places.get(id);
+    Offer offer = this._offers.get(offerName);
 
     if (place == null) {
       return;
     }
-    place.removeOffer(offerName);
+    place.removeOffer(offer);
   }
 
   private String getNextOfferName() {
