@@ -147,11 +147,10 @@ public class RectangularSectionController extends ViewController {
     }
 
     // Offers
-    available_offers_list.setItems(Core().getObservableOffersList());
     refreshAttributedOffer();
 
     available_offers_list.setOnMouseClicked((e) -> {
-      if (e.getClickCount() == 2) {
+      if (e.getClickCount() == 2 && available_offers_list.getFocusModel().getFocusedItem() != null) {
         Core().addSectionOffer(rectangle.getID(), available_offers_list.getFocusModel().getFocusedItem());
         available_offers_list.getItems().remove(available_offers_list.getFocusModel().getFocusedItem());
         refreshAttributedOffer();
@@ -159,7 +158,7 @@ public class RectangularSectionController extends ViewController {
     });
 
     attributed_offers_list.setOnMouseClicked((e) -> {
-      if (e.getClickCount() == 2) {
+      if (e.getClickCount() == 2 && attributed_offers_list.getFocusModel().getFocusedItem() != null) {
         Core().removeSectionOffer(rectangle.getID(), attributed_offers_list.getFocusModel().getFocusedItem());
         available_offers_list.getItems().add(attributed_offers_list.getFocusModel().getFocusedItem());
         refreshAttributedOffer();
@@ -176,8 +175,11 @@ public class RectangularSectionController extends ViewController {
       return;
     }
 
+
     ArrayList<? extends ImmutableOffer> offers = Core().getSectionPrice(rectangle.getID()).getImmutableOffers();
     attributed_offers_list.getItems().clear();
+    available_offers_list.getItems().clear();
+    available_offers_list.getItems().addAll(Core().getObservableOffersList());
     offers.forEach((offer) -> {
       available_offers_list.getItems().remove(offer.getName());
       attributed_offers_list.getItems().add(offer.getName());

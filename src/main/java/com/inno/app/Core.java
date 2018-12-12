@@ -204,6 +204,10 @@ public class Core {
       }
     }
   }
+  
+  public void setSectionPrice(String idSection, double price) {
+    setSectionPrice(idSection, price, null);
+  }
 
   public void addSectionOffer(String id, String offerName) {
     HashMap<String, ? extends ImmutablePlaceRate> places = _pricing.getPlaces(id + "|");
@@ -223,9 +227,6 @@ public class Core {
     }
   }
 
-  public void setSectionPrice(String idSection, double price) {
-    setSectionPrice(idSection, price, null);
-  }
 
   public ImmutablePlaceRate getSectionPrice(String idSection) {
     return _pricing.getPlaceRate(idSection);
@@ -253,6 +254,26 @@ public class Core {
     setRowPrice(idSection, idRow, price, null);
   }
 
+  public void addRowOffer(String idSection, String idRow, String offerName) {
+    HashMap<String, ? extends ImmutablePlaceRate> places = _pricing.getPlaces(idSection + "|" + idRow + "|");
+    _pricing.addPlaceRateOffer(idSection + "|" + idRow, offerName);
+  
+    for (Map.Entry<String, ? extends ImmutablePlaceRate> entry : places.entrySet()) {
+      String key = entry.getKey();
+      _pricing.addPlaceRateOffer(key, offerName);
+    }
+  }
+
+  public void removeRowOffer(String idSection, String idRow, String offerName) {
+    HashMap<String, ? extends ImmutablePlaceRate> places = _pricing.getPlaces(idSection + "|" + idRow + "|");
+    _pricing.removePlaceRateOffer(idSection + "|" + idRow, offerName);
+  
+    for (Map.Entry<String, ? extends ImmutablePlaceRate> entry : places.entrySet()) {
+      String key = entry.getKey();
+      _pricing.removePlaceRateOffer(key, offerName);
+    }
+  }
+
   public ImmutablePlaceRate getRowPrice(String idSection, String idRow) {
     return _pricing.getPlaceRate(idSection + "|" + idRow);
   }
@@ -270,6 +291,14 @@ public class Core {
 
   public void setSeatPrice(String idSection, String idRow, String idSeat, double price) {
     setSeatPrice(idSection, idRow, idSeat, price, null);
+  }
+
+  public void addSeatOffer(String idSection, String idRow, String idSeat, String offerName) {
+    _pricing.addPlaceRateOffer(idSection + "|" + idRow + "|" + idSeat, offerName);
+  }
+
+  public void removeSeatOffer(String idSection, String idRow, String idSeat, String offerName) {
+    _pricing.removePlaceRateOffer(idSection + "|" + idRow + "|" + idSeat, offerName);
   }
 
   public ImmutablePlaceRate getSeatPrice(String idSection, String idRow, String idSeat) {
@@ -464,6 +493,5 @@ public class Core {
   public ObservableList<String> getObservableOffersList() {
     return _availableOffers;
   }
-
 
 };

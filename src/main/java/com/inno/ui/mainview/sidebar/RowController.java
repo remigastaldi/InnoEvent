@@ -2,7 +2,7 @@
  * File Created: Tuesday, 13th November 2018
  * Author: MAREL Maud
  * -----
- * Last Modified: Tuesday, 11th December 2018
+ * Last Modified: Wednesday, 12th December 2018
  * Modified By: HUBERT Léo
  * -----
  * Copyright - 2018 MAREL Maud
@@ -11,6 +11,7 @@
 
 package com.inno.ui.mainview.sidebar;
 
+import com.inno.service.pricing.ImmutableOffer;
 import com.inno.service.pricing.ImmutablePlaceRate;
 import com.inno.ui.Validator;
 import com.inno.ui.ViewController;
@@ -18,16 +19,19 @@ import com.inno.ui.innoengine.InnoRow;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Accordion;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+
 
 public class RowController extends ViewController {
 
@@ -50,6 +54,11 @@ public class RowController extends ViewController {
 
   @FXML
   private Accordion accordion;
+
+  @FXML
+  private ListView<String> attributed_offers_list;
+  @FXML
+  private ListView<String> available_offers_list;
 
   @FXML
   private void initialize() {
@@ -93,6 +102,44 @@ public class RowController extends ViewController {
       row_price_color_picker.setValue(Color.valueOf(place.getColor()));
     }
 
+    // Offers
+    refreshOffer();
+
+    available_offers_list.setOnMouseClicked((e) -> {
+      if (e.getClickCount() == 2 && available_offers_list.getFocusModel().getFocusedItem() != null) {
+        Core().addRowOffer(row.getImmutableSection().getIdSection(), row.getImmutableRow().getIdRow(), available_offers_list.getFocusModel().getFocusedItem());
+        available_offers_list.getItems().remove(available_offers_list.getFocusModel().getFocusedItem());
+        refreshOffer();
+      }
+    });
+
+    attributed_offers_list.setOnMouseClicked((e) -> {
+      if (e.getClickCount() == 2 && attributed_offers_list.getFocusModel().getFocusedItem() != null) {
+        Core().removeRowOffer(row.getImmutableSection().getIdSection(), row.getImmutableRow().getIdRow(), attributed_offers_list.getFocusModel().getFocusedItem());
+        available_offers_list.getItems().add(attributed_offers_list.getFocusModel().getFocusedItem());
+        refreshOffer();
+      }
+    });
+
+  }
+
+  private void refreshOffer() {
+    InnoRow row = (InnoRow) getIntent();
+
+    if (row == null) {
+      System.out.println("Row is null");
+      return;
+    }
+
+
+    ArrayList<? extends ImmutableOffer> offers = Core().getRowPrice(row.getImmutableSection().getIdSection(), row.getImmutableRow().getIdRow()).getImmutableOffers();
+    attributed_offers_list.getItems().clear();
+    available_offers_list.getItems().clear();
+    available_offers_list.getItems().addAll(Core().getObservableOffersList());
+    offers.forEach((offer) -> {
+      available_offers_list.getItems().remove(offer.getName());
+      attributed_offers_list.getItems().add(offer.getName());
+    });
   }
 
   @FXML

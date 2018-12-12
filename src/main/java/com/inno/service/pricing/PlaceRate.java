@@ -61,7 +61,9 @@ public class PlaceRate implements ImmutablePlaceRate, Serializable {
   }
 
   public boolean addOffer(Offer offer) {
-    return this._offers.add(offer);
+    if (!this._offers.contains(offer))
+      return this._offers.add(offer);
+    return false;
   }
 
   public boolean removeOffer(Offer offer) {
