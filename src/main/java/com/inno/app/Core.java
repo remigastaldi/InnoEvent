@@ -11,6 +11,8 @@
 
 package com.inno.app;
 
+import java.io.FileWriter;
+import java.io.Writer;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -18,6 +20,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.inno.app.InnoSave;
 import com.inno.app.room.*;
 import com.inno.service.Point;
@@ -298,6 +302,17 @@ public class Core {
     } catch (Exception e) {
     }
     return _recentPaths;
+  }
+
+  public void exportAsJson(String path) {
+    try (Writer writer = new FileWriter(path)) {
+      System.out.println(path);
+      Gson gson = new GsonBuilder().create();
+      gson.toJson(_room, writer);
+      gson.toJson(_pricing, writer);
+    } catch (Exception e) {
+      System.out.println(e);
+    }
   }
 
   // Pricing && Offers

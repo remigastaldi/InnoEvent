@@ -2,8 +2,8 @@
  * File Created: Wednesday, 10th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Monday, 10th December 2018
- * Modified By: HUBERT Léo
+ * Last Modified: Wednesday, 12th December 2018
+ * Modified By: MAREL Maud
  * -----
  * Copyright - 2018 GASTALDI Rémi
  * <<licensetext>>
@@ -233,11 +233,11 @@ public class View extends Application {
     return file;
   }
 
-  public File getSaveProjectFilePath() {
+  public File getSaveProjectFilePath(String extension) {
     FileChooser fileChooser = new FileChooser();
 
-    // Set extension filter for text files
-    FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("InnoEvent", "*.inevt");
+    // Set extension filter for text files 
+    FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("InnoEvent", extension);
     fileChooser.getExtensionFilters().add(extFilter);
 
     // Show save file dialog

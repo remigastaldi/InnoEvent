@@ -2,8 +2,8 @@
  * File Created: Wednesday, 26th September 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Tuesday, 11th December 2018
- * Modified By: GASTALDI Rémi
+ * Last Modified: Wednesday, 12th December 2018
+ * Modified By: MAREL Maud
  * -----
  * Copyright - 2018 GASTALDI Rémi
  * <<licensetext>>
@@ -185,9 +185,17 @@ public class MainViewController extends ViewController {
 
   @FXML
   private void menuSaveAsAction() {
-    File file = View().getSaveProjectFilePath();
+    File file = View().getSaveProjectFilePath("*.inevt");
     if (file != null) {
       Core().saveTo(file.getAbsolutePath());
+    }
+  }
+
+  @FXML
+  private void menuExportAsJsonAction() {
+    File file = View().getSaveProjectFilePath("*.json");
+    if (file != null) {
+      Core().exportAsJson(file.getAbsolutePath());
     }
   }
 

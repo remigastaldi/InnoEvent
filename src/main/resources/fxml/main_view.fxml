@@ -155,6 +155,7 @@
                                  <accelerator>
                                     <KeyCodeCombination alt="UP" code="S" control="UP" meta="UP" shift="DOWN" shortcut="DOWN" />
                                  </accelerator></MenuItem>
+                              <MenuItem mnemonicParsing="false" onAction="#menuExportAsJsonAction" text="Export as JSON" />
                         <SeparatorMenuItem mnemonicParsing="false" />
                         <MenuItem mnemonicParsing="false" onAction="#menuQuitButtonAction" text="Quit">
                                  <accelerator>
