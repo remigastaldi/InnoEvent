@@ -2,8 +2,8 @@
  * File Created: Monday, 15th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Tuesday, 11th December 2018
- * Modified By: GASTALDI Rémi
+ * Last Modified: Wednesday, 12th December 2018
+ * Modified By: MAREL Maud
  * -----
  * Copyright - 2018 GASTALDI Rémi
  * <<licensetext>>

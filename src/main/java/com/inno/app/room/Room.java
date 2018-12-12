@@ -109,6 +109,10 @@ public class Room implements ImmutableRoom, Serializable {
         this._scene.setRotation(rotation);
     }
 
+    public void setSceneElevation(double elevation) {
+        this._scene.setElevation(elevation);
+    }
+
     public ImmutableScene getImmutableScene() {
         return this._scene;
     }

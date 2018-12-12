@@ -113,6 +113,10 @@ public class Core {
     this._room.setSceneRotation(rotation);
   }
 
+  public void setSceneElevation(double elevation) {
+    this._room.setSceneElevation(elevation);
+  }
+
   // Section methods
   public void setSectionName(String idSection, String name) {
     this._room.setSectionName(idSection, name);
