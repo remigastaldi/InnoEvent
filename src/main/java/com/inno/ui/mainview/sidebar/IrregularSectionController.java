@@ -2,8 +2,8 @@
  * File Created: Tuesday, 13th November 2018
  * Author: MAREL Maud
  * -----
- * Last Modified: Thursday, 22nd November 2018
- * Modified By: MAREL Maud
+ * Last Modified: Wednesday, 12th December 2018
+ * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 MAREL Maud
  * <<licensetext>>
@@ -13,6 +13,7 @@ package com.inno.ui.mainview.sidebar;
 
 import com.inno.ui.Validator;
 import com.inno.ui.ViewController;
+import com.inno.ui.innoengine.shape.InnoPolygon;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -44,8 +45,22 @@ public class IrregularSectionController extends ViewController {
   public void init() {
   }
 
+  boolean check = true;
   @FXML
   private void onKeyReleased() {
+    
+    // InnoPolygon poly = (InnoPolygon) getIntent();
+    
+    // if (check) {
+    //   System.out.println("Change sitting to standing");
+    //   poly.sittingToStanding();
+    //   check = false;
+    // } else {
+    //   System.out.println("Change standing to sitting");
+    //   poly.standingToSitting();
+    //   check = true;
+    // }
+
     checkInputs(false);
   }
 

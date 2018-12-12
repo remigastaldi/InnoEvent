@@ -2,7 +2,7 @@
  * File Created: Sunday, 14th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Monday, 10th December 2018
+ * Last Modified: Wednesday, 12th December 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -15,6 +15,7 @@ package com.inno.ui.innoengine.shape;
 import java.util.ArrayList;
 
 import com.inno.app.Core;
+import com.inno.app.room.ImmutableSection;
 import com.inno.app.room.ImmutableSittingRow;
 import com.inno.app.room.ImmutableSittingSection;
 import com.inno.app.room.ImmutableStandingSection;
@@ -44,12 +45,12 @@ public class InnoPolygon extends InteractivePolygon {
     setID(id);
   }
 
-  public InnoPolygon(InnoEngine engine, Pane pane, String id) {
+  public InnoPolygon(InnoEngine engine, Pane pane, String id, boolean isStanding) {
     super(engine, pane);
 
     setID(id);
 
-    loadFromData();
+    loadFromData(isStanding);
     // deselect();
   }
 
@@ -162,22 +163,34 @@ public class InnoPolygon extends InteractivePolygon {
     if (getID() == null)
       return false;
     InnoEngine engine = (InnoEngine) Engine();
-    engine.getView().setSidebarFromFxmlFileName("sidebar_irregular_sitting_section.fxml", this);
+    if (_sittingSectionData != null)
+      engine.getView().setSidebarFromFxmlFileName("sidebar_irregular_sitting_section.fxml", this);
+    else
+      engine.getView().setSidebarFromFxmlFileName("sidebar_standing_section.fxml", this);
     return true;
   }
 
-  public void loadFromData() {
-    _sittingSectionData = Core.get().getImmutableRoom().getImmutableSittingSections().get(getID());
+  public void loadFromData(boolean isStanding) {
+    ImmutableSection section = null;
 
-    double[] pos = ((InnoEngine)Engine()).meterToPixel(parentToLocal(_sittingSectionData.getPositions()));
+    if (isStanding) {
+      section = Core.get().getImmutableRoom().getImmutableStandingSections().get(getID());
+      _standingSectionData = (ImmutableStandingSection) section;
+    }
+    else {
+      section = Core.get().getImmutableRoom().getImmutableSittingSections().get(getID());
+      _sittingSectionData = (ImmutableSittingSection) section;
+    }
+
+    double[] pos = ((InnoEngine)Engine()).meterToPixel(parentToLocal(section.getPositions()));
     closeForm(pos, Color.valueOf(Core.get().getSectionPrice(getID()).getColor()));
 
-// setColor(Color.valueOf(Core.get().getSectionPrice(getID()).getColor()));
-
     Point2D center = Engine().getCenterOfPoints(getPoints());
-    setRotation(new Rotate(_sittingSectionData.getRotation(), center.getX(), center.getY()));
+    setRotation(new Rotate(section.getRotation(), center.getX(), center.getY()));
 
-    updateFromData();
+
+    if (!isStanding)
+      updateFromData();
   }
 
   private void updateFromData() {
@@ -191,11 +204,7 @@ public class InnoPolygon extends InteractivePolygon {
 
   // TODO: private this
   public void updateRowsFromData(boolean toParent) {
-    if (_rows != null) {
-      for (int i = 0; i < _rows.length; ++i) {
-        _rows[i].destroy();
-      }
-    }
+    destroyRows();
 
     ArrayList<? extends ImmutableSittingRow> rows =  _sittingSectionData.getImmutableSittingRows();
     _rows = new InnoRow[rows.size()];
@@ -208,6 +217,14 @@ public class InnoPolygon extends InteractivePolygon {
       ++i;
     }
   }
+
+  public void destroyRows() {
+    if (_rows != null) {
+      for (int i = 0; i < _rows.length; ++i) {
+        _rows[i].destroy();
+      }
+    }
+  }
   // private void updateFromData() {
   //   // setPoints(parentToLocal(((InnoEngine)Engine()).meterToPixel(_sittingSectionData.getPositions())));
 
@@ -216,7 +233,24 @@ public class InnoPolygon extends InteractivePolygon {
 
   // }
 
-  public void changeSectionType() {
-    //TODO Sitting to standing anv vis versa
+  public void sittingToStanding() {
+    _standingSectionData = Core.get().sittingToStandingSection(_sittingSectionData.getIdSection());
+    _sittingSectionData = null;
+    
+    destroyRows();
+  }
+
+  public void standingToSitting() {
+    _sittingSectionData = Core.get().standingToSittingSection(_standingSectionData.getIdSection());
+    _standingSectionData = null;
+    updateFromData();
+  }
+
+  public ImmutableSittingSection getSittingData() {
+    return _sittingSectionData;
+  }
+
+  public ImmutableStandingSection getStandingData() {
+    return _standingSectionData;
   }
 }
