@@ -2,7 +2,7 @@
  * File Created: Friday, 12th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Monday, 10th December 2018
+ * Last Modified: Thursday, 13th December 2018
  * Modified By: HUBERT Léo
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -20,7 +20,7 @@ public class Offer implements ImmutableOffer, Serializable {
   protected String _name;
   protected double _reduction;
   protected String _description;
-  protected ReductionType _reductionType = ReductionType.NONE;
+  protected ReductionType _reductionType = ReductionType.PERCENTAGE;
   protected HashMap<String, OfferCondition> _offerConditions = new HashMap<String, OfferCondition>();
 
   public Offer(String name, String description, double reduction, ReductionType reductionType) {

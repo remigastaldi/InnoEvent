@@ -454,13 +454,16 @@ public class Core {
     return offer;
   }
 
+  public void setOfferReductionType(String offerName, String reductionType) {
+    _pricing.setOfferReductionType(offerName, reductionType);
+  }
+
   public void setOfferConditionName(String offerName, String offerConditionName, String nName) {
     _pricing.setOfferConditionName(offerName, offerConditionName, nName);
   }
 
   public void setOfferConditionDescription(String offerName, String offerConditionName, String description) {
     _pricing.setOfferConditionDescription(offerName, offerConditionName, description);
-
   }
 
   public String[] getRelationalOperatorTypePossibilities() {
@@ -469,6 +472,10 @@ public class Core {
 
   public String[] getLogicalOperatorTypePossibilities() {
     return _pricing.getLogicalOperatorTypePossibilities();
+  }
+
+  public String[] getReductionTypePossibilities() {
+    return _pricing.getReductionTypePossibilities();
   }
 
   public HashMap<String, ? extends ImmutablePlaceRate> getPrices() {
