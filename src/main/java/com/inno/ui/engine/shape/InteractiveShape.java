@@ -68,6 +68,7 @@ public abstract class InteractiveShape<T extends Shape> {
   public boolean onDestroy() { return true; }
   
   public boolean onShapeMoved() { return true; }
+  public boolean onShapeReleased() { return true; }
   
   public boolean onAnchorPressed() { return true; }
   public boolean onAnchorDragged() { return true; }
