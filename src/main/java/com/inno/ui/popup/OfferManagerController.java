@@ -2,7 +2,7 @@
  * File Created: Friday, 26th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Wednesday, 12th December 2018
+ * Last Modified: Thursday, 13th December 2018
  * Modified By: HUBERT Léo
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -26,6 +26,7 @@ import com.inno.ui.components.CellWithDelButton;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
@@ -48,6 +49,8 @@ public class OfferManagerController extends ViewController {
     private AnchorPane anchor_root;
     @FXML
     private StackPane parentContainer;
+    @FXML
+    private ChoiceBox<String> offerReductionType;
 
     ObservableList<CellWithDelFunction> _offerList = FXCollections.observableArrayList();
     ObservableList<CellWithDelFunction> _offerConditionList = FXCollections.observableArrayList();
@@ -75,23 +78,6 @@ public class OfferManagerController extends ViewController {
     }
 
     public OfferManagerController() {
-        // Core().createOffer("toto1", "Je sais pas encore", 50, "PERCENTAGE");
-        // Core().createOffer("toto2", "Je sais pas encore", 50, "PERCENTAGE");
-        // Core().createOffer("toto4", "Je sais pas encore", 50, "PERCENTAGE");
-
-        // Core().createOfferCondition("toto1", "totocondition1", "Je ne sais pas non
-        // plus mdr", "AND");
-        // Core().createOfferCondition("toto1", "totocondition2", "Je ne sais pas non
-        // plus mdr", "AND");
-        // Core().createOfferCondition("toto1", "totocondition3", "Je ne sais pas non
-        // plus mdr", "AND");
-
-        // Core().createOfferConditionOperation("toto1", "totocondition1", "20",
-        // "EQUALS", "AND");
-        // Core().createOfferConditionOperation("toto1", "totocondition1", "10",
-        // "INFERIOR_OR_EQUALS", "AND");
-        // Core().createOfferConditionOperation("toto1", "totocondition1", "50",
-        // "SUPERIOR", "AND");
     }
 
     private void setSelectedOffer(ImmutableOffer offer) {
@@ -99,6 +85,17 @@ public class OfferManagerController extends ViewController {
         if (_selectedOffer == null && offer != null) {
             offerProperties.setVisible(true);
         }
+
+        offerReductionType.setOnAction(null);
+
+        offerReductionType.getSelectionModel().select(offer.getReductionType().toString());
+
+        offerReductionType.setOnAction((e) -> {
+            if (offerReductionType.getSelectionModel().getSelectedItem() != null && _selectedOffer != null) {
+                Core().setOfferReductionType(_selectedOffer.getName(),
+                        offerReductionType.getSelectionModel().getSelectedItem());
+            }
+        });
 
         for (int i = 0; i < offerList.getItems().size(); ++i) {
             String offerName = offerList.getItems().get(i).toString();
@@ -127,6 +124,8 @@ public class OfferManagerController extends ViewController {
         offerList.setItems(_offerList);
         offerConditionList.setItems(_offerConditionList);
         refreshOfferList();
+
+        offerReductionType.getItems().addAll(Core().getReductionTypePossibilities());
     }
 
     @FXML
@@ -237,6 +236,7 @@ public class OfferManagerController extends ViewController {
         if (offer == null) {
             return;
         }
+        refreshOfferList();
         setSelectedOffer(offer);
     }
 }

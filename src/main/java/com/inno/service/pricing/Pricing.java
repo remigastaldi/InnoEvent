@@ -2,7 +2,7 @@
  * File Created: Saturday, 27th October 2018
  * Author: HUBERT Léo
  * -----
- * Last Modified: Wednesday, 12th December 2018
+ * Last Modified: Thursday, 13th December 2018
  * Modified By: HUBERT Léo
  * -----
  * Copyright - 2018 HUBERT Léo
@@ -257,7 +257,6 @@ public class Pricing implements Serializable {
 
   public void setOfferDescription(String name, String description) {
     Offer offer = this._offers.get(name);
-
     if (offer == null) {
       return;
     }
@@ -266,20 +265,19 @@ public class Pricing implements Serializable {
 
   public void setOfferReduction(String name, double reduction) {
     Offer offer = this._offers.get(name);
-
     if (offer == null) {
       return;
     }
     offer.setReduction(reduction);
   }
 
-  public void setOfferReductionType(String name, ReductionType reductionType) {
+  public void setOfferReductionType(String name, String reductionType) {
     Offer offer = this._offers.get(name);
-
+    ReductionType reductionTypeEnum = getEnumFromString(ReductionType.class, reductionType);
     if (offer == null) {
       return;
     }
-    offer.setReductionType(reductionType);
+    offer.setReductionType(reductionTypeEnum);
   }
 
   // TODO: Changes alls enums to string
@@ -419,7 +417,6 @@ public class Pricing implements Serializable {
   public void setOfferConditionOperationLogicalOperator(String offerName, String offerConditionName, int index,
       String logicalOperator) {
     LogicalOperator logicalOperatorEnum = getEnumFromString(LogicalOperator.class, logicalOperator);
-
 
     OfferOperation offerOperation = this.getOfferOperation(offerName, offerConditionName, index);
     offerOperation.setLogicalOperator(logicalOperatorEnum);
