@@ -147,7 +147,6 @@ public class Core {
 
     for (Map.Entry<String, ? extends ImmutablePlaceRate> entry : places.entrySet()) {
       String key = entry.getKey();
-      System.out.println(key);
       _pricing.deletePlaceRate(key);
     }
     this._room.deleteSection(idSection);

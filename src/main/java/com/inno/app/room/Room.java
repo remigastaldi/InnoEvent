@@ -15,6 +15,7 @@ package com.inno.app.room;
 import com.inno.app.Core;
 import com.inno.service.Point;
 import com.inno.service.Utils;
+import com.inno.service.pricing.ImmutablePlaceRate;
 
 import java.util.HashMap;
 import java.io.Serializable;
@@ -334,10 +335,10 @@ public class Room implements ImmutableRoom, Serializable {
                     - vitalSpaceWidth / 2, yRow + (vitalSpaceHeight / 2) };
             ImmutableSittingRow row = createSittingRow(section.getIdSection(), posStart, posEnd);
 
-            if (Core.get().getSectionPrice(section.getIdSection()).getPrice() != -1) {
-                Core.get().createPlace(section.getIdSection() + "|" + row.getIdRow(),
-                        Core.get().getSectionPrice(section.getIdSection()).getColor(),
-                        Core.get().getSectionPrice(section.getIdSection()).getPrice());
+            ImmutablePlaceRate sectionPlace = Core.get().getSectionPrice(section.getIdSection());
+            if (sectionPlace != null && sectionPlace.getPrice() != -1) {
+                Core.get().createPlace(section.getIdSection() + "|" + row.getIdRow(), sectionPlace.getColor(),
+                        sectionPlace.getPrice());
             } else {
                 Core.get().createPlace(section.getIdSection() + "|" + row.getIdRow(), "#7289DA");
             }
@@ -345,10 +346,11 @@ public class Room implements ImmutableRoom, Serializable {
             while (xSeat < positions[2] - vitalSpaceWidth * 0.99) {
                 double[] seatPos = { xSeat + (vitalSpaceWidth / 2), ySeat + (vitalSpaceHeight / 2) };
                 ImmutableSeat seat = createSeat(section.getIdSection(), row.getIdRow(), seatPos);
-                if (Core.get().getRowPrice(section.getIdSection(), row.getIdRow()).getPrice() != -1) {
+
+                ImmutablePlaceRate rowPlace = Core.get().getRowPrice(section.getIdSection(), row.getIdRow());
+                if (rowPlace != null && rowPlace.getPrice() != -1) {
                     Core.get().createPlace(section.getIdSection() + "|" + row.getIdRow() + "|" + seat.getId(),
-                            Core.get().getRowPrice(section.getIdSection(), row.getIdRow()).getColor(),
-                            Core.get().getRowPrice(section.getIdSection(), row.getIdRow()).getPrice());
+                            rowPlace.getColor(), rowPlace.getPrice());
                 } else {
                     Core.get().createPlace(section.getIdSection() + "|" + row.getIdRow() + "|" + seat.getId(),
                             "#FFA500");
