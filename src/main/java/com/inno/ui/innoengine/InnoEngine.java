@@ -13,6 +13,7 @@
 package com.inno.ui.innoengine;
 
 import java.util.Collection;
+import java.util.HashMap;
 
 import com.inno.app.Core;
 import com.inno.app.room.ImmutableRoom;
@@ -33,7 +34,11 @@ import javafx.scene.transform.Rotate;
 
 
 public class InnoEngine extends Engine {
-  View _view = null;
+  private View _view = null;
+  // ImmutableSection _bufferedSection = null;
+  private InteractiveShape<? extends Shape> _buffShape = null;
+  private HashMap<String, InnoRectangle> _rectangles = new HashMap<>();
+  
 
   public InnoEngine(View view, StackPane stackPane) {
     super(stackPane, 100, 100);
@@ -84,8 +89,6 @@ public class InnoEngine extends Engine {
           Core.get().setScenePositions(pixelToMeter(getNoRotatedParentPos()));
           Core.get().setSceneWidth(pixelToMeter(this.getWidth()));
           Core.get().setSceneHeight(pixelToMeter(this.getHeight()));
-          // Core.get().setSceneRotation(this.getRotation().getAngle());
-
           return true;
         }
 
@@ -105,6 +108,13 @@ public class InnoEngine extends Engine {
         @Override
         public boolean onShapeMoved() {
           Core.get().setScenePositions(pixelToMeter(getNoRotatedParentPos()));
+          updateRectangleSectionsOrientation(true);
+          return true;
+        }
+
+        @Override
+        public boolean onShapeReleased() {
+          updateRectangleSectionsOrientation(false);
           return true;
         }
     };
@@ -112,6 +122,15 @@ public class InnoEngine extends Engine {
     shape.setColor(color);
     shape.getShape().setFill(color.deriveColor(1, 1, 0.8, 0.85));
     deselect();
+    addInteractiveShape(shape);
+  }
+
+  public void updateRectangleSectionsOrientation(boolean toParent) {
+    for (InnoRectangle shape : _rectangles.values()) {
+      System.out.println(shape.getID());
+      Core.get().updateSectionPositions(shape.getID(), pixelToMeter(shape.getNoRotatedParentPos()), true);
+      shape.updateFromData(toParent);
+    }
   }
 
   public void createIrregularSection() {
@@ -134,23 +153,25 @@ public class InnoEngine extends Engine {
     addInteractiveShape(shape);
   }
 
-
   public void createRectangularSection() {
     deselect();
-    InnoRectangle innoPoly = new InnoRectangle(this, getPane());
-    innoPoly.start();
+    InnoRectangle shape = new InnoRectangle(this, getPane());
+    shape.start();
+    addInteractiveShape(shape);
   }
 
   public void createRectangularSection(double x, double y, double width, double height, Rotate rotation, Color color) {
     deselect();
     InnoRectangle shape = new InnoRectangle(this, getPane(), x, y, width, height, rotation, color);
     addInteractiveShape(shape);
+    _rectangles.put(shape.getID(), shape);
   }
 
   public void createRectangularSection(String id) {
     deselect();
     InnoRectangle shape = new InnoRectangle(this, getPane(), id);
     addInteractiveShape(shape);
+    _rectangles.put(shape.getID(), shape);
   }
 
   public View getView() {
@@ -205,6 +226,28 @@ public class InnoEngine extends Engine {
     
   }
 
+  public void copySelectedSectionsToBuffer() {
+    // _bufferedSection = Core.get().getImmutableRoom().getSectionById(getSelectedShape().getID());
+    // _buffShape = getSelectedShape();
+  }
+
+  public void pastBufferToEngine() {
+    Core core = Core.get();
+
+    // if (_buffShape != null) {
+    //   ImmutableSittingSection section = core.createSittingSection(_buffShape.getPointsInParent(),
+    //     _buffShape.getRotation().getAngle(), true);
+    //   core.setSection
+    //   createRectangularSection(section.getIdSection());
+
+    //   createInteractiveRectangle(section.getIdSection(), _buffShape.getPointsInParent()[0],
+    //       _buffShape.getPointsInParent()[1],
+    //       _buffShape.getPoints()[2] - _buffShape.getPoints()[0],
+    //       _buffShape.getPoints()[7] - _buffShape.getPoints()[1],
+    //       _buffShape.getRotation(), _buffShape.getColor());
+    // }
+  }
+
   /**
    * Update all sections vital which have old one
    * @param width old width
@@ -214,5 +257,13 @@ public class InnoEngine extends Engine {
     for (InteractiveShape<? extends Shape> shape : getShapes()) {
       shape.updateRowsFromData(false);
     }
+  }
+
+  public void addRectangle(InnoRectangle rectangle) {
+    _rectangles.put(rectangle.getID(), rectangle);
+  }
+
+  public void deleteShape(String id) {
+    _rectangles.remove(id);
   }
 }

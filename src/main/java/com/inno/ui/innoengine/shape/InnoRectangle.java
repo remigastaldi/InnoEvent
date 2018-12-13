@@ -3,7 +3,7 @@
  * Author: GASTALDI Rémi
  * -----
  * Last Modified: Wednesday, 12th December 2018
- * Modified By: MAREL Maud
+ * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
  * <<licensetext>>
@@ -114,9 +114,10 @@ public class InnoRectangle extends InteractiveRectangle {
     _sectionData = Core.get().createSittingSection(((InnoEngine)Engine()).pixelToMeter(pos), 0, true);
     setID(_sectionData.getIdSection());
 
-    updateFromData();
+    updateFromData(false);
     select();
 
+    ((InnoEngine)Engine()).addRectangle(this);
     return true;
   }
 
@@ -208,13 +209,13 @@ public class InnoRectangle extends InteractiveRectangle {
   public void setColumnNumber(int columns) {
     setWidth(_xVitalSpace * columns);
     Core.get().updateSectionPositions(getID(), ((InnoEngine)Engine()).pixelToMeter(getNoRotatedParentPos()), true);
-    updateFromData();    
+    updateFromData(false);    
   }
 
   public void setRowNumber(int rows) {
     setHeight(_yVitalSpace * rows);
     Core.get().updateSectionPositions(getID(), ((InnoEngine)Engine()).pixelToMeter(getNoRotatedParentPos()), true);
-    updateFromData();    
+    updateFromData(false);    
   }
 
   public int getColumnNumber() {
@@ -264,12 +265,12 @@ public class InnoRectangle extends InteractiveRectangle {
     double[] pos = parentToLocal(((InnoEngine)Engine()).meterToPixel(_sectionData.getPositions()));
     
     closeForm(pos[0], pos[1], new Rotate(), Color.valueOf(Core.get().getSectionPrice(getID()).getColor()));
-    updateFromData();
+    updateFromData(false);
   } 
 
-  public void updateFromData() {
+  public void updateFromData(boolean toParent) {
     updatePositionFromData();
-    updateRowsFromData(false);
+    updateRowsFromData(toParent);
   }
 
   private void updatePositionFromData() {

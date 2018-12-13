@@ -3,7 +3,7 @@
  * Author: MAREL Maud
  * -----
  * Last Modified: Wednesday, 12th December 2018
- * Modified By: HUBERT Léo
+ * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 MAREL Maud
  * <<licensetext>>
@@ -266,7 +266,7 @@ public class RectangularSectionController extends ViewController {
           double width = Double.parseDouble(section_vital_space_width_input.getText());
           double height = Double.parseDouble(section_vital_space_height_input.getText());
           rectangle.setVitalSpace(width, height);
-          rectangle.updateFromData();
+          rectangle.updateFromData(false);
         }
         if (section_name_input.isFocused())
           Core().setSectionName(rectangle.getID(), section_name_input.getText());
