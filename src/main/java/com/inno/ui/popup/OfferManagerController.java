@@ -2,7 +2,7 @@
  * File Created: Friday, 26th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Tuesday, 11th December 2018
+ * Last Modified: Wednesday, 12th December 2018
  * Modified By: HUBERT Léo
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -15,11 +15,13 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import com.google.common.base.Function;
 import com.inno.service.pricing.ImmutableOffer;
 import com.inno.service.pricing.ImmutableOfferCondition;
 import com.inno.ui.Validator;
 import com.inno.ui.ViewController;
 import com.inno.ui.View.AnimationDirection;
+import com.inno.ui.components.CellWithDelButton;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -33,9 +35,9 @@ import javafx.scene.layout.StackPane;
 public class OfferManagerController extends ViewController {
 
     @FXML
-    private ListView<String> offerList;
+    private ListView<CellWithDelFunction> offerList;
     @FXML
-    private ListView<String> offerConditionList;
+    private ListView<CellWithDelFunction> offerConditionList;
     @FXML
     private AnchorPane offerProperties;
     @FXML
@@ -47,22 +49,49 @@ public class OfferManagerController extends ViewController {
     @FXML
     private StackPane parentContainer;
 
-    ObservableList<String> _offerList = FXCollections.observableArrayList();
-    ObservableList<String> _offerConditionList = FXCollections.observableArrayList();
+    ObservableList<CellWithDelFunction> _offerList = FXCollections.observableArrayList();
+    ObservableList<CellWithDelFunction> _offerConditionList = FXCollections.observableArrayList();
     ImmutableOffer _selectedOffer = null;
+
+    public class CellWithDelFunction {
+        private String _label;
+        private Function<String, Boolean> _function;
+
+        CellWithDelFunction(String label, Function<String, Boolean> function) {
+            _label = label;
+            _function = function;
+        }
+
+        public String getLabel() {
+            return _label;
+        }
+
+        public boolean callDelFunction() {
+            if (_function != null)
+                return _function.apply(_label);
+            return false;
+        }
+
+    }
 
     public OfferManagerController() {
         // Core().createOffer("toto1", "Je sais pas encore", 50, "PERCENTAGE");
         // Core().createOffer("toto2", "Je sais pas encore", 50, "PERCENTAGE");
         // Core().createOffer("toto4", "Je sais pas encore", 50, "PERCENTAGE");
 
-        // Core().createOfferCondition("toto1", "totocondition1", "Je ne sais pas non plus mdr", "AND");
-        // Core().createOfferCondition("toto1", "totocondition2", "Je ne sais pas non plus mdr", "AND");
-        // Core().createOfferCondition("toto1", "totocondition3", "Je ne sais pas non plus mdr", "AND");
+        // Core().createOfferCondition("toto1", "totocondition1", "Je ne sais pas non
+        // plus mdr", "AND");
+        // Core().createOfferCondition("toto1", "totocondition2", "Je ne sais pas non
+        // plus mdr", "AND");
+        // Core().createOfferCondition("toto1", "totocondition3", "Je ne sais pas non
+        // plus mdr", "AND");
 
-        // Core().createOfferConditionOperation("toto1", "totocondition1", "20", "EQUALS", "AND");
-        // Core().createOfferConditionOperation("toto1", "totocondition1", "10", "INFERIOR_OR_EQUALS", "AND");
-        // Core().createOfferConditionOperation("toto1", "totocondition1", "50", "SUPERIOR", "AND");
+        // Core().createOfferConditionOperation("toto1", "totocondition1", "20",
+        // "EQUALS", "AND");
+        // Core().createOfferConditionOperation("toto1", "totocondition1", "10",
+        // "INFERIOR_OR_EQUALS", "AND");
+        // Core().createOfferConditionOperation("toto1", "totocondition1", "50",
+        // "SUPERIOR", "AND");
     }
 
     private void setSelectedOffer(ImmutableOffer offer) {
@@ -92,6 +121,9 @@ public class OfferManagerController extends ViewController {
 
     @FXML
     private void initialize() {
+        offerList.setCellFactory(studentListView -> new CellWithDelButton());
+        offerConditionList.setCellFactory(studentListView -> new CellWithDelButton());
+
         offerList.setItems(_offerList);
         offerConditionList.setItems(_offerConditionList);
         refreshOfferList();
@@ -100,7 +132,7 @@ public class OfferManagerController extends ViewController {
     @FXML
     private void offerListOnMouseClicked() {
         if (offerList.getSelectionModel().getSelectedItem() != null) {
-            ImmutableOffer offer = Core().getOffer(offerList.getSelectionModel().getSelectedItem().toString());
+            ImmutableOffer offer = Core().getOffer(offerList.getSelectionModel().getSelectedItem().getLabel());
             if (offer == null) {
                 return;
             }
@@ -110,9 +142,10 @@ public class OfferManagerController extends ViewController {
 
     @FXML
     private void offerConditionListOnMouseClicked(MouseEvent click) {
-        if (click.getClickCount() == 2 && _selectedOffer != null && offerConditionList.getSelectionModel().getSelectedItem() != null) {
+        if (click.getClickCount() == 2 && _selectedOffer != null
+                && offerConditionList.getSelectionModel().getSelectedItem() != null) {
             ImmutableOfferCondition offerCondition = Core().getOfferCondition(_selectedOffer.getName(),
-                    offerConditionList.getSelectionModel().getSelectedItem().toString());
+                    offerConditionList.getSelectionModel().getSelectedItem().getLabel());
             if (offerCondition != null) {
                 View().openViewWithAnimation("popup/offer_condition_manager.fxml", AnimationDirection.LEFT, anchor_root,
                         offerCondition);
@@ -125,7 +158,11 @@ public class OfferManagerController extends ViewController {
         HashMap<String, ? extends ImmutableOfferCondition> offersCondition = Core().getOfferConditions(offerName);
         for (Map.Entry<String, ? extends ImmutableOfferCondition> entry : offersCondition.entrySet()) {
             String offerConditionName = entry.getKey();
-            _offerConditionList.add(offerConditionName);
+            _offerConditionList.add(new CellWithDelFunction(offerConditionName, (offerConditionNameSelected) -> {
+                Core().deleteOfferCondition(_selectedOffer.getName(), offerConditionNameSelected);
+                refreshOfferConditionList(_selectedOffer.getName());
+                return true;
+            }));
         }
     }
 
@@ -134,7 +171,11 @@ public class OfferManagerController extends ViewController {
         HashMap<String, ? extends ImmutableOffer> offers = Core().getOffers();
         for (Map.Entry<String, ? extends ImmutableOffer> entry : offers.entrySet()) {
             String offerName = entry.getKey();
-            _offerList.add(offerName);
+            _offerList.add(new CellWithDelFunction(offerName, (offerNameSelected) -> {
+                Core().deleteOffer(offerNameSelected);
+                refreshOfferList();
+                return true;
+            }));
         }
     }
 

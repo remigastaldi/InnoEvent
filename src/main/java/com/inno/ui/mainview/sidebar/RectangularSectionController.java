@@ -2,8 +2,8 @@
  * File Created: Tuesday, 13th November 2018
  * Author: MAREL Maud
  * -----
- * Last Modified: Wednesday, 12th December 2018
- * Modified By: GASTALDI Rémi
+ * Last Modified: Thursday, 13th December 2018
+ * Modified By: HUBERT Léo
  * -----
  * Copyright - 2018 MAREL Maud
  * <<licensetext>>
@@ -175,11 +175,11 @@ public class RectangularSectionController extends ViewController {
       return;
     }
 
+    Core().refreshOfferList();
+    available_offers_list.setItems(Core().getObservableOffersList());
 
     ArrayList<? extends ImmutableOffer> offers = Core().getSectionPrice(rectangle.getID()).getImmutableOffers();
     attributed_offers_list.getItems().clear();
-    available_offers_list.getItems().clear();
-    available_offers_list.getItems().addAll(Core().getObservableOffersList());
     offers.forEach((offer) -> {
       available_offers_list.getItems().remove(offer.getName());
       attributed_offers_list.getItems().add(offer.getName());
@@ -253,9 +253,6 @@ public class RectangularSectionController extends ViewController {
         return;
       }
       try {
-        if (section_price_input.isFocused()) {
-          Core().setSectionPrice(rectangle.getID(), Double.parseDouble(section_price_input.getText()));
-        }
         if (section_columns_input.isFocused())
           rectangle.setColumnNumber(Integer.parseInt(section_columns_input.getText()));
         if (section_rows_input.isFocused())
@@ -281,12 +278,10 @@ public class RectangularSectionController extends ViewController {
             rectangle.updateRowsFromData(false);
           }
         } else {
-          Core().setSectionPrice(rectangle.getID(),
-              Double.parseDouble(
-                  section_price_input.getText().trim().length() != 0 ? section_price_input.getText() : "-1"),
-              "#6378bf");
+          Core().setSectionPrice(rectangle.getID(), Double.parseDouble("-1"), "#6378bf");
           section_price_color_picker.setDisable(true);
           section_price_color_picker.setValue(Color.valueOf("#6378bf"));
+          rectangle.updateRowsFromData(false);
         }
 
       } catch (Exception e) {

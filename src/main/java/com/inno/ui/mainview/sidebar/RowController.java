@@ -131,11 +131,11 @@ public class RowController extends ViewController {
       return;
     }
 
+    Core().refreshOfferList();
+    available_offers_list.setItems(Core().getObservableOffersList());
 
     ArrayList<? extends ImmutableOffer> offers = Core().getRowPrice(row.getImmutableSection().getIdSection(), row.getImmutableRow().getIdRow()).getImmutableOffers();
     attributed_offers_list.getItems().clear();
-    available_offers_list.getItems().clear();
-    available_offers_list.getItems().addAll(Core().getObservableOffersList());
     offers.forEach((offer) -> {
       available_offers_list.getItems().remove(offer.getName());
       attributed_offers_list.getItems().add(offer.getName());

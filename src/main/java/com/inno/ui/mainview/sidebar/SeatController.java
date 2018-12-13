@@ -135,11 +135,13 @@ public class SeatController extends ViewController {
       return;
     }
 
+
+    Core().refreshOfferList();
+    available_offers_list.setItems(Core().getObservableOffersList());
+
     ArrayList<? extends ImmutableOffer> offers = Core().getSeatPrice(row.getImmutableSection().getIdSection(),
         row.getImmutableRow().getIdRow(), Integer.toString(row.getSelectedSeat().getId())).getImmutableOffers();
     attributed_offers_list.getItems().clear();
-    available_offers_list.getItems().clear();
-    available_offers_list.getItems().addAll(Core().getObservableOffersList());
     offers.forEach((offer) -> {
       available_offers_list.getItems().remove(offer.getName());
       attributed_offers_list.getItems().add(offer.getName());

@@ -34,7 +34,7 @@ public class SettingsService {
             }
             
         } catch (Exception e) {
-            //TODO: handle exception
+            System.out.println("Error when instancing SettingsService class");
         }
 
     }
