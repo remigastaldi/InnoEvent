@@ -2,7 +2,7 @@
  * File Created: Tuesday, 13th November 2018
  * Author: MAREL Maud
  * -----
- * Last Modified: Wednesday, 12th December 2018
+ * Last Modified: Thursday, 13th December 2018
  * Modified By: HUBERT Léo
  * -----
  * Copyright - 2018 MAREL Maud
@@ -147,11 +147,10 @@ public class RectangularSectionController extends ViewController {
     }
 
     // Offers
-    available_offers_list.setItems(Core().getObservableOffersList());
     refreshAttributedOffer();
 
     available_offers_list.setOnMouseClicked((e) -> {
-      if (e.getClickCount() == 2) {
+      if (e.getClickCount() == 2 && available_offers_list.getFocusModel().getFocusedItem() != null) {
         Core().addSectionOffer(rectangle.getID(), available_offers_list.getFocusModel().getFocusedItem());
         available_offers_list.getItems().remove(available_offers_list.getFocusModel().getFocusedItem());
         refreshAttributedOffer();
@@ -159,7 +158,7 @@ public class RectangularSectionController extends ViewController {
     });
 
     attributed_offers_list.setOnMouseClicked((e) -> {
-      if (e.getClickCount() == 2) {
+      if (e.getClickCount() == 2 && attributed_offers_list.getFocusModel().getFocusedItem() != null) {
         Core().removeSectionOffer(rectangle.getID(), attributed_offers_list.getFocusModel().getFocusedItem());
         available_offers_list.getItems().add(attributed_offers_list.getFocusModel().getFocusedItem());
         refreshAttributedOffer();
@@ -175,6 +174,9 @@ public class RectangularSectionController extends ViewController {
       System.out.println("Rectangle is null");
       return;
     }
+
+    Core().refreshOfferList();
+    available_offers_list.setItems(Core().getObservableOffersList());
 
     ArrayList<? extends ImmutableOffer> offers = Core().getSectionPrice(rectangle.getID()).getImmutableOffers();
     attributed_offers_list.getItems().clear();
@@ -251,9 +253,6 @@ public class RectangularSectionController extends ViewController {
         return;
       }
       try {
-        if (section_price_input.isFocused()) {
-          Core().setSectionPrice(rectangle.getID(), Double.parseDouble(section_price_input.getText()));
-        }
         if (section_columns_input.isFocused())
           rectangle.setColumnNumber(Integer.parseInt(section_columns_input.getText()));
         if (section_rows_input.isFocused())
@@ -264,7 +263,7 @@ public class RectangularSectionController extends ViewController {
           double width = Double.parseDouble(section_vital_space_width_input.getText());
           double height = Double.parseDouble(section_vital_space_height_input.getText());
           rectangle.setVitalSpace(width, height);
-          rectangle.updateFromData();
+          rectangle.updateFromData(false);
         }
         if (section_name_input.isFocused())
           Core().setSectionName(rectangle.getID(), section_name_input.getText());
@@ -279,12 +278,10 @@ public class RectangularSectionController extends ViewController {
             rectangle.updateRowsFromData(false);
           }
         } else {
-          Core().setSectionPrice(rectangle.getID(),
-              Double.parseDouble(
-                  section_price_input.getText().trim().length() != 0 ? section_price_input.getText() : "-1"),
-              "#6378bf");
+          Core().setSectionPrice(rectangle.getID(), Double.parseDouble("-1"), "#6378bf");
           section_price_color_picker.setDisable(true);
           section_price_color_picker.setValue(Color.valueOf("#6378bf"));
+          rectangle.updateRowsFromData(false);
         }
 
       } catch (Exception e) {

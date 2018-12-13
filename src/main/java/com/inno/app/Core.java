@@ -2,7 +2,7 @@
  * File Created: Tuesday, 9th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Wednesday, 12th December 2018
+ * Last Modified: Thursday, 13th December 2018
  * Modified By: HUBERT Léo
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -30,7 +30,6 @@ import com.inno.service.Utils;
 import com.inno.service.pricing.ImmutableOffer;
 import com.inno.service.pricing.ImmutableOfferCondition;
 import com.inno.service.pricing.ImmutableOfferOperation;
-import com.inno.service.pricing.PlaceRate;
 import com.inno.service.pricing.ImmutablePlaceRate;
 import com.inno.service.pricing.Pricing;
 
@@ -52,6 +51,7 @@ public class Core {
   // Inno Class
   private Room _room = null;
 
+  @SuppressWarnings("unchecked")
   private Core() {
     if (_settings.has("recent_paths")) {
       _recentPaths = (ArrayList<String>) _settings.get("recent_paths");
@@ -116,6 +116,10 @@ public class Core {
     this._room.setSceneRotation(rotation);
   }
 
+  public void setSceneElevation(double elevation) {
+    this._room.setSceneElevation(elevation);
+  }
+
   // Section methods
   public void setSectionName(String idSection, String name) {
     this._room.setSectionName(idSection, name);
@@ -161,8 +165,14 @@ public class Core {
     return this._room.standingToSittingSection(idSection);
   }
 
+  public ImmutableSection duplicateSection(String idSection) {
+    return this._room.duplicateSection(idSection);
+  }
+
   // standingSection Methods
   public ImmutableStandingSection createStandingSection(int nbPeople, double[] positions, double rotation) {
+    ImmutableStandingSection section = _room.createStandingSection(nbPeople, positions, rotation);
+    createPlace(section.getIdSection(), "#6378bf");
     return this._room.createStandingSection(nbPeople, positions, rotation);
   }
 
@@ -189,16 +199,26 @@ public class Core {
   public void setSectionPrice(String idSection, double price, String color) {
     HashMap<String, ? extends ImmutablePlaceRate> places = _pricing.getPlaces(idSection + "|");
     _pricing.setPlaceRatePrice(idSection, price);
-    if (color != null) {
+    if (color != null && price != -1) {
       _pricing.setPlaceRateColor(idSection, color);
+    } else if (price == -1) {
+      _pricing.setPlaceRateColor(idSection, "#6378bf");
     }
     for (Map.Entry<String, ? extends ImmutablePlaceRate> entry : places.entrySet()) {
       String key = entry.getKey();
       _pricing.setPlaceRatePrice(key, price);
-      if (color != null) {
+      if (color != null && price != -1) {
         _pricing.setPlaceRateColor(key, color);
+      } else if (price == -1 && (key.length() - key.replace("|", "").length()) == 1) {
+        _pricing.setPlaceRateColor(key, "#7289DA");
+      } else if (price == -1 && (key.length() - key.replace("|", "").length()) == 2) {
+        _pricing.setPlaceRateColor(key, "#FFA500");
       }
     }
+  }
+
+  public void setSectionPrice(String idSection, double price) {
+    setSectionPrice(idSection, price, null);
   }
 
   public void addSectionOffer(String id, String offerName) {
@@ -217,10 +237,6 @@ public class Core {
       String key = entry.getKey();
       _pricing.removePlaceRateOffer(key, offerName);
     }
-  }
-
-  public void setSectionPrice(String idSection, double price) {
-    setSectionPrice(idSection, price, null);
   }
 
   public ImmutablePlaceRate getSectionPrice(String idSection) {
@@ -249,6 +265,26 @@ public class Core {
     setRowPrice(idSection, idRow, price, null);
   }
 
+  public void addRowOffer(String idSection, String idRow, String offerName) {
+    HashMap<String, ? extends ImmutablePlaceRate> places = _pricing.getPlaces(idSection + "|" + idRow + "|");
+    _pricing.addPlaceRateOffer(idSection + "|" + idRow, offerName);
+
+    for (Map.Entry<String, ? extends ImmutablePlaceRate> entry : places.entrySet()) {
+      String key = entry.getKey();
+      _pricing.addPlaceRateOffer(key, offerName);
+    }
+  }
+
+  public void removeRowOffer(String idSection, String idRow, String offerName) {
+    HashMap<String, ? extends ImmutablePlaceRate> places = _pricing.getPlaces(idSection + "|" + idRow + "|");
+    _pricing.removePlaceRateOffer(idSection + "|" + idRow, offerName);
+
+    for (Map.Entry<String, ? extends ImmutablePlaceRate> entry : places.entrySet()) {
+      String key = entry.getKey();
+      _pricing.removePlaceRateOffer(key, offerName);
+    }
+  }
+
   public ImmutablePlaceRate getRowPrice(String idSection, String idRow) {
     return _pricing.getPlaceRate(idSection + "|" + idRow);
   }
@@ -266,6 +302,14 @@ public class Core {
 
   public void setSeatPrice(String idSection, String idRow, String idSeat, double price) {
     setSeatPrice(idSection, idRow, idSeat, price, null);
+  }
+
+  public void addSeatOffer(String idSection, String idRow, String idSeat, String offerName) {
+    _pricing.addPlaceRateOffer(idSection + "|" + idRow + "|" + idSeat, offerName);
+  }
+
+  public void removeSeatOffer(String idSection, String idRow, String idSeat, String offerName) {
+    _pricing.removePlaceRateOffer(idSection + "|" + idRow + "|" + idSeat, offerName);
   }
 
   public ImmutablePlaceRate getSeatPrice(String idSection, String idRow, String idSeat) {
@@ -347,11 +391,15 @@ public class Core {
 
   // Pricing && Offers
 
-  public void createPlace(String id, String color) {
+  public void createPlace(String id, String color, double price) {
     ImmutablePlaceRate place = _pricing.getPlaceRate(id);
     if (place == null) {
-      _pricing.createPlace(id, color, -1);
+      _pricing.createPlace(id, color, price);
     }
+  }
+
+  public void createPlace(String id, String color) {
+    createPlace(id, color, -1);
   }
 
   public HashMap<String, ? extends ImmutableOffer> getOffers() {
@@ -364,9 +412,18 @@ public class Core {
     return offer;
   }
 
+  public void deleteOffer(String offerName) {
+    _availableOffers.remove(offerName);
+    _pricing.deleteOffer(offerName);
+  }
+
   public ImmutableOfferCondition createOfferCondition(String offerName, String offerConditionName, String description,
       String logicalOperator) {
     return _pricing.createOfferCondition(offerName, offerConditionName, description, logicalOperator);
+  }
+
+  public void deleteOfferCondition(String offerName, String offerConditionName) {
+    _pricing.deleteOfferCondition(offerName, offerConditionName);
   }
 
   public ImmutableOfferOperation createOfferConditionOperation(String offerName, String offerConditionName,
@@ -461,5 +518,14 @@ public class Core {
     return _availableOffers;
   }
 
+  public ImmutableSection createSectionFromBuffer() {
+    ImmutableSection section = _room.createSectionFromBuffer();
+    createPlace(section.getIdSection(), "#6378bf");
+    _room.updateSectionPositions(section.getIdSection(), section.getPositions());
+    return section;
+  }
 
+  public void copySectionToBuffer(String id) {
+    _room.copySectionToBuffer(id);
+  }
 };

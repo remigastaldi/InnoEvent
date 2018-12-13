@@ -2,8 +2,8 @@
  * File Created: Thursday, 8th November 2018
  * Author: MAREL Maud
  * -----
- * Last Modified: Tuesday, 27th November 2018
- * Modified By: GASTALDI Rémi
+ * Last Modified: Wednesday, 12th December 2018
+ * Modified By: MAREL Maud
  * -----
  * Copyright - 2018 MAREL Maud
  * <<licensetext>>
@@ -20,6 +20,7 @@ public class Scene implements ImmutableScene, Serializable {
   private double _height;
   private double[] _positions = new double[8];
   private double _rotation;
+  private double _elevation;
   
   public Scene(double width, double height, double[] positions) {
     this._width = width;
@@ -30,6 +31,7 @@ public class Scene implements ImmutableScene, Serializable {
     }
 
     this._rotation = 0;
+    this._elevation = 0;
   }
 
   public void setWidth(double width) {
@@ -48,6 +50,10 @@ public class Scene implements ImmutableScene, Serializable {
     this._rotation = rotation;
   }
 
+  public void setElevation(double elevation) {
+    this._elevation = elevation;
+  }
+
   public double getWidth() {
     return this._width;
   }
@@ -62,6 +68,10 @@ public class Scene implements ImmutableScene, Serializable {
 
   public double getRotation() {
     return this._rotation;
+  }
+
+  public double getElevation() {
+    return this._elevation;
   }
 
   public double[] getCenter() {

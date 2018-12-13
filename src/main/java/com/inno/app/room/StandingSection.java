@@ -2,8 +2,8 @@
  * File Created: Tuesday, 13th November 2018
  * Author: MAREL Maud
  * -----
- * Last Modified: Monday, 26th November 2018
- * Modified By: MAREL Maud
+ * Last Modified: Wednesday, 12th December 2018
+ * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 MAREL Maud
  * <<licensetext>>
@@ -27,5 +27,10 @@ public class StandingSection extends Section implements ImmutableSection, Immuta
 
   public int getNbPeople() {
     return this._nbPeople;
+  }
+
+  @Override
+  public boolean isRectangle() {
+    return false;
   }
 }

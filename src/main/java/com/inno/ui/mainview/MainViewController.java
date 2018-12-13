@@ -2,8 +2,8 @@
  * File Created: Wednesday, 26th September 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Wednesday, 12th December 2018
- * Modified By: MAREL Maud
+ * Last Modified: Thursday, 13th December 2018
+ * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
  * <<licensetext>>
@@ -26,10 +26,14 @@ import javafx.scene.control.Button;
 import javafx.scene.control.SplitPane;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyCombination;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
+import javafx.scene.input.KeyCodeCombination;
+
+
 
 public class MainViewController extends ViewController {
   @FXML
@@ -58,7 +62,6 @@ public class MainViewController extends ViewController {
 
   public void init() {
     View().setSidebar(sidebar_anchor);
-    View().setSidebarFromFxmlFileName("sidebar_room.fxml");
 
     // double[] pos = new double[] { 10, 10, 50, 10, 100, 100, 10, 50 };
     // ImmutableSittingSection sittingSection = Core().createSittingSection(pos,
@@ -104,10 +107,14 @@ public class MainViewController extends ViewController {
     // }
 
     View().createEngine(stack_pane);
+    View().setSidebarFromFxmlFileName("sidebar_room.fxml");
 
     componentsPane = mainSplitPane.getItems().get(1);
 
   }
+
+  final KeyCombination controlC = new KeyCodeCombination(KeyCode.C, KeyCombination.CONTROL_DOWN);
+  final KeyCombination controlV = new KeyCodeCombination(KeyCode.V, KeyCombination.CONTROL_DOWN);
 
   @FXML
   private void keyAction(KeyEvent evt) {
@@ -122,7 +129,11 @@ public class MainViewController extends ViewController {
 
     if (evt.getCode() == KeyCode.DELETE)
       Engine().deleteSelectedShape();
-  }
+    if (controlC.match(evt))
+      Engine().copySelectedSectionsToDomainBuffer();
+    if (controlV.match(evt))
+      Engine().pastBufferToEngine();
+    }
 
   @FXML
   private void offerManagerAction() {

@@ -2,7 +2,7 @@
  * File Created: Friday, 12th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Tuesday, 11th December 2018
+ * Last Modified: Wednesday, 12th December 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -42,6 +42,7 @@ public class Engine {
   private double _scale = 10.0;
   private MagnetismManager _magenetismManager = null;
   private Group _paneGroup = null;
+  private InteractiveShape<? extends Shape> _bufferedShape = null;
 
   private ScrollPane scrollPane;
 
@@ -194,13 +195,13 @@ public class Engine {
   public void createInteractivePolygon() {
     InteractivePolygon shape = new InteractivePolygon(this, _pane);
     shape.start();
-    _shapes.add(shape);
+    addInteractiveShape(shape);
   }
 
   public void createInteractiveRectangle() {
     InteractiveRectangle shape = new InteractiveRectangle(this, _pane);
     shape.start();
-    _shapes.add(shape);
+    addInteractiveShape(shape);
   }
 
   public InteractiveRectangle createInteractiveRectangle(String id, double x, double y, double width, double height, Rotate rotation, Color color) {
@@ -214,6 +215,7 @@ public class Engine {
   public void addInteractiveShape(InteractiveShape<? extends Shape> intShape) {
     _shapes.add(intShape);
     _magenetismManager.registerInteractiveShape(intShape);
+    _pane.getChildren().add(intShape.getGroup());
   }
 
   public void selected(InteractiveShape<? extends Shape> selected) {

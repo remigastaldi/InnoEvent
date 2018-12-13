@@ -2,7 +2,7 @@
  * File Created: Friday, 12th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Wednesday, 12th December 2018
+ * Last Modified: Thursday, 13th December 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -13,10 +13,12 @@
 package com.inno.ui.innoengine;
 
 import java.util.Collection;
+import java.util.HashMap;
 
 import com.inno.app.Core;
 import com.inno.app.room.ImmutableRoom;
 import com.inno.app.room.ImmutableScene;
+import com.inno.app.room.ImmutableSection;
 import com.inno.app.room.ImmutableSittingSection;
 import com.inno.app.room.ImmutableStandingSection;
 import com.inno.ui.View;
@@ -33,7 +35,10 @@ import javafx.scene.transform.Rotate;
 
 
 public class InnoEngine extends Engine {
-  View _view = null;
+  private View _view = null;
+  ImmutableSection _buffSection = null;
+  private HashMap<String, InnoRectangle> _rectangles = new HashMap<>();
+  
 
   public InnoEngine(View view, StackPane stackPane) {
     super(stackPane, 100, 100);
@@ -78,14 +83,12 @@ public class InnoEngine extends Engine {
     
     double[] pos = meterToPixel(dto.getPositions());
     InnoRectangle shape = new InnoRectangle(this, getPane(), pos[0], pos[1],
-      meterToPixel(dto.getWidth()), meterToPixel(dto.getHeight()), new Rotate(dto.getRotation(), pos[0] + meterToPixel(dto.getWidth()), pos[1] + meterToPixel(dto.getHeight())), Color.ROYALBLUE) {
+      meterToPixel(dto.getWidth()), meterToPixel(dto.getHeight()), new Rotate(dto.getRotation(), pos[0] + meterToPixel(dto.getWidth() / 2), pos[1] + meterToPixel(dto.getHeight() / 2)), Color.ROYALBLUE) {
         @Override
         public boolean onAnchorDragged() {
-          Core.get().setScenePositions(pixelToMeter(getPointsInParent()));
+          Core.get().setScenePositions(pixelToMeter(getNoRotatedParentPos()));
           Core.get().setSceneWidth(pixelToMeter(this.getWidth()));
           Core.get().setSceneHeight(pixelToMeter(this.getHeight()));
-          // Core.get().setSceneRotation(this.getRotation().getAngle());
-
           return true;
         }
 
@@ -104,14 +107,30 @@ public class InnoEngine extends Engine {
 
         @Override
         public boolean onShapeMoved() {
-          Core.get().setScenePositions(pixelToMeter(getPointsInParent()));
+          Core.get().setScenePositions(pixelToMeter(getNoRotatedParentPos()));
+          updateRectangleSectionsOrientation(true);
+          return true;
+        }
+
+        @Override
+        public boolean onShapeReleased() {
+          updateRectangleSectionsOrientation(false);
           return true;
         }
     };
     Color color = Color.BLUEVIOLET;
-    shape.setColor(Color.BLUEVIOLET);
+    shape.setColor(color);
     shape.getShape().setFill(color.deriveColor(1, 1, 0.8, 0.85));
     deselect();
+    addInteractiveShape(shape);
+  }
+
+  public void updateRectangleSectionsOrientation(boolean toParent) {
+    for (InnoRectangle shape : _rectangles.values()) {
+      System.out.println(shape.getID());
+      Core.get().updateSectionPositions(shape.getID(), pixelToMeter(shape.getNoRotatedParentPos()), true);
+      shape.updateFromData(toParent);
+    }
   }
 
   public void createIrregularSection() {
@@ -134,23 +153,25 @@ public class InnoEngine extends Engine {
     addInteractiveShape(shape);
   }
 
-
   public void createRectangularSection() {
     deselect();
-    InnoRectangle innoPoly = new InnoRectangle(this, getPane());
-    innoPoly.start();
+    InnoRectangle shape = new InnoRectangle(this, getPane());
+    shape.start();
+    addInteractiveShape(shape);
   }
 
   public void createRectangularSection(double x, double y, double width, double height, Rotate rotation, Color color) {
     deselect();
     InnoRectangle shape = new InnoRectangle(this, getPane(), x, y, width, height, rotation, color);
     addInteractiveShape(shape);
+    _rectangles.put(shape.getID(), shape);
   }
 
   public void createRectangularSection(String id) {
     deselect();
     InnoRectangle shape = new InnoRectangle(this, getPane(), id);
     addInteractiveShape(shape);
+    _rectangles.put(shape.getID(), shape);
   }
 
   public View getView() {
@@ -205,6 +226,24 @@ public class InnoEngine extends Engine {
     
   }
 
+  public void copySelectedSectionsToDomainBuffer() {
+    Core core = Core.get();
+
+    core.copySectionToBuffer(getSelectedShape().getID());
+  }
+
+  public void pastBufferToEngine() {
+    Core core = Core.get();
+
+    ImmutableSection section = core.createSectionFromBuffer();
+
+    if (section.isRectangle()) {
+      createRectangularSection(section.getIdSection());
+    } else {
+      createIrregularSection(section.getIdSection(), false);
+    }
+  }
+
   /**
    * Update all sections vital which have old one
    * @param width old width
@@ -214,5 +253,13 @@ public class InnoEngine extends Engine {
     for (InteractiveShape<? extends Shape> shape : getShapes()) {
       shape.updateRowsFromData(false);
     }
+  }
+
+  public void addRectangle(InnoRectangle rectangle) {
+    _rectangles.put(rectangle.getID(), rectangle);
+  }
+
+  public void deleteShape(String id) {
+    _rectangles.remove(id);
   }
 }

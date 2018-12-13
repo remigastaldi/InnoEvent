@@ -3,7 +3,7 @@
  * Author: MAREL Maud
  * -----
  * Last Modified: Wednesday, 12th December 2018
- * Modified By: GASTALDI Rémi
+ * Modified By: HUBERT Léo
  * -----
  * Copyright - 2018 MAREL Maud
  * <<licensetext>>
@@ -13,7 +13,6 @@ package com.inno.ui.mainview.sidebar;
 
 import com.inno.ui.Validator;
 import com.inno.ui.ViewController;
-import com.inno.ui.innoengine.shape.InnoPolygon;
 
 import java.util.LinkedHashMap;
 import java.util.Map;

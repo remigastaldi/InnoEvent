@@ -2,7 +2,7 @@
  * File Created: Sunday, 14th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Monday, 10th December 2018
+ * Last Modified: Thursday, 13th December 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -51,7 +51,7 @@ public abstract class InteractiveShape<T extends Shape> {
     _group = new Group();
 
     // TODO: Change this
-    _pane.getChildren().add(_group);
+    // _pane.getChildren().add(_group);
   }
 
   // Callback
@@ -68,6 +68,7 @@ public abstract class InteractiveShape<T extends Shape> {
   public boolean onDestroy() { return true; }
   
   public boolean onShapeMoved() { return true; }
+  public boolean onShapeReleased() { return true; }
   
   public boolean onAnchorPressed() { return true; }
   public boolean onAnchorDragged() { return true; }
@@ -201,7 +202,6 @@ public abstract class InteractiveShape<T extends Shape> {
 
   public void setRotationAngle(double rotation) {
     _currentRotation.setAngle(rotation);
-    // setRotation(new Rotate(rotation, _currentRotation.getPivotX(), _currentRotation.getPivotY()));
   }
   
   public void setRotation(double angle, double x, double y) {
@@ -304,6 +304,10 @@ public abstract class InteractiveShape<T extends Shape> {
       orgTranslateX = ((Group) (_group)).getTranslateX();
       orgTranslateY = ((Group) (_group)).getTranslateY();
     });
+
+    _group.setOnMouseReleased(mouseEvent -> {
+      onShapeReleased();
+    });
   }
 
   public void  select() {
@@ -363,5 +367,9 @@ public abstract class InteractiveShape<T extends Shape> {
       newPos[i + 1] = val.getY();
     }
     return newPos;
+  }
+
+  public Color getColor() {
+    return (Color) _shape.getFill();
   }
 }
