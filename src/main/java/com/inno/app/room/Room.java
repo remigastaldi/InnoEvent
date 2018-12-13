@@ -161,13 +161,13 @@ public class Room implements ImmutableRoom, Serializable {
         try {
             newSection = (ImmutableSection) oldSection.clone();
             if (this._sittingSections.get(idSection) != null) {
-                this.getSectionById(idSection).setIdSection(id);
                 this._sittingSections.put(id, (SittingSection) newSection);
-                this.getSectionById(id).setNameSection("Untitled" + id);
+                this._sittingSections.get(id).setIdSection(id);
+                this._sittingSections.get(id).setNameSection("Untitled" + id);
             } else if (this._standingSections.get(idSection) != null) {
-                this.getSectionById(idSection).setIdSection(id);
                 this._standingSections.put(id, (StandingSection) newSection);
-                this.getSectionById(id).setNameSection("Untitled" + id);
+                this._standingSections.get(id).setIdSection(id);
+                this._sittingSections.get(id).setNameSection("Untitled" + id);
             }
         } catch (CloneNotSupportedException e) {
             System.err.println(e);
