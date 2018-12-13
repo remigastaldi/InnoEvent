@@ -2,8 +2,8 @@
  * File Created: Friday, 12th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Wednesday, 12th December 2018
- * Modified By: MAREL Maud
+ * Last Modified: Thursday, 13th December 2018
+ * Modified By: GASTALDI Rémi
 
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -30,6 +30,8 @@ public class Room implements ImmutableRoom, Serializable {
     private VitalSpace _vitalSpace;
     private HashMap<String, SittingSection> _sittingSections = new HashMap<String, SittingSection>();
     private HashMap<String, StandingSection> _standingSections = new HashMap<String, StandingSection>();
+    private ImmutableSittingSection _bufferedSittingSection = null;
+    private ImmutableStandingSection _bufferedStandingSection = null;
 
     public Room(String name, double width, double height, double widthVitalSpace, double heightVitalSpace)  {
         this._name = name;
@@ -146,11 +148,40 @@ public class Room implements ImmutableRoom, Serializable {
         ImmutableSittingSection newSection = null;
 
         oldSection = this._standingSections.get(idSection);
+        // System.out.println("=========== " + idSection + " : " + oldSection);
         newSection = this.createSittingSection(oldSection.getPositions(), oldSection.getRotation(), false);
         this.getSectionById(newSection.getIdSection()).setNameSection(oldSection.getNameSection());
         this.getSectionById(newSection.getIdSection()).setElevation(oldSection.getElevation());
         deleteSection(idSection);
         return newSection;
+    }
+
+    public void copySectionToBuffer(String id) {
+        try {
+            _bufferedSittingSection = (ImmutableSittingSection) this._sittingSections.get(id).clone();
+            if (_bufferedSittingSection == null)
+              _bufferedStandingSection = (ImmutableStandingSection) this._standingSections.get(id).clone();
+        } catch (CloneNotSupportedException e) {
+            System.err.println(e);
+        }
+    }
+
+    public ImmutableSection createSectionFromBuffer() {
+        String id = Integer.toString(this._sittingSections.size() + this._standingSections.size() + 1);
+        ImmutableSection section = null;
+
+        if (_bufferedSittingSection != null) {
+            section = _bufferedSittingSection;
+            this._sittingSections.put(id, (SittingSection) _bufferedSittingSection);
+            this._sittingSections.get(id).setIdSection(id);
+            this._sittingSections.get(id).setNameSection("Untitled" + id);
+        } else if (_bufferedStandingSection != null) {
+            section = _bufferedStandingSection;
+            this._standingSections.put(id, (StandingSection) _bufferedStandingSection);
+            this._standingSections.get(id).setIdSection(id);
+            this._sittingSections.get(id).setNameSection("Untitled" + id);
+        }
+        return section;
     }
 
     public ImmutableSection duplicateSection(String idSection) {

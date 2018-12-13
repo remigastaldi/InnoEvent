@@ -2,8 +2,8 @@
  * File Created: Tuesday, 9th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Wednesday, 12th December 2018
- * Modified By: MAREL Maud
+ * Last Modified: Thursday, 13th December 2018
+ * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
  * <<licensetext>>
@@ -52,6 +52,7 @@ public class Core {
   // Inno Class
   private Room _room = null;
 
+  @SuppressWarnings("unchecked")
   private Core() {
     if (_settings.has("recent_paths")) {
       _recentPaths = (ArrayList<String>) _settings.get("recent_paths");
@@ -171,6 +172,8 @@ public class Core {
 
   // standingSection Methods
   public ImmutableStandingSection createStandingSection(int nbPeople, double[] positions, double rotation) {
+    ImmutableStandingSection section = _room.createStandingSection(nbPeople, positions, rotation);
+    createPlace(section.getIdSection(), "#6378bf");    
     return this._room.createStandingSection(nbPeople, positions, rotation);
   }
 
@@ -498,4 +501,14 @@ public class Core {
     return _availableOffers;
   }
 
+  public ImmutableSection createSectionFromBuffer() {
+    ImmutableSection section = _room.createSectionFromBuffer();
+    createPlace(section.getIdSection(), "#6378bf");
+    _room.updateSectionPositions(section.getIdSection(), section.getPositions());
+    return section;
+  }
+
+  public void copySectionToBuffer(String id) {
+    _room.copySectionToBuffer(id);
+  }
 };

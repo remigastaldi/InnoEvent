@@ -2,7 +2,7 @@
  * File Created: Wednesday, 26th September 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Wednesday, 12th December 2018
+ * Last Modified: Thursday, 13th December 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -26,10 +26,14 @@ import javafx.scene.control.Button;
 import javafx.scene.control.SplitPane;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyCombination;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
+import javafx.scene.input.KeyCodeCombination;
+
+
 
 public class MainViewController extends ViewController {
   @FXML
@@ -109,6 +113,9 @@ public class MainViewController extends ViewController {
 
   }
 
+  final KeyCombination controlC = new KeyCodeCombination(KeyCode.C, KeyCombination.CONTROL_DOWN);
+  final KeyCombination controlV = new KeyCodeCombination(KeyCode.V, KeyCombination.CONTROL_DOWN);
+
   @FXML
   private void keyAction(KeyEvent evt) {
     switch (evt.getText()) {
@@ -118,14 +125,15 @@ public class MainViewController extends ViewController {
     case "r":
       Engine().createRectangularSection();
       break;
-    // case "n":
-    //   Engine().copySelectedSectionsToBuffer();
-    //   Engine().pastBufferToEngine();
     }
 
     if (evt.getCode() == KeyCode.DELETE)
       Engine().deleteSelectedShape();
-  }
+    if (controlC.match(evt))
+      Engine().copySelectedSectionsToDomainBuffer();
+    if (controlV.match(evt))
+      Engine().pastBufferToEngine();
+    }
 
   @FXML
   private void offerManagerAction() {

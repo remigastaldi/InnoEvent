@@ -2,8 +2,8 @@
  * File Created: Tuesday, 13th November 2018
  * Author: MAREL Maud
  * -----
- * Last Modified: Wednesday, 12th December 2018
- * Modified By: MAREL Maud
+ * Last Modified: Thursday, 13th December 2018
+ * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 MAREL Maud
  * <<licensetext>>
@@ -83,4 +83,8 @@ public class Section implements ImmutableSection, Serializable, Cloneable {
   public ImmutableSection clone() throws CloneNotSupportedException {  
     return (ImmutableSection) super.clone();  
    }
+  @Override
+  public boolean isRectangle() {
+    return false;
+  }
 }

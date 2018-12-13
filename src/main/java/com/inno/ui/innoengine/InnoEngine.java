@@ -2,7 +2,7 @@
  * File Created: Friday, 12th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Wednesday, 12th December 2018
+ * Last Modified: Thursday, 13th December 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -18,6 +18,7 @@ import java.util.HashMap;
 import com.inno.app.Core;
 import com.inno.app.room.ImmutableRoom;
 import com.inno.app.room.ImmutableScene;
+import com.inno.app.room.ImmutableSection;
 import com.inno.app.room.ImmutableSittingSection;
 import com.inno.app.room.ImmutableStandingSection;
 import com.inno.ui.View;
@@ -35,8 +36,7 @@ import javafx.scene.transform.Rotate;
 
 public class InnoEngine extends Engine {
   private View _view = null;
-  // ImmutableSection _bufferedSection = null;
-  private InteractiveShape<? extends Shape> _buffShape = null;
+  ImmutableSection _buffSection = null;
   private HashMap<String, InnoRectangle> _rectangles = new HashMap<>();
   
 
@@ -226,26 +226,22 @@ public class InnoEngine extends Engine {
     
   }
 
-  public void copySelectedSectionsToBuffer() {
-    // _bufferedSection = Core.get().getImmutableRoom().getSectionById(getSelectedShape().getID());
-    // _buffShape = getSelectedShape();
+  public void copySelectedSectionsToDomainBuffer() {
+    Core core = Core.get();
+
+    core.copySectionToBuffer(getSelectedShape().getID());
   }
 
   public void pastBufferToEngine() {
     Core core = Core.get();
 
-    // if (_buffShape != null) {
-    //   ImmutableSittingSection section = core.createSittingSection(_buffShape.getPointsInParent(),
-    //     _buffShape.getRotation().getAngle(), true);
-    //   core.setSection
-    //   createRectangularSection(section.getIdSection());
+    ImmutableSection section = core.createSectionFromBuffer();
 
-    //   createInteractiveRectangle(section.getIdSection(), _buffShape.getPointsInParent()[0],
-    //       _buffShape.getPointsInParent()[1],
-    //       _buffShape.getPoints()[2] - _buffShape.getPoints()[0],
-    //       _buffShape.getPoints()[7] - _buffShape.getPoints()[1],
-    //       _buffShape.getRotation(), _buffShape.getColor());
-    // }
+    if (section.isRectangle()) {
+      createRectangularSection(section.getIdSection());
+    } else {
+      createIrregularSection(section.getIdSection(), false);
+    }
   }
 
   /**

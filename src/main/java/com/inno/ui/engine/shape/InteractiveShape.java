@@ -2,7 +2,7 @@
  * File Created: Sunday, 14th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Monday, 10th December 2018
+ * Last Modified: Thursday, 13th December 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -51,7 +51,7 @@ public abstract class InteractiveShape<T extends Shape> {
     _group = new Group();
 
     // TODO: Change this
-    _pane.getChildren().add(_group);
+    // _pane.getChildren().add(_group);
   }
 
   // Callback
