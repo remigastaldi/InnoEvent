@@ -147,6 +147,7 @@ public class Core {
 
     for (Map.Entry<String, ? extends ImmutablePlaceRate> entry : places.entrySet()) {
       String key = entry.getKey();
+      System.out.println(key);
       _pricing.deletePlaceRate(key);
     }
     this._room.deleteSection(idSection);
@@ -391,11 +392,15 @@ public class Core {
 
   // Pricing && Offers
 
-  public void createPlace(String id, String color) {
+  public void createPlace(String id, String color, double price) {
     ImmutablePlaceRate place = _pricing.getPlaceRate(id);
     if (place == null) {
-      _pricing.createPlace(id, color, -1);
+      _pricing.createPlace(id, color, price);
     }
+  }
+
+  public void createPlace(String id, String color) {
+    createPlace(id, color, -1);
   }
 
   public HashMap<String, ? extends ImmutableOffer> getOffers() {

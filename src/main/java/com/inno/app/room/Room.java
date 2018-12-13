@@ -3,7 +3,7 @@
  * Author: GASTALDI Rémi
  * -----
  * Last Modified: Thursday, 13th December 2018
- * Modified By: GASTALDI Rémi
+ * Modified By: HUBERT Léo
 
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -33,7 +33,7 @@ public class Room implements ImmutableRoom, Serializable {
     private ImmutableSittingSection _bufferedSittingSection = null;
     private ImmutableStandingSection _bufferedStandingSection = null;
 
-    public Room(String name, double width, double height, double widthVitalSpace, double heightVitalSpace)  {
+    public Room(String name, double width, double height, double widthVitalSpace, double heightVitalSpace) {
         this._name = name;
         this._width = width;
         this._height = height;
@@ -68,9 +68,10 @@ public class Room implements ImmutableRoom, Serializable {
     public void setVitalSpace(double width, double height) {
         for (SittingSection section : _sittingSections.values()) {
             if (section.getImmutableVitalSpace().getWidth() == _vitalSpace.getWidth()
-                && section.getImmutableVitalSpace().getHeight() == _vitalSpace.getHeight()) {
-                    section.setVitalSpace(width, height);
-                    Core.get().updateSectionPositions(section.getIdSection(), section.getPositions(), section.isRectangle()); // Just to recalculate seats positions
+                    && section.getImmutableVitalSpace().getHeight() == _vitalSpace.getHeight()) {
+                section.setVitalSpace(width, height);
+                Core.get().updateSectionPositions(section.getIdSection(), section.getPositions(),
+                        section.isRectangle()); // Just to recalculate seats positions
             }
         }
         _vitalSpace.setWidth(width);
@@ -160,7 +161,7 @@ public class Room implements ImmutableRoom, Serializable {
         try {
             _bufferedSittingSection = (ImmutableSittingSection) this._sittingSections.get(id).clone();
             if (_bufferedSittingSection == null)
-              _bufferedStandingSection = (ImmutableStandingSection) this._standingSections.get(id).clone();
+                _bufferedStandingSection = (ImmutableStandingSection) this._standingSections.get(id).clone();
         } catch (CloneNotSupportedException e) {
             System.err.println(e);
         }
@@ -214,7 +215,7 @@ public class Room implements ImmutableRoom, Serializable {
             sittingSection.setIdSection(newId);
         } else if ((standingSection = this._standingSections.get(idSection)) != null) {
             standingSection.setIdSection(newId);
-        }   
+        }
     }
 
     public void setSectionName(String idSection, String name) {
@@ -319,102 +320,116 @@ public class Room implements ImmutableRoom, Serializable {
         return sittingSection;
     }
 
-	private void updateRectangleRows(double[] positions, Section section) {
-		double xRow = positions[0];
-		double yRow = positions[1];
-		double xSeat = positions[0];
-		double ySeat = positions[1];
-		double vitalSpaceHeight = ((ImmutableSittingSection) section).getImmutableVitalSpace().getHeight();
-		double vitalSpaceWidth = ((ImmutableSittingSection) section).getImmutableVitalSpace().getWidth();
+    private void updateRectangleRows(double[] positions, Section section) {
+        double xRow = positions[0];
+        double yRow = positions[1];
+        double xSeat = positions[0];
+        double ySeat = positions[1];
+        double vitalSpaceHeight = ((ImmutableSittingSection) section).getImmutableVitalSpace().getHeight();
+        double vitalSpaceWidth = ((ImmutableSittingSection) section).getImmutableVitalSpace().getWidth();
 
-		while (yRow < positions[7] - vitalSpaceHeight * 0.99) {
+        while (yRow < positions[7] - vitalSpaceHeight * 0.99) {
             double[] posStart = { xRow + (vitalSpaceWidth / 2), yRow + (vitalSpaceHeight / 2) };
-            double[] posEnd = { positions[0] + (int)((positions[2] - positions[0]) / vitalSpaceWidth) * vitalSpaceWidth - vitalSpaceWidth / 2, yRow + (vitalSpaceHeight / 2) };
+            double[] posEnd = { positions[0] + (int) ((positions[2] - positions[0]) / vitalSpaceWidth) * vitalSpaceWidth
+                    - vitalSpaceWidth / 2, yRow + (vitalSpaceHeight / 2) };
             ImmutableSittingRow row = createSittingRow(section.getIdSection(), posStart, posEnd);
-		    Core.get().createPlace(section.getIdSection() + "|" + row.getIdRow(), "#7289DA");
-            
-		    while (xSeat < positions[2] - vitalSpaceWidth * 0.99) {
-                double[] seatPos = { xSeat + (vitalSpaceWidth / 2), ySeat + (vitalSpaceHeight / 2) };
-		        ImmutableSeat seat = createSeat(section.getIdSection(), row.getIdRow(), seatPos);
-		        Core.get().createPlace(section.getIdSection() + "|" + row.getIdRow() + "|" + seat.getId(), "#FFA500");
-		        xSeat += vitalSpaceWidth;
-		    }
 
-		    yRow += vitalSpaceHeight;
+            if (Core.get().getSectionPrice(section.getIdSection()).getPrice() != -1) {
+                Core.get().createPlace(section.getIdSection() + "|" + row.getIdRow(),
+                        Core.get().getSectionPrice(section.getIdSection()).getColor(),
+                        Core.get().getSectionPrice(section.getIdSection()).getPrice());
+            } else {
+                Core.get().createPlace(section.getIdSection() + "|" + row.getIdRow(), "#7289DA");
+            }
+
+            while (xSeat < positions[2] - vitalSpaceWidth * 0.99) {
+                double[] seatPos = { xSeat + (vitalSpaceWidth / 2), ySeat + (vitalSpaceHeight / 2) };
+                ImmutableSeat seat = createSeat(section.getIdSection(), row.getIdRow(), seatPos);
+                if (Core.get().getRowPrice(section.getIdSection(), row.getIdRow()).getPrice() != -1) {
+                    Core.get().createPlace(section.getIdSection() + "|" + row.getIdRow() + "|" + seat.getId(),
+                            Core.get().getRowPrice(section.getIdSection(), row.getIdRow()).getColor(),
+                            Core.get().getRowPrice(section.getIdSection(), row.getIdRow()).getPrice());
+                } else {
+                    Core.get().createPlace(section.getIdSection() + "|" + row.getIdRow() + "|" + seat.getId(),
+                            "#FFA500");
+                }
+                xSeat += vitalSpaceWidth;
+            }
+
+            yRow += vitalSpaceHeight;
             xSeat = positions[0];
             ySeat += vitalSpaceHeight;
         }
     }
 
-	private void updatePolygonRows(double[] positions, SittingSection sittingSection) {
+    private void updatePolygonRows(double[] positions, SittingSection sittingSection) {
         // TODO: Why width and height are inverted
         double vitalSpaceWidth = sittingSection.getImmutableVitalSpace().getHeight();
         double vitalSpaceHeight = sittingSection.getImmutableVitalSpace().getWidth();
-		boolean firstSeat = false;
-		Point sceneCenter = new Point(_scene.getCenter()[0], _scene.getCenter()[1]);
-		Point[] p_Polygon = Utils.dArray_To_pArray(positions);
-		Point centroid = Utils.centroid(p_Polygon);
-		double angle = Utils.calculateLeftSideRotationAngle(sceneCenter, centroid);
-		Point[] polyTemp = Utils.rotatePolygon(p_Polygon, sceneCenter, angle);
+        boolean firstSeat = false;
+        Point sceneCenter = new Point(_scene.getCenter()[0], _scene.getCenter()[1]);
+        Point[] p_Polygon = Utils.dArray_To_pArray(positions);
+        Point centroid = Utils.centroid(p_Polygon);
+        double angle = Utils.calculateLeftSideRotationAngle(sceneCenter, centroid);
+        Point[] polyTemp = Utils.rotatePolygon(p_Polygon, sceneCenter, angle);
 
-		double leftMostX = Utils.findLeftmostPoint(polyTemp).get_x();
-		double rightMostX = Utils.findRightmostPoint(polyTemp).get_x();
-		double highestY = Utils.findHighestPoint(polyTemp).get_y();
-		double lowestY = Utils.findLowestPoint(polyTemp).get_y();
+        double leftMostX = Utils.findLeftmostPoint(polyTemp).get_x();
+        double rightMostX = Utils.findRightmostPoint(polyTemp).get_x();
+        double highestY = Utils.findHighestPoint(polyTemp).get_y();
+        double lowestY = Utils.findLowestPoint(polyTemp).get_y();
 
-		ArrayList<Point> coord = new ArrayList<>();
+        ArrayList<Point> coord = new ArrayList<>();
 
-		double posx = rightMostX;
-		boolean rowCreated = false;
-		do {
-		    if (!firstSeat) {
-		        posx -= 0.1;
-		    }
-		    if (firstSeat) {
-		        posx -= vitalSpaceWidth;
-		    }
+        double posx = rightMostX;
+        boolean rowCreated = false;
+        do {
+            if (!firstSeat) {
+                posx -= 0.1;
+            }
+            if (firstSeat) {
+                posx -= vitalSpaceWidth;
+            }
 
-		    double posy = lowestY + vitalSpaceHeight / 2;
+            double posy = lowestY + vitalSpaceHeight / 2;
 
-		    do {
-		        if (!rowCreated) {
-		            posy -= 0.1;
-		        }
-		        if (rowCreated) {
-		            posy -= vitalSpaceHeight;
-		        }
+            do {
+                if (!rowCreated) {
+                    posy -= 0.1;
+                }
+                if (rowCreated) {
+                    posy -= vitalSpaceHeight;
+                }
 
-		        Point pt = new Point(posx, posy);
-		        Point pt1 = new Point(posx - vitalSpaceWidth / 2, posy);
-		        Point pt2 = new Point(posx, posy - vitalSpaceHeight);
-		        Point pt3 = new Point(posx + vitalSpaceWidth / 2, posy);
-		        Point pt4 = new Point(posx, posy + vitalSpaceHeight);
+                Point pt = new Point(posx, posy);
+                Point pt1 = new Point(posx - vitalSpaceWidth / 2, posy);
+                Point pt2 = new Point(posx, posy - vitalSpaceHeight);
+                Point pt3 = new Point(posx + vitalSpaceWidth / 2, posy);
+                Point pt4 = new Point(posx, posy + vitalSpaceHeight);
 
-		        if (Utils.insidePolygon(polyTemp, pt1) && Utils.insidePolygon(polyTemp, pt2)
-		                && Utils.insidePolygon(polyTemp, pt3) && Utils.insidePolygon(polyTemp, pt4)) {
-		            rowCreated = true;
-		            firstSeat = true;
-		            coord.add(pt);
-		        }
+                if (Utils.insidePolygon(polyTemp, pt1) && Utils.insidePolygon(polyTemp, pt2)
+                        && Utils.insidePolygon(polyTemp, pt3) && Utils.insidePolygon(polyTemp, pt4)) {
+                    rowCreated = true;
+                    firstSeat = true;
+                    coord.add(pt);
+                }
 
-		        if (rowCreated && !(Utils.insidePolygon(polyTemp, pt1) && Utils.insidePolygon(polyTemp, pt2)
-		                && Utils.insidePolygon(polyTemp, pt3) && Utils.insidePolygon(polyTemp, pt4))) {
-		            Point Start = Utils.rotatePoint(coord.get(0), sceneCenter, -angle);
-		            Point End = Utils.rotatePoint(coord.get(coord.size() - 1), sceneCenter, -angle);
-		            double[] posStart = { Start.get_x(), Start.get_y() };
-		            double[] posEnd = { End.get_x(), End.get_y() };
-		            ImmutableSittingRow row = createSittingRow(sittingSection.getIdSection(), posStart, posEnd);
-		            Core.get().createPlace(sittingSection.getIdSection() + "|" + row.getIdRow(), "#7289DA");
+                if (rowCreated && !(Utils.insidePolygon(polyTemp, pt1) && Utils.insidePolygon(polyTemp, pt2)
+                        && Utils.insidePolygon(polyTemp, pt3) && Utils.insidePolygon(polyTemp, pt4))) {
+                    Point Start = Utils.rotatePoint(coord.get(0), sceneCenter, -angle);
+                    Point End = Utils.rotatePoint(coord.get(coord.size() - 1), sceneCenter, -angle);
+                    double[] posStart = { Start.get_x(), Start.get_y() };
+                    double[] posEnd = { End.get_x(), End.get_y() };
+                    ImmutableSittingRow row = createSittingRow(sittingSection.getIdSection(), posStart, posEnd);
+                    Core.get().createPlace(sittingSection.getIdSection() + "|" + row.getIdRow(), "#7289DA");
 
-		            for (Point point : coord) {
-		                Point rPoint = Utils.rotatePoint(point, sceneCenter, -angle);
-		                double[] seatPos = { rPoint.get_x(), rPoint.get_y() };
-		                ImmutableSeat seat = createSeat(sittingSection.getIdSection(), row.getIdRow(), seatPos);
-		                Core.get().createPlace(
-		                        sittingSection.getIdSection() + "|" + row.getIdRow() + "|" + seat.getId(),
-		                        "#FFA500");
-		            }
-		            rowCreated = false;
+                    for (Point point : coord) {
+                        Point rPoint = Utils.rotatePoint(point, sceneCenter, -angle);
+                        double[] seatPos = { rPoint.get_x(), rPoint.get_y() };
+                        ImmutableSeat seat = createSeat(sittingSection.getIdSection(), row.getIdRow(), seatPos);
+                        Core.get().createPlace(
+                                sittingSection.getIdSection() + "|" + row.getIdRow() + "|" + seat.getId(), "#FFA500");
+                    }
+                    rowCreated = false;
                     coord.clear();
                 }
             } while (posy > highestY);
