@@ -2,8 +2,8 @@
  * File Created: Tuesday, 13th November 2018
  * Author: MAREL Maud
  * -----
- * Last Modified: Monday, 10th December 2018
- * Modified By: GASTALDI Rémi
+ * Last Modified: Wednesday, 12th December 2018
+ * Modified By: MAREL Maud
  * -----
  * Copyright - 2018 MAREL Maud
  * <<licensetext>>
@@ -19,4 +19,5 @@ public interface ImmutableSection {
   public abstract double[] getPositions();
   public abstract double getRotation();
   public abstract double getUserRotation();
+  public ImmutableSection clone() throws CloneNotSupportedException;
 }

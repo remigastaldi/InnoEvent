@@ -31,7 +31,7 @@ public class Room implements ImmutableRoom, Serializable {
     private HashMap<String, SittingSection> _sittingSections = new HashMap<String, SittingSection>();
     private HashMap<String, StandingSection> _standingSections = new HashMap<String, StandingSection>();
 
-    public Room(String name, double width, double height, double widthVitalSpace, double heightVitalSpace) {
+    public Room(String name, double width, double height, double widthVitalSpace, double heightVitalSpace)  {
         this._name = name;
         this._width = width;
         this._height = height;
@@ -151,6 +151,39 @@ public class Room implements ImmutableRoom, Serializable {
         this.getSectionById(newSection.getIdSection()).setElevation(oldSection.getElevation());
         deleteSection(idSection);
         return newSection;
+    }
+
+    public ImmutableSection duplicateSection(String idSection) {
+        ImmutableSection oldSection = getImmutableSectionById(idSection);
+        ImmutableSection newSection = null;
+        String id = Integer.toString(this._sittingSections.size() + this._standingSections.size() + 1);
+
+        try {
+            newSection = (ImmutableSection) oldSection.clone();
+            if (this._sittingSections.get(idSection) != null) {
+                this.getSectionById(idSection).setIdSection(id);
+                this._sittingSections.put(id, (SittingSection) newSection);
+                this.getSectionById(id).setNameSection("Untitled" + id);
+            } else if (this._standingSections.get(idSection) != null) {
+                this.getSectionById(idSection).setIdSection(id);
+                this._standingSections.put(id, (StandingSection) newSection);
+                this.getSectionById(id).setNameSection("Untitled" + id);
+            }
+        } catch (CloneNotSupportedException e) {
+            System.err.println(e);
+        }
+        return newSection;
+    }
+
+    public void setIdSection(String idSection, String newId) {
+        SittingSection sittingSection = null;
+        StandingSection standingSection = null;
+
+        if ((sittingSection = this._sittingSections.get(idSection)) != null) {
+            sittingSection.setIdSection(newId);
+        } else if ((standingSection = this._standingSections.get(idSection)) != null) {
+            standingSection.setIdSection(newId);
+        }   
     }
 
     public void setSectionName(String idSection, String name) {

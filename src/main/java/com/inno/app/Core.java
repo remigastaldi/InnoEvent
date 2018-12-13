@@ -3,7 +3,7 @@
  * Author: GASTALDI Rémi
  * -----
  * Last Modified: Wednesday, 12th December 2018
- * Modified By: HUBERT Léo
+ * Modified By: MAREL Maud
  * -----
  * Copyright - 2018 GASTALDI Rémi
  * <<licensetext>>
@@ -163,6 +163,10 @@ public class Core {
 
   public ImmutableSittingSection standingToSittingSection(String idSection) {
     return this._room.standingToSittingSection(idSection);
+  }
+
+  public ImmutableSection duplicateSection(String idSection) {
+    return this._room.duplicateSection(idSection);
   }
 
   // standingSection Methods

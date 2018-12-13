@@ -2,8 +2,8 @@
  * File Created: Tuesday, 13th November 2018
  * Author: MAREL Maud
  * -----
- * Last Modified: Monday, 10th December 2018
- * Modified By: GASTALDI Rémi
+ * Last Modified: Wednesday, 12th December 2018
+ * Modified By: MAREL Maud
  * -----
  * Copyright - 2018 MAREL Maud
  * <<licensetext>>
@@ -13,7 +13,7 @@ package com.inno.app.room;
 
 import java.io.Serializable;
 
-public class Section implements ImmutableSection, Serializable {
+public class Section implements ImmutableSection, Serializable, Cloneable {
 
   private static final long serialVersionUID = 1L;
   private String _nameSection;
@@ -24,11 +24,16 @@ public class Section implements ImmutableSection, Serializable {
   private double _userRotation = 0d;
 
   public Section(String nameSection, String idSection, double[] positions, double rotation) {
+    super();
     this._nameSection = nameSection;
     this._idSection = idSection;
     this._elevation = 0;
     this._positions = positions;
     this._rotation = rotation;
+  }
+
+  public void setIdSection(String idSection) {
+    this._idSection = idSection;
   }
 
   public void setNameSection(String nameSection) {
@@ -74,4 +79,8 @@ public class Section implements ImmutableSection, Serializable {
   public double getUserRotation() {
     return _userRotation;
   }
+
+  public ImmutableSection clone() throws CloneNotSupportedException {  
+    return (ImmutableSection) super.clone();  
+   }
 }
