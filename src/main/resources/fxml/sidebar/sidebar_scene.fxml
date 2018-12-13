@@ -47,7 +47,7 @@
                         <TextField fx:id="scene_height_input" layoutY="44.0" onKeyReleased="#onKeyReleased" prefHeight="29.0" prefWidth="75.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
                         <TextField fx:id="scene_elevation_input" layoutY="88.0" onKeyReleased="#onKeyReleased" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
                         <TextField fx:id="scene_rotation_input" layoutY="132.0" onKeyReleased="#onKeyReleased" prefHeight="29.0" prefWidth="46.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="43.0" />
-                        <Group fx:id="section_rotation_group" layoutX="86.0" layoutY="235.0" AnchorPane.rightAnchor="0.0">
+                        <Group fx:id="scene_rotation_group" layoutX="86.0" layoutY="235.0" AnchorPane.rightAnchor="0.0">
                            <children>
                               <Circle fx:id="scene_rotation_circle" fill="#e3e7eb" layoutY="-88.0" radius="15.0" stroke="BLACK" strokeType="INSIDE" />
                               <Circle fill="#eef2f5" layoutX="9.0" layoutY="-88.0" onMousePressed="#onMousePressed" onMouseReleased="#onMouseReleased" radius="4.0" stroke="BLACK" strokeType="INSIDE">
