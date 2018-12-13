@@ -78,10 +78,10 @@ public class InnoEngine extends Engine {
     
     double[] pos = meterToPixel(dto.getPositions());
     InnoRectangle shape = new InnoRectangle(this, getPane(), pos[0], pos[1],
-      meterToPixel(dto.getWidth()), meterToPixel(dto.getHeight()), new Rotate(dto.getRotation(), pos[0] + meterToPixel(dto.getWidth()), pos[1] + meterToPixel(dto.getHeight())), Color.ROYALBLUE) {
+      meterToPixel(dto.getWidth()), meterToPixel(dto.getHeight()), new Rotate(dto.getRotation(), pos[0] + meterToPixel(dto.getWidth() / 2), pos[1] + meterToPixel(dto.getHeight() / 2)), Color.ROYALBLUE) {
         @Override
         public boolean onAnchorDragged() {
-          Core.get().setScenePositions(pixelToMeter(getPointsInParent()));
+          Core.get().setScenePositions(pixelToMeter(getNoRotatedParentPos()));
           Core.get().setSceneWidth(pixelToMeter(this.getWidth()));
           Core.get().setSceneHeight(pixelToMeter(this.getHeight()));
           // Core.get().setSceneRotation(this.getRotation().getAngle());
@@ -104,12 +104,12 @@ public class InnoEngine extends Engine {
 
         @Override
         public boolean onShapeMoved() {
-          Core.get().setScenePositions(pixelToMeter(getPointsInParent()));
+          Core.get().setScenePositions(pixelToMeter(getNoRotatedParentPos()));
           return true;
         }
     };
     Color color = Color.BLUEVIOLET;
-    shape.setColor(Color.BLUEVIOLET);
+    shape.setColor(color);
     shape.getShape().setFill(color.deriveColor(1, 1, 0.8, 0.85));
     deselect();
   }

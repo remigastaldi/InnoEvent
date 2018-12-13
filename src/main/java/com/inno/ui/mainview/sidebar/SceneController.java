@@ -3,7 +3,7 @@
  * Author: MAREL Maud
  * -----
  * Last Modified: Wednesday, 12th December 2018
- * Modified By: MAREL Maud
+ * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 MAREL Maud
  * <<licensetext>>
@@ -11,16 +11,17 @@
 
 package com.inno.ui.mainview.sidebar;
 
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
+
 import com.inno.ui.Validator;
-import com.inno.app.Core;
 import com.inno.ui.ViewController;
 import com.inno.ui.engine.shape.InteractiveRectangle;
 import com.inno.ui.innoengine.shape.InnoRectangle;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.HashMap;
-
+import javafx.beans.value.ChangeListener;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.geometry.Point2D;
 import javafx.scene.Group;
@@ -28,10 +29,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.shape.Circle;
-import javafx.util.converter.NumberStringConverter;
-import javafx.beans.property.SimpleDoubleProperty;
-import javafx.beans.value.ChangeListener;
-import javafx.event.EventHandler;
 
 public class SceneController extends ViewController {
 
@@ -85,7 +82,7 @@ public class SceneController extends ViewController {
     scene_elevation_input.setText(Double.toString(Core().getImmutableRoom().getImmutableScene().getElevation()));
   }
 
-  private void setRotation(Double angle, boolean input) {
+  private void setRotation(double angle, boolean input) {
     scene_rotation_group.setRotate(angle);
     if (!input) {
       scene_rotation_input.setText("" + (angle));
@@ -144,7 +141,6 @@ public class SceneController extends ViewController {
           setRotation(Double.parseDouble(scene_rotation_input.getText()), false);
           Core().setSceneRotation(Double.parseDouble(scene_rotation_input.getText()));
         }
-        // }
       } catch (Exception e) {
         System.out.println(e);
       }

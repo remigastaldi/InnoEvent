@@ -3,7 +3,7 @@
  * Author: GASTALDI Rémi
  * -----
  * Last Modified: Wednesday, 12th December 2018
- * Modified By: MAREL Maud
+ * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
  * <<licensetext>>
@@ -58,7 +58,6 @@ public class MainViewController extends ViewController {
 
   public void init() {
     View().setSidebar(sidebar_anchor);
-    View().setSidebarFromFxmlFileName("sidebar_room.fxml");
 
     // double[] pos = new double[] { 10, 10, 50, 10, 100, 100, 10, 50 };
     // ImmutableSittingSection sittingSection = Core().createSittingSection(pos,
@@ -104,6 +103,7 @@ public class MainViewController extends ViewController {
     // }
 
     View().createEngine(stack_pane);
+    View().setSidebarFromFxmlFileName("sidebar_room.fxml");
 
     componentsPane = mainSplitPane.getItems().get(1);
 
@@ -118,6 +118,9 @@ public class MainViewController extends ViewController {
     case "r":
       Engine().createRectangularSection();
       break;
+    // case "n":
+    //   Engine().copySelectedSectionsToBuffer();
+    //   Engine().pastBufferToEngine();
     }
 
     if (evt.getCode() == KeyCode.DELETE)
