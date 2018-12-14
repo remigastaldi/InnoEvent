@@ -382,8 +382,10 @@ public class Core {
     try (Writer writer = new FileWriter(path)) {
       System.out.println(path);
       Gson gson = new GsonBuilder().create();
-      gson.toJson(_room, writer);
-      gson.toJson(_pricing, writer);
+      HashMap<String, Object> map = new HashMap<>();
+      map.put("room", _room);
+      map.put("pricing", _pricing);
+      gson.toJson(map, writer);
     } catch (Exception e) {
       System.out.println(e);
     }

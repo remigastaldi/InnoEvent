@@ -2,7 +2,7 @@
  * File Created: Saturday, 27th October 2018
  * Author: HUBERT Léo
  * -----
- * Last Modified: Tuesday, 11th December 2018
+ * Last Modified: Thursday, 13th December 2018
  * Modified By: HUBERT Léo
  * -----
  * Copyright - 2018 HUBERT Léo
@@ -26,7 +26,4 @@ public interface ImmutableOfferOperation {
   public RelationalOperator getRelationalOperator();
 
   public LogicalOperator getLogicalOperator();
-
-  public ImmutableOfferCondition getParentCondition();
-
 }

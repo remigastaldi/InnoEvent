@@ -2,7 +2,7 @@
  * File Created: Friday, 12th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Tuesday, 11th December 2018
+ * Last Modified: Thursday, 13th December 2018
  * Modified By: HUBERT Léo
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -45,11 +45,6 @@ public class OfferCondition implements ImmutableOfferCondition, Serializable {
   @Override
   public LogicalOperator getLogicalOperator() {
     return _logicalOperator;
-  }
-
-  @Override
-  public ImmutableOffer getParentOffer() {
-    return _parentOffer;
   }
 
   public void setParentOffer(Offer offer) {

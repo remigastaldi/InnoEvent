@@ -56,6 +56,24 @@ public class OfferManagerController extends ViewController {
     ObservableList<CellWithDelFunction> _offerConditionList = FXCollections.observableArrayList();
     ImmutableOffer _selectedOffer = null;
 
+    public class UIOfferCondition {
+        private ImmutableOffer _offer;
+        private ImmutableOfferCondition _offerCondition;
+
+        public UIOfferCondition(ImmutableOffer offer, ImmutableOfferCondition offerCondition) {
+            _offer = offer;
+            _offerCondition = offerCondition;
+        }
+
+        public ImmutableOffer getOffer() {
+            return _offer;
+        }
+
+        public ImmutableOfferCondition getOfferCondition() {
+            return _offerCondition;
+        }
+    }
+
     public class CellWithDelFunction {
         private String _label;
         private Function<String, Boolean> _function;
@@ -147,7 +165,7 @@ public class OfferManagerController extends ViewController {
                     offerConditionList.getSelectionModel().getSelectedItem().getLabel());
             if (offerCondition != null) {
                 View().openViewWithAnimation("popup/offer_condition_manager.fxml", AnimationDirection.LEFT, anchor_root,
-                        offerCondition);
+                        new UIOfferCondition(_selectedOffer, offerCondition));
             }
         }
     }
