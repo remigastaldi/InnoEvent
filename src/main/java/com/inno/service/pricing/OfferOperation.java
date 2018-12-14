@@ -19,7 +19,6 @@ public class OfferOperation implements ImmutableOfferOperation, Serializable {
   private String _value;
   private RelationalOperator _relationalOperator;
   private LogicalOperator _logicalOperator;
-  private OfferCondition _parentOfferCondition;
 
   public OfferOperation(String value, RelationalOperator relationalOperator, LogicalOperator logicalOperator) {
     this._value = value;
@@ -40,10 +39,6 @@ public class OfferOperation implements ImmutableOfferOperation, Serializable {
   @Override
   public LogicalOperator getLogicalOperator() {
     return _logicalOperator;
-  }
-
-  public void setParentCondition(OfferCondition offerCondition) {
-    _parentOfferCondition = offerCondition;
   }
 
   public void setValue(String value) {

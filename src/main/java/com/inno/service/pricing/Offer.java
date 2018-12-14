@@ -67,7 +67,6 @@ public class Offer implements ImmutableOffer, Serializable {
   }
 
   public void addCondition(OfferCondition offerCondition) {
-    offerCondition.setParentOffer(this);
     this._offerConditions.put(offerCondition.getName(), offerCondition);
   }
 

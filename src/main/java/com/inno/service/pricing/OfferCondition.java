@@ -24,8 +24,6 @@ public class OfferCondition implements ImmutableOfferCondition, Serializable {
   protected LogicalOperator _logicalOperator;
   protected ArrayList<OfferOperation> _offerOperations = new ArrayList<>();
 
-  protected Offer _parentOffer;
-
   public OfferCondition(String name, String description, LogicalOperator logicalOperator) {
     this._name = name;
     this._description = description;
@@ -47,10 +45,6 @@ public class OfferCondition implements ImmutableOfferCondition, Serializable {
     return _logicalOperator;
   }
 
-  public void setParentOffer(Offer offer) {
-    _parentOffer = offer;
-  }
-
   public void setName(String name) {
     this._name = name;
   }
@@ -64,7 +58,6 @@ public class OfferCondition implements ImmutableOfferCondition, Serializable {
   }
 
   public void addOperation(OfferOperation offerOperation) {
-    offerOperation.setParentCondition(this);
     this._offerOperations.add(offerOperation);
   }
 
