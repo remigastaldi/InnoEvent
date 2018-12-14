@@ -207,13 +207,13 @@ public class InnoRectangle extends InteractiveRectangle {
   }
 
   public void setColumnNumber(int columns) {
-    setWidth(_xVitalSpace * columns);
+    setWidth((_xVitalSpace * columns) + 1);
     Core.get().updateSectionPositions(getID(), ((InnoEngine)Engine()).pixelToMeter(getNoRotatedParentPos()), true);
     updateFromData(false);    
   }
 
   public void setRowNumber(int rows) {
-    setHeight(_yVitalSpace * rows);
+    setHeight((_yVitalSpace * rows) + 1);
     Core.get().updateSectionPositions(getID(), ((InnoEngine)Engine()).pixelToMeter(getNoRotatedParentPos()), true);
     updateFromData(false);    
   }
