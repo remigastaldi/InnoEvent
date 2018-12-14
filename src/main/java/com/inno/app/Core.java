@@ -379,8 +379,10 @@ public class Core {
     try (Writer writer = new FileWriter(path)) {
       System.out.println(path);
       Gson gson = new GsonBuilder().create();
-      gson.toJson(_room, writer);
-      gson.toJson(_pricing, writer);
+      HashMap<String, Object> map = new HashMap<>();
+      map.put("room", _room);
+      map.put("pricing", _pricing);
+      gson.toJson(map, writer);
     } catch (Exception e) {
       System.out.println(e);
     }
@@ -452,13 +454,16 @@ public class Core {
     return offer;
   }
 
+  public void setOfferReductionType(String offerName, String reductionType) {
+    _pricing.setOfferReductionType(offerName, reductionType);
+  }
+
   public void setOfferConditionName(String offerName, String offerConditionName, String nName) {
     _pricing.setOfferConditionName(offerName, offerConditionName, nName);
   }
 
   public void setOfferConditionDescription(String offerName, String offerConditionName, String description) {
     _pricing.setOfferConditionDescription(offerName, offerConditionName, description);
-
   }
 
   public String[] getRelationalOperatorTypePossibilities() {
@@ -467,6 +472,10 @@ public class Core {
 
   public String[] getLogicalOperatorTypePossibilities() {
     return _pricing.getLogicalOperatorTypePossibilities();
+  }
+
+  public String[] getReductionTypePossibilities() {
+    return _pricing.getReductionTypePossibilities();
   }
 
   public HashMap<String, ? extends ImmutablePlaceRate> getPrices() {

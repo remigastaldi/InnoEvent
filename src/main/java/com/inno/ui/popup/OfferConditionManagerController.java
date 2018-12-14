@@ -2,7 +2,7 @@
  * File Created: Friday, 26th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Tuesday, 11th December 2018
+ * Last Modified: Thursday, 13th December 2018
  * Modified By: HUBERT Léo
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -17,12 +17,12 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.function.Function;
 
-import com.inno.service.pricing.ImmutableOfferCondition;
 import com.inno.service.pricing.ImmutableOfferOperation;
 import com.inno.ui.Validator;
 import com.inno.ui.ViewController;
 import com.inno.ui.View.AnimationDirection;
 import com.inno.ui.components.OfferConditionOperationListViewCell;
+import com.inno.ui.popup.OfferManagerController.UIOfferCondition;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -58,15 +58,15 @@ public class OfferConditionManagerController extends ViewController {
 
   @Override
   public void init() {
-    ImmutableOfferCondition offerCondition = (ImmutableOfferCondition) this.getIntent();
+    UIOfferCondition offerCondition = (UIOfferCondition) this.getIntent();
 
     if (offerCondition == null) {
       System.out.println("OfferConditon not found ");
       return;
     }
 
-    offer_condition_name_input.setText(offerCondition.getName());
-    offer_condition_description_input.setText(offerCondition.getDescription());
+    offer_condition_name_input.setText(offerCondition.getOfferCondition().getName());
+    offer_condition_description_input.setText(offerCondition.getOfferCondition().getDescription());
     offer_condition_operation_list.setCellFactory(studentListView -> new OfferConditionOperationListViewCell());
 
     refreshOfferConditionList();
@@ -123,9 +123,11 @@ public class OfferConditionManagerController extends ViewController {
     }
   }
 
+ 
+
   @FXML
   private void cancelButtonAction() {
-    ImmutableOfferCondition offerCondition = (ImmutableOfferCondition) this.getIntent();
+    UIOfferCondition offerCondition = (UIOfferCondition) this.getIntent();
 
     if (offerCondition == null) {
       System.out.println("OfferConditon not found ");
@@ -133,7 +135,7 @@ public class OfferConditionManagerController extends ViewController {
     }
 
     View().openViewWithAnimation("popup/offer_manager.fxml", AnimationDirection.RIGHT, anchor_root,
-        offerCondition.getParentOffer());
+        offerCondition.getOffer());
   }
 
   @FXML
@@ -143,7 +145,7 @@ public class OfferConditionManagerController extends ViewController {
 
   private void refreshOfferConditionList() {
 
-    ImmutableOfferCondition offerCondition = (ImmutableOfferCondition) this.getIntent();
+    UIOfferCondition offerCondition = (UIOfferCondition) this.getIntent();
 
     if (offerCondition == null) {
       System.out.println("OfferConditon not found ");
@@ -152,7 +154,7 @@ public class OfferConditionManagerController extends ViewController {
 
     _offerConditionOperationList.clear();
     ArrayList<? extends ImmutableOfferOperation> offerConditionOperations = Core()
-        .getOfferCondition(offerCondition.getParentOffer().getName(), offerCondition.getName())
+        .getOfferCondition(offerCondition.getOffer().getName(), offerCondition.getOfferCondition().getName())
         .getImmutableOfferOperations();
 
     for (int i = 0; i < offerConditionOperations.size(); i++) {
@@ -160,7 +162,7 @@ public class OfferConditionManagerController extends ViewController {
       _offerConditionOperationList.add(new OfferConditionOperationCell(i, offerConditionOperations.get(i).getValue(),
           offerConditionOperations.get(i).getLogicalOperator().toString(),
           offerConditionOperations.get(i).getRelationalOperator().toString(), (index) -> {
-            Core().removeOfferConditionOperation(offerCondition.getParentOffer().getName(), offerCondition.getName(),
+            Core().removeOfferConditionOperation(offerCondition.getOffer().getName(), offerCondition.getOfferCondition().getName(),
                 index);
             refreshOfferConditionList();
             return false;
@@ -170,46 +172,46 @@ public class OfferConditionManagerController extends ViewController {
 
   @FXML
   private void doneButtonAction() {
-    ImmutableOfferCondition offerCondition = (ImmutableOfferCondition) this.getIntent();
+    UIOfferCondition offerCondition = (UIOfferCondition) this.getIntent();
 
     if (offerCondition == null) {
       System.out.println("OfferConditon not found ");
       return;
     }
     if (checkInputs()) {
-      if (offer_condition_name_input.getText() != offerCondition.getName()) {
-        Core().setOfferConditionName(offerCondition.getParentOffer().getName(), offerCondition.getName(),
+      if (offer_condition_name_input.getText() != offerCondition.getOfferCondition().getName()) {
+        Core().setOfferConditionName(offerCondition.getOffer().getName(), offerCondition.getOfferCondition().getName(),
             offer_condition_name_input.getText());
       }
-      if (offer_condition_description_input.getText() != offerCondition.getDescription()) {
-        Core().setOfferConditionDescription(offerCondition.getParentOffer().getName(), offerCondition.getName(),
+      if (offer_condition_description_input.getText() != offerCondition.getOfferCondition().getDescription()) {
+        Core().setOfferConditionDescription(offerCondition.getOffer().getName(), offerCondition.getOfferCondition().getName(),
             offer_condition_description_input.getText());
       }
 
       _offerConditionOperationList.forEach((operation) -> {
-        Core().setOfferConditionOperationValue(offerCondition.getParentOffer().getName(), offerCondition.getName(),
+        Core().setOfferConditionOperationValue(offerCondition.getOffer().getName(), offerCondition.getOfferCondition().getName(),
             operation.getIndex(), operation.getValue());
-        Core().setOfferConditionOperationLogicalOperator(offerCondition.getParentOffer().getName(),
-            offerCondition.getName(), operation.getIndex(), operation.getLogicalOperator());
-        Core().setOfferConditionOperationRelationalOperator(offerCondition.getParentOffer().getName(),
-            offerCondition.getName(), operation.getIndex(), operation.getRelationalOperator());
+        Core().setOfferConditionOperationLogicalOperator(offerCondition.getOffer().getName(),
+            offerCondition.getOfferCondition().getName(), operation.getIndex(), operation.getLogicalOperator());
+        Core().setOfferConditionOperationRelationalOperator(offerCondition.getOffer().getName(),
+            offerCondition.getOfferCondition().getName(), operation.getIndex(), operation.getRelationalOperator());
       });
 
       View().openViewWithAnimation("popup/offer_manager.fxml", AnimationDirection.RIGHT, anchor_root,
-          offerCondition.getParentOffer());
+          offerCondition.getOffer());
     }
   }
 
   @FXML
   private void createOfferConditionAction() {
-    ImmutableOfferCondition offerCondition = (ImmutableOfferCondition) this.getIntent();
+    UIOfferCondition offerCondition = (UIOfferCondition) this.getIntent();
 
     if (offerCondition == null) {
       System.out.println("OfferConditon not found ");
       return;
     }
 
-    Core().createOfferConditionOperation(offerCondition.getParentOffer().getName(), offerCondition.getName(), "",
+    Core().createOfferConditionOperation(offerCondition.getOffer().getName(), offerCondition.getOfferCondition().getName(), "",
         "EQUALS", "AND");
     refreshOfferConditionList();
   }
