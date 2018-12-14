@@ -38,6 +38,7 @@ public class InnoEngine extends Engine {
   private View _view = null;
   ImmutableSection _buffSection = null;
   private HashMap<String, InnoRectangle> _rectangles = new HashMap<>();
+  private HashMap<String, InnoPolygon> _polygons = new HashMap<>();
   
 
   public InnoEngine(View view, StackPane stackPane) {
@@ -109,12 +110,14 @@ public class InnoEngine extends Engine {
         public boolean onShapeMoved() {
           Core.get().setScenePositions(pixelToMeter(getNoRotatedParentPos()));
           updateRectangleSectionsOrientation(true);
+          updatePolygonRowsOrientation(true);
           return true;
         }
 
         @Override
         public boolean onShapeReleased() {
           updateRectangleSectionsOrientation(false);
+          updatePolygonRowsOrientation(false);
           return true;
         }
     };
@@ -125,9 +128,15 @@ public class InnoEngine extends Engine {
     addInteractiveShape(shape);
   }
 
+  protected void updatePolygonRowsOrientation(boolean toParent) {
+    for (InnoPolygon shape : _polygons.values()) {
+      Core.get().updateSectionPositions(shape.getID(), pixelToMeter(shape.getNoRotatedParentPos()), false);
+      shape.updateFromData(toParent);
+    }
+  }
+
   public void updateRectangleSectionsOrientation(boolean toParent) {
     for (InnoRectangle shape : _rectangles.values()) {
-      System.out.println(shape.getID());
       Core.get().updateSectionPositions(shape.getID(), pixelToMeter(shape.getNoRotatedParentPos()), true);
       shape.updateFromData(toParent);
     }
@@ -146,6 +155,7 @@ public class InnoEngine extends Engine {
     InnoPolygon shape = new InnoPolygon(this, getPane(), id, pos, rotation, color);
     addInteractiveShape(shape);
     deselect();
+    _polygons.put(shape.getID(), shape);
     return shape;
   }
 
@@ -153,6 +163,7 @@ public class InnoEngine extends Engine {
     deselect();
     InnoPolygon shape = new InnoPolygon(this, getPane(), id, isStanding);
     addInteractiveShape(shape);
+    _polygons.put(shape.getID(), shape);
     return shape;
   }
 
@@ -271,7 +282,15 @@ public class InnoEngine extends Engine {
     _rectangles.put(rectangle.getID(), rectangle);
   }
 
-  public void deleteShape(String id) {
+  public void deleteRectangle(String id) {
     _rectangles.remove(id);
+  }
+
+  public void addPolygon(InnoPolygon polygon) {
+    _polygons.put(polygon.getID(), polygon);
+  }
+
+  public void deletePolygon(String id) {
+    _polygons.remove(id);
   }
 }

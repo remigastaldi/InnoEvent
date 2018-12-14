@@ -2,7 +2,7 @@
  * File Created: Tuesday, 9th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Thursday, 13th December 2018
+ * Last Modified: Friday, 14th December 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -398,7 +398,6 @@ public class Core {
   }
 
   public void createPlace(String id, String color) {
-    System.out.println("CREATE PLACE ID: " + id);
     createPlace(id, color, -1);
   }
 

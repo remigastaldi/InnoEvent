@@ -112,8 +112,10 @@ public class InnoPolygon extends InteractivePolygon {
       Point2D center = Engine().getCenterOfPoints(getPoints());
       setRotation(new Rotate(_sittingSectionData.getRotation(), center.getX(), center.getY()));
   
-      updateFromData();
+      updateFromData(false);
       select();
+
+      ((InnoEngine)Engine()).addPolygon(this);
     }
     return true;
   }
@@ -121,6 +123,7 @@ public class InnoPolygon extends InteractivePolygon {
   @Override
   public boolean onDestroy() {
     Core.get().deleteSection(getID());
+    ((InnoEngine)Engine()).deleteRectangle(getID());
     return true;
   }
 
@@ -136,21 +139,7 @@ public class InnoPolygon extends InteractivePolygon {
   @Override
   public boolean onAnchorReleased() {
     Core.get().updateSectionPositions(getID(), ((InnoEngine)Engine()).pixelToMeter(getNoRotatedParentPos()), false);
-    updateFromData();
-    // double[] parent = getPointsInParent();
-    
-    // getRotation().setAngle(0);
-    // double [] pos = parentToLocal(parent);
- 
-    // getGroup().getTransforms().clear();
-    // setPoints(pos);
-
-    // Core.get().updateSectionPositions(getID(), ((InnoEngine)Engine()).pixelToMeter(getPointsInParent()), true);
-
-    // setPoints(pos);
-    // double rotation = _sittingSectionData != null ? _sittingSectionData.getRotation() : 0;
-    // setRotation(new Rotate(rotation, pos[0], pos[1]));
-    // updateRowsFromData(false);
+    updateFromData(false);
  
     return true;
   }
@@ -186,19 +175,18 @@ public class InnoPolygon extends InteractivePolygon {
     setRotation(new Rotate(section.getRotation(), center.getX(), center.getY()));
 
     if (!isStanding)
-      updateFromData();
+      updateFromData(false);
     }
 
-  private void updateFromData() {
+  public void updateFromData(boolean toParent) {
     updatePositionFromData();
-    updateRowsFromData(false);
+    updateRowsFromData(toParent);
   }
 
   private void updatePositionFromData() {
       setPoints(parentToLocal(((InnoEngine)Engine()).meterToPixel(_sittingSectionData.getPositions())));
   }
 
-  // TODO: private this
   public void updateRowsFromData(boolean toParent) {
     destroyRows();
     
@@ -231,7 +219,7 @@ public class InnoPolygon extends InteractivePolygon {
   public void standingToSitting() {
     _sittingSectionData = Core.get().standingToSittingSection(_standingSectionData.getIdSection());
     _standingSectionData = null;
-    updateFromData();
+    updateFromData(false);
   }
 
   public ImmutableSittingSection getSittingData() {

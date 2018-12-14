@@ -267,8 +267,6 @@ public class Room implements ImmutableRoom, Serializable {
             if (((ImmutableSittingSection) section).isRectangle()) {
                 updateRectangleRows(positions, section);
             } else {
-                System.out.println("------------------------ " + idSection);
-                System.out.println("======================== " + section.getIdSection());
                 updatePolygonRows(positions, (SittingSection) section);
             }
             section.updatePosition(positions);
@@ -439,9 +437,7 @@ public class Room implements ImmutableRoom, Serializable {
                     Point End = Utils.rotatePoint(coord.get(coord.size() - 1), sceneCenter, -angle);
                     double[] posStart = { Start.get_x(), Start.get_y() };
                     double[] posEnd = { End.get_x(), End.get_y() };
-                    System.out.println("------------------------ " + sittingSection.getIdSection());
                     ImmutableSittingRow row = createSittingRow(sittingSection.getIdSection(), posStart, posEnd);
-                    System.out.println("########### ROW POINTER " + row);
                     
                     Core.get().createPlace(sittingSection.getIdSection() + "|" + row.getIdRow(), "#7289DA");
 

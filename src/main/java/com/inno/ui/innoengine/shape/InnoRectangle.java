@@ -2,7 +2,7 @@
  * File Created: Monday, 15th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Wednesday, 12th December 2018
+ * Last Modified: Friday, 14th December 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -256,6 +256,7 @@ public class InnoRectangle extends InteractiveRectangle {
   @Override
   public boolean onDestroy() {
     Core.get().deleteSection(getID());
+    ((InnoEngine)Engine()).deleteRectangle(getID());
     return true;
   }
 
