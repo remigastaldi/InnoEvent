@@ -2,7 +2,7 @@
  * File Created: Tuesday, 27th November 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Wednesday, 12th December 2018
+ * Last Modified: Friday, 14th December 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Remi
@@ -88,7 +88,7 @@ public class InnoRow {
 
   private void createSeats(boolean toParent) {
 	  ArrayList<? extends ImmutableSeat> seats = _row.getSeats();
-    
+
     for (ImmutableSeat seat : seats) {
       double[] points = null;
       if (toParent) {
@@ -107,14 +107,14 @@ public class InnoRow {
         _selectedSeat = seat;
         _engine.getView().setSidebarFromFxmlFileName("sidebar_seat.fxml", this);
       });
-
+      
       _seats.put(seat.getId(), circle);
-
+      
       if (_toParent)
-        _engine.getPane().getChildren().add(circle);
+      _engine.getPane().getChildren().add(circle);
       else
-        _intShape.addAdditionalShape(circle);
-
+      _intShape.addAdditionalShape(circle);
+      
       if (Core.get().getSeatPrice(_section.getIdSection(), _row.getIdRow(), Integer.toString(seat.getId())).getPrice() != -1) {
         setSeatColor(seat.getId(), Color.valueOf(Core.get().getSeatPrice(_section.getIdSection(), _row.getIdRow(), Integer.toString(seat.getId())).getColor()));
       }

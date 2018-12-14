@@ -2,8 +2,8 @@
  * File Created: Friday, 12th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Thursday, 13th December 2018
- * Modified By: HUBERT Léo
+ * Last Modified: Friday, 14th December 2018
+ * Modified By: GASTALDI Rémi
 
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -150,7 +150,6 @@ public class Room implements ImmutableRoom, Serializable {
         ImmutableSittingSection newSection = null;
 
         oldSection = this._standingSections.get(idSection);
-        // System.out.println("=========== " + idSection + " : " + oldSection);
         newSection = this.createSittingSection(oldSection.getPositions(), oldSection.getRotation(), false);
         this.getSectionById(newSection.getIdSection()).setNameSection(oldSection.getNameSection());
         this.getSectionById(newSection.getIdSection()).setElevation(oldSection.getElevation());
@@ -160,28 +159,44 @@ public class Room implements ImmutableRoom, Serializable {
 
     public void copySectionToBuffer(String id) {
         try {
-            _bufferedSittingSection = (ImmutableSittingSection) this._sittingSections.get(id).clone();
-            if (_bufferedSittingSection == null)
-                _bufferedStandingSection = (ImmutableStandingSection) this._standingSections.get(id).clone();
+            ImmutableSittingSection sittingSection = this._sittingSections.get(id);
+            ImmutableStandingSection standingSection =  this._standingSections.get(id);
+    
+            if (sittingSection != null) {
+                _bufferedSittingSection = (ImmutableSittingSection) sittingSection.clone();
+                System.out.println("COPY COPY CPOPY COPU COPU " + _bufferedSittingSection.getPositions() + " : " + sittingSection.getPositions());
+            }
+            else if (standingSection != null)
+                _bufferedStandingSection = (ImmutableStandingSection) standingSection.clone();
         } catch (CloneNotSupportedException e) {
             System.err.println(e);
         }
     }
 
     public ImmutableSection createSectionFromBuffer() {
-        String id = Integer.toString(this._sittingSections.size() + this._standingSections.size() + 1);
-        ImmutableSection section = null;
-
-        if (_bufferedSittingSection != null) {
-            section = _bufferedSittingSection;
-            this._sittingSections.put(id, (SittingSection) _bufferedSittingSection);
-            this._sittingSections.get(id).setIdSection(id);
-            this._sittingSections.get(id).setNameSection("Untitled" + id);
-        } else if (_bufferedStandingSection != null) {
-            section = _bufferedStandingSection;
-            this._standingSections.put(id, (StandingSection) _bufferedStandingSection);
-            this._standingSections.get(id).setIdSection(id);
-            this._sittingSections.get(id).setNameSection("Untitled" + id);
+        Section section = null;
+        
+        try {
+            if (_bufferedSittingSection != null) {
+                String id = Utils.getUniqueID();
+                section = (Section) _bufferedSittingSection.clone();
+                section.setIdSection(id);
+                section.setNameSection("Untitled" + id);
+                this._sittingSections.put(id, (SittingSection) section);
+                System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>. " + _sittingSections.get(id).getIdSection());
+            } else if (_bufferedStandingSection != null) {
+                String id = Utils.getUniqueID();
+                section = (Section) _bufferedStandingSection.clone();
+                section.setIdSection(id);
+                section.setNameSection("Untitled" + id);
+                System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>. " + section.getIdSection());
+                this._standingSections.put(id, (StandingSection) section);
+            }
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+        }
+        if (section != null) {
+            Core.get().createPlace(section.getIdSection(), "#6378bf");
         }
         return section;
     }
@@ -189,8 +204,8 @@ public class Room implements ImmutableRoom, Serializable {
     public ImmutableSection duplicateSection(String idSection) {
         ImmutableSection oldSection = getImmutableSectionById(idSection);
         ImmutableSection newSection = null;
-        String id = Integer.toString(this._sittingSections.size() + this._standingSections.size() + 1);
-
+        String id = Utils.getUniqueID();
+        
         try {
             newSection = (ImmutableSection) oldSection.clone();
             if (this._sittingSections.get(idSection) != null) {
@@ -246,12 +261,14 @@ public class Room implements ImmutableRoom, Serializable {
     }
 
     public void updateSectionPositions(String idSection, double[] positions) {
-        Section section = null;
+    Section section = null;
         if ((section = this._sittingSections.get(idSection)) != null) {
-            clearAllSittingRows(section.getIdSection());
+            clearAllSittingRows(idSection);
             if (((ImmutableSittingSection) section).isRectangle()) {
                 updateRectangleRows(positions, section);
             } else {
+                System.out.println("------------------------ " + idSection);
+                System.out.println("======================== " + section.getIdSection());
                 updatePolygonRows(positions, (SittingSection) section);
             }
             section.updatePosition(positions);
@@ -280,7 +297,6 @@ public class Room implements ImmutableRoom, Serializable {
             return;
         }
 
-        System.out.println("+++++++>> " + (section.getRotation() - section.getUserRotation()) + rotation);
         section.setRotation((section.getRotation() - section.getUserRotation()) + rotation);
         section.setUserRotation(rotation);
     }
@@ -292,7 +308,7 @@ public class Room implements ImmutableRoom, Serializable {
 
     // standingSection Methods
     public ImmutableStandingSection createStandingSection(int nbPeople, double[] positions, double rotation) {
-        String id = Integer.toString(this._sittingSections.size() + this._standingSections.size() + 1);
+        String id = Utils.getUniqueID();
         StandingSection standingSection = new StandingSection("Untitled" + id, id, positions, nbPeople, rotation);
         this._standingSections.put(id, standingSection);
         return standingSection;
@@ -305,12 +321,14 @@ public class Room implements ImmutableRoom, Serializable {
 
     // sittingSection Methods
     public ImmutableSittingSection createSittingSection(double[] positions, double rotation, boolean isRectangle) {
-        String id = Integer.toString(this._sittingSections.size() + this._standingSections.size() + 1);
+        String id = Utils.getUniqueID();
         double vitalSpaceWidth = this.getImmutableVitalSpace().getWidth();
         double vitalSpaceHeight = this.getImmutableVitalSpace().getHeight();
         SittingSection sittingSection = new SittingSection("Untitled" + id, id, positions, rotation, vitalSpaceWidth,
                 vitalSpaceHeight, isRectangle);
         this._sittingSections.put(id, sittingSection);
+
+        Core.get().createPlace(sittingSection.getIdSection(), "#6378bf");
 
         if (isRectangle) {
             updateRectangleRows(positions, sittingSection);
@@ -421,7 +439,10 @@ public class Room implements ImmutableRoom, Serializable {
                     Point End = Utils.rotatePoint(coord.get(coord.size() - 1), sceneCenter, -angle);
                     double[] posStart = { Start.get_x(), Start.get_y() };
                     double[] posEnd = { End.get_x(), End.get_y() };
+                    System.out.println("------------------------ " + sittingSection.getIdSection());
                     ImmutableSittingRow row = createSittingRow(sittingSection.getIdSection(), posStart, posEnd);
+                    System.out.println("########### ROW POINTER " + row);
+                    
                     Core.get().createPlace(sittingSection.getIdSection() + "|" + row.getIdRow(), "#7289DA");
 
                     for (Point point : coord) {

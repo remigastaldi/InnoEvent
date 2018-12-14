@@ -2,8 +2,8 @@
  * File Created: Tuesday, 13th November 2018
  * Author: MAREL Maud
  * -----
- * Last Modified: Thursday, 29th November 2018
- * Modified By: HUBERT Léo
+ * Last Modified: Friday, 14th December 2018
+ * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 MAREL Maud
  * <<licensetext>>
@@ -53,5 +53,28 @@ public class SittingRow implements Serializable, ImmutableSittingRow {
 
   public double[] getPosEndRow() {
     return this._posEnd;
+  }
+
+  public void setPosStart(double[] posStart) {
+    _posStart = posStart;
+  }
+
+  public void setPosEnd(double[] posEnd) {
+    _posEnd = posEnd;
+  }
+
+  public void setSeats(ArrayList<Seat> seats) {
+    _seats =  seats;
+  }
+
+  @Override
+  public SittingRow clone() throws CloneNotSupportedException {
+    SittingRow copy = (SittingRow) super.clone();
+    
+    copy.setPosStart(_posStart.clone());
+    copy.setPosEnd(_posEnd.clone());  
+    copy.setSeats(new ArrayList<>());
+
+    return (SittingRow) copy;
   }
 }

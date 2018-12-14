@@ -2,7 +2,7 @@
  * File Created: Tuesday, 13th November 2018
  * Author: MAREL Maud
  * -----
- * Last Modified: Wednesday, 12th December 2018
+ * Last Modified: Thursday, 13th December 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 MAREL Maud
@@ -32,5 +32,10 @@ public class StandingSection extends Section implements ImmutableSection, Immuta
   @Override
   public boolean isRectangle() {
     return false;
+  }
+
+  @Override
+  public boolean isStanding() {
+    return true;
   }
 }

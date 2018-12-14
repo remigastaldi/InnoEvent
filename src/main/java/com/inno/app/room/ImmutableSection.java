@@ -21,4 +21,5 @@ public interface ImmutableSection {
   public abstract double getUserRotation();
   public ImmutableSection clone() throws CloneNotSupportedException;
   public abstract boolean isRectangle();
+  public abstract boolean isStanding();
 }

@@ -3,7 +3,7 @@
  * Author: GASTALDI Rémi
  * -----
  * Last Modified: Thursday, 13th December 2018
- * Modified By: HUBERT Léo
+ * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
  * <<licensetext>>
@@ -186,12 +186,9 @@ public class Core {
     if (isRectangle) {
       Point pt = new Point(getImmutableRoom().getImmutableScene().getCenter()[0],
           getImmutableRoom().getImmutableScene().getCenter()[1]);
-      // double[] newPos = Utils.rotateRectangle(pt, positions);
       newRotation = Utils.calculateRectangleRotation(pt, positions);
     }
     ImmutableSittingSection section = _room.createSittingSection(positions, newRotation, isRectangle);
-
-    createPlace(section.getIdSection(), "#6378bf");
 
     return section;
   }
@@ -399,6 +396,7 @@ public class Core {
   }
 
   public void createPlace(String id, String color) {
+    System.out.println("CREATE PLACE ID: " + id);
     createPlace(id, color, -1);
   }
 
@@ -520,8 +518,15 @@ public class Core {
 
   public ImmutableSection createSectionFromBuffer() {
     ImmutableSection section = _room.createSectionFromBuffer();
-    createPlace(section.getIdSection(), "#6378bf");
-    _room.updateSectionPositions(section.getIdSection(), section.getPositions());
+
+    if (section == null)
+      return null;
+
+    double[] pos = section.getPositions();
+    for (int i = 0; i < pos.length; ++i) {
+      pos[i] += 1;
+    }
+    _room.updateSectionPositions(section.getIdSection(), pos);
     return section;
   }
 
