@@ -164,10 +164,10 @@ public class Room implements ImmutableRoom, Serializable {
     
             if (sittingSection != null) {
                 _bufferedSittingSection = (ImmutableSittingSection) sittingSection.clone();
-                System.out.println("COPY COPY CPOPY COPU COPU " + _bufferedSittingSection.getPositions() + " : " + sittingSection.getPositions());
             }
-            else if (standingSection != null)
+            else if (standingSection != null) {
                 _bufferedStandingSection = (ImmutableStandingSection) standingSection.clone();
+            }
         } catch (CloneNotSupportedException e) {
             System.err.println(e);
         }
@@ -178,18 +178,16 @@ public class Room implements ImmutableRoom, Serializable {
         
         try {
             if (_bufferedSittingSection != null) {
-                String id = Utils.getUniqueID();
+                String id = Integer.toString(this._sittingSections.size() + this._standingSections.size() + 1);
                 section = (Section) _bufferedSittingSection.clone();
                 section.setIdSection(id);
-                section.setNameSection("Untitled" + id);
+                section.setNameSection("S-" + id);
                 this._sittingSections.put(id, (SittingSection) section);
-                System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>. " + _sittingSections.get(id).getIdSection());
             } else if (_bufferedStandingSection != null) {
-                String id = Utils.getUniqueID();
+                String id = Integer.toString(this._sittingSections.size() + this._standingSections.size() + 1);
                 section = (Section) _bufferedStandingSection.clone();
                 section.setIdSection(id);
-                section.setNameSection("Untitled" + id);
-                System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>. " + section.getIdSection());
+                section.setNameSection("S-" + id);
                 this._standingSections.put(id, (StandingSection) section);
             }
         } catch (CloneNotSupportedException e) {
@@ -204,18 +202,18 @@ public class Room implements ImmutableRoom, Serializable {
     public ImmutableSection duplicateSection(String idSection) {
         ImmutableSection oldSection = getImmutableSectionById(idSection);
         ImmutableSection newSection = null;
-        String id = Utils.getUniqueID();
+        String id = Integer.toString(this._sittingSections.size() + this._standingSections.size() + 1);
         
         try {
             newSection = (ImmutableSection) oldSection.clone();
             if (this._sittingSections.get(idSection) != null) {
                 this._sittingSections.put(id, (SittingSection) newSection);
                 this._sittingSections.get(id).setIdSection(id);
-                this._sittingSections.get(id).setNameSection("Untitled" + id);
+                this._sittingSections.get(id).setNameSection("S-" + id);
             } else if (this._standingSections.get(idSection) != null) {
                 this._standingSections.put(id, (StandingSection) newSection);
                 this._standingSections.get(id).setIdSection(id);
-                this._sittingSections.get(id).setNameSection("Untitled" + id);
+                this._sittingSections.get(id).setNameSection("S-" + id);
             }
         } catch (CloneNotSupportedException e) {
             System.err.println(e);
@@ -306,8 +304,8 @@ public class Room implements ImmutableRoom, Serializable {
 
     // standingSection Methods
     public ImmutableStandingSection createStandingSection(int nbPeople, double[] positions, double rotation) {
-        String id = Utils.getUniqueID();
-        StandingSection standingSection = new StandingSection("Untitled" + id, id, positions, nbPeople, rotation);
+        String id = Integer.toString(this._sittingSections.size() + this._standingSections.size() + 1);
+        StandingSection standingSection = new StandingSection("S-" + id, id, positions, nbPeople, rotation);
         this._standingSections.put(id, standingSection);
         return standingSection;
     }
@@ -319,10 +317,10 @@ public class Room implements ImmutableRoom, Serializable {
 
     // sittingSection Methods
     public ImmutableSittingSection createSittingSection(double[] positions, double rotation, boolean isRectangle) {
-        String id = Utils.getUniqueID();
+        String id = Integer.toString(this._sittingSections.size() + this._standingSections.size() + 1);
         double vitalSpaceWidth = this.getImmutableVitalSpace().getWidth();
         double vitalSpaceHeight = this.getImmutableVitalSpace().getHeight();
-        SittingSection sittingSection = new SittingSection("Untitled" + id, id, positions, rotation, vitalSpaceWidth,
+        SittingSection sittingSection = new SittingSection("S-" + id, id, positions, rotation, vitalSpaceWidth,
                 vitalSpaceHeight, isRectangle);
         this._sittingSections.put(id, sittingSection);
 
