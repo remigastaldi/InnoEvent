@@ -209,7 +209,7 @@ public class OfferManagerController extends ViewController {
         ImmutableOfferCondition offerCondition = Core().createOfferCondition(_selectedOffer.getName(), null, "", "AND");
         refreshOfferConditionList(_selectedOffer.getName());
         View().openViewWithAnimation("popup/offer_condition_manager.fxml", AnimationDirection.LEFT, anchor_root,
-                offerCondition);
+                new UIOfferCondition(_selectedOffer, offerCondition));
     }
 
     @FXML
