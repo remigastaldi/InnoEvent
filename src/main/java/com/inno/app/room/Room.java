@@ -2,7 +2,7 @@
  * File Created: Friday, 12th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Friday, 14th December 2018
+ * Last Modified: Saturday, 15th December 2018
  * Modified By: GASTALDI Rémi
 
  * -----
@@ -71,7 +71,7 @@ public class Room implements ImmutableRoom, Serializable {
             if (section.getImmutableVitalSpace().getWidth() == _vitalSpace.getWidth()
                     && section.getImmutableVitalSpace().getHeight() == _vitalSpace.getHeight()) {
                 section.setVitalSpace(width, height);
-                Core.get().updateSectionPositions(section.getIdSection(), section.getPositions(),
+                Core.get().updateSectionPositions(section.getId(), section.getPositions(),
                         section.isRectangle()); // Just to recalculate seats positions
             }
         }
@@ -139,8 +139,8 @@ public class Room implements ImmutableRoom, Serializable {
 
         oldSection = this._sittingSections.get(idSection);
         newSection = this.createStandingSection(0, oldSection.getPositions(), oldSection.getRotation());
-        this.getSectionById(newSection.getIdSection()).setNameSection(oldSection.getNameSection());
-        this.getSectionById(newSection.getIdSection()).setElevation(oldSection.getElevation());
+        this.getSectionById(newSection.getId()).setNameSection(oldSection.getNameSection());
+        this.getSectionById(newSection.getId()).setElevation(oldSection.getElevation());
         deleteSection(idSection);
         return newSection;
     }
@@ -151,8 +151,8 @@ public class Room implements ImmutableRoom, Serializable {
 
         oldSection = this._standingSections.get(idSection);
         newSection = this.createSittingSection(oldSection.getPositions(), oldSection.getRotation(), false);
-        this.getSectionById(newSection.getIdSection()).setNameSection(oldSection.getNameSection());
-        this.getSectionById(newSection.getIdSection()).setElevation(oldSection.getElevation());
+        this.getSectionById(newSection.getId()).setNameSection(oldSection.getNameSection());
+        this.getSectionById(newSection.getId()).setElevation(oldSection.getElevation());
         deleteSection(idSection);
         return newSection;
     }
@@ -194,7 +194,7 @@ public class Room implements ImmutableRoom, Serializable {
             e.printStackTrace();
         }
         if (section != null) {
-            Core.get().createPlace(section.getIdSection(), "#6378bf");
+            Core.get().createPlace(section.getId(), "#6378bf");
         }
         return section;
     }
@@ -324,7 +324,7 @@ public class Room implements ImmutableRoom, Serializable {
                 vitalSpaceHeight, isRectangle);
         this._sittingSections.put(id, sittingSection);
 
-        Core.get().createPlace(sittingSection.getIdSection(), "#6378bf");
+        Core.get().createPlace(sittingSection.getId(), "#6378bf");
 
         if (isRectangle) {
             updateRectangleRows(positions, sittingSection);
@@ -347,26 +347,26 @@ public class Room implements ImmutableRoom, Serializable {
             double[] posStart = { xRow + (vitalSpaceWidth / 2), yRow + (vitalSpaceHeight / 2) };
             double[] posEnd = { positions[0] + (int) ((positions[2] - positions[0]) / vitalSpaceWidth) * vitalSpaceWidth
                     - vitalSpaceWidth / 2, yRow + (vitalSpaceHeight / 2) };
-            ImmutableSittingRow row = createSittingRow(section.getIdSection(), posStart, posEnd);
+            ImmutableSittingRow row = createSittingRow(section.getId(), posStart, posEnd);
 
-            ImmutablePlaceRate sectionPlace = Core.get().getSectionPrice(section.getIdSection());
+            ImmutablePlaceRate sectionPlace = Core.get().getSectionPrice(section.getId());
             if (sectionPlace != null && sectionPlace.getPrice() != -1) {
-                Core.get().createPlace(section.getIdSection() + "|" + row.getIdRow(), sectionPlace.getColor(),
+                Core.get().createPlace(section.getId() + "|" + row.getIdRow(), sectionPlace.getColor(),
                         sectionPlace.getPrice());
             } else {
-                Core.get().createPlace(section.getIdSection() + "|" + row.getIdRow(), "#7289DA");
+                Core.get().createPlace(section.getId() + "|" + row.getIdRow(), "#7289DA");
             }
 
             while (xSeat < positions[2] - vitalSpaceWidth * 0.99) {
                 double[] seatPos = { xSeat + (vitalSpaceWidth / 2), ySeat + (vitalSpaceHeight / 2) };
-                ImmutableSeat seat = createSeat(section.getIdSection(), row.getIdRow(), seatPos);
+                ImmutableSeat seat = createSeat(section.getId(), row.getIdRow(), seatPos);
 
-                ImmutablePlaceRate rowPlace = Core.get().getRowPrice(section.getIdSection(), row.getIdRow());
+                ImmutablePlaceRate rowPlace = Core.get().getRowPrice(section.getId(), row.getIdRow());
                 if (rowPlace != null && rowPlace.getPrice() != -1) {
-                    Core.get().createPlace(section.getIdSection() + "|" + row.getIdRow() + "|" + seat.getId(),
+                    Core.get().createPlace(section.getId() + "|" + row.getIdRow() + "|" + seat.getId(),
                             rowPlace.getColor(), rowPlace.getPrice());
                 } else {
-                    Core.get().createPlace(section.getIdSection() + "|" + row.getIdRow() + "|" + seat.getId(),
+                    Core.get().createPlace(section.getId() + "|" + row.getIdRow() + "|" + seat.getId(),
                             "#FFA500");
                 }
                 xSeat += vitalSpaceWidth;
@@ -435,16 +435,16 @@ public class Room implements ImmutableRoom, Serializable {
                     Point End = Utils.rotatePoint(coord.get(coord.size() - 1), sceneCenter, -angle);
                     double[] posStart = { Start.get_x(), Start.get_y() };
                     double[] posEnd = { End.get_x(), End.get_y() };
-                    ImmutableSittingRow row = createSittingRow(sittingSection.getIdSection(), posStart, posEnd);
+                    ImmutableSittingRow row = createSittingRow(sittingSection.getId(), posStart, posEnd);
                     
-                    Core.get().createPlace(sittingSection.getIdSection() + "|" + row.getIdRow(), "#7289DA");
+                    Core.get().createPlace(sittingSection.getId() + "|" + row.getIdRow(), "#7289DA");
 
                     for (Point point : coord) {
                         Point rPoint = Utils.rotatePoint(point, sceneCenter, -angle);
                         double[] seatPos = { rPoint.get_x(), rPoint.get_y() };
-                        ImmutableSeat seat = createSeat(sittingSection.getIdSection(), row.getIdRow(), seatPos);
+                        ImmutableSeat seat = createSeat(sittingSection.getId(), row.getIdRow(), seatPos);
                         Core.get().createPlace(
-                                sittingSection.getIdSection() + "|" + row.getIdRow() + "|" + seat.getId(), "#FFA500");
+                                sittingSection.getId() + "|" + row.getIdRow() + "|" + seat.getId(), "#FFA500");
                     }
                     rowCreated = false;
                     coord.clear();
@@ -456,7 +456,7 @@ public class Room implements ImmutableRoom, Serializable {
     public void setSittingSectionVitalSpace(String sectionId, double width, double height) {
         SittingSection sittingSection = this._sittingSections.get(sectionId);
         sittingSection.setVitalSpace(width, height);
-        updateSectionPositions(sittingSection.getIdSection(), sittingSection.getPositions());
+        updateSectionPositions(sittingSection.getId(), sittingSection.getPositions());
     }
 
     public void setSittingSectionAutoDistribution(String sectionId, boolean autoDistrib) {

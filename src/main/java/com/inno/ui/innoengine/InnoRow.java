@@ -2,7 +2,7 @@
  * File Created: Tuesday, 27th November 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Friday, 14th December 2018
+ * Last Modified: Saturday, 15th December 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Remi
@@ -79,8 +79,8 @@ public class InnoRow {
 
     createSeats(_toParent);
 
-    if (Core.get().getRowPrice(_section.getIdSection(), _row.getIdRow()).getPrice() != -1) {
-      setRowColor(Color.valueOf(Core.get().getRowPrice(_section.getIdSection(), _row.getIdRow()).getColor()));
+    if (Core.get().getRowPrice(_section.getId(), _row.getIdRow()).getPrice() != -1) {
+      setRowColor(Color.valueOf(Core.get().getRowPrice(_section.getId(), _row.getIdRow()).getColor()));
     } else {
       resetRowColor();
     }
@@ -115,8 +115,8 @@ public class InnoRow {
       else
       _intShape.addAdditionalShape(circle);
       
-      if (Core.get().getSeatPrice(_section.getIdSection(), _row.getIdRow(), Integer.toString(seat.getId())).getPrice() != -1) {
-        setSeatColor(seat.getId(), Color.valueOf(Core.get().getSeatPrice(_section.getIdSection(), _row.getIdRow(), Integer.toString(seat.getId())).getColor()));
+      if (Core.get().getSeatPrice(_section.getId(), _row.getIdRow(), Integer.toString(seat.getId())).getPrice() != -1) {
+        setSeatColor(seat.getId(), Color.valueOf(Core.get().getSeatPrice(_section.getId(), _row.getIdRow(), Integer.toString(seat.getId())).getColor()));
       }
     }
   }

@@ -2,7 +2,7 @@
  * File Created: Sunday, 14th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Friday, 14th December 2018
+ * Last Modified: Saturday, 15th December 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -107,7 +107,7 @@ public class InnoPolygon extends InteractivePolygon {
     if (mouseReleased) {
       System.out.println("FORME COLMPLETE");
       _sittingSectionData = Core.get().createSittingSection(((InnoEngine)Engine()).pixelToMeter(getPointsInParent()), 0, false);
-      setID(_sittingSectionData.getIdSection());
+      setID(_sittingSectionData.getId());
 
       Point2D center = Engine().getCenterOfPoints(getPoints());
       setRotation(new Rotate(_sittingSectionData.getRotation(), center.getX(), center.getY()));
@@ -210,14 +210,14 @@ public class InnoPolygon extends InteractivePolygon {
   }
 
   public void sittingToStanding() {
-    _standingSectionData = Core.get().sittingToStandingSection(_sittingSectionData.getIdSection());
+    _standingSectionData = Core.get().sittingToStandingSection(_sittingSectionData.getId());
     _sittingSectionData = null;
     
     destroyRows();
   }
 
   public void standingToSitting() {
-    _sittingSectionData = Core.get().standingToSittingSection(_standingSectionData.getIdSection());
+    _sittingSectionData = Core.get().standingToSittingSection(_standingSectionData.getId());
     _standingSectionData = null;
     updateFromData(false);
   }

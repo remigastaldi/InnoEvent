@@ -2,7 +2,7 @@
  * File Created: Friday, 12th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Friday, 14th December 2018
+ * Last Modified: Saturday, 15th December 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -61,16 +61,16 @@ public class InnoEngine extends Engine {
     for (ImmutableSittingSection section : sittingSections) {
       if (section.isRectangle()) {
         System.out.println("Load rectangular sitting section");
-        createRectangularSection(section.getIdSection());
+        createRectangularSection(section.getId());
       } else {
         System.out.println("Load irregular sitting section");
-        createIrregularSection(section.getIdSection(), false);
+        createIrregularSection(section.getId(), false);
       }
     }
   	Collection<? extends ImmutableStandingSection> standingSection = roomData.getImmutableStandingSections().values();
     for (ImmutableStandingSection section : standingSection) {
       System.out.println("Load irregular standing section");
-      createIrregularSection(section.getIdSection(), true);
+      createIrregularSection(section.getId(), true);
     }
   }
 
@@ -258,11 +258,11 @@ public class InnoEngine extends Engine {
       return;
 
     if (section.isRectangle()) {
-      createRectangularSection(section.getIdSection()).select();
+      createRectangularSection(section.getId()).select();
     } else if (section.isStanding()) {
-      createIrregularSection(section.getIdSection(), true).select();
+      createIrregularSection(section.getId(), true).select();
     } else {
-      createIrregularSection(section.getIdSection(), false).select();
+      createIrregularSection(section.getId(), false).select();
   }
   core.copySectionToBuffer(getSelectedShape().getID());
 }
@@ -292,5 +292,20 @@ public class InnoEngine extends Engine {
 
   public void deletePolygon(String id) {
     _polygons.remove(id);
+  }
+
+  public void deleteSittingSection(String _id) {
+    InnoPolygon polygon = _polygons.get(_id);
+    if (polygon != null) {
+      polygon.destroy();
+      _polygons.remove(_id);
+    }
+    else {
+      InnoRectangle rectangle = _rectangles.get(_id);
+      if (rectangle != null) {
+        rectangle.destroy();
+        _rectangles.remove(_id);
+      }
+    }
   }
 }

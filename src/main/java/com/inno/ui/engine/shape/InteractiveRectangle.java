@@ -2,7 +2,7 @@
  * File Created: Monday, 15th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Thursday, 13th December 2018
+ * Last Modified: Saturday, 15th December 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -75,15 +75,15 @@ public class InteractiveRectangle extends InteractiveShape<Rectangle> {
       }
     };
     EventHandler<MouseEvent> mouseReleasedEvent = event -> {
+      if (_collisionDetected)
+      return;
+      EventHandler<MouseEvent> mouseReleaseEvent = EventHandlers().remove(MouseEvent.MOUSE_RELEASED);
+      Pane().removeEventHandler(MouseEvent.MOUSE_RELEASED, mouseReleaseEvent);
+      Pane().removeEventHandler(MouseEvent.MOUSE_DRAGGED, mouseDraggedEvent);
+      Pane().removeEventHandler(MouseEvent.MOUSE_MOVED, mouseMovedEvent);
+      Cursor().removeShape();
+      Cursor().setForm(CustomCursor.Type.DEFAULT);
       if (onMouseReleased(event)) {
-        if (_collisionDetected)
-          return;
-        EventHandler<MouseEvent> mouseReleaseEvent = EventHandlers().remove(MouseEvent.MOUSE_RELEASED);
-        Pane().removeEventHandler(MouseEvent.MOUSE_RELEASED, mouseReleaseEvent);
-        Pane().removeEventHandler(MouseEvent.MOUSE_DRAGGED, mouseDraggedEvent);
-        Pane().removeEventHandler(MouseEvent.MOUSE_MOVED, mouseMovedEvent);
-        Cursor().removeShape();
-        Cursor().setForm(CustomCursor.Type.DEFAULT);
         // if (!onFormComplete())
         //   return;
       }
@@ -266,8 +266,6 @@ public class InteractiveRectangle extends InteractiveShape<Rectangle> {
 
   public void closeForm(double x, double y, double width, double height, Rotate rotation, Color color) {
     setShape(new Rectangle(x, y, width, height));
-    System.out.println("################### CREATED ######################");
-
 
     EventHandler<MouseEvent> mouseMovedEvent = EventHandlers().remove(MouseEvent.MOUSE_MOVED);
     if (mouseMovedEvent != null)

@@ -2,7 +2,7 @@
  * File Created: Monday, 15th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Friday, 14th December 2018
+ * Last Modified: Saturday, 15th December 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -112,7 +112,7 @@ public class InnoRectangle extends InteractiveRectangle {
     pos[7] = pos[5];
 
     _sectionData = Core.get().createSittingSection(((InnoEngine)Engine()).pixelToMeter(pos), 0, true);
-    setID(_sectionData.getIdSection());
+    setID(_sectionData.getId());
 
     updateFromData(false);
     select();
@@ -234,7 +234,7 @@ public class InnoRectangle extends InteractiveRectangle {
     _xVitalSpace = ((InnoEngine)Engine()).meterToPixel(width);
     _yVitalSpace = ((InnoEngine)Engine()).meterToPixel(height);
 
-    Core.get().setSittingSectionVitalSpace(_sectionData.getIdSection(), width, height);
+    Core.get().setSittingSectionVitalSpace(_sectionData.getId(), width, height);
   }
 
   public void setHeightFromMetter(double height) {

@@ -2,7 +2,7 @@
  * File Created: Tuesday, 13th November 2018
  * Author: MAREL Maud
  * -----
- * Last Modified: Friday, 14th December 2018
+ * Last Modified: Saturday, 15th December 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 MAREL Maud
@@ -51,7 +51,7 @@ public long getUID() { return serialVersionUID; }
     this._rotation = rotation;
   }
 
-  public String getIdSection() {
+  public String getId() {
     return this._idSection;
   }
 
