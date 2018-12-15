@@ -2,7 +2,7 @@
  * File Created: Monday, 15th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Wednesday, 12th December 2018
+ * Last Modified: Saturday, 15th December 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -112,7 +112,7 @@ public class InnoRectangle extends InteractiveRectangle {
     pos[7] = pos[5];
 
     _sectionData = Core.get().createSittingSection(((InnoEngine)Engine()).pixelToMeter(pos), 0, true);
-    setID(_sectionData.getIdSection());
+    setID(_sectionData.getId());
 
     updateFromData(false);
     select();
@@ -207,13 +207,13 @@ public class InnoRectangle extends InteractiveRectangle {
   }
 
   public void setColumnNumber(int columns) {
-    setWidth(_xVitalSpace * columns);
+    setWidth((_xVitalSpace * columns) + 1);
     Core.get().updateSectionPositions(getID(), ((InnoEngine)Engine()).pixelToMeter(getNoRotatedParentPos()), true);
     updateFromData(false);    
   }
 
   public void setRowNumber(int rows) {
-    setHeight(_yVitalSpace * rows);
+    setHeight((_yVitalSpace * rows) + 1);
     Core.get().updateSectionPositions(getID(), ((InnoEngine)Engine()).pixelToMeter(getNoRotatedParentPos()), true);
     updateFromData(false);    
   }
@@ -234,7 +234,7 @@ public class InnoRectangle extends InteractiveRectangle {
     _xVitalSpace = ((InnoEngine)Engine()).meterToPixel(width);
     _yVitalSpace = ((InnoEngine)Engine()).meterToPixel(height);
 
-    Core.get().setSittingSectionVitalSpace(_sectionData.getIdSection(), width, height);
+    Core.get().setSittingSectionVitalSpace(_sectionData.getId(), width, height);
   }
 
   public void setHeightFromMetter(double height) {
@@ -256,6 +256,7 @@ public class InnoRectangle extends InteractiveRectangle {
   @Override
   public boolean onDestroy() {
     Core.get().deleteSection(getID());
+    ((InnoEngine)Engine()).deleteRectangle(getID());
     return true;
   }
 

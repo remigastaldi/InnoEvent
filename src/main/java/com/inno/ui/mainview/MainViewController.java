@@ -2,7 +2,7 @@
  * File Created: Wednesday, 26th September 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Thursday, 13th December 2018
+ * Last Modified: Saturday, 15th December 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -13,6 +13,7 @@ package com.inno.ui.mainview;
 
 import java.io.File;
 
+import com.inno.app.Core;
 import com.inno.ui.ViewController;
 import com.inno.ui.innoengine.InnoEngine;
 
@@ -63,49 +64,6 @@ public class MainViewController extends ViewController {
   public void init() {
     View().setSidebar(sidebar_anchor);
 
-    // double[] pos = new double[] { 10, 10, 50, 10, 100, 100, 10, 50 };
-    // ImmutableSittingSection sittingSection = Core().createSittingSection(pos,
-    // 0.0);
-    // ImmutableSittingRow sittingRow =
-    // Core().createSittingRow(sittingSection.getIdSection(), pos, pos);
-    // ImmutableSeat sittingSeat = Core().createSeat(sittingSection.getIdSection(),
-    // sittingRow.getIdRow(), pos);
-    // ImmutableSeat sittingSeat2 = Core().createSeat(sittingSection.getIdSection(),
-    // sittingRow.getIdRow(), pos);
-    // ImmutableSeat sittingSeat3 = Core().createSeat(sittingSection.getIdSection(),
-    // sittingRow.getIdRow(), pos);
-    // ImmutableSeat sittingSeat4 = Core().createSeat(sittingSection.getIdSection(),
-    // sittingRow.getIdRow(), pos);
-    // ImmutableSeat sittingSeat5 = Core().createSeat(sittingSection.getIdSection(),
-    // sittingRow.getIdRow(), pos);
-
-    // Core().setSectionPrice(sittingSection.getIdSection(), 50);
-
-    // HashMap<String, ? extends ImmutablePlaceRate> places = Core().getPrices();
-
-    // for (Map.Entry<String, ? extends ImmutablePlaceRate> entry : places.entrySet()) {
-    // String key = entry.getKey();
-    // ImmutablePlaceRate value = entry.getValue();
-    // System.out.println("price => " + key + " set to " + value.getPrice());
-    // }
-
-    // Core().setRowPrice(sittingSection.getIdSection(), sittingRow.getIdRow(), 20);
-
-    // for (Map.Entry<String, ? extends ImmutablePlaceRate> entry : places.entrySet()) {
-    // String key = entry.getKey();
-    // ImmutablePlaceRate value = entry.getValue();
-    // System.out.println("price => " + key + " set to " + value.getPrice());
-    // }
-
-    // Core().setSeatPrice(sittingSection.getIdSection(), sittingRow.getIdRow(),
-    // Integer.toString(sittingSeat4.getId()), 10);
-
-    // for (Map.Entry<String, ? extends ImmutablePlaceRate> entry : places.entrySet()) {
-    // String key = entry.getKey();
-    // ImmutablePlaceRate value = entry.getValue();
-    // System.out.println("price => " + key + " set to " + value.getPrice());
-    // }
-
     View().createEngine(stack_pane);
     View().setSidebarFromFxmlFileName("sidebar_room.fxml");
 
@@ -115,6 +73,8 @@ public class MainViewController extends ViewController {
 
   final KeyCombination controlC = new KeyCodeCombination(KeyCode.C, KeyCombination.CONTROL_DOWN);
   final KeyCombination controlV = new KeyCodeCombination(KeyCode.V, KeyCombination.CONTROL_DOWN);
+  final KeyCombination controlZ = new KeyCodeCombination(KeyCode.Z, KeyCombination.CONTROL_DOWN);
+  final KeyCombination controlL = new KeyCodeCombination(KeyCode.L, KeyCombination.CONTROL_DOWN);
 
   @FXML
   private void keyAction(KeyEvent evt) {
@@ -133,7 +93,11 @@ public class MainViewController extends ViewController {
       Engine().copySelectedSectionsToDomainBuffer();
     if (controlV.match(evt))
       Engine().pastBufferToEngine();
-    }
+    if (controlZ.match(evt))
+      Core.get().undo();
+    if (controlL.match(evt))
+      Core.get().redo();
+  }
 
   @FXML
   private void offerManagerAction() {

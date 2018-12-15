@@ -2,7 +2,7 @@
  * File Created: Tuesday, 13th November 2018
  * Author: MAREL Maud
  * -----
- * Last Modified: Tuesday, 27th November 2018
+ * Last Modified: Friday, 14th December 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 MAREL Maud
@@ -14,7 +14,6 @@ package com.inno.app.room;
 import java.io.Serializable;
 
 public class Seat implements ImmutableSeat, Serializable {
-
   private static final long serialVersionUID = 1L;
   private int _idSeat;
   private double[] _pos = new double[2];

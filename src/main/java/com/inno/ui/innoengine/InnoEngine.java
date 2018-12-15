@@ -2,7 +2,7 @@
  * File Created: Friday, 12th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Thursday, 13th December 2018
+ * Last Modified: Saturday, 15th December 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -38,6 +38,7 @@ public class InnoEngine extends Engine {
   private View _view = null;
   ImmutableSection _buffSection = null;
   private HashMap<String, InnoRectangle> _rectangles = new HashMap<>();
+  private HashMap<String, InnoPolygon> _polygons = new HashMap<>();
   
 
   public InnoEngine(View view, StackPane stackPane) {
@@ -45,12 +46,12 @@ public class InnoEngine extends Engine {
     _view = view;
 
     ImmutableRoom roomData = Core.get().getImmutableRoom();
-
+    
     getPane().setPrefSize(meterToPixel(roomData.getWidth()), meterToPixel(roomData.getHeight()));
     
     setBackgroundColor(Color.valueOf("#282C34"));
     activateGrid(true);
-
+    
     loadSections(roomData);
     loadScene();
   }
@@ -60,16 +61,16 @@ public class InnoEngine extends Engine {
     for (ImmutableSittingSection section : sittingSections) {
       if (section.isRectangle()) {
         System.out.println("Load rectangular sitting section");
-        createRectangularSection(section.getIdSection());
+        createRectangularSection(section.getId());
       } else {
-        System.out.println("Load irregular sitting shape");
-        createIrregularSection(section.getIdSection(), false);
+        System.out.println("Load irregular sitting section");
+        createIrregularSection(section.getId(), false);
       }
     }
   	Collection<? extends ImmutableStandingSection> standingSection = roomData.getImmutableStandingSections().values();
     for (ImmutableStandingSection section : standingSection) {
-      System.out.println("Load irregular standing shape");
-      createIrregularSection(section.getIdSection(), true);
+      System.out.println("Load irregular standing section");
+      createIrregularSection(section.getId(), true);
     }
   }
 
@@ -109,12 +110,14 @@ public class InnoEngine extends Engine {
         public boolean onShapeMoved() {
           Core.get().setScenePositions(pixelToMeter(getNoRotatedParentPos()));
           updateRectangleSectionsOrientation(true);
+          updatePolygonRowsOrientation(true);
           return true;
         }
 
         @Override
         public boolean onShapeReleased() {
           updateRectangleSectionsOrientation(false);
+          updatePolygonRowsOrientation(false);
           return true;
         }
     };
@@ -125,53 +128,67 @@ public class InnoEngine extends Engine {
     addInteractiveShape(shape);
   }
 
+  protected void updatePolygonRowsOrientation(boolean toParent) {
+    for (InnoPolygon shape : _polygons.values()) {
+      Core.get().updateSectionPositions(shape.getID(), pixelToMeter(shape.getNoRotatedParentPos()), false);
+      shape.updateFromData(toParent);
+    }
+  }
+
   public void updateRectangleSectionsOrientation(boolean toParent) {
     for (InnoRectangle shape : _rectangles.values()) {
-      System.out.println(shape.getID());
       Core.get().updateSectionPositions(shape.getID(), pixelToMeter(shape.getNoRotatedParentPos()), true);
       shape.updateFromData(toParent);
     }
   }
 
-  public void createIrregularSection() {
+  public InnoPolygon createIrregularSection() {
     deselect();
     InnoPolygon shape = new InnoPolygon(this, getPane());
     shape.start();
     addInteractiveShape(shape);
+    return shape;
   }
 
-  public void createIrregularSection(String id, double[] pos, Rotate rotation, Color color) {
+  public InnoPolygon createIrregularSection(String id, double[] pos, Rotate rotation, Color color) {
     deselect();
     InnoPolygon shape = new InnoPolygon(this, getPane(), id, pos, rotation, color);
     addInteractiveShape(shape);
     deselect();
+    _polygons.put(shape.getID(), shape);
+    return shape;
   }
 
-  public void createIrregularSection(String id, boolean isStanding) {
+  public InnoPolygon createIrregularSection(String id, boolean isStanding) {
     deselect();
     InnoPolygon shape = new InnoPolygon(this, getPane(), id, isStanding);
     addInteractiveShape(shape);
+    _polygons.put(shape.getID(), shape);
+    return shape;
   }
 
-  public void createRectangularSection() {
+  public InnoRectangle createRectangularSection() {
     deselect();
     InnoRectangle shape = new InnoRectangle(this, getPane());
     shape.start();
     addInteractiveShape(shape);
+    return shape;
   }
 
-  public void createRectangularSection(double x, double y, double width, double height, Rotate rotation, Color color) {
+  public InnoRectangle createRectangularSection(double x, double y, double width, double height, Rotate rotation, Color color) {
     deselect();
     InnoRectangle shape = new InnoRectangle(this, getPane(), x, y, width, height, rotation, color);
     addInteractiveShape(shape);
     _rectangles.put(shape.getID(), shape);
+    return shape;
   }
 
-  public void createRectangularSection(String id) {
+  public InnoRectangle createRectangularSection(String id) {
     deselect();
     InnoRectangle shape = new InnoRectangle(this, getPane(), id);
     addInteractiveShape(shape);
     _rectangles.put(shape.getID(), shape);
+    return shape;
   }
 
   public View getView() {
@@ -237,12 +254,18 @@ public class InnoEngine extends Engine {
 
     ImmutableSection section = core.createSectionFromBuffer();
 
+    if (section == null)
+      return;
+
     if (section.isRectangle()) {
-      createRectangularSection(section.getIdSection());
+      createRectangularSection(section.getId()).select();
+    } else if (section.isStanding()) {
+      createIrregularSection(section.getId(), true).select();
     } else {
-      createIrregularSection(section.getIdSection(), false);
-    }
+      createIrregularSection(section.getId(), false).select();
   }
+  core.copySectionToBuffer(getSelectedShape().getID());
+}
 
   /**
    * Update all sections vital which have old one
@@ -259,7 +282,30 @@ public class InnoEngine extends Engine {
     _rectangles.put(rectangle.getID(), rectangle);
   }
 
-  public void deleteShape(String id) {
+  public void deleteRectangle(String id) {
     _rectangles.remove(id);
+  }
+
+  public void addPolygon(InnoPolygon polygon) {
+    _polygons.put(polygon.getID(), polygon);
+  }
+
+  public void deletePolygon(String id) {
+    _polygons.remove(id);
+  }
+
+  public void deleteSittingSection(String _id) {
+    InnoPolygon polygon = _polygons.get(_id);
+    if (polygon != null) {
+      polygon.destroy();
+      _polygons.remove(_id);
+    }
+    else {
+      InnoRectangle rectangle = _rectangles.get(_id);
+      if (rectangle != null) {
+        rectangle.destroy();
+        _rectangles.remove(_id);
+      }
+    }
   }
 }

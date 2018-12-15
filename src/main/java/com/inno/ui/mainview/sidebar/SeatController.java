@@ -2,8 +2,8 @@
  * File Created: Tuesday, 13th November 2018
  * Author: MAREL Maud
  * -----
- * Last Modified: Wednesday, 12th December 2018
- * Modified By: HUBERT Léo
+ * Last Modified: Saturday, 15th December 2018
+ * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 MAREL Maud
  * <<licensetext>>
@@ -91,8 +91,8 @@ public class SeatController extends ViewController {
 
     seat_number_info.setText(seat_number_info.getText() + "  " + row.getSelectedSeat().getId());
     row_number_info.setText(row_number_info.getText() + "  " + row.getImmutableRow().getIdRow());
-    section_number_info.setText(section_number_info.getText() + "  " + row.getImmutableSection().getIdSection());
-    ImmutablePlaceRate place = Core().getSeatPrice(row.getImmutableSection().getIdSection(),
+    section_number_info.setText(section_number_info.getText() + "  " + row.getImmutableSection().getId());
+    ImmutablePlaceRate place = Core().getSeatPrice(row.getImmutableSection().getId(),
         row.getImmutableRow().getIdRow(), Integer.toString(row.getSelectedSeat().getId()));
     if (place != null) {
       seat_price_info.setText(seat_price_info.getText() + "  " + (place.getPrice() != -1 ? place.getPrice() : "NA"));
@@ -109,7 +109,7 @@ public class SeatController extends ViewController {
 
     available_offers_list.setOnMouseClicked((e) -> {
       if (e.getClickCount() == 2 && available_offers_list.getFocusModel().getFocusedItem() != null) {
-        Core().addSeatOffer(row.getImmutableSection().getIdSection(), row.getImmutableRow().getIdRow(),
+        Core().addSeatOffer(row.getImmutableSection().getId(), row.getImmutableRow().getIdRow(),
             Integer.toString(row.getSelectedSeat().getId()), available_offers_list.getFocusModel().getFocusedItem());
         available_offers_list.getItems().remove(available_offers_list.getFocusModel().getFocusedItem());
         refreshOffer();
@@ -118,7 +118,7 @@ public class SeatController extends ViewController {
 
     attributed_offers_list.setOnMouseClicked((e) -> {
       if (e.getClickCount() == 2 && attributed_offers_list.getFocusModel().getFocusedItem() != null) {
-        Core().removeSeatOffer(row.getImmutableSection().getIdSection(), row.getImmutableRow().getIdRow(),
+        Core().removeSeatOffer(row.getImmutableSection().getId(), row.getImmutableRow().getIdRow(),
             Integer.toString(row.getSelectedSeat().getId()), attributed_offers_list.getFocusModel().getFocusedItem());
         available_offers_list.getItems().add(attributed_offers_list.getFocusModel().getFocusedItem());
         refreshOffer();
@@ -139,7 +139,7 @@ public class SeatController extends ViewController {
     Core().refreshOfferList();
     available_offers_list.setItems(Core().getObservableOffersList());
 
-    ArrayList<? extends ImmutableOffer> offers = Core().getSeatPrice(row.getImmutableSection().getIdSection(),
+    ArrayList<? extends ImmutableOffer> offers = Core().getSeatPrice(row.getImmutableSection().getId(),
         row.getImmutableRow().getIdRow(), Integer.toString(row.getSelectedSeat().getId())).getImmutableOffers();
     attributed_offers_list.getItems().clear();
     offers.forEach((offer) -> {
@@ -159,7 +159,7 @@ public class SeatController extends ViewController {
       }
       try {
         if (seat_price_input.getText().trim().length() != 0) {
-          Core().setSeatPrice(row.getImmutableSection().getIdSection(), row.getImmutableRow().getIdRow(),
+          Core().setSeatPrice(row.getImmutableSection().getId(), row.getImmutableRow().getIdRow(),
               Integer.toString(row.getSelectedSeat().getId()), Double.parseDouble(seat_price_input.getText()),
               "#" + Integer.toHexString(seat_price_color_picker.getValue().hashCode()));
           // seat_price_info.setText(seat_price_input.getText().trim().length() != 0 ?
@@ -170,7 +170,7 @@ public class SeatController extends ViewController {
           seat_price_color_picker.setDisable(false);
         } else {
           seat_price_color_picker.setDisable(true);
-          Core().setSeatPrice(row.getImmutableSection().getIdSection(), row.getImmutableRow().getIdRow(),
+          Core().setSeatPrice(row.getImmutableSection().getId(), row.getImmutableRow().getIdRow(),
               Integer.toString(row.getSelectedSeat().getId()), Double.parseDouble("-1"), "#FFA500");
           seat_price_color_info.setFill(Color.valueOf("#FFA500"));
           row.resetRowColor();

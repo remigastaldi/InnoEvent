@@ -2,7 +2,7 @@
  * File Created: Friday, 12th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Tuesday, 11th December 2018
+ * Last Modified: Thursday, 13th December 2018
  * Modified By: HUBERT Léo
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -19,7 +19,6 @@ public class OfferOperation implements ImmutableOfferOperation, Serializable {
   private String _value;
   private RelationalOperator _relationalOperator;
   private LogicalOperator _logicalOperator;
-  private OfferCondition _parentOfferCondition;
 
   public OfferOperation(String value, RelationalOperator relationalOperator, LogicalOperator logicalOperator) {
     this._value = value;
@@ -40,15 +39,6 @@ public class OfferOperation implements ImmutableOfferOperation, Serializable {
   @Override
   public LogicalOperator getLogicalOperator() {
     return _logicalOperator;
-  }
-
-  @Override
-  public ImmutableOfferCondition getParentCondition() {
-    return _parentOfferCondition;
-  }
-
-  public void setParentCondition(OfferCondition offerCondition) {
-    _parentOfferCondition = offerCondition;
   }
 
   public void setValue(String value) {

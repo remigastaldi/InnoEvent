@@ -2,7 +2,7 @@
  * File Created: Tuesday, 13th November 2018
  * Author: MAREL Maud
  * -----
- * Last Modified: Thursday, 13th December 2018
+ * Last Modified: Saturday, 15th December 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 MAREL Maud
@@ -14,7 +14,6 @@ package com.inno.app.room;
 import java.io.Serializable;
 
 public class Section implements ImmutableSection, Serializable, Cloneable {
-
   private static final long serialVersionUID = 1L;
   private String _nameSection;
   private String _idSection;
@@ -31,7 +30,7 @@ public class Section implements ImmutableSection, Serializable, Cloneable {
     this._positions = positions;
     this._rotation = rotation;
   }
-
+public long getUID() { return serialVersionUID; }
   public void setIdSection(String idSection) {
     this._idSection = idSection;
   }
@@ -52,7 +51,7 @@ public class Section implements ImmutableSection, Serializable, Cloneable {
     this._rotation = rotation;
   }
 
-  public String getIdSection() {
+  public String getId() {
     return this._idSection;
   }
 
@@ -80,11 +79,21 @@ public class Section implements ImmutableSection, Serializable, Cloneable {
     return _userRotation;
   }
 
-  public ImmutableSection clone() throws CloneNotSupportedException {  
-    return (ImmutableSection) super.clone();  
+  @Override
+  public ImmutableSection clone() throws CloneNotSupportedException { 
+    Section copy = (Section) super.clone();
+    copy.updatePosition(_positions.clone());
+
+    return (ImmutableSection) copy;
    }
+
   @Override
   public boolean isRectangle() {
+    return false;
+  }
+
+  @Override
+  public boolean isStanding() {
     return false;
   }
 }

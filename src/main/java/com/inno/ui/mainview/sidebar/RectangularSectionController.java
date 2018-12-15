@@ -2,8 +2,8 @@
  * File Created: Tuesday, 13th November 2018
  * Author: MAREL Maud
  * -----
- * Last Modified: Thursday, 13th December 2018
- * Modified By: HUBERT Léo
+ * Last Modified: Friday, 14th December 2018
+ * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 MAREL Maud
  * <<licensetext>>
@@ -187,8 +187,8 @@ public class RectangularSectionController extends ViewController {
   }
 
   private void setRotation(Double angle, boolean input) {
-    section_rotation_group.setRotate(angle);
-    if (!input) {
+    section_rotation_group.setRotate(angle - 90);
+    if (input) {
       section_rotation_input.setText("" + (angle));
     }
     InteractiveRectangle rectangle = (InteractiveRectangle) getIntent();
@@ -218,9 +218,8 @@ public class RectangularSectionController extends ViewController {
 
       double angle = Math.atan2(pos.getX() - pos2.getX(), -(pos.getY() - pos2.getY())) * (180 / Math.PI);
 
-      System.out.println(angle);
       // angle = convertTo360(angle);
-      setRotation(angle, false);
+      setRotation(angle, true);
     };
     sidebar_content.addEventHandler(MouseEvent.MOUSE_DRAGGED, _mouseDragged);
   }
@@ -253,8 +252,10 @@ public class RectangularSectionController extends ViewController {
         return;
       }
       try {
-        if (section_columns_input.isFocused())
+        if (section_columns_input.isFocused()) {
+          System.out.println(section_columns_input.getText());
           rectangle.setColumnNumber(Integer.parseInt(section_columns_input.getText()));
+        }
         if (section_rows_input.isFocused())
           rectangle.setRowNumber(Integer.parseInt(section_rows_input.getText()));
         if (section_rotation_input.isFocused())
@@ -299,7 +300,7 @@ public class RectangularSectionController extends ViewController {
     fields.put(section_rows_input, "required|numeric|min:1");
     fields.put(section_vital_space_width_input, "required|numeric");
     fields.put(section_vital_space_height_input, "required|numeric");
-    fields.put(section_rotation_input, "required|numeric|min:0|max:360");
+    fields.put(section_rotation_input, "required|numeric|min:-180|max:180");
     fields.put(section_price_input, "numeric|min:0");
 
     for (Map.Entry<TextField, String> entry : fields.entrySet()) {

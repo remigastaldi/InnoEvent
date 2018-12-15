@@ -2,8 +2,8 @@
  * File Created: Tuesday, 9th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Thursday, 13th December 2018
- * Modified By: HUBERT Léo
+ * Last Modified: Saturday, 15th December 2018
+ * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
  * <<licensetext>>
@@ -24,6 +24,8 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.inno.app.InnoSave;
 import com.inno.app.room.*;
+import com.inno.app.undoredo.command.CreateSittingSection;
+import com.inno.app.undoredo.command.CreateStandingSection;
 import com.inno.service.Point;
 import com.inno.service.SettingsService;
 import com.inno.service.Utils;
@@ -32,15 +34,19 @@ import com.inno.service.pricing.ImmutableOfferCondition;
 import com.inno.service.pricing.ImmutableOfferOperation;
 import com.inno.service.pricing.ImmutablePlaceRate;
 import com.inno.service.pricing.Pricing;
+import com.inno.service.undoredo.Command;
+import com.inno.service.undoredo.UndoRedo;
+import com.inno.ui.innoengine.InnoEngine;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 public class Core {
-
+  private InnoEngine _engine = null;
   private static Core _instance = null;
 
   // Services
+  private UndoRedo _undoRedo = new UndoRedo();
   private InnoSave _saveService = new InnoSave();
   private Pricing _pricing = new Pricing();
   private SettingsService _settings = new SettingsService();
@@ -64,6 +70,10 @@ public class Core {
     }
 
     return _instance;
+  }
+
+  public void setEngine(InnoEngine engine) {
+    _engine = engine;
   }
 
   // Room methods
@@ -142,6 +152,7 @@ public class Core {
     this._room.updateSectionPositions(idSection, positions);
   }
 
+  // public void deleteStandingSection(String idSection)
   public void deleteSection(String idSection) {
     HashMap<String, ? extends ImmutablePlaceRate> places = _pricing.getPlaces(idSection);
 
@@ -170,10 +181,10 @@ public class Core {
   }
 
   // standingSection Methods
-  public ImmutableStandingSection createStandingSection(int nbPeople, double[] positions, double rotation) {
-    ImmutableStandingSection section = _room.createStandingSection(nbPeople, positions, rotation);
-    createPlace(section.getIdSection(), "#6378bf");
-    return this._room.createStandingSection(nbPeople, positions, rotation);
+  public void createStandingSection(int nbPeople, double[] positions, double rotation) {
+    Command command = new CreateStandingSection(_engine, _room, nbPeople, positions, rotation);
+    command.execute();
+    _undoRedo.insert(command);
   }
 
   public void setStandingNbPeople(String idSection, int nbPeople) {
@@ -184,15 +195,14 @@ public class Core {
   public ImmutableSittingSection createSittingSection(double[] positions, double rotation, boolean isRectangle) {
     double newRotation = 0d;
     if (isRectangle) {
-      Point pt = new Point(getImmutableRoom().getImmutableScene().getCenter()[0],
-          getImmutableRoom().getImmutableScene().getCenter()[1]);
-      // double[] newPos = Utils.rotateRectangle(pt, positions);
+      Point pt = new Point(Core.get().getImmutableRoom().getImmutableScene().getCenter()[0],
+      Core.get().getImmutableRoom().getImmutableScene().getCenter()[1]);
       newRotation = Utils.calculateRectangleRotation(pt, positions);
     }
     ImmutableSittingSection section = _room.createSittingSection(positions, newRotation, isRectangle);
-
-    createPlace(section.getIdSection(), "#6378bf");
-
+    CreateSittingSection command = new CreateSittingSection(_engine, _room, positions, rotation, isRectangle, section.getId());
+    _undoRedo.insert(command);
+    
     return section;
   }
 
@@ -382,8 +392,10 @@ public class Core {
     try (Writer writer = new FileWriter(path)) {
       System.out.println(path);
       Gson gson = new GsonBuilder().create();
-      gson.toJson(_room, writer);
-      gson.toJson(_pricing, writer);
+      HashMap<String, Object> map = new HashMap<>();
+      map.put("room", _room);
+      map.put("pricing", _pricing);
+      gson.toJson(map, writer);
     } catch (Exception e) {
       System.out.println(e);
     }
@@ -527,12 +539,27 @@ public class Core {
 
   public ImmutableSection createSectionFromBuffer() {
     ImmutableSection section = _room.createSectionFromBuffer();
-    createPlace(section.getIdSection(), "#6378bf");
-    _room.updateSectionPositions(section.getIdSection(), section.getPositions());
+
+    if (section == null)
+      return null;
+
+    double[] pos = section.getPositions();
+    for (int i = 0; i < pos.length; ++i) {
+      pos[i] += 1;
+    }
+    _room.updateSectionPositions(section.getId(), pos);
     return section;
   }
 
   public void copySectionToBuffer(String id) {
     _room.copySectionToBuffer(id);
+  }
+
+  public void undo() {
+    _undoRedo.undo(1);
+  }
+
+  public void redo() {
+    _undoRedo.redo(1);
   }
 };

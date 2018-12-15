@@ -2,7 +2,7 @@
  * File Created: Sunday, 14th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Thursday, 13th December 2018
+ * Last Modified: Saturday, 15th December 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -21,12 +21,14 @@ import com.inno.ui.engine.Engine;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.event.EventType;
+import javafx.geometry.Bounds;
 import javafx.geometry.Point2D;
 import javafx.scene.Group;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 import javafx.scene.transform.Rotate;
 
@@ -39,6 +41,7 @@ public abstract class InteractiveShape<T extends Shape> {
   private ArrayList<Shape> _additionalShapes = new ArrayList<>();
   private String _id = null;
   private Rotate _currentRotation = null;
+  private Rectangle _boundsRect = null;
   // TODO: pass to private
   protected T _shape = null;
   protected Group _group;
@@ -50,8 +53,6 @@ public abstract class InteractiveShape<T extends Shape> {
     _pane = pane;
     _group = new Group();
 
-    // TODO: Change this
-    // _pane.getChildren().add(_group);
   }
 
   // Callback
@@ -247,26 +248,13 @@ public abstract class InteractiveShape<T extends Shape> {
 
   double orgSceneX, orgSceneY;
   double orgTranslateX, orgTranslateY;
+  double boundsTranslateX, boundsTranslateY;
+  Rotate rectBoundsRotation = null;
 
   public void enableSelection() {
-    // EventHandler<MouseEvent> mouseClick = new EventHandler<MouseEvent>() {
-    //   public void handle(MouseEvent event) {
-    //   }
-    // };
-    // EventHandlers().put(MouseEvent.MOUSE_CLICKED, mouseClick);
-    // _shape.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseClick);
-
     EventHandler<MouseEvent> mouseDragged = mouseEvent -> {
       if (onMouseOnDragDetected(mouseEvent)) {
         // TODO: Magnetism between anchors and lines
-
-        // Rectangle shape = new Rectangle(_shape.getX(), _shape.getY(),
-        //                                 _shape.getWidth(), _shape.getHeight());
-        // shape.setFill(Color.TRANSPARENT);
-        // shape.setStroke(Color.WHITE);
-        // ObservableList<Transform> effect = _group.getTransforms();
-        // if (effect != null && effect.size() > 0)
-        //   shape.getTransforms().add(effect.get(0));
 
         Point2D p = Pane().sceneToLocal(mouseEvent.getSceneX(), mouseEvent.getSceneY());
         double offsetX = p.getX() - orgSceneX;
@@ -274,13 +262,52 @@ public abstract class InteractiveShape<T extends Shape> {
         double newTranslateX = orgTranslateX + offsetX;
         double newTranslateY = orgTranslateY + offsetY;
 
-        // Pane().getChildren().add(shape);
-        // shape.setTranslateX(newTranslateX);
-        // shape.setTranslateY(newTranslateY);
+        double testTranslateX = boundsTranslateX + offsetX;
+        double testTranslateY = boundsTranslateY + offsetY;
 
-        // TMP
-        _group.setTranslateX(newTranslateX);
-        _group.setTranslateY(newTranslateY);
+        rectBoundsRotation.setAngle(getRotation().getAngle());
+
+        // System.out.println(_boundsRect.getBoundsInParent().getMinX());
+        // System.out.println(Engine().getBoard().getWidth() - (_boundsRect.getBoundsInParent().getMinX() + _boundsRect.getWidth()));
+        // System.out.println(Engine().getBoard(). getHeight() - (_boundsRect.getBoundsInParent().getMinY() + _boundsRect.getHeight()));
+        double boardWidth = Engine().getBoard().getWidth();
+        double boardHeight = Engine().getBoard().getHeight();
+        Bounds rectBounds = _boundsRect.getBoundsInParent();
+        Bounds groupBounds = _group.getBoundsInParent();
+        if (rectBounds.getMaxX() >= boardWidth || rectBounds.getMinX() <= Engine().getBoard().getX()) {
+          if (rectBounds.getMinX() <= Engine().getBoard().getX())
+            _boundsRect.setTranslateX(testTranslateX - rectBounds.getMinX());
+          else if (rectBounds.getMaxX() >= Engine().getBoard().getHeight()) {
+            _boundsRect.setTranslateX(testTranslateX - (rectBounds.getMaxX() - boardWidth));
+          } else
+            _boundsRect.setTranslateX(testTranslateX);
+
+          if (Engine().isOutOfBoard(_boundsRect) 
+            && groupBounds.getMinY() - 2 > Engine().getBoard().getY()
+            && groupBounds.getMaxY() + 2 < Engine().getBoard().getHeight()) {
+              _group.setTranslateY(newTranslateY);
+          }
+        } else if (rectBounds.getMaxY() >= boardHeight || rectBounds.getMinY() <= Engine().getBoard().getY()) {
+          if (rectBounds.getMinY() <= Engine().getBoard().getY())
+            _boundsRect.setTranslateY(testTranslateY - rectBounds.getMinY());
+          else if (rectBounds.getMaxY() >= Engine().getBoard().getHeight()) {
+            _boundsRect.setTranslateY(testTranslateY - (rectBounds.getMaxY() - boardHeight));
+          } else
+            _boundsRect.setTranslateY(testTranslateY);
+
+          if (Engine().isOutOfBoard(_boundsRect)
+            && groupBounds.getMinX() - 2 > Engine().getBoard().getX()
+            && groupBounds.getMaxX() + 2 < Engine().getBoard().getWidth()) {
+              _group.setTranslateX(newTranslateX);
+          }
+        } else {
+          _boundsRect.setTranslateX(testTranslateX);
+          _boundsRect.setTranslateY(testTranslateY);
+          if (!Engine().isOutOfBoard(_boundsRect)) {
+            _group.setTranslateX(newTranslateX);
+            _group.setTranslateY(newTranslateY);
+          }
+        }
 
         // if (!Engine().isObjectUnderCursor(shape)) {
         //   // _group.setTranslateX(newTranslateX);
@@ -296,17 +323,33 @@ public abstract class InteractiveShape<T extends Shape> {
     _shape.addEventHandler(MouseEvent.MOUSE_DRAGGED, mouseDragged);
 
     _group.setOnMousePressed(mouseEvent -> {
-      select();
       Point2D p = Pane().sceneToLocal(mouseEvent.getSceneX(), mouseEvent.getSceneY());
 
       orgSceneX = p.getX();
       orgSceneY = p.getY();
       orgTranslateX = ((Group) (_group)).getTranslateX();
       orgTranslateY = ((Group) (_group)).getTranslateY();
+
+      Bounds bounds = _shape.getBoundsInParent();
+      Point2D bMin = _group.localToParent(bounds.getMinX(), bounds.getMinY());
+      // Point2D bMax = _group.localToParent(bounds.getMaxX(), bounds.getMaxY());
+      _boundsRect = new Rectangle(bMin.getX(), bMin.getY(), bounds.getMaxX() - bounds.getMinX(), bounds.getMaxY() - bounds.getMinY());
+      _boundsRect.setFill(Color.TRANSPARENT);
+      _boundsRect.setStroke(Color.GOLD);
+      _boundsRect.setStrokeWidth(0.3);
+      rectBoundsRotation = new Rotate(getRotation().getAngle(), _boundsRect.getX(), _boundsRect.getY());
+      _boundsRect.getTransforms().add(rectBoundsRotation);
+      Pane().getChildren().add(_boundsRect);
+
+      boundsTranslateX = ((Rectangle) (_boundsRect)).getTranslateX();
+      boundsTranslateY = ((Rectangle) (_boundsRect)).getTranslateY();
+      select();
     });
 
     _group.setOnMouseReleased(mouseEvent -> {
       onShapeReleased();
+      rectBoundsRotation = null;
+      Pane().getChildren().remove(_boundsRect);
     });
   }
 

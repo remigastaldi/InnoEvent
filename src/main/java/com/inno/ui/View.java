@@ -2,8 +2,8 @@
  * File Created: Wednesday, 10th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Wednesday, 12th December 2018
- * Modified By: MAREL Maud
+ * Last Modified: Saturday, 15th December 2018
+ * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
  * <<licensetext>>
@@ -29,6 +29,7 @@ import javafx.scene.layout.AnchorPane;
 
 import java.io.File;
 
+import com.inno.app.Core;
 import com.inno.ui.innoengine.InnoEngine;
 
 public class View extends Application {
@@ -264,6 +265,7 @@ public class View extends Application {
 
   public void createEngine(StackPane stackPane) {
     _engine = new InnoEngine(this, stackPane);
+    Core.get().setEngine(_engine);
   }
 
   public InnoEngine getEngine() {

@@ -2,7 +2,7 @@
  * File Created: Friday, 12th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Sunday, 2nd December 2018
+ * Last Modified: Friday, 14th December 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -12,8 +12,6 @@
 package com.inno.service;
 
 import java.util.UUID;
-import java.util.Vector;
-import javafx.geometry.Point2D;
 
 public class Utils {
     public static boolean insidePolygon(Point polygon[],Point p)

@@ -2,7 +2,7 @@
  * File Created: Tuesday, 13th November 2018
  * Author: MAREL Maud
  * -----
- * Last Modified: Monday, 10th December 2018
+ * Last Modified: Friday, 14th December 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 MAREL Maud
@@ -98,6 +98,10 @@ public class SittingSection extends Section implements ImmutableSection, Immutab
     return this._rows;
   }
 
+  private void setRows(ArrayList<SittingRow> rows) {
+    _rows = rows;
+  }
+
   public ArrayList<? extends ImmutableSittingRow> getImmutableSittingRows() {
     return this._rows;
   }
@@ -109,5 +113,18 @@ public class SittingSection extends Section implements ImmutableSection, Immutab
   @Override
   public boolean isRectangle() {
     return _isRectangle;
+  }
+
+  @Override
+  public boolean isStanding() {
+    return false;
+  }
+
+  @Override
+  public SittingSection clone() throws CloneNotSupportedException {
+    SittingSection copy = (SittingSection) super.clone();
+
+    copy.setRows(new ArrayList<>());
+    return copy;
   }
 }
