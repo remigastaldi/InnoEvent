@@ -2,7 +2,7 @@
  * File Created: Friday, 12th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Wednesday, 12th December 2018
+ * Last Modified: Friday, 14th December 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -20,6 +20,7 @@ import com.inno.ui.engine.shape.InteractiveShape;
 
 import javafx.beans.value.ChangeListener;
 import javafx.event.EventHandler;
+import javafx.geometry.Bounds;
 import javafx.geometry.Point2D;
 import javafx.scene.Group;
 import javafx.scene.Node;
@@ -375,5 +376,24 @@ public class Engine {
   public void toggleMagnetism() {
     _magenetismManager.toggleMagnetism();
   }
-}
 
+  public boolean isOutOfBoard(Shape shape) {
+    boolean isOut = false;
+
+    Bounds bounds = shape.getBoundsInParent();
+
+    Point2D min = new Point2D(bounds.getMinX(), bounds.getMinY());
+    Point2D max = new Point2D(bounds.getMaxX(), bounds.getMaxY());
+    if (_board.getBoundsInLocal().contains(min.getX(), min.getY(), max.getX() - min.getX(), max.getY() - min.getY())) {
+      isOut = false;
+    } else
+      isOut = true;
+
+    
+    return isOut;
+  }
+
+  public Rectangle getBoard() {
+    return _board;
+  }
+}
