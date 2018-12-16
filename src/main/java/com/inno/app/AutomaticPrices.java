@@ -184,7 +184,7 @@ public class AutomaticPrices {
                         double rowPrice = 0;
                         int seatsInRow = 0;
                         for (ImmutableSittingRow row : room.getImmutableSittingSections().get(rowid.getKey()).getImmutableSittingRows()) {
-                            if (row.getIdRow() == rowid.getValue()) {
+                            if (row.getIdRow().equals(rowid.getValue())) {
                                 for (ImmutableSeat seat : row.getSeats()) {
                                     rowPrice += Core.get().getSeatPrice(rowid.getKey(), row.getIdRow(), Integer.toString(seat.getId())).getPrice();
                                     seatsInRow++;

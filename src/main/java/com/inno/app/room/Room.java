@@ -36,7 +36,7 @@ public class Room implements ImmutableRoom, Serializable {
     private ImmutableSittingSection _bufferedSittingSection = null;
     private ImmutableStandingSection _bufferedStandingSection = null;
     private static IdHandler _idHandler = new IdHandler();
-    
+
     public Room(String name, double width, double height, double widthVitalSpace, double heightVitalSpace) {
         this._name = name;
         this._width = width;
@@ -436,9 +436,9 @@ public class Room implements ImmutableRoom, Serializable {
 
                 Point pt = new Point(posx, posy);
                 Point pt1 = new Point(posx - vitalSpaceWidth / 2, posy);
-                Point pt2 = new Point(posx, posy - vitalSpaceHeight);
+                Point pt2 = new Point(posx, posy - vitalSpaceHeight / 2);
                 Point pt3 = new Point(posx + vitalSpaceWidth / 2, posy);
-                Point pt4 = new Point(posx, posy + vitalSpaceHeight);
+                Point pt4 = new Point(posx, posy + vitalSpaceHeight / 2);
 
                 if (Utils.insidePolygon(polyTemp, pt1) && Utils.insidePolygon(polyTemp, pt2)
                         && Utils.insidePolygon(polyTemp, pt3) && Utils.insidePolygon(polyTemp, pt4)) {
