@@ -233,6 +233,11 @@ public class Utils {
         return max;
     }
 
+    public static Point midPoint(Point p1, Point p2)
+    {
+        return new Point(((p1.get_x()+p2.get_x())/2),((p1.get_y()+p2.get_y())/2));
+    }
+
     public static Point[] mirrorRectangle(Point[] rectangle)
     {
         System.out.println("PRINT_4");
