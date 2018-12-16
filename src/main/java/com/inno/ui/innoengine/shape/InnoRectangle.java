@@ -274,7 +274,7 @@ public class InnoRectangle extends InteractiveRectangle {
     updateRowsFromData(toParent);
   }
 
-  private void updatePositionFromData() {
+  public void updatePositionFromData() {
     double[] pos = parentToLocal(((InnoEngine)Engine()).meterToPixel(_sectionData.getPositions()));
 
     setPoints(pos);

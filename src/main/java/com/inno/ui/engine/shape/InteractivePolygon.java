@@ -268,7 +268,6 @@ public class InteractivePolygon extends InteractiveShape<Polygon> {
   
   @Override
   public void updatePoints(double[] newPoints) {
-    System.out.println("+++++++++ " + newPoints[0]);
     int j = 0;
     for (CircleAnchor anchor : _anchors) {
       anchor.setCenterX(newPoints[j]);

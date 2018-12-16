@@ -18,7 +18,7 @@ import com.inno.service.Utils;
 import com.inno.service.undoredo.Command;
 import com.inno.ui.innoengine.InnoEngine;
 
-public class UpdateSectionPositions implements Command{
+public class UpdateSectionPositions implements Command {
   private InnoEngine _engine = null;
   private Room _room = null;
   private String _idSection = null;

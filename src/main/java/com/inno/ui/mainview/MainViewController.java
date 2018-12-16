@@ -3,7 +3,7 @@
  * Author: GASTALDI Rémi
  * -----
  * Last Modified: Saturday, 15th December 2018
- * Modified By: MAREL Maud
+ * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
  * <<licensetext>>
@@ -112,7 +112,7 @@ public class MainViewController extends ViewController {
           });
         }
       }
-    }, 0, 1000);
+    }, 0, 500);
   }
 
   @FXML

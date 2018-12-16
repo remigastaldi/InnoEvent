@@ -316,8 +316,20 @@ public class InnoEngine extends Engine {
     }
     else {
       InnoRectangle rectangle = _rectangles.get(id);
+      ImmutableSittingSection section = Core.get().getImmutableRoom().getImmutableSittingSections().get(rectangle.getID());
+      
       if (rectangle != null) {
-        rectangle.updateFromData(false);
+        double[] pos = rectangle.parentToLocal(meterToPixel(section.getPositions()));
+
+        rectangle.setPoints(pos);
+        // rectangle.setRotation(new Rotate(section.getRotation(), meterToPixel(section.getPositions())[0], meterToPixel(section.getPositions())[1]));
+        // rectangle.getRotation().setPivotX(pos[0]);
+        // rectangle.getRotation().setPivotY(pos[1]);
+    
+        rectangle.updateRowsFromData(false);
+        rectangle.setRotationAngle(section.getRotation());
+    
+        // rectangle.updateFromData(false);
       }
     }
   }

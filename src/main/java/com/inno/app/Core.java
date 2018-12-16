@@ -19,35 +19,26 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.TreeSet;
 
-import com.google.common.collect.Multimap;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.inno.app.InnoSave;
-import com.inno.app.room.*;
+import com.inno.app.room.ImmutableRoom;
+import com.inno.app.room.ImmutableScene;
+import com.inno.app.room.ImmutableSection;
+import com.inno.app.room.ImmutableSittingSection;
+import com.inno.app.room.ImmutableStandingSection;
+import com.inno.app.room.Room;
 import com.inno.app.undoredo.UndoRedoHelper;
-import com.inno.app.undoredo.command.CreateSittingSection;
-import com.inno.app.undoredo.command.CreateStandingSection;
-import com.inno.app.undoredo.command.UpdateSectionPositions;
-import com.inno.service.Point;
 import com.inno.service.SettingsService;
-import com.inno.service.Utils;
-import com.inno.service.Triplet;
 import com.inno.service.pricing.ImmutableOffer;
 import com.inno.service.pricing.ImmutableOfferCondition;
 import com.inno.service.pricing.ImmutableOfferOperation;
 import com.inno.service.pricing.ImmutablePlaceRate;
 import com.inno.service.pricing.Pricing;
-import com.inno.service.undoredo.Command;
-import com.inno.service.undoredo.UndoRedo;
 import com.inno.ui.innoengine.InnoEngine;
-import com.inno.app.AutomaticPrices;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.util.Pair;
-import jdk.nashorn.internal.ir.annotations.Immutable;
 
 public class Core {
   private InnoEngine _engine = null;

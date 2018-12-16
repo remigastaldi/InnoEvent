@@ -144,7 +144,6 @@ public class InteractiveRectangle extends InteractiveShape<Rectangle> {
     });
     resizeHandleLU.centerYProperty().addListener((ChangeListener<Number>) (ov, oldY, newY) -> {
       if (maxYProperty.get() - _shape.getY() != _shape.getHeight()) {
-        // System.out.println("++++++++++++++++++++++++++++++++++= X" + getX() + " Y " + newY.doubleValue());
       _shape.setY(newY.doubleValue());
       _shape.setHeight(maxYProperty.get() - _shape.getY());
       // onShapeResized();
@@ -198,13 +197,12 @@ public class InteractiveRectangle extends InteractiveShape<Rectangle> {
 
   @Override
   public void setPoints(double[] pos) {
-    System.out.println("+++++++++ " + pos[0]);
-    // int j = 0;
-    // for (CircleAnchor anchor : _anchors) {
-    //   anchor.setCenterX(pos[j]);
-    //   anchor.setCenterY(pos[j + 1]);
-    //   j += 2;
-    // }
+    int j = 0;
+    for (CircleAnchor anchor : _anchors) {
+      anchor.setCenterX(pos[j]);
+      anchor.setCenterY(pos[j + 1]);
+      j += 2;
+    }
 
 
     setX(pos[0]);
