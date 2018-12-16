@@ -360,7 +360,7 @@ public class Room implements ImmutableRoom, Serializable {
             updatePolygonRows(positions, sittingSection);
         }
 
-    //    Core.get().setAutomaticPrices(50, 200, 1000, Core.AttributionType.SEAT);
+//        Core.get().setAutomaticPrices(50, 200, 1000, Core.AttributionType.SEAT);
         return sittingSection;
     }
 
@@ -435,7 +435,7 @@ public class Room implements ImmutableRoom, Serializable {
 		        posx -= vitalSpaceHeight;
 		    }
 
-            double posy = lowestY + vitalSpaceWidth / 2;
+            double posy = lowestY + vitalSpaceWidth;
 
 		    do {
 		        if (!rowCreated) {

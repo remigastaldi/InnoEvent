@@ -133,12 +133,19 @@ public class AutomaticPrices {
                     int totalElements = listid.size();
                     if (totalElements > 1) {
                         double s = 0;
+                        int r = 0;
+                        int g = 0;
+                        int b = 0;
                         for (Triplet<String, String, Integer> seatid : listid) {
                             s += Core.get().getSeatPrice(seatid.getFirst(), seatid.getSecond(), Integer.toString(seatid.getThird())).getPrice();
+                            String color = Core.get().getSeatPrice(seatid.getFirst(), seatid.getSecond(), Integer.toString(seatid.getThird())).getColor();
+                            r += Integer.parseInt(color.substring(1,3), 16);
+                            g += Integer.parseInt(color.substring(3,5), 16);
                         }
+                        String hex = String.format("#%02x%02x%02x", r/totalElements, g/totalElements, b);
                         double price = s / totalElements;
                         for (Triplet<String, String, Integer> seatid : listid) {
-                            Core.get().setSeatPrice(seatid.getFirst(), seatid.getSecond(), Integer.toString(seatid.getThird()), price);
+                            Core.get().setSeatPrice(seatid.getFirst(), seatid.getSecond(), Integer.toString(seatid.getThird()), price, hex);
                         }
                     }
                 }
