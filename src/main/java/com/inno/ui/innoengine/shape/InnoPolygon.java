@@ -3,7 +3,7 @@
  * Author: GASTALDI Rémi
  * -----
  * Last Modified: Saturday, 15th December 2018
- * Modified By: MAREL Maud
+ * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
  * <<licensetext>>
@@ -19,8 +19,6 @@ import com.inno.app.room.ImmutableSection;
 import com.inno.app.room.ImmutableSittingRow;
 import com.inno.app.room.ImmutableSittingSection;
 import com.inno.app.room.ImmutableStandingSection;
-import com.inno.app.room.Section;
-import com.inno.ui.View;
 import com.inno.ui.engine.shape.InteractivePolygon;
 import com.inno.ui.innoengine.InnoEngine;
 import com.inno.ui.innoengine.InnoRow;
@@ -98,8 +96,14 @@ public class InnoPolygon extends InteractivePolygon {
       return true;
 
     Core.get().updateSectionPositions(getID(), ((InnoEngine)Engine()).pixelToMeter(getPointsInParent()), false);
-    updatePositionFromData();
+    updateFromData(true);
     
+    return true;
+  }
+
+  @Override
+  public boolean onShapeReleased() {
+    updateFromData(false);
     return true;
   }
 
@@ -131,7 +135,7 @@ public class InnoPolygon extends InteractivePolygon {
   @Override
   public boolean onAnchorDragged() {
     Core.get().updateSectionPositions(getID(), ((InnoEngine)Engine()).pixelToMeter(getNoRotatedParentPos()), false);
-    updatePositionFromData();
+    updatePositionsFromData();
     updateRowsFromData(true);
     
     return true;
@@ -180,12 +184,13 @@ public class InnoPolygon extends InteractivePolygon {
     }
 
   public void updateFromData(boolean toParent) {
-    updatePositionFromData();
+    updatePositionsFromData();
     updateRowsFromData(toParent);
   }
 
-  private void updatePositionFromData() {
-      setPoints(parentToLocal(((InnoEngine)Engine()).meterToPixel(_sittingSectionData.getPositions())));
+  private void updatePositionsFromData() {
+      // setPoints(parentToLocal(((InnoEngine)Engine()).meterToPixel(_sittingSectionData.getPositions())));
+      updatePoints(parentToLocal(((InnoEngine)Engine()).meterToPixel(_sittingSectionData.getPositions())));
   }
 
   public void updateRowsFromData(boolean toParent) {

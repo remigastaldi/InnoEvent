@@ -79,6 +79,7 @@ public abstract class InteractiveShape<T extends Shape> {
 
   // TODO: Generic points
   public abstract void setPoints(double[] points);
+  public abstract void updatePoints(double[] points);
   public abstract double[] getPoints();
   public abstract double[] getPointsInParent();
   public abstract double[] getNoRotatedParentPos();
@@ -334,12 +335,12 @@ public abstract class InteractiveShape<T extends Shape> {
       Point2D bMin = _group.localToParent(bounds.getMinX(), bounds.getMinY());
       // Point2D bMax = _group.localToParent(bounds.getMaxX(), bounds.getMaxY());
       _boundsRect = new Rectangle(bMin.getX(), bMin.getY(), bounds.getMaxX() - bounds.getMinX(), bounds.getMaxY() - bounds.getMinY());
-      _boundsRect.setFill(Color.TRANSPARENT);
-      _boundsRect.setStroke(Color.GOLD);
-      _boundsRect.setStrokeWidth(0.3);
+      // _boundsRect.setFill(Color.TRANSPARENT);
+      // _boundsRect.setStroke(Color.GOLD);
+      // _boundsRect.setStrokeWidth(0.3);
       rectBoundsRotation = new Rotate(getRotation().getAngle(), _boundsRect.getX(), _boundsRect.getY());
       _boundsRect.getTransforms().add(rectBoundsRotation);
-      Pane().getChildren().add(_boundsRect);
+      // Pane().getChildren().add(_boundsRect);
 
       boundsTranslateX = ((Rectangle) (_boundsRect)).getTranslateX();
       boundsTranslateY = ((Rectangle) (_boundsRect)).getTranslateY();

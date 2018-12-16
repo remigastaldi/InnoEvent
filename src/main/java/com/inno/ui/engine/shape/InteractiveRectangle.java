@@ -76,7 +76,7 @@ public class InteractiveRectangle extends InteractiveShape<Rectangle> {
     };
     EventHandler<MouseEvent> mouseReleasedEvent = event -> {
       if (_collisionDetected)
-      return;
+        return;
       EventHandler<MouseEvent> mouseReleaseEvent = EventHandlers().remove(MouseEvent.MOUSE_RELEASED);
       Pane().removeEventHandler(MouseEvent.MOUSE_RELEASED, mouseReleaseEvent);
       Pane().removeEventHandler(MouseEvent.MOUSE_DRAGGED, mouseDraggedEvent);
@@ -196,11 +196,26 @@ public class InteractiveRectangle extends InteractiveShape<Rectangle> {
     addOutboundShape(line);
   }
 
+  @Override
   public void setPoints(double[] pos) {
+    System.out.println("+++++++++ " + pos[0]);
+    // int j = 0;
+    // for (CircleAnchor anchor : _anchors) {
+    //   anchor.setCenterX(pos[j]);
+    //   anchor.setCenterY(pos[j + 1]);
+    //   j += 2;
+    // }
+
+
     setX(pos[0]);
     setY(pos[1]);
     setWidth(Math.hypot(pos[0] - pos[2], pos[1] - pos[3]));
     setHeight(Math.hypot(pos[6] - pos[0], pos[7] - pos[1]));
+  }
+
+  @Override
+  public void updatePoints(double[] points) {
+    
   }
 
   public void setX(double x) {
@@ -346,4 +361,5 @@ public class InteractiveRectangle extends InteractiveShape<Rectangle> {
 
     return rotated;
   }
+
 }

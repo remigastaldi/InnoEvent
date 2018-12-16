@@ -2,7 +2,7 @@
  * File Created: Sunday, 14th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Thursday, 13th December 2018
+ * Last Modified: Saturday, 15th December 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -256,6 +256,28 @@ public class InteractivePolygon extends InteractiveShape<Polygon> {
     _shape.getPoints().clear();
     for (double point : points) {
       _shape.getPoints().add(point);
+    }
+    // TODO: dynamic with new points
+    // int i = 0;
+    // for (CircleAnchor anchor : _anchors) {
+    //   anchor.setCenterX(points[i]);
+    //   anchor.setCenterY(points[i + 1]);
+    //   i += 2;
+    // }
+  }
+  
+  @Override
+  public void updatePoints(double[] newPoints) {
+    System.out.println("+++++++++ " + newPoints[0]);
+    int j = 0;
+    for (CircleAnchor anchor : _anchors) {
+      anchor.setCenterX(newPoints[j]);
+      anchor.setCenterY(newPoints[j + 1]);
+      j += 2;
+    }
+    ObservableList<Double> points = _shape.getPoints();
+    for (int i =0; i < newPoints.length; ++i) {
+      points.set(i, newPoints[i]);
     }
   }
 
