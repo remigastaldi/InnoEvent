@@ -1,9 +1,9 @@
 /*
  * File Created: Saturday, 15th December 2018
- * Author: GASTALDI Rémi
+ * Author: GASTALDI R??mi
  * -----
  * Last Modified: Saturday, 15th December 2018
- * Modified By: GASTALDI Rémi
+ * Modified By: GASTALDI R??mi
  * -----
  * Copyright - 2018 GASTALDI Remi
  * <<licensetext>>

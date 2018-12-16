@@ -3,7 +3,7 @@
  * Author: GASTALDI Rémi
  * -----
  * Last Modified: Saturday, 15th December 2018
- * Modified By: GASTALDI Rémi
+ * Modified By: MAREL Maud
 
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -136,24 +136,34 @@ public class Room implements ImmutableRoom, Serializable {
     public ImmutableStandingSection sittingToStandingSection(String idSection) {
         ImmutableSittingSection oldSection = null;
         ImmutableStandingSection newSection = null;
+        String id = null;
 
         oldSection = this._sittingSections.get(idSection);
         newSection = this.createStandingSection(0, oldSection.getPositions(), oldSection.getRotation());
         this.getSectionById(newSection.getId()).setNameSection(oldSection.getNameSection());
         this.getSectionById(newSection.getId()).setElevation(oldSection.getElevation());
         deleteSection(idSection);
+        id = newSection.getId();
+        this.getSectionById(newSection.getId()).setIdSection(idSection);
+        StandingSection obj = this._standingSections.remove(id);
+        this._standingSections.put(newSection.getId(), obj);
         return newSection;
     }
 
     public ImmutableSittingSection standingToSittingSection(String idSection) {
         ImmutableStandingSection oldSection = null;
         ImmutableSittingSection newSection = null;
+        String id = null;
 
         oldSection = this._standingSections.get(idSection);
         newSection = this.createSittingSection(oldSection.getPositions(), oldSection.getRotation(), false);
         this.getSectionById(newSection.getId()).setNameSection(oldSection.getNameSection());
         this.getSectionById(newSection.getId()).setElevation(oldSection.getElevation());
         deleteSection(idSection);
+        id = newSection.getId();
+        this.getSectionById(newSection.getId()).setIdSection(idSection);
+        SittingSection obj = this._sittingSections.remove(id);
+        this._sittingSections.put(newSection.getId(), obj);
         return newSection;
     }
 

@@ -23,7 +23,7 @@
                <children>
                   <ButtonBar buttonMinWidth="0.0" centerShape="false" layoutY="29.0" prefWidth="1280.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
                      <buttons>
-                        <Button maxHeight="25.0" maxWidth="25.0" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="25.0" prefWidth="25.0" ButtonBar.buttonData="LEFT">
+                        <Button maxHeight="25.0" maxWidth="25.0" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#menuUndoAction" prefHeight="25.0" prefWidth="25.0" ButtonBar.buttonData="LEFT">
                            <graphic>
                               <ImageView fitHeight="15.0" fitWidth="15.0" preserveRatio="true">
                                  <image>
@@ -35,7 +35,7 @@
                               <Tooltip text="Undo" />
                            </tooltip>
                         </Button>
-                        <Button maxHeight="25.0" maxWidth="25.0" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="25.0" prefWidth="25.0" ButtonBar.buttonData="LEFT">
+                        <Button maxHeight="25.0" maxWidth="25.0" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#menuRedoAction" prefHeight="25.0" prefWidth="25.0" ButtonBar.buttonData="LEFT">
                            <graphic>
                               <ImageView fitHeight="15.0" fitWidth="15.0" nodeOrientation="RIGHT_TO_LEFT" preserveRatio="true">
                                  <image>
@@ -165,8 +165,8 @@
                     </Menu>
                     <Menu mnemonicParsing="false" text="Edit">
                       <items>
-                        <MenuItem mnemonicParsing="false" text="Undo" />
-                        <MenuItem mnemonicParsing="false" text="Redo" />
+                        <MenuItem mnemonicParsing="false" onAction="#menuUndoAction" text="Undo" />
+                        <MenuItem mnemonicParsing="false" onAction="#menuRedoAction" text="Redo" />
                         <SeparatorMenuItem mnemonicParsing="false" />
                         <MenuItem mnemonicParsing="false" text="Delete" />
                         <SeparatorMenuItem mnemonicParsing="false" />

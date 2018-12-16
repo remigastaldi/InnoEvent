@@ -3,7 +3,7 @@
  * Author: GASTALDI Rémi
  * -----
  * Last Modified: Saturday, 15th December 2018
- * Modified By: GASTALDI Rémi
+ * Modified By: MAREL Maud
  * -----
  * Copyright - 2018 GASTALDI Rémi
  * <<licensetext>>
@@ -20,6 +20,7 @@ import com.inno.app.room.ImmutableSittingRow;
 import com.inno.app.room.ImmutableSittingSection;
 import com.inno.app.room.ImmutableStandingSection;
 import com.inno.app.room.Section;
+import com.inno.ui.View;
 import com.inno.ui.engine.shape.InteractivePolygon;
 import com.inno.ui.innoengine.InnoEngine;
 import com.inno.ui.innoengine.InnoRow;
@@ -210,16 +211,23 @@ public class InnoPolygon extends InteractivePolygon {
   }
 
   public void sittingToStanding() {
+    InnoEngine engine = (InnoEngine) Engine();
     _standingSectionData = Core.get().sittingToStandingSection(_sittingSectionData.getId());
     _sittingSectionData = null;
-    
     destroyRows();
+    engine.getView().setSidebarFromFxmlFileName("sidebar_standing_section.fxml", this);
   }
 
   public void standingToSitting() {
+    InnoEngine engine = (InnoEngine) Engine();
     _sittingSectionData = Core.get().standingToSittingSection(_standingSectionData.getId());
     _standingSectionData = null;
     updateFromData(false);
+    engine.getView().setSidebarFromFxmlFileName("sidebar_irregular_sitting_section.fxml", this);
+  }
+
+  public void setVitalSpace(double width, double height) {
+    Core.get().setSittingSectionVitalSpace(_sittingSectionData.getId(), width, height);
   }
 
   public ImmutableSittingSection getSittingData() {

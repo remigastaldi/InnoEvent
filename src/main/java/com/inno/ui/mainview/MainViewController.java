@@ -3,7 +3,7 @@
  * Author: GASTALDI Rémi
  * -----
  * Last Modified: Saturday, 15th December 2018
- * Modified By: GASTALDI Rémi
+ * Modified By: MAREL Maud
  * -----
  * Copyright - 2018 GASTALDI Rémi
  * <<licensetext>>
@@ -206,4 +206,15 @@ public class MainViewController extends ViewController {
   private void toggleMagnetismAction() {
     Engine().toggleMagnetism();
   }
+
+  @FXML
+  private void menuUndoAction() {
+    Core.get().undo();
+  }
+
+  @FXML
+  private void menuRedoAction() {
+    Core.get().redo();
+  }
+
 }
