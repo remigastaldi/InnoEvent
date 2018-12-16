@@ -333,4 +333,28 @@ public class InnoEngine extends Engine {
       }
     }
   }
+
+  public void updateAllSectionsFromData() {
+    for (InnoRectangle rectangle : _rectangles.values()) {
+      rectangle.updateFromData(false);
+    }
+    for (InnoPolygon polygon : _polygons.values()) {
+      polygon.updateFromData(false);
+    }
+  }
+
+  public void deleteSection(String id) {
+    InnoPolygon polygon = _polygons.get(id);
+    if (polygon != null) {
+      polygon.destroy();
+      _polygons.remove(id);
+    }
+    else {
+      InnoRectangle rectangle = _rectangles.get(id);
+      if (rectangle != null) {
+        rectangle.destroy();
+        _rectangles.remove(id);
+      }
+    } 
+  }
 }
