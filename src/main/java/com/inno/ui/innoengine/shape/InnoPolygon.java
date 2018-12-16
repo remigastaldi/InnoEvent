@@ -19,7 +19,6 @@ import com.inno.app.room.ImmutableSection;
 import com.inno.app.room.ImmutableSittingRow;
 import com.inno.app.room.ImmutableSittingSection;
 import com.inno.app.room.ImmutableStandingSection;
-import com.inno.app.room.Section;
 import com.inno.ui.engine.shape.InteractivePolygon;
 import com.inno.ui.innoengine.InnoEngine;
 import com.inno.ui.innoengine.InnoRow;
@@ -97,8 +96,14 @@ public class InnoPolygon extends InteractivePolygon {
       return true;
 
     Core.get().updateSectionPositions(getID(), ((InnoEngine)Engine()).pixelToMeter(getPointsInParent()), false);
-    updatePositionFromData();
+    updateFromData(true);
     
+    return true;
+  }
+
+  @Override
+  public boolean onShapeReleased() {
+    updateFromData(false);
     return true;
   }
 
@@ -130,7 +135,7 @@ public class InnoPolygon extends InteractivePolygon {
   @Override
   public boolean onAnchorDragged() {
     Core.get().updateSectionPositions(getID(), ((InnoEngine)Engine()).pixelToMeter(getNoRotatedParentPos()), false);
-    updatePositionFromData();
+    updatePositionsFromData();
     updateRowsFromData(true);
     
     return true;
@@ -179,12 +184,13 @@ public class InnoPolygon extends InteractivePolygon {
     }
 
   public void updateFromData(boolean toParent) {
-    updatePositionFromData();
+    updatePositionsFromData();
     updateRowsFromData(toParent);
   }
 
-  private void updatePositionFromData() {
-      setPoints(parentToLocal(((InnoEngine)Engine()).meterToPixel(_sittingSectionData.getPositions())));
+  private void updatePositionsFromData() {
+      // setPoints(parentToLocal(((InnoEngine)Engine()).meterToPixel(_sittingSectionData.getPositions())));
+      updatePoints(parentToLocal(((InnoEngine)Engine()).meterToPixel(_sittingSectionData.getPositions())));
   }
 
   public void updateRowsFromData(boolean toParent) {
@@ -210,16 +216,23 @@ public class InnoPolygon extends InteractivePolygon {
   }
 
   public void sittingToStanding() {
+    InnoEngine engine = (InnoEngine) Engine();
     _standingSectionData = Core.get().sittingToStandingSection(_sittingSectionData.getId());
     _sittingSectionData = null;
-    
     destroyRows();
+    engine.getView().setSidebarFromFxmlFileName("sidebar_standing_section.fxml", this);
   }
 
   public void standingToSitting() {
+    InnoEngine engine = (InnoEngine) Engine();
     _sittingSectionData = Core.get().standingToSittingSection(_standingSectionData.getId());
     _standingSectionData = null;
     updateFromData(false);
+    engine.getView().setSidebarFromFxmlFileName("sidebar_irregular_sitting_section.fxml", this);
+  }
+
+  public void setVitalSpace(double width, double height) {
+    Core.get().setSittingSectionVitalSpace(_sittingSectionData.getId(), width, height);
   }
 
   public ImmutableSittingSection getSittingData() {

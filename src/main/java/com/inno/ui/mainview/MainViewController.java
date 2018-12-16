@@ -3,7 +3,7 @@
  * Author: GASTALDI Rémi
  * -----
  * Last Modified: Saturday, 15th December 2018
- * Modified By: GASTALDI Rémi
+ * Modified By: MAREL Maud
  * -----
  * Copyright - 2018 GASTALDI Rémi
  * <<licensetext>>
@@ -12,6 +12,10 @@
 package com.inno.ui.mainview;
 
 import java.io.File;
+import java.util.HashMap;
+import java.util.Hashtable;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import com.inno.app.Core;
 import com.inno.ui.ViewController;
@@ -21,6 +25,7 @@ import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
@@ -57,6 +62,8 @@ public class MainViewController extends ViewController {
   private boolean _sidebarToggled = false;
   private boolean _sidebarAnimation = false;
 
+  private Hashtable<KeyCode, Boolean> _keyPressed = new Hashtable<>();
+
   @FXML
   private void initialize() {
   }
@@ -77,26 +84,54 @@ public class MainViewController extends ViewController {
   final KeyCombination controlL = new KeyCodeCombination(KeyCode.L, KeyCombination.CONTROL_DOWN);
 
   @FXML
-  private void keyAction(KeyEvent evt) {
-    switch (evt.getText()) {
-    case "a":
-      Engine().createIrregularSection();
-      break;
-    case "r":
-      Engine().createRectangularSection();
-      break;
-    }
+  private void keyPressedAction(KeyEvent evt) {
+    if (evt.getCode() == KeyCode.ALT)
+      return;
 
-    if (evt.getCode() == KeyCode.DELETE)
-      Engine().deleteSelectedShape();
-    if (controlC.match(evt))
-      Engine().copySelectedSectionsToDomainBuffer();
-    if (controlV.match(evt))
-      Engine().pastBufferToEngine();
-    if (controlZ.match(evt))
-      Core.get().undo();
-    if (controlL.match(evt))
-      Core.get().redo();
+    _keyPressed.put(evt.getCode(), true);
+    Timer timer = new Timer();
+    timer.scheduleAtFixedRate(new TimerTask() {
+      @Override
+      public void run() {
+        if (!_keyPressed.get(evt.getCode())) {
+          timer.cancel();
+          timer.purge();
+        } else {
+          Platform.runLater(new Runnable() {
+            public void run() {
+              if (controlC.match(evt))
+                Engine().copySelectedSectionsToDomainBuffer();
+              else if (controlV.match(evt)) {
+                Engine().pastBufferToEngine();
+              }
+              else if (controlZ.match(evt))
+                Core.get().undo();
+              else if (controlL.match(evt))
+                Core.get().redo();
+              }
+          });
+        }
+      }
+    }, 0, 1000);
+  }
+
+  @FXML
+  private void keyReleasedAction(KeyEvent evt) {
+    _keyPressed.put(evt.getCode(), false);
+
+    switch (evt.getCode()) {
+      case A:
+        Engine().createIrregularSection();
+        break;
+      case R:
+        Engine().createRectangularSection();
+        break;
+      case DELETE:
+        Engine().deleteSelectedShape();
+        break;
+      default:
+        break;
+    }
   }
 
   @FXML
@@ -206,4 +241,15 @@ public class MainViewController extends ViewController {
   private void toggleMagnetismAction() {
     Engine().toggleMagnetism();
   }
+
+  @FXML
+  private void menuUndoAction() {
+    Core.get().undo();
+  }
+
+  @FXML
+  private void menuRedoAction() {
+    Core.get().redo();
+  }
+
 }

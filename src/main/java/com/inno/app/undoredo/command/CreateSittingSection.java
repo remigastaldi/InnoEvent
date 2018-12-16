@@ -36,17 +36,34 @@ public class CreateSittingSection implements Command {
     _isRectangle = isRectangle;
   }
 
-  public CreateSittingSection(InnoEngine engine, Room room, double[] positions, double rotation, boolean isRectangle, String id) {
-    _engine = engine;
-    _room = room;
-    _positions = positions.clone();
-    _rotation = rotation;
-    _isRectangle = isRectangle;
-    _id = id;
-  }
+  // public CreateSittingSection(InnoEngine engine, Room room, double[] positions, double rotation, boolean isRectangle, String id) {
+  //   _engine = engine;
+  //   _room = room;
+  //   _positions = positions.clone();
+  //   _rotation = rotation;
+  //   _isRectangle = isRectangle;
+  //   _id = id;
+  // }
   
   @Override
   public void execute() {
+    ImmutableSittingSection section = createSectionInDomain();
+
+    if (section.isRectangle())
+      _engine.createRectangularSection(_id);
+    else
+      _engine.createIrregularSection(_id, false);
+  }
+
+  @Override 
+  public void unExecute() {
+    if (_id != null) {
+      _engine.deleteSittingSection(_id);
+      Core.get().deleteSection(_id);
+    }
+  }
+
+  public ImmutableSittingSection createSectionInDomain() {
     double newRotation = 0d;
     if (_isRectangle) {
       Point pt = new Point(Core.get().getImmutableRoom().getImmutableScene().getCenter()[0],
@@ -57,17 +74,7 @@ public class CreateSittingSection implements Command {
     ImmutableSittingSection section = _room.createSittingSection(_positions, newRotation, _isRectangle);
     
     _id = section.getId();
-    if (section.isRectangle())
-      _engine.createRectangularSection(_id);
-    else
-      _engine.createIrregularSection(_id, false);
-  }
 
-  @Override
-  public void unExecute() {
-    if (_id != null) {
-      _engine.deleteSittingSection(_id);
-      Core.get().deleteSection(_id);
-    }
+    return section;
   }
 }

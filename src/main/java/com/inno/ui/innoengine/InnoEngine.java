@@ -294,17 +294,30 @@ public class InnoEngine extends Engine {
     _polygons.remove(id);
   }
 
-  public void deleteSittingSection(String _id) {
-    InnoPolygon polygon = _polygons.get(_id);
+  public void deleteSittingSection(String id) {
+    InnoPolygon polygon = _polygons.get(id);
     if (polygon != null) {
       polygon.destroy();
-      _polygons.remove(_id);
+      _polygons.remove(id);
     }
     else {
-      InnoRectangle rectangle = _rectangles.get(_id);
+      InnoRectangle rectangle = _rectangles.get(id);
       if (rectangle != null) {
         rectangle.destroy();
-        _rectangles.remove(_id);
+        _rectangles.remove(id);
+      }
+    }
+  }
+
+  public void updateSectionFromData(String id) {
+    InnoPolygon polygon = _polygons.get(id);
+    if (polygon != null) {
+      polygon.updateFromData(false);
+    }
+    else {
+      InnoRectangle rectangle = _rectangles.get(id);
+      if (rectangle != null) {
+        rectangle.updateFromData(false);
       }
     }
   }

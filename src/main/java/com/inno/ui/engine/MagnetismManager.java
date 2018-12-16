@@ -139,4 +139,8 @@ public class MagnetismManager {
   public void toggleMagnetism() {    
     _isActive = !_isActive;
   }
+
+  public boolean isMagnetismOn() {
+    return _isActive;
+  }
 }
