@@ -541,6 +541,7 @@ public class Core {
   public void setAutomaticPrices(double minPrice, double maxPrice, double total, AttributionType type)
   {
       AutomaticPrices.setAutomaticPrices(_room, minPrice, maxPrice, total, type);
+      _engine.updateAllSectionsFromData();
   }
 
   public void copySectionToBuffer(String id) {

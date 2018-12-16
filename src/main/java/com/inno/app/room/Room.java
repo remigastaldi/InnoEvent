@@ -343,7 +343,7 @@ public class Room implements ImmutableRoom, Serializable {
             updatePolygonRows(positions, sittingSection);
         }
 
-        Core.get().setAutomaticPrices(500, 2000, 100000, Core.AttributionType.SEAT);
+//        Core.get().setAutomaticPrices(500, 2000, 1000000, Core.AttributionType.SECTION);
         return sittingSection;
     }
 
