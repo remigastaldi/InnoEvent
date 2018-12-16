@@ -3,7 +3,7 @@
  * Author: GASTALDI Rémi
  * -----
  * Last Modified: Saturday, 15th December 2018
- * Modified By: MAREL Maud
+ * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
  * <<licensetext>>
@@ -24,8 +24,10 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.inno.app.InnoSave;
 import com.inno.app.room.*;
+import com.inno.app.undoredo.UndoRedoHelper;
 import com.inno.app.undoredo.command.CreateSittingSection;
 import com.inno.app.undoredo.command.CreateStandingSection;
+import com.inno.app.undoredo.command.UpdateSectionPositions;
 import com.inno.service.Point;
 import com.inno.service.SettingsService;
 import com.inno.service.Utils;
@@ -46,7 +48,7 @@ public class Core {
   private static Core _instance = null;
 
   // Services
-  private UndoRedo _undoRedo = new UndoRedo();
+  private UndoRedoHelper _undoRedo = null;
   private InnoSave _saveService = new InnoSave();
   private Pricing _pricing = new Pricing();
   private SettingsService _settings = new SettingsService();
@@ -74,6 +76,11 @@ public class Core {
 
   public void setEngine(InnoEngine engine) {
     _engine = engine;
+    createUndoRedoHelper(engine, _room);
+  }
+
+  private void createUndoRedoHelper(InnoEngine engine, Room room) {
+    _undoRedo = new UndoRedoHelper(engine, room);
   }
 
   // Room methods
@@ -140,16 +147,7 @@ public class Core {
   }
 
   public void updateSectionPositions(String idSection, double[] positions, boolean rectangular) {
-    if (rectangular) {
-      Point pt = new Point(getImmutableRoom().getImmutableScene().getCenter()[0],
-          getImmutableRoom().getImmutableScene().getCenter()[1]);
-      double rotation = Utils.calculateRectangleRotation(pt, positions);
-      if (rotation != rotation)
-        rotation = 0.0;
-      _room.setSectionRotation(idSection, rotation);
-    }
-
-    this._room.updateSectionPositions(idSection, positions);
+    _undoRedo.executeUpdateSectionPositions(idSection, positions, rectangular);
   }
 
   // public void deleteStandingSection(String idSection)
@@ -182,9 +180,9 @@ public class Core {
 
   // standingSection Methods
   public void createStandingSection(int nbPeople, double[] positions, double rotation) {
-    Command command = new CreateStandingSection(_engine, _room, nbPeople, positions, rotation);
-    command.execute();
-    _undoRedo.insert(command);
+    // Command command = new CreateStandingSection(_engine, _room, nbPeople, positions, rotation);
+    // command.execute();
+    // _undoRedo.insert(command);
   }
 
   public void setStandingNbPeople(String idSection, int nbPeople) {
@@ -193,15 +191,7 @@ public class Core {
 
   // sittingSection Methods
   public ImmutableSittingSection createSittingSection(double[] positions, double rotation, boolean isRectangle) {
-    double newRotation = 0d;
-    if (isRectangle) {
-      Point pt = new Point(Core.get().getImmutableRoom().getImmutableScene().getCenter()[0],
-      Core.get().getImmutableRoom().getImmutableScene().getCenter()[1]);
-      newRotation = Utils.calculateRectangleRotation(pt, positions);
-    }
-    ImmutableSittingSection section = _room.createSittingSection(positions, newRotation, isRectangle);
-    CreateSittingSection command = new CreateSittingSection(_engine, _room, positions, rotation, isRectangle, section.getId());
-    _undoRedo.insert(command);
+    ImmutableSittingSection section = _undoRedo.createSittingSection(positions, rotation, isRectangle);
     
     return section;
   }
