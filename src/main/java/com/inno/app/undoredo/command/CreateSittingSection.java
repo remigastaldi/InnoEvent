@@ -17,6 +17,7 @@ import com.inno.app.room.ImmutableSittingSection;
 import com.inno.app.room.Room;
 import com.inno.service.Point;
 import com.inno.service.Utils;
+import com.inno.service.pricing.Pricing;
 import com.inno.service.undoredo.Command;
 import com.inno.ui.innoengine.InnoEngine;
 
@@ -27,10 +28,12 @@ public class CreateSittingSection implements Command {
   private double _rotation = 0d;
   private boolean _isRectangle = false;
   private String _id = null;
+  private Pricing _pricing = null;
 
-  public CreateSittingSection(InnoEngine engine, Room room, double[] positions, double rotation, boolean isRectangle) {
+  public CreateSittingSection(InnoEngine engine, Room room, Pricing pricing, double[] positions, double rotation, boolean isRectangle) {
     _engine = engine;
     _room = room;
+    _pricing = pricing;
     _positions = positions.clone();
     _rotation = rotation;
     _isRectangle = isRectangle;
@@ -48,18 +51,16 @@ public class CreateSittingSection implements Command {
   @Override
   public void execute() {
     ImmutableSittingSection section = createSectionInDomain();
-
-    if (section.isRectangle())
-      _engine.createRectangularSection(_id);
-    else
-      _engine.createIrregularSection(_id, false);
+    createSectionInEngine(section);
   }
 
   @Override 
   public void unExecute() {
     if (_id != null) {
-      _engine.deleteSittingSection(_id);
-      Core.get().deleteSection(_id);
+      new DeleteSection(_engine, _room, _pricing, _id).execute();
+      
+      // _engine.deleteSection(_id);
+      // Core.get().deleteSection(_id);
     }
   }
 
@@ -76,5 +77,12 @@ public class CreateSittingSection implements Command {
     _id = section.getId();
 
     return section;
+  }
+
+  public void createSectionInEngine(ImmutableSittingSection section) {
+    if (section.isRectangle())
+      _engine.createRectangularSection(_id);
+    else
+      _engine.createIrregularSection(_id, false);
   }
 }

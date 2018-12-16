@@ -2,8 +2,8 @@
  * File Created: Tuesday, 13th November 2018
  * Author: MAREL Maud
  * -----
- * Last Modified: Saturday, 15th December 2018
- * Modified By: MAREL Maud
+ * Last Modified: Sunday, 16th December 2018
+ * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 MAREL Maud
  * <<licensetext>>
@@ -102,8 +102,8 @@ public class IrregularStandingSectionController extends ViewController {
       return;
     }
     if (Core().getSectionPrice(polygon.getID()) != null
-        && Core().getSectionPrice(polygon.getID()).getPrice() != -1) {
-      section_price_input.setText(Double.toString(Core().getSectionPrice(polygon.getID()).getPrice()));
+      && Core().getSectionPrice(polygon.getID()).getPrice() != -1) {
+        section_price_input.setText(Double.toString(Core().getSectionPrice(polygon.getID()).getPrice()));
     }
     section_name_input.setText(Core().getImmutableRoom().getSectionById(polygon.getID()).getNameSection());
     section_rotation_input.setText(Double.toString(polygon.getRotation().getAngle()));
@@ -123,9 +123,6 @@ public class IrregularStandingSectionController extends ViewController {
       }
       section_price_color_picker.setValue(Color.valueOf(place.getColor()));
     }
-
-    // Offers
-    refreshAttributedOffer();
 
     available_offers_list.setOnMouseClicked((e) -> {
       if (e.getClickCount() == 2 && available_offers_list.getFocusModel().getFocusedItem() != null) {

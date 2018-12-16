@@ -2,8 +2,8 @@
  * File Created: Tuesday, 13th November 2018
  * Author: MAREL Maud
  * -----
- * Last Modified: Saturday, 15th December 2018
- * Modified By: MAREL Maud
+ * Last Modified: Sunday, 16th December 2018
+ * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 MAREL Maud
  * <<licensetext>>
@@ -282,7 +282,6 @@ public class IrregularSectionController extends ViewController {
       System.out.println("polygon is null");
       return;
     }
-    System.out.println(polygon);
     polygon.sittingToStanding();
   }
 

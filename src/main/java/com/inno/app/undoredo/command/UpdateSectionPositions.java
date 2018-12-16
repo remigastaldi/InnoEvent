@@ -47,19 +47,19 @@ public class UpdateSectionPositions implements Command {
   @Override
   public void execute() {
     _oldPositions = _room.getImmutableSectionById(_idSection).getPositions().clone();
-    updatePositions(_positions);
+    updateSectionPositions(_positions);
     _engine.updateSectionFromData(_idSection);
   }
 
   @Override
   public void unExecute() {
     if (_oldPositions != null) {
-      updatePositions(_oldPositions);
+      updateSectionPositions(_oldPositions);
       _engine.updateSectionFromData(_idSection);
     }
   }
 
-  public void updatePositions(double pos[]) {
+  public void updateSectionPositions(double pos[]) {
     if (_rectangular) {
       Point pt = new Point(_room.getImmutableScene().getCenter()[0],
           _room.getImmutableScene().getCenter()[1]);

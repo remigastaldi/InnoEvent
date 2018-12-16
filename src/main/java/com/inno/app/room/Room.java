@@ -2,8 +2,8 @@
  * File Created: Friday, 12th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Saturday, 15th December 2018
- * Modified By: MAREL Maud
+ * Last Modified: Sunday, 16th December 2018
+ * Modified By: GASTALDI Rémi
 
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -13,6 +13,7 @@
 package com.inno.app.room;
 
 import com.inno.app.Core;
+import com.inno.service.IdHandler;
 import com.inno.service.Point;
 import com.inno.service.Utils;
 import com.inno.service.pricing.ImmutablePlaceRate;
@@ -34,12 +35,14 @@ public class Room implements ImmutableRoom, Serializable {
     public enum AttributionType {SEAT, ROW, SECTION};
     private ImmutableSittingSection _bufferedSittingSection = null;
     private ImmutableStandingSection _bufferedStandingSection = null;
-
+    private static IdHandler _idHandler = new IdHandler();
+    
     public Room(String name, double width, double height, double widthVitalSpace, double heightVitalSpace) {
         this._name = name;
         this._width = width;
         this._height = height;
         this._vitalSpace = new VitalSpace(widthVitalSpace, heightVitalSpace);
+        // _idHandler = new IdHandler();
     }
 
     // Room Methods
@@ -145,7 +148,7 @@ public class Room implements ImmutableRoom, Serializable {
         this.getSectionById(newSection.getId()).setElevation(oldSection.getElevation());
         deleteSection(idSection);
         id = newSection.getId();
-        this.getSectionById(newSection.getId()).setIdSection(idSection);
+        // this.getSectionById(newSection.getId()).setIdSection(idSection);
         StandingSection obj = this._standingSections.remove(id);
         this._standingSections.put(newSection.getId(), obj);
         return newSection;
@@ -162,7 +165,7 @@ public class Room implements ImmutableRoom, Serializable {
         this.getSectionById(newSection.getId()).setElevation(oldSection.getElevation());
         deleteSection(idSection);
         id = newSection.getId();
-        this.getSectionById(newSection.getId()).setIdSection(idSection);
+        // this.getSectionById(newSection.getId()).setIdSection(idSection);
         SittingSection obj = this._sittingSections.remove(id);
         this._sittingSections.put(newSection.getId(), obj);
         return newSection;
@@ -189,13 +192,13 @@ public class Room implements ImmutableRoom, Serializable {
         
         try {
             if (_bufferedSittingSection != null) {
-                String id = Integer.toString(this._sittingSections.size() + this._standingSections.size() + 1);
+                String id = _idHandler.getUniqueId();
                 section = (Section) _bufferedSittingSection.clone();
                 section.setIdSection(id);
                 section.setNameSection("S-" + id);
                 this._sittingSections.put(id, (SittingSection) section);
             } else if (_bufferedStandingSection != null) {
-                String id = Integer.toString(this._sittingSections.size() + this._standingSections.size() + 1);
+                String id = _idHandler.getUniqueId();
                 section = (Section) _bufferedStandingSection.clone();
                 section.setIdSection(id);
                 section.setNameSection("S-" + id);
@@ -213,7 +216,7 @@ public class Room implements ImmutableRoom, Serializable {
     public ImmutableSection duplicateSection(String idSection) {
         ImmutableSection oldSection = getImmutableSectionById(idSection);
         ImmutableSection newSection = null;
-        String id = Integer.toString(this._sittingSections.size() + this._standingSections.size() + 1);
+        String id = _idHandler.getUniqueId();
         
         try {
             newSection = (ImmutableSection) oldSection.clone();
@@ -311,11 +314,12 @@ public class Room implements ImmutableRoom, Serializable {
     public void deleteSection(String idSection) {
         this._sittingSections.remove(idSection);
         this._standingSections.remove(idSection);
+        _idHandler.releaseId(idSection);
     }
 
     // standingSection Methods
     public ImmutableStandingSection createStandingSection(int nbPeople, double[] positions, double rotation) {
-        String id = Integer.toString(this._sittingSections.size() + this._standingSections.size() + 1);
+        String id = _idHandler.getUniqueId();
         StandingSection standingSection = new StandingSection("S-" + id, id, positions, nbPeople, rotation);
         this._standingSections.put(id, standingSection);
         return standingSection;
@@ -328,7 +332,9 @@ public class Room implements ImmutableRoom, Serializable {
 
     // sittingSection Methods
     public ImmutableSittingSection createSittingSection(double[] positions, double rotation, boolean isRectangle) {
-        String id = Integer.toString(this._sittingSections.size() + this._standingSections.size() + 1);
+        System.out.println("========" + _idHandler);
+        // _idHandler = new IdHandler();
+        String id = _idHandler.getUniqueId();
         double vitalSpaceWidth = this.getImmutableVitalSpace().getWidth();
         double vitalSpaceHeight = this.getImmutableVitalSpace().getHeight();
         SittingSection sittingSection = new SittingSection("S-" + id, id, positions, rotation, vitalSpaceWidth,
@@ -343,7 +349,7 @@ public class Room implements ImmutableRoom, Serializable {
             updatePolygonRows(positions, sittingSection);
         }
 
-//        Core.get().setAutomaticPrices(500, 2000, 1000000, Core.AttributionType.SECTION);
+    //    Core.get().setAutomaticPrices(50, 200, 1000, Core.AttributionType.SEAT);
         return sittingSection;
     }
 

@@ -2,7 +2,7 @@
  * File Created: Saturday, 15th December 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Saturday, 15th December 2018
+ * Last Modified: Sunday, 16th December 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Remi
@@ -13,9 +13,27 @@ package com.inno.service.undoredo;
 
 import java.util.Stack;
 
+
 public class UndoRedo {
-  private Stack<Command> _undoCommands = new Stack<Command>();
-  private Stack<Command> _redoCommands = new Stack<Command>();
+  static final int FIXED_SIZE = 5000;
+  private Stack<Command> _undoCommands = new Stack<Command>(){
+    private static final long serialVersionUID = 1L;
+    public Command push(Command item) {
+        if (this.size() == FIXED_SIZE) {
+            this.removeElementAt(0);
+        }
+        return super.push(item);
+    }
+  };
+  private Stack<Command> _redoCommands = new Stack<Command>(){
+    private static final long serialVersionUID = 1L;
+    public Command push(Command item) {
+        if (this.size() == FIXED_SIZE) {
+            this.removeElementAt(0);
+        }
+        return super.push(item);
+    }
+  };
 
   public void redo(int levels) {
     for (int i = 1; i <= levels; i++) {

@@ -2,7 +2,7 @@
  * File Created: Sunday, 14th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Saturday, 15th December 2018
+ * Last Modified: Sunday, 16th December 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -218,16 +218,21 @@ public class InnoPolygon extends InteractivePolygon {
   public void sittingToStanding() {
     InnoEngine engine = (InnoEngine) Engine();
     _standingSectionData = Core.get().sittingToStandingSection(_sittingSectionData.getId());
+    System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! " +_standingSectionData);
     _sittingSectionData = null;
     destroyRows();
+    setID(_standingSectionData.getId());
     engine.getView().setSidebarFromFxmlFileName("sidebar_standing_section.fxml", this);
   }
 
   public void standingToSitting() {
     InnoEngine engine = (InnoEngine) Engine();
+    System.out.println("----------------- "  +_standingSectionData);
     _sittingSectionData = Core.get().standingToSittingSection(_standingSectionData.getId());
     _standingSectionData = null;
+    setID(_sittingSectionData.getId());
     updateFromData(false);
+    updateRowsFromData(false);
     engine.getView().setSidebarFromFxmlFileName("sidebar_irregular_sitting_section.fxml", this);
   }
 

@@ -2,7 +2,7 @@
  * File Created: Tuesday, 9th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Saturday, 15th December 2018
+ * Last Modified: Sunday, 16th December 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -77,7 +77,7 @@ public class Core {
   }
 
   private void createUndoRedoHelper(InnoEngine engine, Room room) {
-    _undoRedo = new UndoRedoHelper(engine, room);
+    _undoRedo = new UndoRedoHelper(engine, room, _pricing);
   }
 
   // Room methods
@@ -144,18 +144,12 @@ public class Core {
   }
 
   public void updateSectionPositions(String idSection, double[] positions, boolean rectangular) {
-    _undoRedo.executeUpdateSectionPositions(idSection, positions, rectangular);
+    _undoRedo.updateSectionPositions(idSection, positions, rectangular);
   }
 
   // public void deleteStandingSection(String idSection)
   public void deleteSection(String idSection) {
-    HashMap<String, ? extends ImmutablePlaceRate> places = _pricing.getPlaces(idSection);
-
-    for (Map.Entry<String, ? extends ImmutablePlaceRate> entry : places.entrySet()) {
-      String key = entry.getKey();
-      _pricing.deletePlaceRate(key);
-    }
-    this._room.deleteSection(idSection);
+    _undoRedo.deleteSection(idSection);
   }
 
   public void setSectionUserRotation(String idSection, double rotation) {
@@ -189,7 +183,6 @@ public class Core {
   // sittingSection Methods
   public ImmutableSittingSection createSittingSection(double[] positions, double rotation, boolean isRectangle) {
     ImmutableSittingSection section = _undoRedo.createSittingSection(positions, rotation, isRectangle);
-    
     return section;
   }
 
@@ -321,13 +314,13 @@ public class Core {
     this._room.setSittingSectionAutoDistribution(idSection, autoDistrib);
   }
 
-  public void deleteSittingRow(String idSection, String idRow) {
-    this._room.deleteSittingRow(idSection, idRow);
-  }
+  // public void deleteSittingRow(String idSection, String idRow) {
+  //   this._room.deleteSittingRow(idSection, idRow);
+  // }
 
-  public void clearAllSittingRows(String idSection) {
-    this._room.clearAllSittingRows(idSection);
-  }
+  // public void clearAllSittingRows(String idSection) {
+  //   this._room.clearAllSittingRows(idSection);
+  // }
 
   // SAVE
   public boolean save() {
@@ -409,6 +402,10 @@ public class Core {
     ImmutableOffer offer = _pricing.createOffer(name, description, reduction, reductionType);
     refreshOfferList();
     return offer;
+  }
+
+  public void deletePlaceRate(String key) {
+    _pricing.deletePlaceRate(key);
   }
 
   public void deleteOffer(String offerName) {
@@ -541,7 +538,7 @@ public class Core {
   public void setAutomaticPrices(double minPrice, double maxPrice, double total, AttributionType type)
   {
       AutomaticPrices.setAutomaticPrices(_room, minPrice, maxPrice, total, type);
-      _engine.updateAllSectionsFromData();
+      // _engine.updateAllSectionsFromData();
   }
 
   public void copySectionToBuffer(String id) {
