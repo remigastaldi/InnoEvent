@@ -398,8 +398,8 @@ public class Room implements ImmutableRoom, Serializable {
 
     private void updatePolygonRows(double[] positions, SittingSection sittingSection) {
         // TODO: Why width and height are inverted
-        double vitalSpaceWidth = sittingSection.getImmutableVitalSpace().getHeight();
-        double vitalSpaceHeight = sittingSection.getImmutableVitalSpace().getWidth();
+        double vitalSpaceHeight = sittingSection.getImmutableVitalSpace().getHeight();
+        double vitalSpaceWidth = sittingSection.getImmutableVitalSpace().getWidth();
         boolean firstSeat = false;
         Point sceneCenter = new Point(_scene.getCenter()[0], _scene.getCenter()[1]);
         Point[] p_Polygon = Utils.dArray_To_pArray(positions);
@@ -418,37 +418,45 @@ public class Room implements ImmutableRoom, Serializable {
 		boolean rowCreated = false;
 		do {
 		    if (!firstSeat) {
-		        posx -= vitalSpaceWidth/10;
+		        posx -= vitalSpaceHeight/10;
 		    }
 		    if (firstSeat) {
-		        posx -= vitalSpaceWidth;
+		        posx -= vitalSpaceHeight;
 		    }
 
-            double posy = lowestY + vitalSpaceHeight / 2;
+            double posy = lowestY + vitalSpaceWidth / 2;
 
 		    do {
 		        if (!rowCreated) {
-		            posy -= vitalSpaceHeight/10;
+		            posy -= vitalSpaceWidth/10;
 		        }
 		        if (rowCreated) {
-		            posy -= vitalSpaceHeight;
+		            posy -= vitalSpaceWidth;
 		        }
 
                 Point pt = new Point(posx, posy);
-                Point pt1 = new Point(posx - vitalSpaceWidth / 2, posy);
-                Point pt2 = new Point(posx, posy - vitalSpaceHeight / 2);
-                Point pt3 = new Point(posx + vitalSpaceWidth / 2, posy);
-                Point pt4 = new Point(posx, posy + vitalSpaceHeight / 2);
+                Point pt1 = new Point(posx - vitalSpaceHeight / 2, posy);
+                Point pt2 = new Point(posx, posy - vitalSpaceWidth / 2);
+                Point pt3 = new Point(posx + vitalSpaceHeight / 2, posy);
+                Point pt4 = new Point(posx, posy + vitalSpaceWidth / 2);
+                Point pt5 = new Point(posx - vitalSpaceHeight / 2,posy + vitalSpaceWidth / 2 );
+                Point pt6 = new Point(posx + vitalSpaceHeight / 2,posy + vitalSpaceWidth / 2 );
+                Point pt7 = new Point(posx - vitalSpaceHeight / 2,posy - vitalSpaceWidth / 2 );
+                Point pt8 = new Point(posx + vitalSpaceHeight / 2,posy - vitalSpaceWidth / 2 );
 
                 if (Utils.insidePolygon(polyTemp, pt1) && Utils.insidePolygon(polyTemp, pt2)
-                        && Utils.insidePolygon(polyTemp, pt3) && Utils.insidePolygon(polyTemp, pt4)) {
+                        && Utils.insidePolygon(polyTemp, pt3) && Utils.insidePolygon(polyTemp, pt4)
+                        && Utils.insidePolygon(polyTemp, pt5) && Utils.insidePolygon(polyTemp, pt6)
+                        && Utils.insidePolygon(polyTemp, pt7) && Utils.insidePolygon(polyTemp, pt8)) {
                     rowCreated = true;
                     firstSeat = true;
                     coord.add(pt);
                 }
 
                 if (rowCreated && !(Utils.insidePolygon(polyTemp, pt1) && Utils.insidePolygon(polyTemp, pt2)
-                        && Utils.insidePolygon(polyTemp, pt3) && Utils.insidePolygon(polyTemp, pt4))) {
+                        && Utils.insidePolygon(polyTemp, pt3) && Utils.insidePolygon(polyTemp, pt4)
+                        && Utils.insidePolygon(polyTemp, pt5) && Utils.insidePolygon(polyTemp, pt6)
+                        && Utils.insidePolygon(polyTemp, pt7) && Utils.insidePolygon(polyTemp, pt8))) {
                     Point Start = Utils.rotatePoint(coord.get(0), sceneCenter, -angle);
                     Point End = Utils.rotatePoint(coord.get(coord.size() - 1), sceneCenter, -angle);
                     double[] posStart = { Start.get_x(), Start.get_y() };
