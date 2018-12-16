@@ -25,6 +25,7 @@ import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.SplitPane;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyCombination;
@@ -33,7 +34,6 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
 import javafx.scene.input.KeyCodeCombination;
-
 
 
 public class MainViewController extends ViewController {
@@ -204,6 +204,8 @@ public class MainViewController extends ViewController {
 
   @FXML
   private void toggleMagnetismAction() {
+    magnet_icon.setImage(new Image("icon/magnet_selected.png"));
+    magnet_icon.setImage(new Image("icon/magnet.png"));
     Engine().toggleMagnetism();
   }
 
