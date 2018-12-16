@@ -193,6 +193,10 @@ public class Engine {
     }
   }
 
+  public boolean isMagnetismOn() {
+    return _magenetismManager.isMagnetismOn();
+  }
+
   public void createInteractivePolygon() {
     InteractivePolygon shape = new InteractivePolygon(this, _pane);
     shape.start();
