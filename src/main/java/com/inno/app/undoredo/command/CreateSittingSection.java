@@ -2,7 +2,7 @@
  * File Created: Saturday, 15th December 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Saturday, 15th December 2018
+ * Last Modified: Sunday, 16th December 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Remi
@@ -58,9 +58,6 @@ public class CreateSittingSection implements Command {
   public void unExecute() {
     if (_id != null) {
       new DeleteSection(_engine, _room, _pricing, _id).execute();
-      
-      // _engine.deleteSection(_id);
-      // Core.get().deleteSection(_id);
     }
   }
 

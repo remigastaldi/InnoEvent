@@ -2,7 +2,7 @@
  * File Created: Saturday, 15th December 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Saturday, 15th December 2018
+ * Last Modified: Sunday, 16th December 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Remi
@@ -12,9 +12,9 @@
 
 package com.inno.app.undoredo;
 
-import com.inno.app.room.ImmutableSection;
 import com.inno.app.room.ImmutableSittingSection;
 import com.inno.app.room.Room;
+import com.inno.app.undoredo.command.CopySectionFromBuffer;
 import com.inno.app.undoredo.command.CreateSittingSection;
 import com.inno.app.undoredo.command.DeleteSection;
 import com.inno.app.undoredo.command.UpdateSectionPositions;
@@ -55,21 +55,22 @@ public class UndoRedoHelper {
     ImmutableSittingSection section = command.createSectionInDomain();
 
     _undoRedo.insert(command);
-    return section; 
+    return section;
   }
 
   public void deleteSection(String idSection) {
     if (_room.getSectionById(idSection) == null)
       return;
-    // ImmutableSection section = (ImmutableSection) _room.getSectionById(idSection);
-    // CreateSittingSection command = new CreateSittingSection(_engine, _room, section.getPositions(), section.getRotation(), section.isRectangle());
     DeleteSection command = new DeleteSection(_engine, _room, _pricing, idSection);
 
-
     command.deleteSection();
-    // command.unExecute();
     _undoRedo.insert(command);
-    // _undoRedo.undo(1);
-    // _undoRedo.redo(1);
+  }
+
+  public void createSectionFromBuffer() {
+    CopySectionFromBuffer command = new CopySectionFromBuffer(_engine, _room, _pricing);
+
+    command.execute();
+    _undoRedo.insert(command);
   }
 }

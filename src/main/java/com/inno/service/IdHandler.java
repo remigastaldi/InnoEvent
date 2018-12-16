@@ -2,7 +2,7 @@
  * File Created: Saturday, 15th December 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Saturday, 15th December 2018
+ * Last Modified: Sunday, 16th December 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Remi
@@ -12,9 +12,11 @@
 
 package com.inno.service;
 
+import java.io.Serializable;
 import java.util.Stack;
 
-public class IdHandler {
+public class IdHandler implements Serializable {
+  private static final long serialVersionUID = 1L;
   private Stack<String> _freeId = new Stack<>();
   private Integer _currentMax = 0;
 

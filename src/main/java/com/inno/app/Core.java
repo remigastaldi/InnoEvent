@@ -521,20 +521,6 @@ public class Core {
     return _availableOffers;
   }
 
-  public ImmutableSection createSectionFromBuffer() {
-    ImmutableSection section = _room.createSectionFromBuffer();
-
-    if (section == null)
-      return null;
-
-    double[] pos = section.getPositions();
-    for (int i = 0; i < pos.length; ++i) {
-      pos[i] += 1;
-    }
-    _room.updateSectionPositions(section.getId(), pos);
-    return section;
-  }
-
   public void setAutomaticPrices(double minPrice, double maxPrice, double total, AttributionType type)
   {
       AutomaticPrices.setAutomaticPrices(_room, minPrice, maxPrice, total, type);
@@ -543,6 +529,10 @@ public class Core {
 
   public void copySectionToBuffer(String id) {
     _room.copySectionToBuffer(id);
+  }
+
+  public void createSectionFromBuffer() {
+    _undoRedo.createSectionFromBuffer();
   }
 
   public void undo() {

@@ -2,7 +2,7 @@
  * File Created: Tuesday, 13th November 2018
  * Author: MAREL Maud
  * -----
- * Last Modified: Saturday, 15th December 2018
+ * Last Modified: Sunday, 16th December 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 MAREL Maud
@@ -30,8 +30,8 @@ public class Section implements ImmutableSection, Serializable, Cloneable {
     this._positions = positions;
     this._rotation = rotation;
   }
-public long getUID() { return serialVersionUID; }
-  public void setIdSection(String idSection) {
+
+  public void setId(String idSection) {
     this._idSection = idSection;
   }
 

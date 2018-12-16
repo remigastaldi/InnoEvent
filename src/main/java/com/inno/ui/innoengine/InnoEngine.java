@@ -2,7 +2,7 @@
  * File Created: Friday, 12th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Saturday, 15th December 2018
+ * Last Modified: Sunday, 16th December 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -252,19 +252,19 @@ public class InnoEngine extends Engine {
   public void pastBufferToEngine() {
     Core core = Core.get();
 
-    ImmutableSection section = core.createSectionFromBuffer();
+    core.createSectionFromBuffer();
 
-    if (section == null)
-      return;
+    // if (section == null)
+    //   return;
 
-    if (section.isRectangle()) {
-      createRectangularSection(section.getId()).select();
-    } else if (section.isStanding()) {
-      createIrregularSection(section.getId(), true).select();
-    } else {
-      createIrregularSection(section.getId(), false).select();
-  }
-  core.copySectionToBuffer(getSelectedShape().getID());
+    // if (section.isRectangle()) {
+    //   createRectangularSection(section.getId()).select();
+    // } else if (section.isStanding()) {
+    //   createIrregularSection(section.getId(), true).select();
+    // } else {
+    //   createIrregularSection(section.getId(), false).select();
+    // }
+    core.copySectionToBuffer(getSelectedShape().getID());
 }
 
   /**

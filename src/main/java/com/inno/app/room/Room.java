@@ -35,17 +35,24 @@ public class Room implements ImmutableRoom, Serializable {
     public enum AttributionType {SEAT, ROW, SECTION};
     private ImmutableSittingSection _bufferedSittingSection = null;
     private ImmutableStandingSection _bufferedStandingSection = null;
-    private static IdHandler _idHandler = new IdHandler();
-
+    private IdHandler _idHandler = null;
+    
     public Room(String name, double width, double height, double widthVitalSpace, double heightVitalSpace) {
         this._name = name;
         this._width = width;
         this._height = height;
         this._vitalSpace = new VitalSpace(widthVitalSpace, heightVitalSpace);
-        // _idHandler = new IdHandler();
+        _idHandler = new IdHandler();
     }
 
     // Room Methods
+    public void setBuffer(Section buffer) {
+        if (buffer.isStanding())
+            _bufferedStandingSection = (ImmutableStandingSection) buffer;
+        else
+            _bufferedSittingSection = (ImmutableSittingSection) buffer;
+    }
+
     public void setName(String name) {
         this._name = name;
     }
@@ -68,6 +75,10 @@ public class Room implements ImmutableRoom, Serializable {
 
     public double getWidth() {
         return this._width;
+    }
+
+    public String getUniqueSectionId() {
+        return _idHandler.getUniqueId();
     }
 
     public void setVitalSpace(double width, double height) {
@@ -187,20 +198,20 @@ public class Room implements ImmutableRoom, Serializable {
         }
     }
 
-    public ImmutableSection createSectionFromBuffer() {
+    public Section createSectionFromBuffer() {
         Section section = null;
         
         try {
             if (_bufferedSittingSection != null) {
                 String id = _idHandler.getUniqueId();
                 section = (Section) _bufferedSittingSection.clone();
-                section.setIdSection(id);
+                section.setId(id);
                 section.setNameSection("S-" + id);
                 this._sittingSections.put(id, (SittingSection) section);
             } else if (_bufferedStandingSection != null) {
                 String id = _idHandler.getUniqueId();
                 section = (Section) _bufferedStandingSection.clone();
-                section.setIdSection(id);
+                section.setId(id);
                 section.setNameSection("S-" + id);
                 this._standingSections.put(id, (StandingSection) section);
             }
@@ -222,11 +233,11 @@ public class Room implements ImmutableRoom, Serializable {
             newSection = (ImmutableSection) oldSection.clone();
             if (this._sittingSections.get(idSection) != null) {
                 this._sittingSections.put(id, (SittingSection) newSection);
-                this._sittingSections.get(id).setIdSection(id);
+                this._sittingSections.get(id).setId(id);
                 this._sittingSections.get(id).setNameSection("S-" + id);
             } else if (this._standingSections.get(idSection) != null) {
                 this._standingSections.put(id, (StandingSection) newSection);
-                this._standingSections.get(id).setIdSection(id);
+                this._standingSections.get(id).setId(id);
                 this._sittingSections.get(id).setNameSection("S-" + id);
             }
         } catch (CloneNotSupportedException e) {
@@ -240,9 +251,9 @@ public class Room implements ImmutableRoom, Serializable {
         StandingSection standingSection = null;
 
         if ((sittingSection = this._sittingSections.get(idSection)) != null) {
-            sittingSection.setIdSection(newId);
+            sittingSection.setId(newId);
         } else if ((standingSection = this._standingSections.get(idSection)) != null) {
-            standingSection.setIdSection(newId);
+            standingSection.setId(newId);
         }
     }
 
