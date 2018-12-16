@@ -16,15 +16,13 @@ import java.util.UUID;
 public class Utils {
     public static boolean insidePolygon(Point polygon[],Point p)
     {
-        int N = polygon.length;
+        int n = polygon.length;
         int counter = 0;
-        int i;
         double xinters;
-        Point p1,p2;
 
-        p1 = polygon[0];
-        for (i=1;i<=N;i++) {
-            p2 = polygon[i % N];
+        Point p1 = polygon[0];
+        for (int i=1;i<=n;i++) {
+            Point p2 = polygon[i % n];
             if (p.get_y() > Math.min(p1.get_y(),p2.get_y())) {
                 if (p.get_y() <= Math.max(p1.get_y(), p2.get_y())) {
                     if (p.get_x() <= Math.max(p1.get_x(),p2.get_x())) {
@@ -88,13 +86,13 @@ public class Utils {
 //        double y = P.get_y();
 //        double X = x-a;
 //        double Y = y-b;
-        double xBis = center.get_x() - distance(center, P);
-        double yBis = center.get_y();
+        double x = center.get_x() - distance(center, P);
+        double y = center.get_y();
 //        double Cos = ((xBis-a/X)+(Y/Math.pow(X,2))*(yBis-b))/(1-((Math.pow(Y,2))/Math.pow(X,2)));
 //        double Sin = ((a-xBis)/Y+(X/Math.pow(Y,2))*(b-yBis))/(1-((Math.pow(X,2))/Math.pow(Y,2)));
 //        double angleRadian = Math.atan2(Cos, Sin);
 
-        double result = Math.atan2(yBis-center.get_y(), xBis-center.get_x())
+        double result = Math.atan2(y-center.get_y(), x-center.get_x())
                 - Math.atan2(P.get_y()-center.get_y(),P.get_x()-center.get_x());
 
         return (result);
@@ -143,6 +141,7 @@ public class Utils {
         return p_Array;
     }
 
+    //conversion from Point[] to double[]
     public static double[] pArray_To_dArray(Point[] p_Array)
     {
         double[] d_Array = new double[p_Array.length*2];
@@ -232,6 +231,11 @@ public class Utils {
             }
         }
         return max;
+    }
+
+    public static Point midPoint(Point p1, Point p2)
+    {
+        return new Point(((p1.get_x()+p2.get_x())/2),((p1.get_y()+p2.get_y())/2));
     }
 
     public static Point[] mirrorRectangle(Point[] rectangle)

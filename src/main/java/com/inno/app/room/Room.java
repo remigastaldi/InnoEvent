@@ -31,6 +31,7 @@ public class Room implements ImmutableRoom, Serializable {
     private VitalSpace _vitalSpace;
     private HashMap<String, SittingSection> _sittingSections = new HashMap<String, SittingSection>();
     private HashMap<String, StandingSection> _standingSections = new HashMap<String, StandingSection>();
+    public enum AttributionType {SEAT, ROW, SECTION};
     private ImmutableSittingSection _bufferedSittingSection = null;
     private ImmutableStandingSection _bufferedStandingSection = null;
 
@@ -342,6 +343,7 @@ public class Room implements ImmutableRoom, Serializable {
             updatePolygonRows(positions, sittingSection);
         }
 
+        Core.get().setAutomaticPrices(500, 2000, 100000, Core.AttributionType.SEAT);
         return sittingSection;
     }
 
@@ -406,25 +408,25 @@ public class Room implements ImmutableRoom, Serializable {
 
         ArrayList<Point> coord = new ArrayList<>();
 
-        double posx = rightMostX;
-        boolean rowCreated = false;
-        do {
-            if (!firstSeat) {
-                posx -= 0.1;
-            }
-            if (firstSeat) {
-                posx -= vitalSpaceWidth;
-            }
+		double posx = rightMostX;
+		boolean rowCreated = false;
+		do {
+		    if (!firstSeat) {
+		        posx -= vitalSpaceWidth/10;
+		    }
+		    if (firstSeat) {
+		        posx -= vitalSpaceWidth;
+		    }
 
             double posy = lowestY + vitalSpaceHeight / 2;
 
-            do {
-                if (!rowCreated) {
-                    posy -= 0.1;
-                }
-                if (rowCreated) {
-                    posy -= vitalSpaceHeight;
-                }
+		    do {
+		        if (!rowCreated) {
+		            posy -= vitalSpaceHeight/10;
+		        }
+		        if (rowCreated) {
+		            posy -= vitalSpaceHeight;
+		        }
 
                 Point pt = new Point(posx, posy);
                 Point pt1 = new Point(posx - vitalSpaceWidth / 2, posy);

@@ -19,7 +19,9 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeSet;
 
+import com.google.common.collect.Multimap;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.inno.app.InnoSave;
@@ -31,6 +33,7 @@ import com.inno.app.undoredo.command.UpdateSectionPositions;
 import com.inno.service.Point;
 import com.inno.service.SettingsService;
 import com.inno.service.Utils;
+import com.inno.service.Triplet;
 import com.inno.service.pricing.ImmutableOffer;
 import com.inno.service.pricing.ImmutableOfferCondition;
 import com.inno.service.pricing.ImmutableOfferOperation;
@@ -39,9 +42,12 @@ import com.inno.service.pricing.Pricing;
 import com.inno.service.undoredo.Command;
 import com.inno.service.undoredo.UndoRedo;
 import com.inno.ui.innoengine.InnoEngine;
+import com.inno.app.AutomaticPrices;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.util.Pair;
+import jdk.nashorn.internal.ir.annotations.Immutable;
 
 public class Core {
   private InnoEngine _engine = null;
@@ -53,7 +59,7 @@ public class Core {
   private Pricing _pricing = new Pricing();
   private SettingsService _settings = new SettingsService();
   private ObservableList<String> _availableOffers = FXCollections.observableArrayList();
-
+  public enum AttributionType {SEAT, ROW, SECTION};
   private ArrayList<String> _recentPaths = new ArrayList<>();
 
   // Inno Class
@@ -539,6 +545,11 @@ public class Core {
     }
     _room.updateSectionPositions(section.getId(), pos);
     return section;
+  }
+
+  public void setAutomaticPrices(double minPrice, double maxPrice, double total, AttributionType type)
+  {
+      AutomaticPrices.setAutomaticPrices(_room, minPrice, maxPrice, total, type);
   }
 
   public void copySectionToBuffer(String id) {
