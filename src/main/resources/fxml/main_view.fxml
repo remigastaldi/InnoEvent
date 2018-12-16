@@ -121,7 +121,7 @@
                            <graphic>
                               <ImageView fx:id="magnet_icon" fitHeight="15.0" fitWidth="15.0" preserveRatio="true">
                                  <image>
-                                    <Image url="@../icon/magnet.png" />
+                                    <Image url="@../icon/magnet_selected.png" />
                                  </image>
                               </ImageView>
                            </graphic>

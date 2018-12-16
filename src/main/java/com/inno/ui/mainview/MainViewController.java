@@ -239,9 +239,11 @@ public class MainViewController extends ViewController {
 
   @FXML
   private void toggleMagnetismAction() {
-    magnet_icon.setImage(new Image("icon/magnet_selected.png"));
-    magnet_icon.setImage(new Image("icon/magnet.png"));
     Engine().toggleMagnetism();
+    if (Engine().isMagnetismOn())
+      magnet_icon.setImage(new Image("icon/magnet_selected.png"));
+    else
+      magnet_icon.setImage(new Image("icon/magnet.png"));
   }
 
   @FXML
