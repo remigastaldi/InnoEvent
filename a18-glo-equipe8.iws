@@ -2,14 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="33fb8891-70c6-467d-b716-3cd74c261f7c" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/a18-glo-equipe8.ipr" beforeDir="false" afterPath="$PROJECT_DIR$/a18-glo-equipe8.ipr" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/a18-glo-equipe8.iws" beforeDir="false" afterPath="$PROJECT_DIR$/a18-glo-equipe8.iws" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/a18-glo-equipe8_main.iml" beforeDir="false" afterPath="$PROJECT_DIR$/a18-glo-equipe8_main.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/a18-glo-equipe8_test.iml" beforeDir="false" afterPath="$PROJECT_DIR$/a18-glo-equipe8_test.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/inno/app/Core.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/inno/app/Core.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/inno/app/AutomaticPrices.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/inno/app/AutomaticPrices.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/inno/app/room/Room.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/inno/app/room/Room.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/inno/service/Utils.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/inno/service/Utils.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/inno/ui/engine/shape/InteractiveShape.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/inno/ui/engine/shape/InteractiveShape.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/.gradle/" />
@@ -151,56 +146,58 @@
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="java" value="11588" />
-          <entry key="txt" value="290" />
+          <entry key="txt" value="313" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
           <entry key="JAVA" value="11588" />
-          <entry key="PLAIN_TEXT" value="290" />
+          <entry key="PLAIN_TEXT" value="313" />
         </counts>
       </usages-collector>
     </session>
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/inno/app/room/Room.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="462">
-              <caret line="335" selection-start-line="335" selection-start-column="2" selection-end-line="335" selection-end-column="86" />
+            <state relative-caret-position="330">
+              <caret line="343" column="9" lean-forward="true" selection-start-line="343" selection-start-column="9" selection-end-line="343" selection-end-column="9" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#1505#1506#0" expanded="true" />
-                <element signature="e#1538#1539#0" expanded="true" />
-                <element signature="e#1569#1570#0" expanded="true" />
-                <element signature="e#1602#1603#0" expanded="true" />
-                <element signature="e#1646#1647#0" expanded="true" />
-                <element signature="e#1683#1684#0" expanded="true" />
-                <element signature="e#1716#1717#0" expanded="true" />
-                <element signature="e#1751#1752#0" expanded="true" />
-                <element signature="e#1793#1794#0" expanded="true" />
-                <element signature="e#1828#1829#0" expanded="true" />
-                <element signature="e#1860#1861#0" expanded="true" />
-                <element signature="e#1894#1895#0" expanded="true" />
-                <element signature="e#2604#2605#0" expanded="true" />
-                <element signature="e#2643#2644#0" expanded="true" />
-                <element signature="e#2873#2874#0" expanded="true" />
-                <element signature="e#2907#2908#0" expanded="true" />
-                <element signature="e#2940#2941#0" expanded="true" />
-                <element signature="e#2974#2975#0" expanded="true" />
-                <element signature="e#3021#3022#0" expanded="true" />
-                <element signature="e#3064#3065#0" expanded="true" />
-                <element signature="e#3113#3114#0" expanded="true" />
-                <element signature="e#3158#3159#0" expanded="true" />
-                <element signature="e#3215#3216#0" expanded="true" />
-                <element signature="e#3266#3267#0" expanded="true" />
-                <element signature="e#3319#3320#0" expanded="true" />
-                <element signature="e#3368#3369#0" expanded="true" />
-                <element signature="e#3423#3424#0" expanded="true" />
-                <element signature="e#3474#3475#0" expanded="true" />
-                <element signature="e#3523#3524#0" expanded="true" />
-                <element signature="e#3557#3558#0" expanded="true" />
+                <element signature="e#838#862#0" expanded="true" />
+                <element signature="e#942#967#0" expanded="true" />
+                <element signature="e#1502#1503#0" expanded="true" />
+                <element signature="e#1535#1536#0" expanded="true" />
+                <element signature="e#1566#1567#0" expanded="true" />
+                <element signature="e#1599#1600#0" expanded="true" />
+                <element signature="e#1643#1644#0" expanded="true" />
+                <element signature="e#1680#1681#0" expanded="true" />
+                <element signature="e#1713#1714#0" expanded="true" />
+                <element signature="e#1748#1749#0" expanded="true" />
+                <element signature="e#1790#1791#0" expanded="true" />
+                <element signature="e#1825#1826#0" expanded="true" />
+                <element signature="e#1857#1858#0" expanded="true" />
+                <element signature="e#1891#1892#0" expanded="true" />
+                <element signature="e#2601#2602#0" expanded="true" />
+                <element signature="e#2640#2641#0" expanded="true" />
+                <element signature="e#2870#2871#0" expanded="true" />
+                <element signature="e#2904#2905#0" expanded="true" />
+                <element signature="e#2937#2938#0" expanded="true" />
+                <element signature="e#2971#2972#0" expanded="true" />
+                <element signature="e#3018#3019#0" expanded="true" />
+                <element signature="e#3061#3062#0" expanded="true" />
+                <element signature="e#3110#3111#0" expanded="true" />
+                <element signature="e#3155#3156#0" expanded="true" />
+                <element signature="e#3212#3213#0" expanded="true" />
+                <element signature="e#3263#3264#0" expanded="true" />
+                <element signature="e#3316#3317#0" expanded="true" />
+                <element signature="e#3365#3366#0" expanded="true" />
+                <element signature="e#3420#3421#0" expanded="true" />
+                <element signature="e#3471#3472#0" expanded="true" />
+                <element signature="e#3520#3521#0" expanded="true" />
+                <element signature="e#3554#3555#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -228,7 +225,7 @@
         <entry file="file://$PROJECT_DIR$/src/main/java/com/inno/app/room/ImmutableSeat.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="176">
-              <caret line="17" column="1" lean-forward="true" selection-start-line="17" selection-start-column="1" selection-end-line="17" selection-end-column="1" />
+              <caret line="17" column="1" selection-start-line="17" selection-start-column="1" selection-end-line="17" selection-end-column="1" />
             </state>
           </provider>
         </entry>
@@ -268,71 +265,9 @@
         <entry file="file://$PROJECT_DIR$/src/main/java/com/inno/app/Core.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="420">
-              <caret line="563" lean-forward="true" selection-start-line="563" selection-end-line="563" />
+              <caret line="548" selection-start-line="548" selection-end-line="548" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <element signature="e#2355#2356#0" expanded="true" />
-                <element signature="e#2381#2382#0" expanded="true" />
-                <element signature="e#2650#2651#0" expanded="true" />
-                <element signature="e#2677#2678#0" expanded="true" />
-                <element signature="e#2719#2720#0" expanded="true" />
-                <element signature="e#2753#2754#0" expanded="true" />
-                <element signature="e#2797#2798#0" expanded="true" />
-                <element signature="e#2833#2834#0" expanded="true" />
-                <element signature="e#2879#2880#0" expanded="true" />
-                <element signature="e#2917#2918#0" expanded="true" />
-                <element signature="e#2981#2982#0" expanded="true" />
-                <element signature="e#3025#3026#0" expanded="true" />
-                <element signature="e#3228#3229#0" expanded="true" />
-                <element signature="e#3262#3263#0" expanded="true" />
-                <element signature="e#3307#3308#0" expanded="true" />
-                <element signature="e#3348#3349#0" expanded="true" />
-                <element signature="e#3395#3396#0" expanded="true" />
-                <element signature="e#3438#3439#0" expanded="true" />
-                <element signature="e#3493#3494#0" expanded="true" />
-                <element signature="e#3542#3543#0" expanded="true" />
-                <element signature="e#3593#3594#0" expanded="true" />
-                <element signature="e#3640#3641#0" expanded="true" />
-                <element signature="e#3693#3694#0" expanded="true" />
-                <element signature="e#3742#3743#0" expanded="true" />
-                <element signature="e#3826#3827#0" expanded="true" />
-                <element signature="e#3878#3879#0" expanded="true" />
-                <element signature="e#5485#5486#0" expanded="true" />
-                <element signature="e#5540#5541#0" expanded="true" />
-                <element signature="e#7693#7694#0" expanded="true" />
-                <element signature="e#7742#7743#0" expanded="true" />
-                <element signature="e#8574#8575#0" expanded="true" />
-                <element signature="e#8623#8624#0" expanded="true" />
-                <element signature="e#9420#9421#0" expanded="true" />
-                <element signature="e#9472#9473#0" expanded="true" />
-                <element signature="e#12118#12119#0" expanded="true" />
-                <element signature="e#12173#12174#0" expanded="true" />
-                <element signature="e#12228#12229#0" expanded="true" />
-                <element signature="e#12279#12280#0" expanded="true" />
-                <element signature="e#14272#14273#0" expanded="true" />
-                <element signature="e#14308#14309#0" expanded="true" />
-                <element signature="e#14374#14375#0" expanded="true" />
-                <element signature="e#14411#14412#0" expanded="true" />
-                <element signature="e#15572#15573#0" expanded="true" />
-                <element signature="e#15612#15613#0" expanded="true" />
-                <element signature="e#16013#16014#0" expanded="true" />
-                <element signature="e#16066#16067#0" expanded="true" />
-                <element signature="e#16831#16832#0" expanded="true" />
-                <element signature="e#16897#16898#0" expanded="true" />
-                <element signature="e#16956#16957#0" expanded="true" />
-                <element signature="e#17019#17020#0" expanded="true" />
-                <element signature="e#17072#17073#0" expanded="true" />
-                <element signature="e#17129#17130#0" expanded="true" />
-                <element signature="e#17199#17200#0" expanded="true" />
-                <element signature="e#17236#17237#0" expanded="true" />
-                <element signature="e#18235#18236#0" expanded="true" />
-                <element signature="e#18286#18287#0" expanded="true" />
-                <element signature="e#18506#18507#0" expanded="true" />
-                <element signature="e#18541#18542#0" expanded="true" />
-                <element signature="e#18589#18590#0" expanded="true" />
-                <element signature="e#18624#18625#0" expanded="true" />
-                <element signature="e#18685#18686#0" expanded="true" />
-                <element signature="e#18718#18719#0" expanded="true" />
                 <element signature="e#28207#28208#0" expanded="true" />
                 <element signature="e#28246#28247#0" expanded="true" />
                 <element signature="e#28270#28271#0" expanded="true" />
@@ -344,11 +279,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/inno/app/AutomaticPrices.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="682">
-              <caret line="31" column="88" selection-start-line="31" selection-start-column="88" selection-end-line="31" selection-end-column="88" />
+            <state relative-caret-position="176">
+              <caret line="96" column="21" lean-forward="true" selection-start-line="96" selection-start-column="21" selection-end-line="96" selection-end-column="21" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -411,6 +346,7 @@
       <find>setrow</find>
       <find>create</find>
       <find>get</find>
+      <find>revenu</find>
     </findStrings>
     <dirStrings>
       <dir>C:\Users\Khaled\Documents\GLO-2004\a18-glo-equipe8\src\main\java\com\inno\app\room</dir>
@@ -789,8 +725,8 @@
         <option value="$PROJECT_DIR$/src/main/java/com/inno/service/Utils.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/inno/ui/engine/shape/InteractiveShape.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/inno/app/Core.java" />
-        <option value="$PROJECT_DIR$/src/main/java/com/inno/app/AutomaticPrices.java" />
         <option value="$PROJECT_DIR$/src/main/java/com/inno/app/room/Room.java" />
+        <option value="$PROJECT_DIR$/src/main/java/com/inno/app/AutomaticPrices.java" />
       </list>
     </option>
   </component>
@@ -956,13 +892,145 @@
     <property name="MemberChooser.sorted" value="false" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1544922786962" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1544923543873" />
     <property name="external.system.task.project.file.to.start" value="$PROJECT_DIR$" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="project.structure.last.edited" value="Project" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.13583139" />
     <property name="settings.editor.selected.configurable" value="reference.settingsdialog.IDE.editor.colors.Java" />
+  </component>
+  <component name="RestoreUpdateTree" date="Moments ago" ActionInfo="_Update">
+    <UpdatedFiles>
+      <FILE-GROUP>
+        <option name="myUpdateName" value="Updated from server" />
+        <option name="myStatusName" value="Changed on server" />
+        <option name="mySupportsDeletion" value="false" />
+        <option name="myCanBeAbsent" value="false" />
+        <option name="myId" value="CHANGED_ON_SERVER" />
+        <FILE-GROUP>
+          <option name="myUpdateName" value="Updated" />
+          <option name="myStatusName" value="Changed" />
+          <option name="mySupportsDeletion" value="false" />
+          <option name="myCanBeAbsent" value="false" />
+          <option name="myId" value="UPDATED" />
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/main/java/com/inno/app/Core.java</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/main/java/com/inno/app/room/Room.java</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/main/java/com/inno/app/undoredo/UndoRedoHelper.java</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/main/java/com/inno/app/undoredo/command/CreateSittingSection.java</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/main/java/com/inno/service/undoredo/Command.java</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/main/java/com/inno/ui/Main.java</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/main/java/com/inno/ui/View.java</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/main/java/com/inno/ui/ViewController.java</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/main/java/com/inno/ui/components/CellWithDelButton.java</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/main/java/com/inno/ui/engine/Engine.java</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/main/java/com/inno/ui/engine/MagnetismManager.java</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/main/java/com/inno/ui/engine/shape/InteractivePolygon.java</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/main/java/com/inno/ui/engine/shape/InteractiveRectangle.java</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/main/java/com/inno/ui/engine/shape/InteractiveShape.java</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/main/java/com/inno/ui/innoengine/InnoEngine.java</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/main/java/com/inno/ui/innoengine/shape/InnoPolygon.java</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/main/java/com/inno/ui/mainview/MainViewController.java</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/main/java/com/inno/ui/mainview/sidebar/IrregularSectionController.java</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/main/java/com/inno/ui/mainview/sidebar/IrregularStandingSectionController.java</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/main/resources/fxml/main_view.fxml</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/main/resources/fxml/sidebar/sidebar_irregular_sitting_section.fxml</PATH>
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/main/resources/fxml/sidebar/sidebar_standing_section.fxml</PATH>
+        </FILE-GROUP>
+        <FILE-GROUP>
+          <option name="myUpdateName" value="Created" />
+          <option name="myStatusName" value="Created" />
+          <option name="mySupportsDeletion" value="false" />
+          <option name="myCanBeAbsent" value="false" />
+          <option name="myId" value="CREATED" />
+          <PATH vcs="Git" revision="">$PROJECT_DIR$/src/main/java/com/inno/app/undoredo/command/UpdateSectionPositions.java</PATH>
+        </FILE-GROUP>
+        <FILE-GROUP>
+          <option name="myUpdateName" value="Deleted" />
+          <option name="myStatusName" value="Deleted" />
+          <option name="mySupportsDeletion" value="false" />
+          <option name="myCanBeAbsent" value="true" />
+          <option name="myId" value="REMOVED_FROM_REPOSITORY" />
+        </FILE-GROUP>
+        <FILE-GROUP>
+          <option name="myUpdateName" value="Restored" />
+          <option name="myStatusName" value="Will be restored" />
+          <option name="mySupportsDeletion" value="false" />
+          <option name="myCanBeAbsent" value="false" />
+          <option name="myId" value="RESTORED" />
+        </FILE-GROUP>
+      </FILE-GROUP>
+      <FILE-GROUP>
+        <option name="myUpdateName" value="Modified" />
+        <option name="myStatusName" value="Modified" />
+        <option name="mySupportsDeletion" value="false" />
+        <option name="myCanBeAbsent" value="false" />
+        <option name="myId" value="MODIFIED" />
+      </FILE-GROUP>
+      <FILE-GROUP>
+        <option name="myUpdateName" value="Skipped" />
+        <option name="myStatusName" value="Skipped" />
+        <option name="mySupportsDeletion" value="false" />
+        <option name="myCanBeAbsent" value="false" />
+        <option name="myId" value="SKIPPED" />
+      </FILE-GROUP>
+      <FILE-GROUP>
+        <option name="myUpdateName" value="Merged with conflicts" />
+        <option name="myStatusName" value="Will be merged with conflicts" />
+        <option name="mySupportsDeletion" value="false" />
+        <option name="myCanBeAbsent" value="false" />
+        <option name="myId" value="MERGED_WITH_CONFLICTS" />
+      </FILE-GROUP>
+      <FILE-GROUP>
+        <option name="myUpdateName" value="Merged with tree conflicts" />
+        <option name="myStatusName" value="Merged with tree conflicts" />
+        <option name="mySupportsDeletion" value="false" />
+        <option name="myCanBeAbsent" value="false" />
+        <option name="myId" value="MERGED_WITH_TREE_CONFLICT" />
+      </FILE-GROUP>
+      <FILE-GROUP>
+        <option name="myUpdateName" value="Merged with property conflicts" />
+        <option name="myStatusName" value="Will be merged with property conflicts" />
+        <option name="mySupportsDeletion" value="false" />
+        <option name="myCanBeAbsent" value="false" />
+        <option name="myId" value="MERGED_WITH_PROPERTY_CONFLICT" />
+      </FILE-GROUP>
+      <FILE-GROUP>
+        <option name="myUpdateName" value="Merged" />
+        <option name="myStatusName" value="Will be merged" />
+        <option name="mySupportsDeletion" value="false" />
+        <option name="myCanBeAbsent" value="false" />
+        <option name="myId" value="MERGED" />
+      </FILE-GROUP>
+      <FILE-GROUP>
+        <option name="myUpdateName" value="Not in repository" />
+        <option name="myStatusName" value="Not in repository" />
+        <option name="mySupportsDeletion" value="true" />
+        <option name="myCanBeAbsent" value="false" />
+        <option name="myId" value="UNKNOWN" />
+      </FILE-GROUP>
+      <FILE-GROUP>
+        <option name="myUpdateName" value="Locally added" />
+        <option name="myStatusName" value="Locally added" />
+        <option name="mySupportsDeletion" value="false" />
+        <option name="myCanBeAbsent" value="false" />
+        <option name="myId" value="LOCALLY_ADDED" />
+      </FILE-GROUP>
+      <FILE-GROUP>
+        <option name="myUpdateName" value="Locally removed" />
+        <option name="myStatusName" value="Locally removed" />
+        <option name="mySupportsDeletion" value="false" />
+        <option name="myCanBeAbsent" value="false" />
+        <option name="myId" value="LOCALLY_REMOVED" />
+      </FILE-GROUP>
+      <FILE-GROUP>
+        <option name="myUpdateName" value="Switched" />
+        <option name="myStatusName" value="Switched" />
+        <option name="mySupportsDeletion" value="false" />
+        <option name="myCanBeAbsent" value="false" />
+        <option name="myId" value="SWITCHED" />
+      </FILE-GROUP>
+    </UpdatedFiles>
   </component>
   <component name="RunDashboard">
     <option name="ruleStates">
@@ -1081,7 +1149,7 @@
       <workItem from="1544503076152" duration="144000" />
       <workItem from="1544635680251" duration="851000" />
       <workItem from="1544654950921" duration="69176000" />
-      <workItem from="1544910598760" duration="10867000" />
+      <workItem from="1544910598760" duration="11526000" />
     </task>
     <task id="LOCAL-00001" summary="Add Point class and Utils">
       <created>1542921746750</created>
@@ -1153,15 +1221,21 @@
       <option name="project" value="LOCAL" />
       <updated>1543545048387</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="Added Automatic Pricing">
+      <created>1544923017952</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1544923017952</updated>
+    </task>
+    <option name="localTasksCounter" value="12" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="219041000" />
+    <option name="totallyTimeSpent" value="219700000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.1684435" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -1248,7 +1322,8 @@
     <MESSAGE value="Update automatic seat distribution 2" />
     <MESSAGE value="Improved automatic seat distribution" />
     <MESSAGE value="Automatic seat distribution minor update" />
-    <option name="LAST_COMMIT_MESSAGE" value="Automatic seat distribution minor update" />
+    <MESSAGE value="Added Automatic Pricing" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added Automatic Pricing" />
     <option name="MAKE_NEW_CHANGELIST_ACTIVE" value="true" />
   </component>
   <component name="editorHistoryManager">
@@ -1472,7 +1547,7 @@
     <entry file="file://$PROJECT_DIR$/src/main/java/com/inno/app/room/ImmutableSeat.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="176">
-          <caret line="17" column="1" lean-forward="true" selection-start-line="17" selection-start-column="1" selection-end-line="17" selection-end-column="1" />
+          <caret line="17" column="1" selection-start-line="17" selection-start-column="1" selection-end-line="17" selection-end-column="1" />
         </state>
       </provider>
     </entry>
@@ -1507,84 +1582,12 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/java/com/inno/app/AutomaticPrices.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="682">
-          <caret line="31" column="88" selection-start-line="31" selection-start-column="88" selection-end-line="31" selection-end-column="88" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/inno/app/Core.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="420">
-          <caret line="563" lean-forward="true" selection-start-line="563" selection-end-line="563" />
+          <caret line="548" selection-start-line="548" selection-end-line="548" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#2355#2356#0" expanded="true" />
-            <element signature="e#2381#2382#0" expanded="true" />
-            <element signature="e#2650#2651#0" expanded="true" />
-            <element signature="e#2677#2678#0" expanded="true" />
-            <element signature="e#2719#2720#0" expanded="true" />
-            <element signature="e#2753#2754#0" expanded="true" />
-            <element signature="e#2797#2798#0" expanded="true" />
-            <element signature="e#2833#2834#0" expanded="true" />
-            <element signature="e#2879#2880#0" expanded="true" />
-            <element signature="e#2917#2918#0" expanded="true" />
-            <element signature="e#2981#2982#0" expanded="true" />
-            <element signature="e#3025#3026#0" expanded="true" />
-            <element signature="e#3228#3229#0" expanded="true" />
-            <element signature="e#3262#3263#0" expanded="true" />
-            <element signature="e#3307#3308#0" expanded="true" />
-            <element signature="e#3348#3349#0" expanded="true" />
-            <element signature="e#3395#3396#0" expanded="true" />
-            <element signature="e#3438#3439#0" expanded="true" />
-            <element signature="e#3493#3494#0" expanded="true" />
-            <element signature="e#3542#3543#0" expanded="true" />
-            <element signature="e#3593#3594#0" expanded="true" />
-            <element signature="e#3640#3641#0" expanded="true" />
-            <element signature="e#3693#3694#0" expanded="true" />
-            <element signature="e#3742#3743#0" expanded="true" />
-            <element signature="e#3826#3827#0" expanded="true" />
-            <element signature="e#3878#3879#0" expanded="true" />
-            <element signature="e#5485#5486#0" expanded="true" />
-            <element signature="e#5540#5541#0" expanded="true" />
-            <element signature="e#7693#7694#0" expanded="true" />
-            <element signature="e#7742#7743#0" expanded="true" />
-            <element signature="e#8574#8575#0" expanded="true" />
-            <element signature="e#8623#8624#0" expanded="true" />
-            <element signature="e#9420#9421#0" expanded="true" />
-            <element signature="e#9472#9473#0" expanded="true" />
-            <element signature="e#12118#12119#0" expanded="true" />
-            <element signature="e#12173#12174#0" expanded="true" />
-            <element signature="e#12228#12229#0" expanded="true" />
-            <element signature="e#12279#12280#0" expanded="true" />
-            <element signature="e#14272#14273#0" expanded="true" />
-            <element signature="e#14308#14309#0" expanded="true" />
-            <element signature="e#14374#14375#0" expanded="true" />
-            <element signature="e#14411#14412#0" expanded="true" />
-            <element signature="e#15572#15573#0" expanded="true" />
-            <element signature="e#15612#15613#0" expanded="true" />
-            <element signature="e#16013#16014#0" expanded="true" />
-            <element signature="e#16066#16067#0" expanded="true" />
-            <element signature="e#16831#16832#0" expanded="true" />
-            <element signature="e#16897#16898#0" expanded="true" />
-            <element signature="e#16956#16957#0" expanded="true" />
-            <element signature="e#17019#17020#0" expanded="true" />
-            <element signature="e#17072#17073#0" expanded="true" />
-            <element signature="e#17129#17130#0" expanded="true" />
-            <element signature="e#17199#17200#0" expanded="true" />
-            <element signature="e#17236#17237#0" expanded="true" />
-            <element signature="e#18235#18236#0" expanded="true" />
-            <element signature="e#18286#18287#0" expanded="true" />
-            <element signature="e#18506#18507#0" expanded="true" />
-            <element signature="e#18541#18542#0" expanded="true" />
-            <element signature="e#18589#18590#0" expanded="true" />
-            <element signature="e#18624#18625#0" expanded="true" />
-            <element signature="e#18685#18686#0" expanded="true" />
-            <element signature="e#18718#18719#0" expanded="true" />
             <element signature="e#28207#28208#0" expanded="true" />
             <element signature="e#28246#28247#0" expanded="true" />
             <element signature="e#28270#28271#0" expanded="true" />
@@ -1597,40 +1600,52 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/inno/app/room/Room.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="462">
-          <caret line="335" selection-start-line="335" selection-start-column="2" selection-end-line="335" selection-end-column="86" />
+        <state relative-caret-position="330">
+          <caret line="343" column="9" lean-forward="true" selection-start-line="343" selection-start-column="9" selection-end-line="343" selection-end-column="9" />
           <folding>
             <element signature="imports" expanded="true" />
-            <element signature="e#1505#1506#0" expanded="true" />
-            <element signature="e#1538#1539#0" expanded="true" />
-            <element signature="e#1569#1570#0" expanded="true" />
-            <element signature="e#1602#1603#0" expanded="true" />
-            <element signature="e#1646#1647#0" expanded="true" />
-            <element signature="e#1683#1684#0" expanded="true" />
-            <element signature="e#1716#1717#0" expanded="true" />
-            <element signature="e#1751#1752#0" expanded="true" />
-            <element signature="e#1793#1794#0" expanded="true" />
-            <element signature="e#1828#1829#0" expanded="true" />
-            <element signature="e#1860#1861#0" expanded="true" />
-            <element signature="e#1894#1895#0" expanded="true" />
-            <element signature="e#2604#2605#0" expanded="true" />
-            <element signature="e#2643#2644#0" expanded="true" />
-            <element signature="e#2873#2874#0" expanded="true" />
-            <element signature="e#2907#2908#0" expanded="true" />
-            <element signature="e#2940#2941#0" expanded="true" />
-            <element signature="e#2974#2975#0" expanded="true" />
-            <element signature="e#3021#3022#0" expanded="true" />
-            <element signature="e#3064#3065#0" expanded="true" />
-            <element signature="e#3113#3114#0" expanded="true" />
-            <element signature="e#3158#3159#0" expanded="true" />
-            <element signature="e#3215#3216#0" expanded="true" />
-            <element signature="e#3266#3267#0" expanded="true" />
-            <element signature="e#3319#3320#0" expanded="true" />
-            <element signature="e#3368#3369#0" expanded="true" />
-            <element signature="e#3423#3424#0" expanded="true" />
-            <element signature="e#3474#3475#0" expanded="true" />
-            <element signature="e#3523#3524#0" expanded="true" />
-            <element signature="e#3557#3558#0" expanded="true" />
+            <element signature="e#838#862#0" expanded="true" />
+            <element signature="e#942#967#0" expanded="true" />
+            <element signature="e#1502#1503#0" expanded="true" />
+            <element signature="e#1535#1536#0" expanded="true" />
+            <element signature="e#1566#1567#0" expanded="true" />
+            <element signature="e#1599#1600#0" expanded="true" />
+            <element signature="e#1643#1644#0" expanded="true" />
+            <element signature="e#1680#1681#0" expanded="true" />
+            <element signature="e#1713#1714#0" expanded="true" />
+            <element signature="e#1748#1749#0" expanded="true" />
+            <element signature="e#1790#1791#0" expanded="true" />
+            <element signature="e#1825#1826#0" expanded="true" />
+            <element signature="e#1857#1858#0" expanded="true" />
+            <element signature="e#1891#1892#0" expanded="true" />
+            <element signature="e#2601#2602#0" expanded="true" />
+            <element signature="e#2640#2641#0" expanded="true" />
+            <element signature="e#2870#2871#0" expanded="true" />
+            <element signature="e#2904#2905#0" expanded="true" />
+            <element signature="e#2937#2938#0" expanded="true" />
+            <element signature="e#2971#2972#0" expanded="true" />
+            <element signature="e#3018#3019#0" expanded="true" />
+            <element signature="e#3061#3062#0" expanded="true" />
+            <element signature="e#3110#3111#0" expanded="true" />
+            <element signature="e#3155#3156#0" expanded="true" />
+            <element signature="e#3212#3213#0" expanded="true" />
+            <element signature="e#3263#3264#0" expanded="true" />
+            <element signature="e#3316#3317#0" expanded="true" />
+            <element signature="e#3365#3366#0" expanded="true" />
+            <element signature="e#3420#3421#0" expanded="true" />
+            <element signature="e#3471#3472#0" expanded="true" />
+            <element signature="e#3520#3521#0" expanded="true" />
+            <element signature="e#3554#3555#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/com/inno/app/AutomaticPrices.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="176">
+          <caret line="96" column="21" lean-forward="true" selection-start-line="96" selection-start-column="21" selection-end-line="96" selection-end-column="21" />
+          <folding>
+            <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>

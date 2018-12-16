@@ -26,8 +26,8 @@ public class AutomaticPrices {
                     Point pos = new Point(seat.getPosition()[0], seat.getPosition()[1]);
                     Point sec = new Point (section.getPositions()[0], section.getPositions()[1]);
                     Point posSeat = Utils.rotatePoint(pos, sec, Math.toRadians(section.getRotation()));
-                    System.out.println("seatID: "+section.getId()+"-"+row.getIdRow()+"-"+seat.getId());
-                    System.out.println("position: "+ posSeat.get_x() +", "+ posSeat.get_y());
+//                    System.out.println("seatID: "+section.getId()+"-"+row.getIdRow()+"-"+seat.getId());
+//                    System.out.println("position: "+ posSeat.get_x() +", "+ posSeat.get_y());
                     double distance = Utils.distance(posSeat, posScene);
                     Triplet<String, String, Integer> id = new Triplet<>(section.getId(), row.getIdRow(), seat.getId());
                     if (!seatsByDistance.containsKey(distance))
@@ -49,21 +49,21 @@ public class AutomaticPrices {
         }
 
         TreeSet<Double> distancesMintoMax = new TreeSet<>(seatsByDistance.keySet());
-        System.out.println(nbr+" distances: ");
-        int i = 1;
-        for(double d : distancesMintoMax)
-        {
-            System.out.println(i+": "+d);
-            System.out.println("seat :"+seatsByDistance.get(d).get(0).getFirst()+ "-"
-                    +seatsByDistance.get(d).get(0).getSecond()+"-"+seatsByDistance.get(d).get(0).getThird());
-            i++;
-        }
+//        System.out.println(nbr+" distances: ");
+//        int i = 1;
+//        for(double d : distancesMintoMax)
+//        {
+//            System.out.println(i+": "+d);
+//            System.out.println("seat :"+seatsByDistance.get(d).get(0).getFirst()+ "-"
+//                    +seatsByDistance.get(d).get(0).getSecond()+"-"+seatsByDistance.get(d).get(0).getThird());
+//            i++;
+//        }
 
         if ((((total/nbr)>=minPrice) && ((total/nbr)<=maxPrice))||(total == 0))
         {
             double sum = 0;
             int m = 0;
-            System.out.println("PRINT 1");
+//            System.out.println("PRINT 1");
             for (double dist : distancesMintoMax)
             {
                 ArrayList<Triplet<String, String, Integer>> listid = seatsByDistance.get(dist);
@@ -72,47 +72,47 @@ public class AutomaticPrices {
                     double price = maxPrice - (m * ((maxPrice - minPrice) / (nbr - 1)));
                     Core.get().setSeatPrice(seatid.getFirst(), seatid.getSecond(), Integer.toString(seatid.getThird()), price);
                     sum += price;
-                    System.out.println("seat "+seatid.getFirst()+"-"+seatid.getSecond()+"-"+Integer.toString(seatid.getThird())+ ": "
-                            + Core.get().getSeatPrice(seatid.getFirst(), seatid.getSecond(), Integer.toString(seatid.getThird())).getPrice());
+//                    System.out.println("seat "+seatid.getFirst()+"-"+seatid.getSecond()+"-"+Integer.toString(seatid.getThird())+ ": "
+//                            + Core.get().getSeatPrice(seatid.getFirst(), seatid.getSecond(), Integer.toString(seatid.getThird())).getPrice());
                     m++;
                 }
             }
 
             if (((total/nbr)>=minPrice) && ((total/nbr)<=maxPrice)) {
                 if (sum < total) {
-                    System.out.println("PRINT 2");
+//                    System.out.println("PRINT 2");
                     int v = 0;
-                    double revenu = 0;
+//                    double revenu = 0;
                     double p = (2 * ((nbr * maxPrice) - total)) / (nbr * (nbr - 1));
                     for (double dist : distancesMintoMax) {
                         ArrayList<Triplet<String, String, Integer>> listid = seatsByDistance.get(dist);
                         for (Triplet<String, String, Integer> seatid : listid) {
-                            System.out.println("seat " + seatid.getFirst() + "-" + seatid.getSecond() + "-" + Integer.toString(seatid.getThird()) + ": "
-                                    + Core.get().getSeatPrice(seatid.getFirst(), seatid.getSecond(), Integer.toString(seatid.getThird())).getPrice());
+//                            System.out.println("seat " + seatid.getFirst() + "-" + seatid.getSecond() + "-" + Integer.toString(seatid.getThird()) + ": "
+//                                    + Core.get().getSeatPrice(seatid.getFirst(), seatid.getSecond(), Integer.toString(seatid.getThird())).getPrice());
                             Core.get().setSeatPrice(seatid.getFirst(), seatid.getSecond(), Integer.toString(seatid.getThird()), maxPrice - (p * v));
-                            System.out.println("new price :" + Core.get().getSeatPrice(seatid.getFirst(), seatid.getSecond(), Integer.toString(seatid.getThird())).getPrice());
-                            revenu += maxPrice - (p * v);
+//                            System.out.println("new price :" + Core.get().getSeatPrice(seatid.getFirst(), seatid.getSecond(), Integer.toString(seatid.getThird())).getPrice());
+//                            revenu += maxPrice - (p * v);
                             v++;
                         }
                     }
-                    System.out.println(revenu);
+//                    System.out.println(revenu);
                 } else if (sum > total) {
-                    System.out.println("PRINT 3");
+//                    System.out.println("PRINT 3");
                     int v = 0;
-                    double revenu = 0;
+//                    double revenu = 0;
                     double p = (2 * (total - (nbr * minPrice))) / (nbr * (nbr - 1));
                     for (double dist : distancesMintoMax.descendingSet()) {
                         ArrayList<Triplet<String, String, Integer>> listid = seatsByDistance.get(dist);
                         for (Triplet<String, String, Integer> seatid : listid) {
-                            System.out.println("seat " + seatid.getFirst() + "-" + seatid.getSecond() + "-" + Integer.toString(seatid.getThird())
-                                    + ": " + Core.get().getSeatPrice(seatid.getFirst(), seatid.getSecond(), Integer.toString(seatid.getThird())).getPrice());
+//                            System.out.println("seat " + seatid.getFirst() + "-" + seatid.getSecond() + "-" + Integer.toString(seatid.getThird())
+//                                    + ": " + Core.get().getSeatPrice(seatid.getFirst(), seatid.getSecond(), Integer.toString(seatid.getThird())).getPrice());
                             Core.get().setSeatPrice(seatid.getFirst(), seatid.getSecond(), Integer.toString(seatid.getThird()), minPrice + (p * v));
-                            System.out.println("new price :" + Core.get().getSeatPrice(seatid.getFirst(), seatid.getSecond(), Integer.toString(seatid.getThird())).getPrice());
-                            revenu += minPrice + (p * v);
+//                            System.out.println("new price :" + Core.get().getSeatPrice(seatid.getFirst(), seatid.getSecond(), Integer.toString(seatid.getThird())).getPrice());
+//                            revenu += minPrice + (p * v);
                             v++;
                         }
                     }
-                    System.out.println(revenu);
+//                    System.out.println(revenu);
                 }
 
                 for (double dist : seatsByDistance.keySet()) {
@@ -136,7 +136,7 @@ public class AutomaticPrices {
         {
             if ((((total/nbr)>=minPrice) && ((total/nbr)<=maxPrice))||(total == 0))
             {
-                double revenu = 0;
+//                double revenu = 0;
                 for (ImmutableSittingSection section : room.getImmutableSittingSections().values()) {
                     for (ImmutableSittingRow row : section.getImmutableSittingRows()) {
                         double rowPrice = 0;
@@ -146,10 +146,10 @@ public class AutomaticPrices {
                             seatsInRow++;
                         }
                         Core.get().setRowPrice(section.getId(), row.getIdRow(), rowPrice / seatsInRow);
-                        revenu += rowPrice;
+//                        revenu += rowPrice;
                     }
                 }
-                System.out.println("Revenu total: " + revenu);
+//                System.out.println("Revenu total: " + revenu);
             }
         }
 
@@ -157,7 +157,7 @@ public class AutomaticPrices {
         {
             if ((((total/nbr)>=minPrice) && ((total/nbr)<=maxPrice))||(total == 0))
             {
-                double revenu = 0;
+//                double revenu = 0;
                 for (ImmutableSittingSection section : room.getImmutableSittingSections().values()) {
                     double sectionPrice = 0;
                     int seatsInSection = 0;
@@ -169,9 +169,9 @@ public class AutomaticPrices {
                         }
                     }
                     Core.get().setSectionPrice(section.getId(), sectionPrice / seatsInSection);
-                    revenu += sectionPrice;
+//                    revenu += sectionPrice;
                 }
-                System.out.println("Revenu total: " + revenu);
+//                System.out.println("Revenu total: " + revenu);
             }
         }
     }
