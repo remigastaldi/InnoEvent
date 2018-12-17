@@ -2,7 +2,7 @@
  * File Created: Saturday, 15th December 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Sunday, 16th December 2018
+ * Last Modified: Monday, 17th December 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Remi
@@ -24,9 +24,11 @@ import com.inno.ui.innoengine.InnoEngine;
 
 public class UndoRedoHelper {
   private UndoRedo _undoRedo = new UndoRedo();
-  private InnoEngine _engine;
-  private Room _room;
-  private Pricing _pricing;
+  private InnoEngine _engine = null;
+  private Room _room = null;
+  private Pricing _pricing = null;
+  private long _actionsNumber = 0;
+  private long _lastChangedCheck = 0;
 
   public UndoRedoHelper(InnoEngine engine, Room room, Pricing pricing) {
     _engine = engine;
@@ -48,6 +50,8 @@ public class UndoRedoHelper {
     command.updateSectionPositions(positions);
 
     _undoRedo.insert(command);
+
+    _actionsNumber++;
   }
 
   public ImmutableSittingSection createSittingSection(double[] positions, double rotation, boolean isRectangle) {
@@ -55,6 +59,7 @@ public class UndoRedoHelper {
     ImmutableSittingSection section = command.createSectionInDomain();
 
     _undoRedo.insert(command);
+    _actionsNumber++;
     return section;
   }
 
@@ -65,6 +70,7 @@ public class UndoRedoHelper {
 
     command.deleteSection();
     _undoRedo.insert(command);
+    _actionsNumber++;
   }
 
   public void createSectionFromBuffer() {
@@ -72,5 +78,16 @@ public class UndoRedoHelper {
 
     command.execute();
     _undoRedo.insert(command);
+    _actionsNumber++;
+  }
+
+  public boolean hasChanged() {
+    boolean hasChanged = false;
+
+    if (_actionsNumber > _lastChangedCheck) {
+      hasChanged = true;
+      _lastChangedCheck = _actionsNumber;
+    }
+    return hasChanged;
   }
 }
