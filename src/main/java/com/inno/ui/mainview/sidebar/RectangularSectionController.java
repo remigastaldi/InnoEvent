@@ -3,7 +3,11 @@
  * Author: MAREL Maud
  * -----
  * Last Modified: Monday, 17th December 2018
+<<<<<<< HEAD
  * Modified By: MAREL Maud
+=======
+ * Modified By: GASTALDI Rémi
+>>>>>>> ed07382e4f3aef71b2c3e82f4191df6c7c61f39f
  * -----
  * Copyright - 2018 MAREL Maud
  * <<licensetext>>
@@ -16,7 +20,6 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import com.inno.app.room.ImmutableSittingSection;
 import com.inno.service.pricing.ImmutableOffer;
 import com.inno.service.pricing.ImmutablePlaceRate;
 import com.inno.ui.Validator;

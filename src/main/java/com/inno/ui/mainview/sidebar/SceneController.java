@@ -2,8 +2,8 @@
  * File Created: Tuesday, 13th November 2018
  * Author: MAREL Maud
  * -----
- * Last Modified: Sunday, 16th December 2018
- * Modified By: MAREL Maud
+ * Last Modified: Monday, 17th December 2018
+ * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 MAREL Maud
  * <<licensetext>>
@@ -83,7 +83,7 @@ public class SceneController extends ViewController {
   }
 
   private void setRotation(double angle, boolean input) {
-    scene_rotation_group.setRotate(angle);
+    scene_rotation_group.setRotate(angle - 90);
     if (!input) {
       scene_rotation_input.setText("" + (angle));
     }
