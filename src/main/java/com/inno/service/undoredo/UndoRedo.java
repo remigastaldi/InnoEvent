@@ -15,7 +15,7 @@ import java.util.Stack;
 
 
 public class UndoRedo {
-  static final int FIXED_SIZE = 5000;
+  static final int FIXED_SIZE = 10000;
   private Stack<Command> _undoCommands = new Stack<Command>(){
     private static final long serialVersionUID = 1L;
     public Command push(Command item) {

@@ -2,7 +2,7 @@
  * File Created: Saturday, 15th December 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Saturday, 15th December 2018
+ * Last Modified: Sunday, 16th December 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Remi
@@ -13,6 +13,8 @@
 package com.inno.app.undoredo.command;
 
 import com.inno.app.room.Room;
+import com.inno.app.room.Section;
+import com.inno.app.room.SittingSection;
 import com.inno.service.Point;
 import com.inno.service.Utils;
 import com.inno.service.undoredo.Command;
@@ -24,6 +26,7 @@ public class UpdateSectionPositions implements Command {
   private String _idSection = null;
   private double[] _positions = null;
   private boolean _rectangular = false;
+  private boolean _autoDistrib = true;
 
   private double[] _oldPositions = null;
 
@@ -46,14 +49,20 @@ public class UpdateSectionPositions implements Command {
 
   @Override
   public void execute() {
-    _oldPositions = _room.getImmutableSectionById(_idSection).getPositions().clone();
+    Section section = (Section) _room.getSectionById(_idSection);
+    _oldPositions = section.getPositions().clone();
+    if (section.isStanding())
+      _autoDistrib = ((SittingSection)section).getAutoDistribution();
     updateSectionPositions(_positions);
     _engine.updateSectionFromData(_idSection);
   }
 
   @Override
   public void unExecute() {
+    Section section = (Section) _room.getSectionById(_idSection);
     if (_oldPositions != null) {
+      if (section.isStanding())
+        ((SittingSection)section).setAutoDistribution(((SittingSection)section).getAutoDistribution());
       updateSectionPositions(_oldPositions);
       _engine.updateSectionFromData(_idSection);
     }
