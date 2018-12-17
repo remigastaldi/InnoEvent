@@ -2,7 +2,7 @@
  * File Created: Tuesday, 13th November 2018
  * Author: MAREL Maud
  * -----
- * Last Modified: Sunday, 16th December 2018
+ * Last Modified: Monday, 17th December 2018
  * Modified By: MAREL Maud
  * -----
  * Copyright - 2018 MAREL Maud
@@ -293,7 +293,7 @@ public class IrregularSectionController extends ViewController {
 
   @FXML
   private void SectionSittingIrregularAutoDistrib() {
-    InnoPolygon polygon = (InnoPolygon) getIntent();
+   /* InnoPolygon polygon = (InnoPolygon) getIntent();
     ImmutableSittingSection section = (ImmutableSittingSection) Core().getImmutableRoom().getSectionById(polygon.getID());
     if (section.getAutoDistribution()) {
       section_auto_distrib_input.setSelected(false);
@@ -302,7 +302,7 @@ public class IrregularSectionController extends ViewController {
     else {
       section_auto_distrib_input.setSelected(true);
       Core().setSittingSectionAutoDistribution(polygon.getID(), true);
-    }
+    }*/
   }
 
   private boolean checkInputs() {
