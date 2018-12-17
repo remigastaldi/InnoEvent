@@ -2,7 +2,7 @@
  * File Created: Tuesday, 9th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Sunday, 16th December 2018
+ * Last Modified: Monday, 17th December 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -541,5 +541,9 @@ public class Core {
 
   public void redo() {
     _undoRedo.redo(1);
+  }
+
+  public boolean hasChanged() {
+    return _undoRedo.hasChanged();
   }
 };
