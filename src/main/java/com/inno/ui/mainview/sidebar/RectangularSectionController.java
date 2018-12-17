@@ -2,8 +2,8 @@
  * File Created: Tuesday, 13th November 2018
  * Author: MAREL Maud
  * -----
- * Last Modified: Sunday, 16th December 2018
- * Modified By: MAREL Maud
+ * Last Modified: Monday, 17th December 2018
+ * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 MAREL Maud
  * <<licensetext>>
@@ -16,7 +16,6 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import com.inno.app.room.ImmutableSittingSection;
 import com.inno.service.pricing.ImmutableOffer;
 import com.inno.service.pricing.ImmutablePlaceRate;
 import com.inno.ui.Validator;
