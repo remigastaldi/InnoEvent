@@ -2,8 +2,8 @@
  * File Created: Tuesday, 13th November 2018
  * Author: MAREL Maud
  * -----
- * Last Modified: Wednesday, 12th December 2018
- * Modified By: GASTALDI Rémi
+ * Last Modified: Sunday, 16th December 2018
+ * Modified By: MAREL Maud
  * -----
  * Copyright - 2018 MAREL Maud
  * <<licensetext>>
@@ -63,6 +63,11 @@ public class SceneController extends ViewController {
       System.out.println("Rectangle is null");
       return;
     }
+    scene_height_input.setText(Double.toString(rectangle.getHeightToMetter()));
+    scene_width_input.setText(Double.toString(rectangle.getWidthToMetter()));
+    scene_rotation_input.setText(Double.toString(Core().getImmutableRoom().getImmutableScene().getRotation()));
+    scene_elevation_input.setText(Double.toString(Core().getImmutableRoom().getImmutableScene().getElevation()));
+ 
     rectangle.widthProperty().addListener((ChangeListener<Number>) (ov, oldX, newX) -> {
       if (!scene_width_input.getText().equals(Double.toString(rectangle.getWidthToMetter()))) {
         scene_width_input.setText(Double.toString(rectangle.getWidthToMetter()));
@@ -75,11 +80,6 @@ public class SceneController extends ViewController {
         checkInputs();
       }
     });
-
-    scene_height_input.setText(Double.toString(rectangle.getHeightToMetter()));
-    scene_width_input.setText(Double.toString(rectangle.getWidthToMetter()));
-    scene_rotation_input.setText(Double.toString(Core().getImmutableRoom().getImmutableScene().getRotation()));
-    scene_elevation_input.setText(Double.toString(Core().getImmutableRoom().getImmutableScene().getElevation()));
   }
 
   private void setRotation(double angle, boolean input) {
@@ -100,14 +100,14 @@ public class SceneController extends ViewController {
       double mouseY = mouseEvent.getY();
       Point2D pos = new Point2D(mouseX, mouseY);
       Point2D pos2 = new Point2D(scene_rotation_circle.getCenterX(), scene_rotation_circle.getCenterY());
-      //pos2 = scene_rotation_group.localToScene(pos2);
-      //pos2 = sidebar_content.sceneToLocal(pos2);
+      pos2 = scene_rotation_group.localToScene(pos2);
+      pos2 = sidebar_content.sceneToLocal(pos2);
 
-      //double angle = Math.atan2(pos.getX() - pos2.getX(), -(pos.getY() - pos2.getY())) * (180 / Math.PI);
+      double angle = Math.atan2(pos.getX() - pos2.getX(), -(pos.getY() - pos2.getY())) * (180 / Math.PI);
 
       //System.out.println(angle);
       // angle = convertTo360(angle);
-      //setRotation(angle, false);
+      setRotation(angle, false);
     };
     sidebar_content.addEventHandler(MouseEvent.MOUSE_DRAGGED, _mouseDragged);
   }

@@ -4,6 +4,7 @@
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.Group?>
 <?import javafx.scene.control.Accordion?>
+<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.ColorPicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
@@ -39,6 +40,7 @@
                                     <Label layoutY="146.0" text="VitalSpace Height" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
                                     <Label layoutY="233.0" text="Rotation" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
                                     <Label layoutY="190.0" text="Elevation" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+                                    <Label layoutY="274.0" text="Auto distribution" />
                                  </children>
                               </AnchorPane>
                               <AnchorPane layoutX="151.0" layoutY="74.0" minWidth="89.0" prefHeight="469.0" prefWidth="89.0" AnchorPane.leftAnchor="139.0" AnchorPane.rightAnchor="10.0">
@@ -58,7 +60,8 @@
                                           </Circle>
                                        </children>
                                     </Group>
-                                    <TextField fx:id="section_elevation_input" layoutX="-33.0" layoutY="176.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+                                    <TextField fx:id="section_elevation_input" layoutX="-33.0" layoutY="176.0" onKeyReleased="#onKeyReleased" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+                                    <CheckBox fx:id="section_auto_distrib_input" layoutX="2.0" layoutY="267.0" mnemonicParsing="false" onAction="#SectionSittingRectangularAutoDistrib" prefHeight="18.0" prefWidth="18.0" />
                                  </children>
                               </AnchorPane>
                            </children>

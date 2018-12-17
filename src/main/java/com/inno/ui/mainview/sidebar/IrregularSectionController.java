@@ -3,7 +3,7 @@
  * Author: MAREL Maud
  * -----
  * Last Modified: Sunday, 16th December 2018
- * Modified By: GASTALDI Rémi
+ * Modified By: MAREL Maud
  * -----
  * Copyright - 2018 MAREL Maud
  * <<licensetext>>
@@ -11,6 +11,7 @@
 
 package com.inno.ui.mainview.sidebar;
 
+import com.inno.app.room.ImmutableSittingSection;
 import com.inno.service.pricing.ImmutableOffer;
 import com.inno.service.pricing.ImmutablePlaceRate;
 import com.inno.ui.Validator;
@@ -28,6 +29,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Group;
 import javafx.scene.control.Accordion;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
@@ -48,13 +50,14 @@ public class IrregularSectionController extends ViewController {
   private TextField section_vital_space_width_input;
   @FXML
   private TextField section_vital_space_height_input;
-  @FXML
-  private TextField section_auto_distrib_input;
 
   @FXML
   private TextField section_rotation_input;
   @FXML
   private TextField section_elevation_input;
+
+  @FXML
+  private CheckBox section_auto_distrib_input;
 
   @FXML
   private Group section_rotation_group;
@@ -111,7 +114,10 @@ public class IrregularSectionController extends ViewController {
 
     section_name_input.setText(Core().getImmutableRoom().getSectionById(polygon.getID()).getNameSection());
     section_rotation_input.setText(Double.toString(polygon.getRotation().getAngle()));
-    section_elevation_input.setText(Double.toString(polygon.getSittingData().getElevation()));
+    section_elevation_input.setText(Double.toString(Core().getImmutableRoom().getSectionById(polygon.getID()).getElevation()));
+    section_auto_distrib_input.setSelected(((ImmutableSittingSection) Core().getImmutableRoom().getSectionById(polygon.getID())).getAutoDistribution());
+    section_auto_distrib_input.setIndeterminate(false);   
+
 
     // setRotation(polygon.getRotation().getAngle(), false);
     section_rotation_input
@@ -283,6 +289,20 @@ public class IrregularSectionController extends ViewController {
       return;
     }
     polygon.sittingToStanding();
+  }
+
+  @FXML
+  private void SectionSittingIrregularAutoDistrib() {
+    InnoPolygon polygon = (InnoPolygon) getIntent();
+    ImmutableSittingSection section = (ImmutableSittingSection) Core().getImmutableRoom().getSectionById(polygon.getID());
+    if (section.getAutoDistribution()) {
+      section_auto_distrib_input.setSelected(false);
+      Core().setSittingSectionAutoDistribution(polygon.getID(), false);
+    }
+    else {
+      section_auto_distrib_input.setSelected(true);
+      Core().setSittingSectionAutoDistribution(polygon.getID(), true);
+    }
   }
 
   private boolean checkInputs() {

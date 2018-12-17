@@ -2,8 +2,8 @@
  * File Created: Tuesday, 13th November 2018
  * Author: MAREL Maud
  * -----
- * Last Modified: Friday, 14th December 2018
- * Modified By: GASTALDI Rémi
+ * Last Modified: Sunday, 16th December 2018
+ * Modified By: MAREL Maud
  * -----
  * Copyright - 2018 MAREL Maud
  * <<licensetext>>
@@ -16,6 +16,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import com.inno.app.room.ImmutableSittingSection;
 import com.inno.service.pricing.ImmutableOffer;
 import com.inno.service.pricing.ImmutablePlaceRate;
 import com.inno.ui.Validator;
@@ -29,6 +30,7 @@ import javafx.fxml.FXML;
 import javafx.geometry.Point2D;
 import javafx.scene.Group;
 import javafx.scene.control.Accordion;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
@@ -57,6 +59,8 @@ public class RectangularSectionController extends ViewController {
   private TextField section_rotation_input;
   @FXML
   private TextField section_elevation_input;
+  @FXML
+  private CheckBox section_auto_distrib_input;
 
   @FXML
   private Group section_rotation_group;
@@ -105,7 +109,6 @@ public class RectangularSectionController extends ViewController {
       System.out.println("Rectangle is null");
       return;
     }
-
     if (Core().getSectionPrice(rectangle.getID()) != null
         && Core().getSectionPrice(rectangle.getID()).getPrice() != -1) {
       section_price_input.setText(Double.toString(Core().getSectionPrice(rectangle.getID()).getPrice()));
@@ -115,6 +118,9 @@ public class RectangularSectionController extends ViewController {
     section_columns_input.setText(Integer.toString(rectangle.getColumnNumber()));
     section_rows_input.setText(Integer.toString(rectangle.getRowNumber()));
     section_rotation_input.setText(Double.toString(rectangle.getRotation().getAngle()));
+    section_auto_distrib_input.setSelected(rectangle.getSectionData().getAutoDistribution());
+    section_auto_distrib_input.setIndeterminate(false);
+    section_elevation_input.setText(Double.toString(rectangle.getSectionData().getElevation()));
 
     // setRotation(rectangle.getRotation().getAngle(), false);
     section_rotation_input
@@ -269,6 +275,9 @@ public class RectangularSectionController extends ViewController {
         if (section_name_input.isFocused())
           Core().setSectionName(rectangle.getID(), section_name_input.getText());
 
+        if (section_elevation_input.isFocused())
+          Core().setSectionElevation(rectangle.getID(), Double.parseDouble(section_elevation_input.getText()));
+
         if (section_price_input.getText().trim().length() != 0) {
           section_price_color_picker.setDisable(false);
           Core().setSectionPrice(rectangle.getID(),
@@ -291,6 +300,22 @@ public class RectangularSectionController extends ViewController {
     }
   }
 
+  @FXML
+  private void SectionSittingRectangularAutoDistrib() {
+    InnoRectangle rectangle = (InnoRectangle) getIntent();
+
+    if (rectangle.getSectionData().getAutoDistribution()) {
+      section_auto_distrib_input.setSelected(false);
+      Core().setSittingSectionAutoDistribution(rectangle.getSectionData().getId(), false);
+    }
+    else {
+      section_auto_distrib_input.setSelected(true);
+      Core().setSittingSectionAutoDistribution(rectangle.getSectionData().getId(), true);
+      Core().updateSectionPositions(rectangle.getSectionData().getId(), rectangle.getSectionData().getPositions(), true);
+      rectangle.updateFromData(false);
+    }
+  }
+
   private boolean checkInputs() {
     boolean valid = true;
 
@@ -300,6 +325,7 @@ public class RectangularSectionController extends ViewController {
     fields.put(section_rows_input, "required|numeric|min:1");
     fields.put(section_vital_space_width_input, "required|numeric");
     fields.put(section_vital_space_height_input, "required|numeric");
+    fields.put(section_elevation_input, "required|numeric"); 
     fields.put(section_rotation_input, "required|numeric|min:-180|max:180");
     fields.put(section_price_input, "numeric|min:0");
 

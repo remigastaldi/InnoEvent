@@ -3,7 +3,7 @@
  * Author: GASTALDI Rémi
  * -----
  * Last Modified: Sunday, 16th December 2018
- * Modified By: GASTALDI Rémi
+ * Modified By: MAREL Maud
 
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -286,11 +286,13 @@ public class Room implements ImmutableRoom, Serializable {
     public void updateSectionPositions(String idSection, double[] positions) {
     Section section = null;
         if ((section = this._sittingSections.get(idSection)) != null) {
-            clearAllSittingRows(idSection);
-            if (((ImmutableSittingSection) section).isRectangle()) {
-                updateRectangleRows(positions, section);
-            } else {
-                updatePolygonRows(positions, (SittingSection) section);
+            if (((ImmutableSittingSection) section).getAutoDistribution()) {
+                clearAllSittingRows(idSection);
+                if (((ImmutableSittingSection) section).isRectangle()) {
+                    updateRectangleRows(positions, section);
+                } else {
+                    updatePolygonRows(positions, (SittingSection) section);
+                }
             }
             section.updatePosition(positions);
         } else if ((section = this._standingSections.get(idSection)) != null) {
