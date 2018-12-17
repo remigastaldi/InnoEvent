@@ -62,7 +62,7 @@ public class UpdateSectionPositions implements Command {
     Section section = (Section) _room.getSectionById(_idSection);
     if (_oldPositions != null) {
       if (section.isStanding())
-        ((SittingSection)section).setAutoDistribution(((SittingSection)section).getAutoDistribution());
+        ((SittingSection)section).setAutoDistribution(_autoDistrib);
       updateSectionPositions(_oldPositions);
       _engine.updateSectionFromData(_idSection);
     }
