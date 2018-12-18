@@ -135,7 +135,14 @@
                               <Tooltip text="Magnet" />
                            </tooltip>
                         </Button>
-                        <Button mnemonicParsing="false" onAction="#toggleSidebarAction" text="ToggleSidebar" />
+                        <Button mnemonicParsing="false" onAction="#toggleSidebarAction">
+                           <graphic>
+                              <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../icon/hamburger.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic></Button>
                      </buttons>
                      <padding>
                         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
