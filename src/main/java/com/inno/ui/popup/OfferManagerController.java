@@ -2,7 +2,7 @@
  * File Created: Friday, 26th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Thursday, 13th December 2018
+ * Last Modified: Monday, 17th December 2018
  * Modified By: HUBERT Léo
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -32,6 +32,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
+import javafx.stage.Stage;
 
 public class OfferManagerController extends ViewController {
 
@@ -102,6 +103,10 @@ public class OfferManagerController extends ViewController {
 
         if (_selectedOffer == null && offer != null) {
             offerProperties.setVisible(true);
+        } else if (offer == null) {
+            _selectedOffer = null;
+            offerProperties.setVisible(false);
+            return;
         }
 
         offerReductionType.setOnAction(null);
@@ -189,11 +194,28 @@ public class OfferManagerController extends ViewController {
         for (Map.Entry<String, ? extends ImmutableOffer> entry : offers.entrySet()) {
             String offerName = entry.getKey();
             _offerList.add(new CellWithDelFunction(offerName, (offerNameSelected) -> {
+                if (_selectedOffer != null && offerNameSelected.equals(_selectedOffer.getName())) {
+                    setSelectedOffer(null);
+                }
                 Core().deleteOffer(offerNameSelected);
                 refreshOfferList();
                 return true;
             }));
         }
+    }
+
+    @FXML
+    private void doneButtonAction() {
+        Stage stage = (Stage) anchor_root.getScene().getWindow();
+        // do what you have to do
+        stage.close();
+    }
+
+    @FXML
+    private void cancelButtonAction() {
+        Stage stage = (Stage) anchor_root.getScene().getWindow();
+        // do what you have to do
+        stage.close();
     }
 
     @FXML

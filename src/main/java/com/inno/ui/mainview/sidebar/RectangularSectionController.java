@@ -3,11 +3,7 @@
  * Author: MAREL Maud
  * -----
  * Last Modified: Monday, 17th December 2018
-<<<<<<< HEAD
- * Modified By: MAREL Maud
-=======
- * Modified By: GASTALDI Rémi
->>>>>>> ed07382e4f3aef71b2c3e82f4191df6c7c61f39f
+ * Modified By: HUBERT Léo
  * -----
  * Copyright - 2018 MAREL Maud
  * <<licensetext>>

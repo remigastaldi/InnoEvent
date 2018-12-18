@@ -2,8 +2,8 @@
  * File Created: Wednesday, 26th September 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Saturday, 15th December 2018
- * Modified By: GASTALDI Rémi
+ * Last Modified: Monday, 17th December 2018
+ * Modified By: HUBERT Léo
  * -----
  * Copyright - 2018 GASTALDI Rémi
  * <<licensetext>>
@@ -12,7 +12,6 @@
 package com.inno.ui.mainview;
 
 import java.io.File;
-import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -39,7 +38,6 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
 import javafx.scene.input.KeyCodeCombination;
-
 
 public class MainViewController extends ViewController {
   @FXML
@@ -103,12 +101,11 @@ public class MainViewController extends ViewController {
                 Engine().copySelectedSectionsToDomainBuffer();
               else if (controlV.match(evt)) {
                 Engine().pastBufferToEngine();
-              }
-              else if (controlZ.match(evt))
+              } else if (controlZ.match(evt))
                 Core.get().undo();
               else if (controlL.match(evt))
                 Core.get().redo();
-              }
+            }
           });
         }
       }
@@ -120,17 +117,17 @@ public class MainViewController extends ViewController {
     _keyPressed.put(evt.getCode(), false);
 
     switch (evt.getCode()) {
-      case A:
-        Engine().createIrregularSection();
-        break;
-      case R:
-        Engine().createRectangularSection();
-        break;
-      case DELETE:
-        Engine().deleteSelectedShape();
-        break;
-      default:
-        break;
+    case A:
+      Engine().createIrregularSection();
+      break;
+    case R:
+      Engine().createRectangularSection();
+      break;
+    case DELETE:
+      Engine().deleteSelectedShape();
+      break;
+    default:
+      break;
     }
   }
 
@@ -256,4 +253,13 @@ public class MainViewController extends ViewController {
     Core.get().redo();
   }
 
+  @FXML
+  private void pricesAction() {
+
+  }
+
+  @FXML
+  private void automaticPricesAction() {
+    View().openPopup("automatic_prices.fxml");
+  }
 }

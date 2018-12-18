@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.Group?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ButtonBar?>
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
@@ -10,34 +12,48 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Font?>
 
-<StackPane fx:id="parentContainer" prefHeight="400.0" prefWidth="650.0" stylesheets="@../../dark-theme.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.inno.ui.popup.OfferManagerController">
+<StackPane fx:id="parentContainer" prefHeight="500.0" prefWidth="650.0" stylesheets="@../../dark-theme.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.inno.ui.popup.OfferManagerController">
    <children>
-      <AnchorPane fx:id="anchor_root" prefHeight="400.0" prefWidth="603.0">
+      <AnchorPane fx:id="anchor_root" prefHeight="519.0" prefWidth="650.0">
          <children>
             <Group layoutX="37.0" layoutY="41.0">
                <children>
-                  <ListView fx:id="offerList" onMouseClicked="#offerListOnMouseClicked" prefHeight="318.0" prefWidth="250.0" />
-                  <Button layoutY="319.0" mnemonicParsing="false" onAction="#createNewOfferAction" prefHeight="27.0" prefWidth="250.0" text="Create New Offer" />
-                  <Label layoutY="-22.0" text="Offers" />
+                  <ListView fx:id="offerList" layoutY="46.0" onMouseClicked="#offerListOnMouseClicked" prefHeight="333.0" prefWidth="250.0" />
+                  <Button layoutY="381.0" mnemonicParsing="false" onAction="#createNewOfferAction" prefHeight="27.0" prefWidth="250.0" text="Create New Offer" />
+                  <Label layoutY="24.0" text="Offers" />
                </children>
             </Group>
-            <Label contentDisplay="CENTER" layoutX="312.0" layoutY="160.0" prefHeight="80.0" prefWidth="308.0" text="Select an offer to view his properties" textAlignment="CENTER" wrapText="true">
+            <Label contentDisplay="CENTER" layoutX="312.0" layoutY="215.0" prefHeight="80.0" prefWidth="308.0" text="Select an offer to view his properties" textAlignment="CENTER" wrapText="true">
                <font>
                   <Font name="System Bold" size="18.0" />
                </font>
             </Label>
-            <AnchorPane fx:id="offerProperties" layoutX="294.0" layoutY="39.0" prefHeight="400.0" prefWidth="344.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <AnchorPane fx:id="offerProperties" layoutX="294.0" layoutY="50.0" prefHeight="444.0" prefWidth="344.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.topAnchor="50.0">
                <children>
                   <TextField fx:id="offerReductionInput" layoutX="171.0" layoutY="94.0" onKeyReleased="#onTextChanged" prefHeight="29.0" prefWidth="156.0" AnchorPane.rightAnchor="17.0" />
                   <TextField fx:id="offerNameInput" layoutX="18.0" layoutY="41.0" onKeyReleased="#onTextChanged" prefHeight="45.0" prefWidth="150.0" promptText="Name" AnchorPane.leftAnchor="18.0" AnchorPane.rightAnchor="18.0" />
                   <Label layoutX="18.0" layoutY="104.0" text="Reduction" />
-                  <ListView fx:id="offerConditionList" layoutX="16.0" layoutY="179.0" onMouseClicked="#offerConditionListOnMouseClicked" prefHeight="176.0" prefWidth="308.0" />
-                  <Button layoutX="16.0" layoutY="355.0" mnemonicParsing="false" onAction="#createNewConditionAction" prefHeight="27.0" prefWidth="308.0" text="Create New Condition" />
-                  <Label layoutX="18.0" layoutY="160.0" text="Conditions" />
+                  <ListView fx:id="offerConditionList" layoutX="16.0" layoutY="179.0" onMouseClicked="#offerConditionListOnMouseClicked" prefHeight="190.0" prefWidth="308.0" />
+                  <Button layoutX="16.0" layoutY="370.0" mnemonicParsing="false" onAction="#createNewConditionAction" prefHeight="27.0" prefWidth="308.0" text="Create New Condition" />
+                  <Label layoutX="18.0" layoutY="159.0" text="Conditions" />
                   <ChoiceBox fx:id="offerReductionType" layoutX="171.0" layoutY="130.0" prefWidth="156.0" />
                   <Label layoutX="18.0" layoutY="133.0" text="Reduction Type" />
                </children>
             </AnchorPane>
+            <ButtonBar layoutX="7.0" layoutY="456.0" prefHeight="40.0" prefWidth="644.0">
+              <buttons>
+                <Button cancelButton="true" mnemonicParsing="false" onAction="#cancelButtonAction" text="Cancel" />
+                  <Button defaultButton="true" mnemonicParsing="false" onAction="#doneButtonAction" text="Done" />
+              </buttons>
+               <padding>
+                  <Insets left="10.0" right="10.0" />
+               </padding>
+            </ButtonBar>
+            <Label layoutX="215.0" layoutY="15.0" text="Offers Manager" AnchorPane.leftAnchor="215.0">
+               <font>
+                  <Font size="30.0" />
+               </font>
+            </Label>
          </children>
       </AnchorPane>
    </children>

@@ -24,14 +24,14 @@
     -fx-text-fill: -fx-light-grey;
 }
 
-.button {
+.button, .menu-button:openvertically {
     -fx-background-color: -fx-grey;
     -fx-text-fill: -fx-light-grey;
     -fx-border-color: transparent;
     -fx-border-width: 0 0 0 0;
 }
 
-.button:hover {
+.button:hover, .menu-button:openvertically:hover {
     -fx-background-color: -fx-dark;
     -fx-text-fill: -fx-primary;
     -fx-cursor: hand;
@@ -42,6 +42,7 @@
     -fx-border-width: 1px;
     -fx-border-radius: 5px;
 }
+
 
 .split-pane:horizontal .split-pane-divider {
     -fx-background-color: -fx-light-dark;

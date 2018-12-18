@@ -5,6 +5,7 @@
 <?import javafx.scene.control.ButtonBar?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuButton?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.SeparatorMenuItem?>
 <?import javafx.scene.control.SplitPane?>
@@ -105,7 +106,12 @@
                            <tooltip>
                               <Tooltip text="New Irregular Section" />
                            </tooltip></Button>
-                        <Button maxHeight="26.0" maxWidth="25.0" mnemonicParsing="false" onAction="#offerManagerAction" prefHeight="25.0" prefWidth="25.0" ButtonBar.buttonData="LEFT">
+                        <MenuButton maxHeight="25.0" maxWidth="50.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="50.0" ButtonBar.buttonData="LEFT">
+                          <items>
+                            <MenuItem mnemonicParsing="false" onAction="#offerManagerAction" text="Offers" />
+                            <MenuItem mnemonicParsing="false" onAction="#pricesAction" text="Prices" />
+                              <MenuItem mnemonicParsing="false" onAction="#automaticPricesAction" text="Automatic Prices" />
+                          </items>
                            <graphic>
                               <ImageView fitHeight="15.0" fitWidth="15.0" preserveRatio="true">
                                  <image>
@@ -116,7 +122,7 @@
                            <tooltip>
                               <Tooltip text="Price Manager" />
                            </tooltip>
-                        </Button>
+                        </MenuButton>
                         <Button fx:id="magnet_button" maxHeight="25.0" maxWidth="25.0" mnemonicParsing="false" onAction="#toggleMagnetismAction" prefHeight="25.0" prefWidth="25.0" ButtonBar.buttonData="LEFT">
                            <graphic>
                               <ImageView fx:id="magnet_icon" fitHeight="15.0" fitWidth="15.0" preserveRatio="true">
