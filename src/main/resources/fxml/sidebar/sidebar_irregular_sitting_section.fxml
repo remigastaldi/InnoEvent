@@ -55,7 +55,7 @@
                                  </children>
                               </AnchorPane>
                               <Label layoutX="7.0" layoutY="303.0" text="Auto distribution" />
-                              <CheckBox fx:id="section_auto_distrib_input" layoutX="139.0" layoutY="303.0" mnemonicParsing="false" onAction="#SectionSittingIrregularAutoDistrib" prefHeight="18.0" prefWidth="18.0" />
+                              <CheckBox fx:id="section_auto_distrib_input" layoutX="139.0" layoutY="303.0" mnemonicParsing="false" onAction="#sectionSittingIrregularAutoDistrib" prefHeight="18.0" prefWidth="18.0" />
                            </children>
                         </AnchorPane>
                         <AnchorPane layoutX="21.4" layoutY="51.4" prefWidth="238.0" styleClass="grey" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="0.0">
@@ -67,7 +67,7 @@
                               </TextField>
                            </children>
                         </AnchorPane>
-                        <Button layoutX="29.0" layoutY="15.0" mnemonicParsing="false" onAction="#SectionSittingToStanding" text="Transform to StandingSection" textAlignment="CENTER" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" />
+                        <Button layoutX="29.0" layoutY="15.0" mnemonicParsing="false" onAction="#sectionSittingToStanding" text="Transform to StandingSection" textAlignment="CENTER" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" />
                      </children>
                   </AnchorPane>
                </content>

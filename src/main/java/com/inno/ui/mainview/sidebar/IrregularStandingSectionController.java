@@ -74,7 +74,6 @@ public class IrregularStandingSectionController extends ViewController {
 
   @FXML
   private void initialize() {
-
     if (Core().getSettingsValue("opened" + getClass().getName()) != null) {
       accordion.getPanes().forEach((pane) -> {
         if (pane.getText().equals(Core().getSettingsValue("opened" + getClass().getName()))) {
@@ -94,7 +93,7 @@ public class IrregularStandingSectionController extends ViewController {
   }
 
   public void init() {
-    InnoPolygon polygon = (InnoPolygon) getIntent();
+        InnoPolygon polygon = (InnoPolygon) getIntent();
 
     if (polygon == null) {
       System.out.println("Polygon is null");
@@ -111,7 +110,7 @@ public class IrregularStandingSectionController extends ViewController {
     // setRotation(polygon.getRotation().getAngle(), false);
     section_rotation_input
         .setText(Double.toString(Core().getImmutableRoom().getSectionById(polygon.getID()).getUserRotation()));
-
+        
     // Price color
     ImmutablePlaceRate place = Core().getSectionPrice(polygon.getID());
     if (place != null) {
@@ -121,7 +120,7 @@ public class IrregularStandingSectionController extends ViewController {
       }
       section_price_color_picker.setValue(Color.valueOf(place.getColor()));
     }
-
+    
     available_offers_list.setOnMouseClicked((e) -> {
       if (e.getClickCount() == 2 && available_offers_list.getFocusModel().getFocusedItem() != null) {
         Core().addSectionOffer(polygon.getID(), available_offers_list.getFocusModel().getFocusedItem());
@@ -129,7 +128,7 @@ public class IrregularStandingSectionController extends ViewController {
         refreshAttributedOffer();
       }
     });
-
+    
     attributed_offers_list.setOnMouseClicked((e) -> {
       if (e.getClickCount() == 2 && attributed_offers_list.getFocusModel().getFocusedItem() != null) {
         Core().removeSectionOffer(polygon.getID(), attributed_offers_list.getFocusModel().getFocusedItem());

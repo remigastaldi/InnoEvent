@@ -3,7 +3,7 @@
  * Author: GASTALDI Rémi
  * -----
  * Last Modified: Tuesday, 18th December 2018
- * Modified By: HUBERT Léo
+ * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
  * <<licensetext>>
@@ -180,12 +180,12 @@ public class Core {
   }
 
   // standingSection Methods
-  public void createStandingSection(int nbPeople, double[] positions, double rotation) {
+  // public void createStandingSection(int nbPeople, double[] positions, double rotation) {
     // Command command = new CreateStandingSection(_engine, _room, nbPeople,
     // positions, rotation);
     // command.execute();
     // _undoRedo.insert(command);
-  }
+  // }
 
   public void setStandingNbPeople(String idSection, int nbPeople) {
     _room.setStandingNbPeople(idSection, nbPeople);

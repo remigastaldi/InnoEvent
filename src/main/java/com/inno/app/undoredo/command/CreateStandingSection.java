@@ -35,9 +35,7 @@ public class CreateStandingSection implements Command {
   public void execute() {
     _section = _room.createStandingSection(_nbPeople, _positions, _rotation);
     Core.get().createPlace(_section.getId(), "#6378bf");
-    Core.get().createStandingSection(_nbPeople, _positions, _rotation);
-    
-    // _engine.crea
+    // Core.get().createStandingSection(_nbPeople, _positions, _rotation);
   }
 
   @Override

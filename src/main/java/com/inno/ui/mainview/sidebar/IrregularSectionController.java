@@ -79,7 +79,6 @@ public class IrregularSectionController extends ViewController {
 
   @FXML
   private void initialize() {
-
     if (Core().getSettingsValue("opened" + getClass().getName()) != null) {
       accordion.getPanes().forEach((pane) -> {
         if (pane.getText().equals(Core().getSettingsValue("opened" + getClass().getName()))) {
@@ -294,7 +293,7 @@ public class IrregularSectionController extends ViewController {
   }
 
   @FXML
-  private void SectionSittingToStanding() {
+  private void sectionSittingToStanding() {
     InnoPolygon polygon = (InnoPolygon) getIntent();
 
     if (polygon == null) {
@@ -305,7 +304,7 @@ public class IrregularSectionController extends ViewController {
   }
 
   @FXML
-  private void SectionSittingIrregularAutoDistrib() {
+  private void sectionSittingIrregularAutoDistrib() {
     InnoPolygon polygon = (InnoPolygon) getIntent();
     ImmutableSittingSection section = (ImmutableSittingSection) Core().getImmutableRoom().getSectionById(polygon.getID());
     if (section.getAutoDistribution()) {

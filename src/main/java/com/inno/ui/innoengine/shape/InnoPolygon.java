@@ -229,7 +229,6 @@ public class InnoPolygon extends InteractivePolygon {
   }
 
   public void sittingToStanding() {
-    InnoEngine engine = (InnoEngine) Engine();
     _standingSectionData = Core.get().sittingToStandingSection(_sittingSectionData.getId());
     _sittingSectionData = null;
     destroyRows();

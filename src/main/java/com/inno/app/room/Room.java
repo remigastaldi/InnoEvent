@@ -3,7 +3,7 @@
  * Author: GASTALDI Rémi
  * -----
  * Last Modified: Tuesday, 18th December 2018
- * Modified By: HUBERT Léo
+ * Modified By: GASTALDI Rémi
 
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -170,6 +170,7 @@ public class Room implements ImmutableRoom, Serializable {
         // this.getSectionById(newSection.getId()).setIdSection(idSection);
         StandingSection obj = this._standingSections.remove(id);
         this._standingSections.put(newSection.getId(), obj);
+        Core.get().createPlace(id, "#6378bf");
         return newSection;
     }
 
@@ -187,6 +188,7 @@ public class Room implements ImmutableRoom, Serializable {
         // this.getSectionById(newSection.getId()).setIdSection(idSection);
         SittingSection obj = this._sittingSections.remove(id);
         this._sittingSections.put(newSection.getId(), obj);
+        Core.get().createPlace(id, "#6378bf");
         return newSection;
     }
 
