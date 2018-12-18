@@ -3,7 +3,7 @@
  * Author: MAREL Maud
  * -----
  * Last Modified: Tuesday, 18th December 2018
- * Modified By: HUBERT Léo
+ * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 MAREL Maud
  * <<licensetext>>
@@ -11,23 +11,21 @@
 
 package com.inno.ui.mainview.sidebar;
 
-import com.inno.app.Core;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
+
 import com.inno.app.room.ImmutableSittingSection;
 import com.inno.service.pricing.ImmutableOffer;
 import com.inno.service.pricing.ImmutablePlaceRate;
 import com.inno.ui.Validator;
 import com.inno.ui.ViewController;
-import com.inno.ui.engine.shape.InteractivePolygon;
 import com.inno.ui.innoengine.shape.InnoPolygon;
-
-import java.util.LinkedHashMap;
-import java.util.Map;
-import javafx.geometry.Point2D;
-import java.util.ArrayList;
-import java.util.HashMap;
 
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.geometry.Point2D;
 import javafx.scene.Group;
 import javafx.scene.control.Accordion;
 import javafx.scene.control.CheckBox;
@@ -120,7 +118,6 @@ public class IrregularSectionController extends ViewController {
         ((ImmutableSittingSection) Core().getImmutableRoom().getSectionById(polygon.getID())).getAutoDistribution());
     section_auto_distrib_input.setIndeterminate(false);
 
-    // setRotation(polygon.getRotation().getAngle(), false);
     section_rotation_input
         .setText(Double.toString(Core().getImmutableRoom().getSectionById(polygon.getID()).getUserRotation()));
 
@@ -278,7 +275,7 @@ public class IrregularSectionController extends ViewController {
                 Double.parseDouble(
                     section_price_input.getText().trim().length() != 0 ? section_price_input.getText() : "-1"),
                 section_price_color_picker.getValue().toString());
-            polygon.updateRowsFromData(false);
+            polygon.updateFromData(false);
           } else {
             Core().setSectionPrice(polygon.getID(), Double.parseDouble(
                 section_price_input.getText().trim().length() != 0 ? section_price_input.getText() : "-1"));
@@ -287,7 +284,7 @@ public class IrregularSectionController extends ViewController {
           Core().setSectionPrice(polygon.getID(), Double.parseDouble("-1"), "#6378bf");
           section_price_color_picker.setDisable(true);
           section_price_color_picker.setValue(Color.valueOf("#6378bf"));
-          polygon.updateRowsFromData(false);
+          polygon.updateFromData(false);
         }
 
       } catch (Exception e) {

@@ -351,8 +351,6 @@ public class Room implements ImmutableRoom, Serializable {
 
     // sittingSection Methods
     public ImmutableSittingSection createSittingSection(double[] positions, double rotation, boolean isRectangle) {
-        System.out.println("========" + _idHandler);
-        // _idHandler = new IdHandler();
         String id = _idHandler.getUniqueId();
         double vitalSpaceWidth = this.getImmutableVitalSpace().getWidth();
         double vitalSpaceHeight = this.getImmutableVitalSpace().getHeight();

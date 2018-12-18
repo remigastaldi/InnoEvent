@@ -20,7 +20,6 @@ import com.inno.service.pricing.ImmutableOffer;
 import com.inno.service.pricing.ImmutablePlaceRate;
 import com.inno.ui.Validator;
 import com.inno.ui.ViewController;
-import com.inno.ui.engine.shape.InteractiveRectangle;
 import com.inno.ui.innoengine.shape.InnoRectangle;
 
 import javafx.beans.value.ChangeListener;

@@ -2,7 +2,7 @@
  * File Created: Tuesday, 27th November 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Saturday, 15th December 2018
+ * Last Modified: Tuesday, 18th December 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Remi
@@ -25,6 +25,7 @@ import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
+import javafx.scene.shape.StrokeType;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
@@ -103,6 +104,7 @@ public class InnoRow {
           .valueOf(Core.get().getSeatPrice(_intShape.getID(), _row.getIdRow(), Integer.toString(seat.getId())).getColor())
           .deriveColor(1, 1, 1, 0.85)));
       circle.setStroke(Color.TRANSPARENT);
+      circle.setStrokeWidth(2);
       circle.setOnMouseClicked(event -> {
         _selectedSeat = seat;
         _engine.getView().setSidebarFromFxmlFileName("sidebar_seat.fxml", this);
