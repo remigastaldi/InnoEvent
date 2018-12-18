@@ -92,9 +92,6 @@ public class InnoPolygon extends InteractivePolygon {
 
   @Override
   public boolean onShapeMoved() {
-    if (_sittingSectionData == null)
-      return true;
-
     Core.get().updateSectionPositions(getID(), ((InnoEngine)Engine()).pixelToMeter(getNoRotatedParentPos()), false);
     updateFromData(true);
     
@@ -196,17 +193,22 @@ public class InnoPolygon extends InteractivePolygon {
   }
 
   private void updatePositionsFromData() {
-    double[] pos = parentToLocal(((InnoEngine)Engine()).meterToPixel(_sittingSectionData.getPositions()));
+    ImmutableSection section = _sittingSectionData != null ? _sittingSectionData : _standingSectionData;
+    
+    double[] pos = parentToLocal(((InnoEngine)Engine()).meterToPixel(section.getPositions()));
 
     updatePoints(pos);
     Rotate rotation = getRotation();
     Point2D center = Engine().getCenterOfPoints(pos);
     rotation.setPivotX(center.getX());
     rotation.setPivotY(center.getY());
-    rotation.setAngle(_sittingSectionData.getRotation());
+    rotation.setAngle(section.getRotation());
   }
 
   public void updateRowsFromData(boolean toParent) {
+    if (_sittingSectionData == null)
+      return;
+
     destroyRows();
     
     ArrayList<? extends ImmutableSittingRow> rows =  _sittingSectionData.getImmutableSittingRows();
