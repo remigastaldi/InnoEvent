@@ -245,6 +245,7 @@ public class InnoPolygon extends InteractivePolygon {
     setID(_sittingSectionData.getId());
     updateFromData(false);
     // updateRowsFromData(false);
+    setColor(Color.valueOf("#6378bf").deriveColor(1, 1, 0.8, 0.85));
     engine.getView().setSidebarFromFxmlFileName("sidebar_irregular_sitting_section.fxml", this);
   }
 
