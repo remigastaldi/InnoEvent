@@ -115,7 +115,7 @@ public class InnoEngine extends Engine {
         }
 
         @Override
-        public boolean onShapeReleased() {
+        public boolean onGroupReleased() {
           updateRectangleSectionsOrientation(false);
           updatePolygonRowsOrientation(false);
           return true;
