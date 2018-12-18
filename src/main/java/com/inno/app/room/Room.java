@@ -12,6 +12,7 @@
 
 package com.inno.app.room;
 
+import com.inno.app.AutomaticPrices;
 import com.inno.app.Core;
 import com.inno.service.IdHandler;
 import com.inno.service.Point;
@@ -366,7 +367,10 @@ public class Room implements ImmutableRoom, Serializable {
             updatePolygonRows(positions, sittingSection);
         }
 
-        // Core.get().setAutomaticPrices(50, 200, 1000, Core.AttributionType.SEAT);
+        if (Core.get().isAutoEnabled()) {
+            Core.get().setAutomaticPrices(Core.get().getAutoMinPrice(), Core.get().getAutoMaxPrice(),
+                    Core.get().getAutoTotal(), Core.get().getAutoAttributionType());
+        }
         return sittingSection;
     }
 

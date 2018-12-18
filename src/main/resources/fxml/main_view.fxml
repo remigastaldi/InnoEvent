@@ -106,7 +106,7 @@
                            <tooltip>
                               <Tooltip text="New Irregular Section" />
                            </tooltip></Button>
-                        <MenuButton maxHeight="25.0" maxWidth="50.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="50.0" ButtonBar.buttonData="LEFT">
+                        <MenuButton maxHeight="25.0" maxWidth="50.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="50.0" styleClass="menu-button-bar" ButtonBar.buttonData="LEFT">
                           <items>
                             <MenuItem mnemonicParsing="false" onAction="#offerManagerAction" text="Offers" />
                             <MenuItem mnemonicParsing="false" onAction="#pricesAction" text="Prices" />

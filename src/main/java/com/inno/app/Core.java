@@ -3,7 +3,7 @@
  * Author: GASTALDI Rémi
  * -----
  * Last Modified: Tuesday, 18th December 2018
- * Modified By: GASTALDI Rémi
+ * Modified By: HUBERT Léo
  * -----
  * Copyright - 2018 GASTALDI Rémi
  * <<licensetext>>
@@ -197,11 +197,15 @@ public class Core {
     return section;
   }
 
-  public void setSectionPrice(String idSection, double price, String color) {
+  public void setSectionPrice(String idSection, double price, String color, Boolean all) {
     HashMap<String, ? extends ImmutablePlaceRate> places = _pricing.getPlaces(idSection + "|");
     _pricing.setPlaceRatePrice(idSection, price);
     if (color != null && price != -1) {
-      setPlaceRateColor(idSection, price, color);
+      if (all) {
+        setPlaceRateColor(idSection, price, color);
+      } else {
+        _pricing.setPlaceRateColor(idSection, color);
+      }
     } else if (price == -1) {
       _pricing.setPlaceRateColor(idSection, "#6378bf");
     }
@@ -216,6 +220,10 @@ public class Core {
         _pricing.setPlaceRateColor(key, "#FFA500");
       }
     }
+  }
+
+  public void setSectionPrice(String idSection, double price, String color) {
+    setSectionPrice(idSection, price, color, true);
   }
 
   private void setPlaceRateColor(String key, double price, String color) {
@@ -254,14 +262,18 @@ public class Core {
     return _pricing.getPlaceRate(idSection);
   }
 
-  public void setRowPrice(String idSection, String idRow, double price, String color) {
+  public void setRowPrice(String idSection, String idRow, double price, String color, Boolean all) {
     HashMap<String, ? extends ImmutablePlaceRate> places = _pricing.getPlaces(idSection + "|" + idRow + "|");
     _pricing.setPlaceRatePrice(idSection, -1);
     _pricing.setPlaceRateColor(idSection, "#6378bf");
 
     _pricing.setPlaceRatePrice(idSection + "|" + idRow, price);
     if (color != null) {
-      setPlaceRateColor(idSection + "|" + idRow, price, color);
+      if (all) {
+        setPlaceRateColor(idSection + "|" + idRow, price, color);
+      } else {
+        _pricing.setPlaceRateColor(idSection + "|" + idRow, color);
+      }
     }
     for (Map.Entry<String, ? extends ImmutablePlaceRate> entry : places.entrySet()) {
       String key = entry.getKey();
@@ -270,6 +282,10 @@ public class Core {
         _pricing.setPlaceRateColor(key, color);
       }
     }
+  }
+
+  public void setRowPrice(String idSection, String idRow, double price, String color) {
+    setRowPrice(idSection, idRow, price, color, true);
   }
 
   public void setRowPrice(String idSection, String idRow, double price) {
@@ -300,15 +316,23 @@ public class Core {
     return _pricing.getPlaceRate(idSection + "|" + idRow);
   }
 
-  public void setSeatPrice(String idSection, String idRow, String idSeat, double price, String color) {
+  public void setSeatPrice(String idSection, String idRow, String idSeat, double price, String color, Boolean all) {
     _pricing.setPlaceRatePrice(idSection, -1);
     _pricing.setPlaceRateColor(idSection, "#6378bf");
     _pricing.setPlaceRatePrice(idSection + "|" + idRow, -1);
     _pricing.setPlaceRateColor(idSection + "|" + idRow, "#7289DA");
     _pricing.setPlaceRatePrice(idSection + "|" + idRow + "|" + idSeat, price);
     if (color != null) {
-      setPlaceRateColor(idSection + "|" + idRow + "|" + idSeat, price, color);
+      if (all) {
+        setPlaceRateColor(idSection + "|" + idRow + "|" + idSeat, price, color);
+      } else {
+        _pricing.setPlaceRateColor(idSection + "|" + idRow + "|" + idSeat, color);
+      }
     }
+  }
+
+  public void setSeatPrice(String idSection, String idRow, String idSeat, double price, String color) {
+    setSeatPrice(idSection, idRow, idSeat, price, color, true);
   }
 
   public void setSeatPrice(String idSection, String idRow, String idSeat, double price) {
@@ -594,4 +618,24 @@ public class Core {
   public void deleteUiSection(String id) {
     _engine.deleteSection(id);
   }
+
+  public double getAutoMinPrice() {
+    return AutomaticPrices.getMinPrice();
+  }
+
+  public double getAutoTotal() {
+    return AutomaticPrices.getTotal();
+  }
+
+  public String getAutoAttributionType() {
+    return AutomaticPrices.getAttributionType().toString();
+  }
+
+  public double getAutoMaxPrice() {
+    return AutomaticPrices.getMaxPrice();
+  }
+
+public boolean isAutoEnabled() {
+	return AutomaticPrices.isEnabled();
+}
 };

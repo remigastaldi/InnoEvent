@@ -2,7 +2,7 @@
  * File Created: Wednesday, 21st November 2018
  * Author: HUBERT Léo
  * -----
- * Last Modified: Tuesday, 27th November 2018
+ * Last Modified: Tuesday, 18th December 2018
  * Modified By: HUBERT Léo
  * -----
  * Copyright - 2018 HUBERT Léo
@@ -42,15 +42,15 @@ public class Validator {
                 return isInteger(v);
             });
             checkers.put("max", (v, n) -> {
-                if (n == null || !isInteger(n))
+                if (n == null || !isDouble(n))
                     return false;
-                Integer newN = new Integer(n);
+                Double newN = new Double(n);
                 return isInferiorOf(v, newN, !validators.contains("numeric"));
             });
             checkers.put("min", (v, n) -> {
-                if (n == null || !isInteger(n))
+                if (n == null || !isDouble(n))
                     return false;
-                Integer newN = new Integer(n);
+                Double newN = new Double(n);
                 return isSuperiorOf(v, newN, !validators.contains("numeric"));
             });
 
@@ -68,7 +68,7 @@ public class Validator {
         return true;
     }
 
-    public static boolean isSuperiorOf(String var, Integer minValue, boolean isString) {
+    public static boolean isSuperiorOf(String var, Double minValue, boolean isString) {
         if (isString && var.length() < minValue) {
             return false;
         } else if (!isString && isDouble(var)) {
@@ -85,7 +85,7 @@ public class Validator {
         return true;
     }
 
-    public static boolean isInferiorOf(String var, Integer maxValue, boolean isString) {
+    public static boolean isInferiorOf(String var, Double maxValue, boolean isString) {
         if (isString && var.length() > maxValue) {
             return false;
         } else if (!isString && isDouble(var)) {

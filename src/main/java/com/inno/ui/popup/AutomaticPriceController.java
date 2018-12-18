@@ -15,6 +15,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import com.inno.app.Core;
 import com.inno.ui.Validator;
 import com.inno.ui.ViewController;
 
@@ -43,8 +44,21 @@ public class AutomaticPriceController extends ViewController {
 
     @Override
     public void init() {
+
         attributionTypeDropdown.getItems().setAll(Core().getAttributionTypesPossibilities());
-        attributionTypeDropdown.getSelectionModel().select("SEAT");
+
+        if (Core.get().isAutoEnabled()) {
+            minPlacePriceInput.setText(Double.toString(Core.get().getAutoMinPrice()));
+            maxPlacePriceInput.setText(Double.toString(Core.get().getAutoMaxPrice()));
+            totalRevenueInput.setText(Double.toString(Core.get().getAutoTotal()));
+            attributionTypeDropdown.getSelectionModel().select(Core.get().getAutoAttributionType());
+
+        } else {
+            attributionTypeDropdown.getSelectionModel().select("SEAT");
+
+        }
+
+
     }
 
     @FXML
