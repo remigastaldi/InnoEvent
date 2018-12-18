@@ -2,8 +2,8 @@
  * File Created: Friday, 12th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Sunday, 16th December 2018
- * Modified By: MAREL Maud
+ * Last Modified: Tuesday, 18th December 2018
+ * Modified By: HUBERT Léo
 
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -32,11 +32,15 @@ public class Room implements ImmutableRoom, Serializable {
     private VitalSpace _vitalSpace;
     private HashMap<String, SittingSection> _sittingSections = new HashMap<String, SittingSection>();
     private HashMap<String, StandingSection> _standingSections = new HashMap<String, StandingSection>();
-    public enum AttributionType {SEAT, ROW, SECTION};
+
+    public enum AttributionType {
+        SEAT, ROW, SECTION
+    };
+
     private ImmutableSittingSection _bufferedSittingSection = null;
     private ImmutableStandingSection _bufferedStandingSection = null;
     private IdHandler _idHandler = null;
-    
+
     public Room(String name, double width, double height, double widthVitalSpace, double heightVitalSpace) {
         this._name = name;
         this._width = width;
@@ -86,8 +90,11 @@ public class Room implements ImmutableRoom, Serializable {
             if (section.getImmutableVitalSpace().getWidth() == _vitalSpace.getWidth()
                     && section.getImmutableVitalSpace().getHeight() == _vitalSpace.getHeight()) {
                 section.setVitalSpace(width, height);
-                Core.get().updateSectionPositions(section.getId(), section.getPositions(),
-                        section.isRectangle()); // Just to recalculate seats positions
+                Core.get().updateSectionPositions(section.getId(), section.getPositions(), section.isRectangle()); // Just
+                                                                                                                   // to
+                                                                                                                   // recalculate
+                                                                                                                   // seats
+                                                                                                                   // positions
             }
         }
         _vitalSpace.setWidth(width);
@@ -185,12 +192,11 @@ public class Room implements ImmutableRoom, Serializable {
     public void copySectionToBuffer(String id) {
         try {
             ImmutableSittingSection sittingSection = this._sittingSections.get(id);
-            ImmutableStandingSection standingSection =  this._standingSections.get(id);
-    
+            ImmutableStandingSection standingSection = this._standingSections.get(id);
+
             if (sittingSection != null) {
                 _bufferedSittingSection = (ImmutableSittingSection) sittingSection.clone();
-            }
-            else if (standingSection != null) {
+            } else if (standingSection != null) {
                 _bufferedStandingSection = (ImmutableStandingSection) standingSection.clone();
             }
         } catch (CloneNotSupportedException e) {
@@ -200,7 +206,7 @@ public class Room implements ImmutableRoom, Serializable {
 
     public Section createSectionFromBuffer() {
         Section section = null;
-        
+
         try {
             if (_bufferedSittingSection != null) {
                 String id = _idHandler.getUniqueId();
@@ -228,7 +234,7 @@ public class Room implements ImmutableRoom, Serializable {
         ImmutableSection oldSection = getImmutableSectionById(idSection);
         ImmutableSection newSection = null;
         String id = _idHandler.getUniqueId();
-        
+
         try {
             newSection = (ImmutableSection) oldSection.clone();
             if (this._sittingSections.get(idSection) != null) {
@@ -284,7 +290,7 @@ public class Room implements ImmutableRoom, Serializable {
     }
 
     public void updateSectionPositions(String idSection, double[] positions) {
-    Section section = null;
+        Section section = null;
         if ((section = this._sittingSections.get(idSection)) != null) {
             if (((ImmutableSittingSection) section).getAutoDistribution()) {
                 clearAllSittingRows(idSection);
@@ -362,7 +368,7 @@ public class Room implements ImmutableRoom, Serializable {
             updatePolygonRows(positions, sittingSection);
         }
 
-//        Core.get().setAutomaticPrices(50, 200, 1000, Core.AttributionType.SEAT);
+        // Core.get().setAutomaticPrices(50, 200, 1000, Core.AttributionType.SEAT);
         return sittingSection;
     }
 
@@ -397,8 +403,7 @@ public class Room implements ImmutableRoom, Serializable {
                     Core.get().createPlace(section.getId() + "|" + row.getIdRow() + "|" + seat.getId(),
                             rowPlace.getColor(), rowPlace.getPrice());
                 } else {
-                    Core.get().createPlace(section.getId() + "|" + row.getIdRow() + "|" + seat.getId(),
-                            "#FFA500");
+                    Core.get().createPlace(section.getId() + "|" + row.getIdRow() + "|" + seat.getId(), "#FFA500");
                 }
                 xSeat += vitalSpaceWidth;
             }
@@ -427,35 +432,35 @@ public class Room implements ImmutableRoom, Serializable {
 
         ArrayList<Point> coord = new ArrayList<>();
 
-		double posx = rightMostX;
-		boolean rowCreated = false;
-		do {
-		    if (!firstSeat) {
-		        posx -= vitalSpaceHeight/10;
-		    }
-		    if (firstSeat) {
-		        posx -= vitalSpaceHeight;
-		    }
+        double posx = rightMostX;
+        boolean rowCreated = false;
+        do {
+            if (!firstSeat) {
+                posx -= vitalSpaceHeight / 10;
+            }
+            if (firstSeat) {
+                posx -= vitalSpaceHeight;
+            }
 
             double posy = lowestY + vitalSpaceWidth;
 
-		    do {
-		        if (!rowCreated) {
-		            posy -= vitalSpaceWidth/10;
-		        }
-		        if (rowCreated) {
-		            posy -= vitalSpaceWidth;
-		        }
+            do {
+                if (!rowCreated) {
+                    posy -= vitalSpaceWidth / 10;
+                }
+                if (rowCreated) {
+                    posy -= vitalSpaceWidth;
+                }
 
                 Point pt = new Point(posx, posy);
                 Point pt1 = new Point(posx - vitalSpaceHeight / 2, posy);
                 Point pt2 = new Point(posx, posy - vitalSpaceWidth / 2);
                 Point pt3 = new Point(posx + vitalSpaceHeight / 2, posy);
                 Point pt4 = new Point(posx, posy + vitalSpaceWidth / 2);
-                Point pt5 = new Point(posx - vitalSpaceHeight / 2,posy + vitalSpaceWidth / 2 );
-                Point pt6 = new Point(posx + vitalSpaceHeight / 2,posy + vitalSpaceWidth / 2 );
-                Point pt7 = new Point(posx - vitalSpaceHeight / 2,posy - vitalSpaceWidth / 2 );
-                Point pt8 = new Point(posx + vitalSpaceHeight / 2,posy - vitalSpaceWidth / 2 );
+                Point pt5 = new Point(posx - vitalSpaceHeight / 2, posy + vitalSpaceWidth / 2);
+                Point pt6 = new Point(posx + vitalSpaceHeight / 2, posy + vitalSpaceWidth / 2);
+                Point pt7 = new Point(posx - vitalSpaceHeight / 2, posy - vitalSpaceWidth / 2);
+                Point pt8 = new Point(posx + vitalSpaceHeight / 2, posy - vitalSpaceWidth / 2);
 
                 if (Utils.insidePolygon(polyTemp, pt1) && Utils.insidePolygon(polyTemp, pt2)
                         && Utils.insidePolygon(polyTemp, pt3) && Utils.insidePolygon(polyTemp, pt4)
@@ -475,15 +480,27 @@ public class Room implements ImmutableRoom, Serializable {
                     double[] posStart = { Start.get_x(), Start.get_y() };
                     double[] posEnd = { End.get_x(), End.get_y() };
                     ImmutableSittingRow row = createSittingRow(sittingSection.getId(), posStart, posEnd);
-                    
-                    Core.get().createPlace(sittingSection.getId() + "|" + row.getIdRow(), "#7289DA");
+
+                    ImmutablePlaceRate sectionPlace = Core.get().getSectionPrice(sittingSection.getId());
+                    if (sectionPlace != null && sectionPlace.getPrice() != -1) {
+                        Core.get().createPlace(sittingSection.getId() + "|" + row.getIdRow(), sectionPlace.getColor(),
+                                sectionPlace.getPrice());
+                    } else {
+                        Core.get().createPlace(sittingSection.getId() + "|" + row.getIdRow(), "#7289DA");
+                    }
 
                     for (Point point : coord) {
                         Point rPoint = Utils.rotatePoint(point, sceneCenter, -angle);
                         double[] seatPos = { rPoint.get_x(), rPoint.get_y() };
                         ImmutableSeat seat = createSeat(sittingSection.getId(), row.getIdRow(), seatPos);
-                        Core.get().createPlace(
-                                sittingSection.getId() + "|" + row.getIdRow() + "|" + seat.getId(), "#FFA500");
+                        ImmutablePlaceRate rowPlace = Core.get().getRowPrice(sittingSection.getId(), row.getIdRow());
+                        if (rowPlace != null && rowPlace.getPrice() != -1) {
+                            Core.get().createPlace(sittingSection.getId() + "|" + row.getIdRow() + "|" + seat.getId(),
+                                    rowPlace.getColor(), rowPlace.getPrice());
+                        } else {
+                            Core.get().createPlace(sittingSection.getId() + "|" + row.getIdRow() + "|" + seat.getId(),
+                                    "#FFA500");
+                        }
                     }
                     rowCreated = false;
                     coord.clear();
