@@ -102,7 +102,7 @@ public class InnoPolygon extends InteractivePolygon {
   }
 
   @Override
-  public boolean onShapeReleased() {
+  public boolean onGroupReleased() {
     updateFromData(false);
     return true;
   }
@@ -144,6 +144,12 @@ public class InnoPolygon extends InteractivePolygon {
     Core.get().updateSectionPositions(getID(), ((InnoEngine)Engine()).pixelToMeter(getNoRotatedParentPos()), false);
     updateFromData(false);
  
+    return true;
+  }
+
+  @Override
+  public boolean onShapeReleased() {
+    onGroupSelected();
     return true;
   }
 

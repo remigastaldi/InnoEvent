@@ -198,6 +198,12 @@ public class InnoRectangle extends InteractiveRectangle {
   }
 
   @Override
+  public boolean onShapeReleased() {
+    onGroupSelected();
+    return true;
+  }
+
+  @Override
   public boolean onGroupSelected() {
     if (getID() == null)
       return false;

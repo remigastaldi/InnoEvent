@@ -47,7 +47,6 @@ public abstract class InteractiveShape<T extends Shape> {
   protected Group _group;
   protected ObservableList<CircleAnchor> _anchors = null;
 
-
   InteractiveShape(Engine engine, Pane pane) {
     _engine = engine;
     _pane = pane;
@@ -70,6 +69,8 @@ public abstract class InteractiveShape<T extends Shape> {
   
   public boolean onShapeMoved() { return true; }
   public boolean onShapeReleased() { return true; }
+
+  public boolean onGroupReleased() { return true; }
   
   public boolean onAnchorPressed() { return true; }
   public boolean onAnchorDragged() { return true; }
@@ -323,10 +324,9 @@ public abstract class InteractiveShape<T extends Shape> {
     EventHandlers().put(MouseEvent.MOUSE_DRAGGED, mouseDragged);
     _group.addEventHandler(MouseEvent.MOUSE_DRAGGED, mouseDragged);
 
-    // _shape.setOnMouseClicked(mouseEvent -> {
-    //   // onSelected();
-    //   System.out.println("-----------------------");
-    // });
+    _shape.setOnMouseReleased(mouseEvent -> {
+      onShapeReleased();
+    });
 
     _group.setOnMousePressed(mouseEvent -> {
       Point2D p = Pane().sceneToLocal(mouseEvent.getSceneX(), mouseEvent.getSceneY());
@@ -353,7 +353,7 @@ public abstract class InteractiveShape<T extends Shape> {
     });
 
     _group.setOnMouseReleased(mouseEvent -> {
-      onShapeReleased();
+      onGroupReleased();
       rectBoundsRotation = null;
       Pane().getChildren().remove(_boundsRect);
     });
