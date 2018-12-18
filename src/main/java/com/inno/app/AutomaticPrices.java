@@ -42,7 +42,7 @@ public class AutomaticPrices {
 
         TreeSet<Double> distancesMintoMax = new TreeSet<>(seatsByDistance.keySet());
 
-        if ((maxPrice < minPrice) || (minPrice < 0) || (maxPrice < 0) || (total != 0 && (((total / nbr) < minPrice) || ((total / nbr) > maxPrice)))) {
+        if ((maxPrice < minPrice) || (minPrice <= 0) || (maxPrice <= 0) || (total != 0 && (((total / nbr) < minPrice) || ((total / nbr) > maxPrice)))) {
             return false;
         }
 
