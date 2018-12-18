@@ -53,8 +53,8 @@ public class AutomaticPrices {
                 for (Triplet<String, String, Integer> seatid : listid) {
                     String hex = String.format("#%02x%02x%02x", (int) R, (int) G, (int) B);
                     double price = maxPrice - (m * ((maxPrice - minPrice) / (nbr - 1)));
-                    Core.get().setSeatPrice(seatid.getFirst(), seatid.getSecond(), Integer.toString(seatid.getThird()), price, hex);
-                    sum += price;
+                    Core.get().setSeatPrice(seatid.getFirst(), seatid.getSecond(), Integer.toString(seatid.getThird()), Utils.round(price, 2), hex);
+                    sum += Utils.round(price, 2);
 
                     if (R == 255) {
                         G += i;
@@ -95,7 +95,7 @@ public class AutomaticPrices {
                         ArrayList<Triplet<String, String, Integer>> listid = seatsByDistance.get(dist);
                         for (Triplet<String, String, Integer> seatid : listid) {
                             String hex = String.format("#%02x%02x%02x", (int) r, (int) g, (int) b);
-                            Core.get().setSeatPrice(seatid.getFirst(), seatid.getSecond(), Integer.toString(seatid.getThird()), maxPrice - (p * v), hex);
+                            Core.get().setSeatPrice(seatid.getFirst(), seatid.getSecond(), Integer.toString(seatid.getThird()), Utils.round(maxPrice - (p * v), 2), hex);
                             if (r == 255) {
                                 g += i;
                                 if (g > 255) {
@@ -134,7 +134,7 @@ public class AutomaticPrices {
                         ArrayList<Triplet<String, String, Integer>> listid = seatsByDistance.get(dist);
                         for (Triplet<String, String, Integer> seatid : listid) {
                             String hex = String.format("#%02x%02x%02x", (int) r, (int) g, (int) b);
-                            Core.get().setSeatPrice(seatid.getFirst(), seatid.getSecond(), Integer.toString(seatid.getThird()), minPrice + (p * v), hex);
+                            Core.get().setSeatPrice(seatid.getFirst(), seatid.getSecond(), Integer.toString(seatid.getThird()), Utils.round(minPrice + (p * v), 2), hex);
                             if (b == 255) {
                                 g += i;
                                 if (g > 255) {
@@ -177,11 +177,12 @@ public class AutomaticPrices {
                             String color = Core.get().getSeatPrice(seatid.getFirst(), seatid.getSecond(), Integer.toString(seatid.getThird())).getColor();
                             r += Integer.parseInt(color.substring(1, 3), 16);
                             g += Integer.parseInt(color.substring(3, 5), 16);
+                            b += Integer.parseInt(color.substring(5, 7), 16);
                         }
-                        String hex = String.format("#%02x%02x%02x", r / totalElements, g / totalElements, b);
+                        String hex = String.format("#%02x%02x%02x", r / totalElements, g / totalElements, b / totalElements);
                         double price = s / totalElements;
                         for (Triplet<String, String, Integer> seatid : listid) {
-                            Core.get().setSeatPrice(seatid.getFirst(), seatid.getSecond(), Integer.toString(seatid.getThird()), price, hex);
+                            Core.get().setSeatPrice(seatid.getFirst(), seatid.getSecond(), Integer.toString(seatid.getThird()), Utils.round(price, 2), hex);
                         }
                     }
                 }
@@ -235,7 +236,7 @@ public class AutomaticPrices {
                             }
                         }
                         String hex = String.format("#%02x%02x%02x", (int) r, (int) g, (int) b);
-                        Core.get().setRowPrice(rowid.getKey(), rowid.getValue(), rowPrice / seatsInRow, hex);
+                        Core.get().setRowPrice(rowid.getKey(), rowid.getValue(), Utils.round(rowPrice / seatsInRow, 2), hex);
                     }
                     if (r == 255) {
                         g += i;
@@ -306,7 +307,7 @@ public class AutomaticPrices {
                             }
                         }
                         String hex = String.format("#%02x%02x%02x", (int) r, (int) g, (int) b);
-                        Core.get().setSectionPrice(sectionid, sectionPrice / seatsInSection, hex);
+                        Core.get().setSectionPrice(sectionid, Utils.round(sectionPrice / seatsInSection, 2), hex);
                     }
                     if (r == 255) {
                         g += i;

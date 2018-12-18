@@ -238,6 +238,19 @@ public class Utils {
         return new Point(((p1.get_x()+p2.get_x())/2),((p1.get_y()+p2.get_y())/2));
     }
 
+    public static double roundDown(double d) {
+        return ((long) (d * 1e2)) / 1e2;
+    }
+
+    public static double round(double value, int places) {
+        if (places < 0) throw new IllegalArgumentException();
+
+        long factor = (long) Math.pow(10, places);
+        value = value * factor;
+        long tmp = Math.round(value);
+        return (double) tmp / factor;
+    }
+
     public static Point[] mirrorRectangle(Point[] rectangle)
     {
         System.out.println("PRINT_4");
