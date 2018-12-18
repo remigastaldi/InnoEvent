@@ -176,7 +176,7 @@ public class InteractivePolygon extends InteractiveShape<Polygon> {
 
     return;
   }
-  
+
   // TODO: TMP
   private void closeForm() {
     closeForm(Color.ROYALBLUE);
@@ -268,28 +268,20 @@ public class InteractivePolygon extends InteractiveShape<Polygon> {
 
   @Override
   public void setRotationAngle(double rotation) {
-    Rotate rotate = getRotation();
-
-    System.out.println("Current rotation pivot " + rotate.getPivotX() + " : " + rotate.getPivotY());
-
-    Point2D center = Engine().getCenterOfPoints(getPoints());
-    System.out.println("Center pivot " + center.getX() + " : " + center.getY());
-
-    rotate.setAngle(rotation);
+    getRotation().setAngle(rotation);
   }
   
   @Override
   public void updatePoints(double[] newPoints) {
-    // int j = 0;
-    // for (CircleAnchor anchor : _anchors) {
-    //   anchor.setCenterX(newPoints[j]);
-    //   anchor.setCenterY(newPoints[j + 1]);
-    //   j += 2;
-    // }
-    System.out.println("UPDATE POINTS");
-    for (int i = 0; i < newPoints.length; ++i) {
-      System.out.println(newPoints[i]);
+    int j = 0;
+    for (CircleAnchor anchor : _anchors) {
+      anchor.setCenterX(newPoints[j]);
+      anchor.setCenterY(newPoints[j + 1]);
+      j += 2;
     }
+    // for (int i = 0; i < newPoints.length; ++i) {
+    //   System.out.println(newPoints[i]);
+    // }
     ObservableList<Double> points = _shape.getPoints();
     for (int i =0; i < newPoints.length; ++i) {
       points.set(i, newPoints[i]);

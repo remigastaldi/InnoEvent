@@ -2,8 +2,8 @@
  * File Created: Thursday, 8th November 2018
  * Author: MAREL Maud
  * -----
- * Last Modified: Wednesday, 12th December 2018
- * Modified By: MAREL Maud
+ * Last Modified: Tuesday, 18th December 2018
+ * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 MAREL Maud
  * <<licensetext>>
@@ -26,10 +26,6 @@ public class Scene implements ImmutableScene, Serializable {
     this._width = width;
     this._height = height;
     this._positions = positions;
-    for (int i = 0; i < _positions.length; i+=2) {
-      System.out.println(";;; " + _positions[i] + " : " + _positions[i + 1]);
-    }
-
     this._rotation = 0;
     this._elevation = 0;
   }

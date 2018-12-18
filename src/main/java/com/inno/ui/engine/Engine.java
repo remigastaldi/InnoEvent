@@ -2,7 +2,7 @@
  * File Created: Friday, 12th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Friday, 14th December 2018
+ * Last Modified: Tuesday, 18th December 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -210,7 +210,6 @@ public class Engine {
   }
 
   public InteractiveRectangle createInteractiveRectangle(String id, double x, double y, double width, double height, Rotate rotation, Color color) {
-    System.out.println(width + " : " + height);
     InteractiveRectangle section = new InteractiveRectangle(this, getPane(), x, y, width, height, rotation, color);
     addInteractiveShape(section);
     deselect();
