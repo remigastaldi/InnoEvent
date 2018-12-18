@@ -263,7 +263,7 @@ public class InnoPolygon extends InteractivePolygon {
   }
 
   public void checkShapeCollision() {
-    if (Engine().isOtherShapeUnder(_shape) == true)
+    if (Engine().isOtherShapeUnder(_shape, getShape()) == true)
       setContourColor(Color.RED);
     else
       setContourColor(Color.valueOf("#6378bf"));
