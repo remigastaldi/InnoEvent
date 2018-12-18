@@ -2,7 +2,7 @@
  * File Created: Wednesday, 10th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Saturday, 15th December 2018
+ * Last Modified: Monday, 17th December 2018
  * Modified By: MAREL Maud
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -234,9 +234,11 @@ public class View extends Application {
     return file;
   }
 
-  public File getSaveProjectFilePath(String extension) {
+  public File getSaveProjectFilePath(String extension, String name) {
     FileChooser fileChooser = new FileChooser();
-
+    if (name != null) {
+      fileChooser.setInitialFileName(name);
+    }
     // Set extension filter for text files 
     FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("InnoEvent", extension);
     fileChooser.getExtensionFilters().add(extFilter);
@@ -244,6 +246,10 @@ public class View extends Application {
     // Show save file dialog
     File file = fileChooser.showSaveDialog(_mainView);
     return file;
+  }
+
+  public File getSaveProjectFilePath(String extension) {
+    return getSaveProjectFilePath(extension, null);
   }
 
   public void showMainView() {

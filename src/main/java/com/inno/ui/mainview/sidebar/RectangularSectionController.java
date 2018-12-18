@@ -3,7 +3,7 @@
  * Author: MAREL Maud
  * -----
  * Last Modified: Monday, 17th December 2018
- * Modified By: HUBERT Léo
+ * Modified By: MAREL Maud
  * -----
  * Copyright - 2018 MAREL Maud
  * <<licensetext>>

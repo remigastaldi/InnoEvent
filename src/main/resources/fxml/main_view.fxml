@@ -145,7 +145,7 @@
                   <menus>
                     <Menu mnemonicParsing="false" text="File">
                       <items>
-                        <MenuItem mnemonicParsing="false" text="New" />
+                        <MenuItem mnemonicParsing="false" onAction="#menuNewAction" text="New" />
                         <MenuItem mnemonicParsing="false" onAction="#menuOpenProjectAction" text="Open…">
                                  <accelerator>
                                     <KeyCodeCombination alt="UP" code="O" control="UP" meta="UP" shift="UP" shortcut="DOWN" />
@@ -174,7 +174,7 @@
                         <MenuItem mnemonicParsing="false" onAction="#menuUndoAction" text="Undo" />
                         <MenuItem mnemonicParsing="false" onAction="#menuRedoAction" text="Redo" />
                         <SeparatorMenuItem mnemonicParsing="false" />
-                        <MenuItem mnemonicParsing="false" text="Delete" />
+                        <MenuItem mnemonicParsing="false" onAction="#menuDeleteAction" text="Delete" />
                         <SeparatorMenuItem mnemonicParsing="false" />
                         <MenuItem mnemonicParsing="false" text="Select All" />
                         <MenuItem mnemonicParsing="false" text="Unselect All" />

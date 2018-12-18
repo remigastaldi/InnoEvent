@@ -3,7 +3,7 @@
  * Author: GASTALDI Rémi
  * -----
  * Last Modified: Monday, 17th December 2018
- * Modified By: HUBERT Léo
+ * Modified By: MAREL Maud
  * -----
  * Copyright - 2018 GASTALDI Rémi
  * <<licensetext>>
@@ -11,6 +11,7 @@
 
 package com.inno.ui.mainview;
 
+import java.awt.MenuItem;
 import java.io.File;
 import java.util.Hashtable;
 import java.util.Timer;
@@ -170,8 +171,38 @@ public class MainViewController extends ViewController {
 
   @FXML
   private void menuQuitButtonAction() {
-    Core().closeProject();
-    View().showStartupPopup();
+    if (Core().hasChanged()) {
+      InnoEngine innoEngine = View().getEngine();
+      innoEngine.getView().openPopup("save.fxml", "quit");
+    }
+    else {
+      Core().closeProject();
+      View().closeView(View().getMainView());
+    }
+  }
+
+  @FXML
+  private void menuNewAction() {
+    if (Core().hasChanged()) {
+      InnoEngine innoEngine = View().getEngine();
+      innoEngine.getView().openPopup("save.fxml", "new");
+    }
+    else {
+      Core().closeProject();
+      View().showStartupPopup();
+    }
+  }
+
+  @FXML
+  private void menuCloseAction() {
+    if (Core().hasChanged()) {
+      InnoEngine innoEngine = View().getEngine();
+      innoEngine.getView().openPopup("save.fxml", "close");
+    }
+    else {
+      Core().closeProject();
+      View().showStartupPopup();
+    }
   }
 
   @FXML
@@ -214,6 +245,12 @@ public class MainViewController extends ViewController {
   @FXML
   private void menuZoomOutAction() {
     Engine().zoom(0.83);
+  }
+
+  @FXML
+  private void menuDeleteAction() {
+    InnoEngine innoEngine = View().getEngine();
+    innoEngine.deleteSelectedShape();
   }
 
   @FXML
