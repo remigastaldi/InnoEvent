@@ -12,13 +12,11 @@
 package com.inno.ui.popup;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Map;
 
 import com.google.gson.internal.LinkedTreeMap;
-import com.inno.ui.ViewController;
 import com.inno.ui.View.AnimationDirection;
+import com.inno.ui.ViewController;
 import com.inno.ui.components.ProjectListViewCell;
 
 import javafx.collections.FXCollections;
@@ -26,8 +24,8 @@ import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.StackPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 
 public class StartupPopupController extends ViewController {
 

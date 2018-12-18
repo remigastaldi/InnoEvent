@@ -11,27 +11,25 @@
 
 package com.inno.ui;
 
-import javafx.application.Application;
-import javafx.application.Platform;
-import javafx.fxml.FXMLLoader;
-import javafx.stage.FileChooser;
-import javafx.stage.Stage;
-import javafx.scene.Scene;
+import java.io.File;
+
+import com.inno.app.Core;
+import com.inno.ui.innoengine.InnoEngine;
 
 import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
+import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.util.Duration;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.Pane;
+import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
-
-import java.io.File;
-
-import com.inno.app.Core;
-import com.inno.ui.innoengine.InnoEngine;
+import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
+import javafx.util.Duration;
 
 public class View extends Application {
 
@@ -45,7 +43,6 @@ public class View extends Application {
   @Override
   public void start(Stage mainView) throws Exception {
     _mainView = mainView;
-    // showMainView();
     showStartupPopup();
   }
 
@@ -62,7 +59,6 @@ public class View extends Application {
     try {
       FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/" + fxmlFileName));
 
-      // Parent parent = (Parent) fxmlLoader.load();
       Scene scene = new Scene(fxmlLoader.load());
       ViewController viewController = fxmlLoader.<ViewController>getController();
       viewController.setStage(view);

@@ -33,13 +33,12 @@ import javafx.scene.control.SplitPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyCodeCombination;
 import javafx.scene.input.KeyCombination;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
-import javafx.stage.Stage;
 import javafx.util.Duration;
-import javafx.scene.input.KeyCodeCombination;
 
 public class MainViewController extends ViewController {
   @FXML
@@ -303,11 +302,6 @@ public class MainViewController extends ViewController {
   @FXML
   private void menuRedoAction() {
     Core.get().redo();
-  }
-
-  @FXML
-  private void pricesAction() {
-
   }
 
   @FXML

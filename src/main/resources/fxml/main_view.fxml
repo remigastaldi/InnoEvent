@@ -109,7 +109,6 @@
                         <MenuButton maxHeight="25.0" maxWidth="50.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="50.0" styleClass="menu-button-bar" ButtonBar.buttonData="LEFT">
                           <items>
                             <MenuItem mnemonicParsing="false" onAction="#offerManagerAction" text="Offers" />
-                            <MenuItem mnemonicParsing="false" onAction="#pricesAction" text="Prices" />
                               <MenuItem mnemonicParsing="false" onAction="#automaticPricesAction" text="Automatic Prices" />
                           </items>
                            <graphic>
@@ -157,7 +156,6 @@
                                  <accelerator>
                                     <KeyCodeCombination alt="UP" code="O" control="UP" meta="UP" shift="UP" shortcut="DOWN" />
                                  </accelerator></MenuItem>
-                        <Menu mnemonicParsing="false" text="Open Recent" />
                         <SeparatorMenuItem mnemonicParsing="false" />
                         <MenuItem mnemonicParsing="false" onAction="#menuCloseAction" text="Close" />
                         <MenuItem mnemonicParsing="false" onAction="#menuSaveAction" text="Save">
@@ -182,9 +180,6 @@
                         <MenuItem mnemonicParsing="false" onAction="#menuRedoAction" text="Redo" />
                         <SeparatorMenuItem mnemonicParsing="false" />
                         <MenuItem mnemonicParsing="false" onAction="#menuDeleteAction" text="Delete" />
-                        <SeparatorMenuItem mnemonicParsing="false" />
-                        <MenuItem mnemonicParsing="false" text="Select All" />
-                        <MenuItem mnemonicParsing="false" text="Unselect All" />
                       </items>
                     </Menu>
                     <Menu mnemonicParsing="false" text="Insertion">

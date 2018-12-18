@@ -2,8 +2,8 @@
  * File Created: Monday, 17th December 2018
  * Author: MAREL Maud
  * -----
- * Last Modified: Monday, 17th December 2018
- * Modified By: MAREL Maud
+ * Last Modified: Tuesday, 18th December 2018
+ * Modified By: HUBERT Léo
  * -----
  * Copyright - 2018 MAREL Maud
  * <<licensetext>>
@@ -12,7 +12,6 @@
 
 package com.inno.ui.popup;
 
-import java.awt.SystemTray;
 import java.io.File;
 
 import com.inno.ui.ViewController;

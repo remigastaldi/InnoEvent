@@ -3,7 +3,7 @@
  * Author: GASTALDI Rémi
  * -----
  * Last Modified: Tuesday, 18th December 2018
- * Modified By: GASTALDI Rémi
+ * Modified By: HUBERT Léo
 
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -12,16 +12,15 @@
 
 package com.inno.app.room;
 
-import com.inno.app.AutomaticPrices;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.HashMap;
+
 import com.inno.app.Core;
 import com.inno.service.IdHandler;
 import com.inno.service.Point;
 import com.inno.service.Utils;
 import com.inno.service.pricing.ImmutablePlaceRate;
-
-import java.util.HashMap;
-import java.io.Serializable;
-import java.util.ArrayList;
 
 public class Room implements ImmutableRoom, Serializable {
 

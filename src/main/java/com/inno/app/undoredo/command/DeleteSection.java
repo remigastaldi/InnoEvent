@@ -3,7 +3,7 @@
  * Author: GASTALDI Rémi
  * -----
  * Last Modified: Tuesday, 18th December 2018
- * Modified By: GASTALDI Rémi
+ * Modified By: HUBERT Léo
  * -----
  * Copyright - 2018 GASTALDI Remi
  * <<licensetext>>
@@ -12,13 +12,10 @@
 
 package com.inno.app.undoredo.command;
 
-import java.util.HashMap;
-
 import com.inno.app.Core;
 import com.inno.app.room.ImmutableSittingSection;
 import com.inno.app.room.Room;
 import com.inno.app.room.Section;
-import com.inno.service.pricing.ImmutablePlaceRate;
 import com.inno.service.pricing.Pricing;
 import com.inno.service.undoredo.Command;
 
