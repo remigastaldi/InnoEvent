@@ -2,7 +2,7 @@
  * File Created: Friday, 12th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Sunday, 16th December 2018
+ * Last Modified: Monday, 17th December 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -341,5 +341,12 @@ public class InnoEngine extends Engine {
         _rectangles.remove(id);
       }
     } 
+  }
+
+  public void printArray(double[] array) {
+    System.out.println("Array " + array + "] :");
+    for (int i = 0; i < array.length; ++i) {
+      System.out.println(array[i]);
+    }
   }
 }

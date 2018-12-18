@@ -2,7 +2,7 @@
  * File Created: Monday, 15th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Saturday, 15th December 2018
+ * Last Modified: Tuesday, 18th December 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -197,14 +197,12 @@ public class InteractiveRectangle extends InteractiveShape<Rectangle> {
 
   @Override
   public void setPoints(double[] pos) {
-    int j = 0;
-    for (CircleAnchor anchor : _anchors) {
-      anchor.setCenterX(pos[j]);
-      anchor.setCenterY(pos[j + 1]);
-      j += 2;
-    }
-
-
+    // int j = 0;
+    // for (CircleAnchor anchor : _anchors) {
+    //   anchor.setCenterX(pos[j]);
+    //   anchor.setCenterY(pos[j + 1]);
+    //   j += 2;
+    // }
     setX(pos[0]);
     setY(pos[1]);
     setWidth(Math.hypot(pos[0] - pos[2], pos[1] - pos[3]));

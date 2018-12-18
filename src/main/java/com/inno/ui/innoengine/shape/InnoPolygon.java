@@ -2,7 +2,7 @@
  * File Created: Sunday, 14th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Sunday, 16th December 2018
+ * Last Modified: Tuesday, 18th December 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -95,7 +95,7 @@ public class InnoPolygon extends InteractivePolygon {
     if (_sittingSectionData == null)
       return true;
 
-    Core.get().updateSectionPositions(getID(), ((InnoEngine)Engine()).pixelToMeter(getPointsInParent()), false);
+    Core.get().updateSectionPositions(getID(), ((InnoEngine)Engine()).pixelToMeter(getNoRotatedParentPos()), false);
     updateFromData(true);
     
     return true;
@@ -110,7 +110,6 @@ public class InnoPolygon extends InteractivePolygon {
   @Override
   public boolean onFormComplete() {
     if (mouseReleased) {
-      System.out.println("FORME COLMPLETE");
       _sittingSectionData = Core.get().createSittingSection(((InnoEngine)Engine()).pixelToMeter(getPointsInParent()), 0, false);
       setID(_sittingSectionData.getId());
 
@@ -135,8 +134,7 @@ public class InnoPolygon extends InteractivePolygon {
   @Override
   public boolean onAnchorDragged() {
     Core.get().updateSectionPositions(getID(), ((InnoEngine)Engine()).pixelToMeter(getNoRotatedParentPos()), false);
-    updatePositionsFromData();
-    updateRowsFromData(true);
+    updateFromData(false);
     
     return true;
   }
@@ -181,16 +179,24 @@ public class InnoPolygon extends InteractivePolygon {
 
     if (!isStanding)
       updateFromData(false);
-    }
+  }
 
   public void updateFromData(boolean toParent) {
+    getRotation().setAngle(0);
+    // updateRowsFromData(toParent);
+    updateRowsFromData(false);
     updatePositionsFromData();
-    updateRowsFromData(toParent);
   }
 
   private void updatePositionsFromData() {
-      // setPoints(parentToLocal(((InnoEngine)Engine()).meterToPixel(_sittingSectionData.getPositions())));
-      updatePoints(parentToLocal(((InnoEngine)Engine()).meterToPixel(_sittingSectionData.getPositions())));
+    double[] pos = parentToLocal(((InnoEngine)Engine()).meterToPixel(_sittingSectionData.getPositions()));
+
+    updatePoints(pos);
+    Rotate rotation = getRotation();
+    Point2D center = Engine().getCenterOfPoints(pos);
+    rotation.setPivotX(center.getX());
+    rotation.setPivotY(center.getY());
+    rotation.setAngle(_sittingSectionData.getRotation());
   }
 
   public void updateRowsFromData(boolean toParent) {
@@ -218,16 +224,13 @@ public class InnoPolygon extends InteractivePolygon {
   public void sittingToStanding() {
     InnoEngine engine = (InnoEngine) Engine();
     _standingSectionData = Core.get().sittingToStandingSection(_sittingSectionData.getId());
-    System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! " +_standingSectionData);
     _sittingSectionData = null;
     destroyRows();
     setID(_standingSectionData.getId());
-    engine.getView().setSidebarFromFxmlFileName("sidebar_standing_section.fxml", this);
   }
 
   public void standingToSitting() {
     InnoEngine engine = (InnoEngine) Engine();
-    System.out.println("----------------- "  +_standingSectionData);
     _sittingSectionData = Core.get().standingToSittingSection(_standingSectionData.getId());
     _standingSectionData = null;
     setID(_sittingSectionData.getId());

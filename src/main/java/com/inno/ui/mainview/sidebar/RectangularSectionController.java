@@ -2,8 +2,8 @@
  * File Created: Tuesday, 13th November 2018
  * Author: MAREL Maud
  * -----
- * Last Modified: Monday, 17th December 2018
- * Modified By: MAREL Maud
+ * Last Modified: Tuesday, 18th December 2018
+ * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 MAREL Maud
  * <<licensetext>>
@@ -194,12 +194,13 @@ public class RectangularSectionController extends ViewController {
   private void setRotation(Double angle, boolean input) {
     section_rotation_group.setRotate(angle - 90);
     if (input) {
-      section_rotation_input.setText("" + (angle));
+      section_rotation_input.setText("" + (angle));    
     }
-    InteractiveRectangle rectangle = (InteractiveRectangle) getIntent();
+    InnoRectangle rectangle = (InnoRectangle) getIntent();
 
     Core().setSectionUserRotation(rectangle.getID(), angle);
-    rectangle.setRotationAngle(Core().getImmutableRoom().getSectionById(rectangle.getID()).getRotation());
+    rectangle.updateFromData(false);
+    // rectangle.setRotationAngle(Core().getImmutableRoom().getSectionById(rectangle.getID()).getRotation());
   }
 
   // private void setRotation(String angle, boolean input) {
@@ -302,7 +303,7 @@ public class RectangularSectionController extends ViewController {
 
   @FXML
   private void SectionSittingRectangularAutoDistrib() {
-    /*InnoRectangle rectangle = (InnoRectangle) getIntent();
+    InnoRectangle rectangle = (InnoRectangle) getIntent();
 
     if (rectangle.getSectionData().getAutoDistribution()) {
       section_auto_distrib_input.setSelected(false);
@@ -313,7 +314,7 @@ public class RectangularSectionController extends ViewController {
       Core().setSittingSectionAutoDistribution(rectangle.getSectionData().getId(), true);
       Core().updateSectionPositions(rectangle.getSectionData().getId(), rectangle.getSectionData().getPositions(), true);
       rectangle.updateFromData(false);
-    }*/
+    }
   }
 
   private boolean checkInputs() {

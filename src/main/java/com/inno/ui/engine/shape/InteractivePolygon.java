@@ -2,7 +2,7 @@
  * File Created: Sunday, 14th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Saturday, 15th December 2018
+ * Last Modified: Tuesday, 18th December 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -265,14 +265,30 @@ public class InteractivePolygon extends InteractiveShape<Polygon> {
     //   i += 2;
     // }
   }
+
+  @Override
+  public void setRotationAngle(double rotation) {
+    Rotate rotate = getRotation();
+
+    System.out.println("Current rotation pivot " + rotate.getPivotX() + " : " + rotate.getPivotY());
+
+    Point2D center = Engine().getCenterOfPoints(getPoints());
+    System.out.println("Center pivot " + center.getX() + " : " + center.getY());
+
+    rotate.setAngle(rotation);
+  }
   
   @Override
   public void updatePoints(double[] newPoints) {
-    int j = 0;
-    for (CircleAnchor anchor : _anchors) {
-      anchor.setCenterX(newPoints[j]);
-      anchor.setCenterY(newPoints[j + 1]);
-      j += 2;
+    // int j = 0;
+    // for (CircleAnchor anchor : _anchors) {
+    //   anchor.setCenterX(newPoints[j]);
+    //   anchor.setCenterY(newPoints[j + 1]);
+    //   j += 2;
+    // }
+    System.out.println("UPDATE POINTS");
+    for (int i = 0; i < newPoints.length; ++i) {
+      System.out.println(newPoints[i]);
     }
     ObservableList<Double> points = _shape.getPoints();
     for (int i =0; i < newPoints.length; ++i) {

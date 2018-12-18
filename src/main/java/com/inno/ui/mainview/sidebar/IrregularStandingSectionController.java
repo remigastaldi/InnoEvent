@@ -3,7 +3,7 @@
  * Author: MAREL Maud
  * -----
  * Last Modified: Monday, 17th December 2018
- * Modified By: MAREL Maud
+ * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 MAREL Maud
  * <<licensetext>>
@@ -166,10 +166,11 @@ public class IrregularStandingSectionController extends ViewController {
     if (input) {
       section_rotation_input.setText("" + (angle));
     }
-    InteractivePolygon polygon = (InteractivePolygon) getIntent();
+    InnoPolygon polygon = (InnoPolygon) getIntent();
 
     Core().setSectionUserRotation(polygon.getID(), angle);
-    polygon.setRotationAngle(Core().getImmutableRoom().getSectionById(polygon.getID()).getRotation());
+    // polygon.updateFromData(false);
+    // polygon.setRotationAngle(Core().getImmutableRoom().getSectionById(polygon.getID()).getRotation());
   }
 
   // private void setRotation(String angle, boolean input) {

@@ -2,7 +2,7 @@
  * File Created: Sunday, 14th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Saturday, 15th December 2018
+ * Last Modified: Monday, 17th December 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -28,6 +28,7 @@ import javafx.scene.effect.DropShadow;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
 import javafx.scene.transform.Rotate;
@@ -203,14 +204,17 @@ public abstract class InteractiveShape<T extends Shape> {
   }
 
   public void setRotationAngle(double rotation) {
+    System.out.println("Rotation angle: " + rotation);
     _currentRotation.setAngle(rotation);
   }
   
   public void setRotation(double angle, double x, double y) {
+    System.out.println("====================+++++++++++++==================");
     setRotation(new Rotate(angle, x, y));
   }
 
   public void setRotation(Rotate rotate) {
+    System.out.println("####################################################");
     if (_currentRotation != null)
       _group.getTransforms().remove(_currentRotation);
     _currentRotation = rotate;

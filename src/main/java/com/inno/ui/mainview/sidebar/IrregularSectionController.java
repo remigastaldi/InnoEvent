@@ -2,8 +2,8 @@
  * File Created: Tuesday, 13th November 2018
  * Author: MAREL Maud
  * -----
- * Last Modified: Monday, 17th December 2018
- * Modified By: MAREL Maud
+ * Last Modified: Tuesday, 18th December 2018
+ * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 MAREL Maud
  * <<licensetext>>
@@ -11,6 +11,7 @@
 
 package com.inno.ui.mainview.sidebar;
 
+import com.inno.app.Core;
 import com.inno.app.room.ImmutableSittingSection;
 import com.inno.service.pricing.ImmutableOffer;
 import com.inno.service.pricing.ImmutablePlaceRate;
@@ -184,10 +185,11 @@ public class IrregularSectionController extends ViewController {
     if (input) {
       section_rotation_input.setText("" + (angle));
     }
-    InteractivePolygon polygon = (InteractivePolygon) getIntent();
+    InnoPolygon polygon = (InnoPolygon) getIntent();
 
     Core().setSectionUserRotation(polygon.getID(), angle);
-    polygon.setRotationAngle(Core().getImmutableRoom().getSectionById(polygon.getID()).getRotation());
+    polygon.updateFromData(false);
+    // polygon.setRotationAngle(Core().getImmutableRoom().getSectionById(polygon.getID()).getRotation());
   }
 
   // private void setRotation(String angle, boolean input) {
@@ -293,7 +295,7 @@ public class IrregularSectionController extends ViewController {
 
   @FXML
   private void SectionSittingIrregularAutoDistrib() {
-   /* InnoPolygon polygon = (InnoPolygon) getIntent();
+    InnoPolygon polygon = (InnoPolygon) getIntent();
     ImmutableSittingSection section = (ImmutableSittingSection) Core().getImmutableRoom().getSectionById(polygon.getID());
     if (section.getAutoDistribution()) {
       section_auto_distrib_input.setSelected(false);
@@ -302,7 +304,7 @@ public class IrregularSectionController extends ViewController {
     else {
       section_auto_distrib_input.setSelected(true);
       Core().setSittingSectionAutoDistribution(polygon.getID(), true);
-    }*/
+    }
   }
 
   private boolean checkInputs() {

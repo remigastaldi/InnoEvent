@@ -2,8 +2,8 @@
  * File Created: Monday, 15th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Sunday, 16th December 2018
- * Modified By: MAREL Maud
+ * Last Modified: Monday, 17th December 2018
+ * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
  * <<licensetext>>
@@ -126,7 +126,7 @@ public class InnoRectangle extends InteractiveRectangle {
     if (_sectionData == null)
       return true;
     Core.get().updateSectionPositions(getID(), ((InnoEngine)Engine()).pixelToMeter(getNoRotatedParentPos()), true);
-    updatePositionFromData();
+    updatePositionsFromData();
 
     return true;
   }
@@ -270,20 +270,20 @@ public class InnoRectangle extends InteractiveRectangle {
   } 
 
   public void updateFromData(boolean toParent) {
-    updatePositionFromData();
+    updatePositionsFromData();
     updateRowsFromData(toParent);
   }
 
-  public void updatePositionFromData() {
+  public void updatePositionsFromData() {
     double[] pos = parentToLocal(((InnoEngine)Engine()).meterToPixel(_sectionData.getPositions()));
 
     setPoints(pos);
-    getRotation().setPivotX(pos[0]);
-    getRotation().setPivotY(pos[1]);
-    getRotation().setAngle(_sectionData.getRotation());
+    Rotate rotation = getRotation();
+    rotation.setPivotX(pos[0]);
+    rotation.setPivotY(pos[1]);
+    rotation.setAngle(_sectionData.getRotation());
   }
 
-  // TODO: private this
   public void updateRowsFromData(boolean toParent) {
     if (_rows != null) {
       for (int i = 0; i < _rows.length; ++i) {
