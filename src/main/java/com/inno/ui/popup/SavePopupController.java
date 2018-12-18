@@ -52,9 +52,11 @@ public class SavePopupController extends ViewController {
     String type = (String) getIntent();
     Stage stage = (Stage) yes_button.getScene().getWindow();
     stage.close(); 
-    File file = View().getSaveProjectFilePath("*.inevt", Core().getImmutableRoom().getName());
-    if (file != null) {
-        Core().saveTo(file.getAbsolutePath());
+    if (Core().save() == false) {
+        File file = View().getSaveProjectFilePath("*.inevt", Core().getImmutableRoom().getName());
+        if (file != null) {
+            Core().saveTo(file.getAbsolutePath());
+        }
     }
     if (type == "new" || type == "close") {
         Core().closeProject();

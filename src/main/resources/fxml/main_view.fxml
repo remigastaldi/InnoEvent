@@ -152,7 +152,7 @@
                                  </accelerator></MenuItem>
                         <Menu mnemonicParsing="false" text="Open Recent" />
                         <SeparatorMenuItem mnemonicParsing="false" />
-                        <MenuItem mnemonicParsing="false" text="Close" />
+                        <MenuItem mnemonicParsing="false" onAction="#menuCloseAction" text="Close" />
                         <MenuItem mnemonicParsing="false" onAction="#menuSaveAction" text="Save">
                                  <accelerator>
                                     <KeyCodeCombination alt="UP" code="S" control="UP" meta="UP" shift="UP" shortcut="DOWN" />

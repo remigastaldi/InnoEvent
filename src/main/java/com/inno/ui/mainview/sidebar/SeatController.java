@@ -2,8 +2,8 @@
  * File Created: Tuesday, 13th November 2018
  * Author: MAREL Maud
  * -----
- * Last Modified: Saturday, 15th December 2018
- * Modified By: GASTALDI Rémi
+ * Last Modified: Monday, 17th December 2018
+ * Modified By: MAREL Maud
  * -----
  * Copyright - 2018 MAREL Maud
  * <<licensetext>>
@@ -158,7 +158,7 @@ public class SeatController extends ViewController {
         return;
       }
       try {
-        if (seat_price_input.getText().trim().length() != 0) {
+        if ((seat_price_input.isFocused() || seat_price_color_picker.isFocused()) && seat_price_input.getText().trim().length() != 0) {
           Core().setSeatPrice(row.getImmutableSection().getId(), row.getImmutableRow().getIdRow(),
               Integer.toString(row.getSelectedSeat().getId()), Double.parseDouble(seat_price_input.getText()),
               "#" + Integer.toHexString(seat_price_color_picker.getValue().hashCode()));
@@ -168,7 +168,7 @@ public class SeatController extends ViewController {
           seat_price_color_info.setFill(seat_price_color_picker.getValue());
           row.setSeatColor(row.getSelectedSeat().getId(), seat_price_color_picker.getValue());
           seat_price_color_picker.setDisable(false);
-        } else {
+        } else if (seat_price_input.isFocused() || seat_price_color_picker.isFocused()) {
           seat_price_color_picker.setDisable(true);
           Core().setSeatPrice(row.getImmutableSection().getId(), row.getImmutableRow().getIdRow(),
               Integer.toString(row.getSelectedSeat().getId()), Double.parseDouble("-1"), "#FFA500");

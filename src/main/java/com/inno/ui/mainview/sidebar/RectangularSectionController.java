@@ -274,10 +274,11 @@ public class RectangularSectionController extends ViewController {
         if (section_name_input.isFocused())
           Core().setSectionName(rectangle.getID(), section_name_input.getText());
 
-        if (section_elevation_input.isFocused())
+        if (section_elevation_input.isFocused()) {
           Core().setSectionElevation(rectangle.getID(), Double.parseDouble(section_elevation_input.getText()));
+        }
 
-        if (section_price_input.getText().trim().length() != 0) {
+        if ((section_price_input.isFocused() || section_price_color_picker.isFocused()) && section_price_input.getText().trim().length() != 0) {
           section_price_color_picker.setDisable(false);
           Core().setSectionPrice(rectangle.getID(),
               Double.parseDouble(
@@ -286,7 +287,7 @@ public class RectangularSectionController extends ViewController {
           if (section_price_color_picker.isFocused()) {
             rectangle.updateRowsFromData(false);
           }
-        } else {
+        } else if (section_price_input.isFocused() || section_price_color_picker.isFocused()) {
           Core().setSectionPrice(rectangle.getID(), Double.parseDouble("-1"), "#6378bf");
           section_price_color_picker.setDisable(true);
           section_price_color_picker.setValue(Color.valueOf("#6378bf"));

@@ -2,8 +2,8 @@
  * File Created: Tuesday, 13th November 2018
  * Author: MAREL Maud
  * -----
- * Last Modified: Sunday, 16th December 2018
- * Modified By: GASTALDI Rémi
+ * Last Modified: Monday, 17th December 2018
+ * Modified By: MAREL Maud
  * -----
  * Copyright - 2018 MAREL Maud
  * <<licensetext>>
@@ -236,7 +236,7 @@ public class IrregularStandingSectionController extends ViewController {
         if (section_elevation_input.isFocused())
           Core().setSectionElevation(polygon.getID(), Double.parseDouble(section_elevation_input.getText()));
 
-        if (section_price_input.getText().trim().length() != 0) {
+        if ((section_price_input.isFocused() || section_price_color_picker.isFocused()) && section_price_input.getText().trim().length() != 0) {
           section_price_color_picker.setDisable(false);
           Core().setSectionPrice(polygon.getID(),
               Double.parseDouble(
@@ -245,7 +245,7 @@ public class IrregularStandingSectionController extends ViewController {
           if (section_price_color_picker.isFocused()) {
             polygon.updateRowsFromData(false);
           }
-        } else {
+        } else if (section_price_input.isFocused() || section_price_color_picker.isFocused()) {
           Core().setSectionPrice(polygon.getID(), Double.parseDouble("-1"), "#6378bf");
           section_price_color_picker.setDisable(true);
           section_price_color_picker.setValue(Color.valueOf("#6378bf"));

@@ -2,8 +2,8 @@
  * File Created: Tuesday, 13th November 2018
  * Author: MAREL Maud
  * -----
- * Last Modified: Saturday, 15th December 2018
- * Modified By: GASTALDI Rémi
+ * Last Modified: Monday, 17th December 2018
+ * Modified By: MAREL Maud
  * -----
  * Copyright - 2018 MAREL Maud
  * <<licensetext>>
@@ -153,7 +153,7 @@ public class RowController extends ViewController {
       }
       try {
 
-        if (row_price_input.getText().trim().length() != 0) {
+        if ((row_price_input.isFocused() || row_price_color_picker.isFocused()) && row_price_input.getText().trim().length() != 0) {
           row_price_color_picker.setDisable(false);
           Core().setRowPrice(row.getImmutableSection().getId(), row.getImmutableRow().getIdRow(),
               Double.parseDouble(row_price_input.getText().trim().length() != 0 ? row_price_input.getText() : "-1"),
@@ -164,7 +164,7 @@ public class RowController extends ViewController {
             row_price_color_info.setFill(row_price_color_picker.getValue());
             row.setRowColor(row_price_color_picker.getValue());
           }
-        } else {
+        } else if (row_price_input.isFocused() || row_price_color_picker.isFocused()) {
           Core().setRowPrice(row.getImmutableSection().getId(), row.getImmutableRow().getIdRow(),
               Double.parseDouble(row_price_input.getText().trim().length() != 0 ? row_price_input.getText() : "-1"),
               "#7289DA");

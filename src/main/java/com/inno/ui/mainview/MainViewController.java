@@ -11,7 +11,6 @@
 
 package com.inno.ui.mainview;
 
-import java.awt.MenuItem;
 import java.io.File;
 import java.util.Hashtable;
 import java.util.Timer;
@@ -29,6 +28,7 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.SplitPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
