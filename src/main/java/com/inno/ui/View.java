@@ -2,8 +2,8 @@
  * File Created: Wednesday, 10th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Monday, 17th December 2018
- * Modified By: MAREL Maud
+ * Last Modified: Tuesday, 18th December 2018
+ * Modified By: HUBERT Léo
  * -----
  * Copyright - 2018 GASTALDI Rémi
  * <<licensetext>>
@@ -12,6 +12,7 @@
 package com.inno.ui;
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -64,6 +65,7 @@ public class View extends Application {
       // Parent parent = (Parent) fxmlLoader.load();
       Scene scene = new Scene(fxmlLoader.load());
       ViewController viewController = fxmlLoader.<ViewController>getController();
+      viewController.setStage(view);
       viewController.setView(this);
       viewController.init();
 
@@ -82,6 +84,7 @@ public class View extends Application {
       Scene scene = new Scene(loader.load());
       Stage stage = new Stage();
       ViewController view = loader.getController();
+      view.setStage(stage);
       view.setView(this);
       view.addIntent(intent);
       view.init();
@@ -106,6 +109,7 @@ public class View extends Application {
   public void closeView(Stage view) {
     if (view != null) {
       view.close();
+      view = null;
     }
   }
 
@@ -118,7 +122,7 @@ public class View extends Application {
     _mainView = mainView;
   }
 
-   /**
+  /**
    * Set sidebarAnchor passed in parameter
    * 
    * @param sidebarAnchor
@@ -144,14 +148,17 @@ public class View extends Application {
     this.openViewWithAnimation(fxmlFileName, animationTo, anchor_root, null);
   }
 
-  public void openViewWithAnimation(String fxmlFileName, AnimationDirection animationTo, AnchorPane anchor_root, Object intent) {
+  public void openViewWithAnimation(String fxmlFileName, AnimationDirection animationTo, AnchorPane anchor_root,
+      Object intent) {
     StackPane parentContainer = (StackPane) anchor_root.getScene().getRoot();
+    Stage stage = (Stage)anchor_root.getScene().getWindow();
     Scene scene = parentContainer.getScene();
     try {
       FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/" + fxmlFileName));
       Parent newAnchor = (Parent) fxmlLoader.load();
 
       ViewController view = fxmlLoader.getController();
+      view.setStage(stage);
       view.setView(this);
       view.addIntent(intent);
       view.init();
@@ -209,10 +216,11 @@ public class View extends Application {
   public void setSidebarFromFxmlFileName(String fxmlFileName, Object object) {
     FXMLLoader fxmlLoader = new FXMLLoader();
     fxmlLoader.setLocation(getClass().getResource("/fxml/sidebar/" + fxmlFileName));
-    
+
     try {
       Pane pane = (Pane) fxmlLoader.load();
       ViewController viewController = fxmlLoader.<ViewController>getController();
+      viewController.setStage(_mainView);
       viewController.setView(this);
       viewController.addIntent(object);
       viewController.init();
@@ -239,7 +247,7 @@ public class View extends Application {
     if (name != null) {
       fileChooser.setInitialFileName(name);
     }
-    // Set extension filter for text files 
+    // Set extension filter for text files
     FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("InnoEvent", extension);
     fileChooser.getExtensionFilters().add(extFilter);
 

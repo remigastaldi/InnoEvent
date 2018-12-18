@@ -2,7 +2,7 @@
  * File Created: Tuesday, 9th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Monday, 17th December 2018
+ * Last Modified: Tuesday, 18th December 2018
  * Modified By: HUBERT Léo
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -48,7 +48,7 @@ public class Core {
   // Services
   private UndoRedoHelper _undoRedo = null;
   private InnoSave _saveService = new InnoSave();
-  private Pricing _pricing = new Pricing();
+  private Pricing _pricing;
   private SettingsService _settings = new SettingsService();
   private ObservableList<String> _availableOffers = FXCollections.observableArrayList();
 
@@ -91,23 +91,24 @@ public class Core {
 
   // Room methods
   public void createRoom(String name, double width, double height, double widthVitalSpace, double heightVitalSpace) {
-    this._room = new Room(name, width, height, widthVitalSpace, heightVitalSpace);
+    _room = new Room(name, width, height, widthVitalSpace, heightVitalSpace);
+    _pricing = new Pricing();
   }
 
   public ImmutableRoom getImmutableRoom() {
-    return this._room;
+    return _room;
   }
 
   public void setRoomName(String name) {
-    this._room.setName(name);
+    _room.setName(name);
   }
 
   public void setRoomWidth(double width) {
-    this._room.setWidth(width);
+    _room.setWidth(width);
   }
 
   public void setRoomHeight(double height) {
-    this._room.setHeight(height);
+    _room.setHeight(height);
   }
 
   public void setRoomVitalSpace(double width, double height) {
@@ -116,40 +117,40 @@ public class Core {
 
   // Scene methods
   public ImmutableScene createScene(double width, double height, double[] positions) {
-    return this._room.createScene(width, height, positions);
+    return _room.createScene(width, height, positions);
   }
 
   public void deleteScene() {
-    this._room.deleteScene();
+    _room.deleteScene();
   }
 
   public void setSceneWidth(double width) {
-    this._room.setSceneWidth(width);
+    _room.setSceneWidth(width);
   }
 
   public void setSceneHeight(double height) {
-    this._room.setSceneHeight(height);
+    _room.setSceneHeight(height);
   }
 
   public void setScenePositions(double[] positions) {
-    this._room.setScenePositions(positions);
+    _room.setScenePositions(positions);
   }
 
   public void setSceneRotation(double rotation) {
-    this._room.setSceneRotation(rotation);
+    _room.setSceneRotation(rotation);
   }
 
   public void setSceneElevation(double elevation) {
-    this._room.setSceneElevation(elevation);
+    _room.setSceneElevation(elevation);
   }
 
   // Section methods
   public void setSectionName(String idSection, String name) {
-    this._room.setSectionName(idSection, name);
+    _room.setSectionName(idSection, name);
   }
 
   public void setSectionElevation(String idSection, double elevation) {
-    this._room.setSectionElevation(idSection, elevation);
+    _room.setSectionElevation(idSection, elevation);
   }
 
   public void updateSectionPositions(String idSection, double[] positions, boolean rectangular) {
@@ -162,20 +163,20 @@ public class Core {
   }
 
   public void setSectionUserRotation(String idSection, double rotation) {
-    // this._room.setSectionRotation(idSection, rotation);
+    // _room.setSectionRotation(idSection, rotation);
     _room.setSectionUserRotation(idSection, rotation);
   }
 
   public ImmutableStandingSection sittingToStandingSection(String idSection) {
-    return this._room.sittingToStandingSection(idSection);
+    return _room.sittingToStandingSection(idSection);
   }
 
   public ImmutableSittingSection standingToSittingSection(String idSection) {
-    return this._room.standingToSittingSection(idSection);
+    return _room.standingToSittingSection(idSection);
   }
 
   public ImmutableSection duplicateSection(String idSection) {
-    return this._room.duplicateSection(idSection);
+    return _room.duplicateSection(idSection);
   }
 
   // standingSection Methods
@@ -187,7 +188,7 @@ public class Core {
   }
 
   public void setStandingNbPeople(String idSection, int nbPeople) {
-    this._room.setStandingNbPeople(idSection, nbPeople);
+    _room.setStandingNbPeople(idSection, nbPeople);
   }
 
   // sittingSection Methods
@@ -317,19 +318,19 @@ public class Core {
   }
 
   public void setSittingSectionVitalSpace(String idSection, double width, double height) {
-    this._room.setSittingSectionVitalSpace(idSection, width, height);
+    _room.setSittingSectionVitalSpace(idSection, width, height);
   }
 
   public void setSittingSectionAutoDistribution(String idSection, boolean autoDistrib) {
-    this._room.setSittingSectionAutoDistribution(idSection, autoDistrib);
+    _room.setSittingSectionAutoDistribution(idSection, autoDistrib);
   }
 
   // public void deleteSittingRow(String idSection, String idRow) {
-  // this._room.deleteSittingRow(idSection, idRow);
+  // _room.deleteSittingRow(idSection, idRow);
   // }
 
   // public void clearAllSittingRows(String idSection) {
-  // this._room.clearAllSittingRows(idSection);
+  // _room.clearAllSittingRows(idSection);
   // }
 
   // SAVE
@@ -514,7 +515,7 @@ public class Core {
 
   public void closeProject() {
     _saveService = new InnoSave();
-    _pricing = new Pricing();
+    _pricing = null;
     _room = null;
   }
 

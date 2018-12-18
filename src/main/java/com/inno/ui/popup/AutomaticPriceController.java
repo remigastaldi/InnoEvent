@@ -2,7 +2,7 @@
  * File Created: Monday, 17th December 2018
  * Author: HUBERT Léo
  * -----
- * Last Modified: Monday, 17th December 2018
+ * Last Modified: Tuesday, 18th December 2018
  * Modified By: HUBERT Léo
  * -----
  * Copyright - 2018 HUBERT Léo
@@ -49,7 +49,8 @@ public class AutomaticPriceController extends ViewController {
 
     @FXML
     private void cancelButtonAction() {
-
+        Stage stage = (Stage) minPlacePriceInput.getScene().getWindow();
+        stage.close();
     }
 
     @FXML
@@ -63,11 +64,14 @@ public class AutomaticPriceController extends ViewController {
                 totalRevenue = Double.parseDouble(totalRevenueInput.getText());
             }
 
-            Core().setAutomaticPrices(minPrice, maxPrice, totalRevenue,
-                    attributionTypeDropdown.getSelectionModel().getSelectedItem());
-
-            Stage stage = (Stage) minPlacePriceInput.getScene().getWindow();
-            stage.close();
+            if (Core().setAutomaticPrices(minPrice, maxPrice, totalRevenue,
+                    attributionTypeDropdown.getSelectionModel().getSelectedItem())) {
+                Stage stage = (Stage) minPlacePriceInput.getScene().getWindow();
+                stage.close();
+            } else {
+                if (!totalRevenueInput.getStyleClass().contains("error"))
+                    totalRevenueInput.getStyleClass().add("error");
+            }
         }
     }
 
@@ -82,9 +86,11 @@ public class AutomaticPriceController extends ViewController {
         boolean valid = true;
 
         HashMap<TextField, String> fields = new LinkedHashMap<>();
-        fields.put(minPlacePriceInput, (required == true ? "required|" : "") + "numeric");
-        fields.put(maxPlacePriceInput, (required == true ? "required|" : "") + "numeric");
-        fields.put(totalRevenueInput, "numeric");
+        fields.put(minPlacePriceInput,
+                (required == true ? "required|" : "") + "numeric|min:0|max:" + maxPlacePriceInput.getText());
+        fields.put(maxPlacePriceInput,
+                (required == true ? "required|" : "") + "numeric|min:0|min:" + minPlacePriceInput.getText());
+        fields.put(totalRevenueInput, "numeric|min:0");
 
         for (Map.Entry<TextField, String> entry : fields.entrySet()) {
             TextField field = entry.getKey();

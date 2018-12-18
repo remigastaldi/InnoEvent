@@ -2,8 +2,8 @@
  * File Created: Wednesday, 26th September 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Monday, 17th December 2018
- * Modified By: MAREL Maud
+ * Last Modified: Tuesday, 18th December 2018
+ * Modified By: HUBERT Léo
  * -----
  * Copyright - 2018 GASTALDI Rémi
  * <<licensetext>>
@@ -12,6 +12,7 @@
 package com.inno.ui.mainview;
 
 import java.io.File;
+import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -28,7 +29,6 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
-import javafx.scene.control.MenuItem;
 import javafx.scene.control.SplitPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -37,6 +37,7 @@ import javafx.scene.input.KeyCombination;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
+import javafx.stage.Stage;
 import javafx.util.Duration;
 import javafx.scene.input.KeyCodeCombination;
 
@@ -63,8 +64,12 @@ public class MainViewController extends ViewController {
 
   private Hashtable<KeyCode, Boolean> _keyPressed = new Hashtable<>();
 
+  private HashMap<KeyCode, Timer> _timers = new HashMap<>();
+
+
   @FXML
   private void initialize() {
+    
   }
 
   public void init() {
@@ -74,6 +79,13 @@ public class MainViewController extends ViewController {
     View().setSidebarFromFxmlFileName("sidebar_room.fxml");
 
     componentsPane = mainSplitPane.getItems().get(1);
+
+    getStage().setOnCloseRequest((e) -> {
+      for(Timer timer : _timers.values()) {
+        timer.cancel();
+        timer.purge();
+      }
+    });
 
   }
 
@@ -89,6 +101,9 @@ public class MainViewController extends ViewController {
 
     _keyPressed.put(evt.getCode(), true);
     Timer timer = new Timer();
+
+    _timers.put(evt.getCode(), timer);
+
     timer.scheduleAtFixedRate(new TimerTask() {
       @Override
       public void run() {
