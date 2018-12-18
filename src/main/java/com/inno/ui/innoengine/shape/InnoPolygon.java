@@ -244,7 +244,7 @@ public class InnoPolygon extends InteractivePolygon {
     _standingSectionData = null;
     setID(_sittingSectionData.getId());
     updateFromData(false);
-    updateRowsFromData(false);
+    // updateRowsFromData(false);
     engine.getView().setSidebarFromFxmlFileName("sidebar_irregular_sitting_section.fxml", this);
   }
 
