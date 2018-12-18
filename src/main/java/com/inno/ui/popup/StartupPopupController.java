@@ -2,7 +2,7 @@
  * File Created: Wednesday, 26th September 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Tuesday, 11th December 2018
+ * Last Modified: Tuesday, 18th December 2018
  * Modified By: HUBERT Léo
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -13,7 +13,10 @@ package com.inno.ui.popup;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
+import com.google.gson.internal.LinkedTreeMap;
 import com.inno.ui.ViewController;
 import com.inno.ui.View.AnimationDirection;
 import com.inno.ui.components.ProjectListViewCell;
@@ -37,7 +40,7 @@ public class StartupPopupController extends ViewController {
   @FXML
   private AnchorPane recent_project_pane;
 
-  private ArrayList<String> _recentPaths = new ArrayList<String>();
+  private LinkedTreeMap<String, String> _recentPaths = new LinkedTreeMap<>();
   @FXML
   private ListView<Project> recent_projects_list;
 
@@ -71,9 +74,11 @@ public class StartupPopupController extends ViewController {
       recent_project_pane.setVisible(true);
       recent_projects_list.setItems(_items);
       project_pane.setPrefWidth(450);
-      _recentPaths.forEach((path) -> {
-        _items.add(new Project("Project name", path));
-      });
+      for (Map.Entry<String, String> entry : _recentPaths.entrySet()) {
+        String name = entry.getKey();
+        String path = entry.getValue();
+        _items.add(new Project(name, path));
+      }
     }
     recent_projects_list.setCellFactory(studentListView -> new ProjectListViewCell());
   }

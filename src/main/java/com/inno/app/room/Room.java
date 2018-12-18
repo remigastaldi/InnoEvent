@@ -167,7 +167,6 @@ public class Room implements ImmutableRoom, Serializable {
         this.getSectionById(newSection.getId()).setElevation(oldSection.getElevation());
         deleteSection(idSection);
         id = newSection.getId();
-        // this.getSectionById(newSection.getId()).setIdSection(idSection);
         StandingSection obj = this._standingSections.remove(id);
         this._standingSections.put(newSection.getId(), obj);
         Core.get().createPlace(id, "#6378bf");
@@ -185,7 +184,6 @@ public class Room implements ImmutableRoom, Serializable {
         this.getSectionById(newSection.getId()).setElevation(oldSection.getElevation());
         deleteSection(idSection);
         id = newSection.getId();
-        // this.getSectionById(newSection.getId()).setIdSection(idSection);
         SittingSection obj = this._sittingSections.remove(id);
         this._sittingSections.put(newSection.getId(), obj);
         Core.get().createPlace(id, "#6378bf");
@@ -231,28 +229,6 @@ public class Room implements ImmutableRoom, Serializable {
             Core.get().createPlace(section.getId(), "#6378bf");
         }
         return section;
-    }
-
-    public ImmutableSection duplicateSection(String idSection) {
-        ImmutableSection oldSection = getImmutableSectionById(idSection);
-        ImmutableSection newSection = null;
-        String id = _idHandler.getUniqueId();
-
-        try {
-            newSection = (ImmutableSection) oldSection.clone();
-            if (this._sittingSections.get(idSection) != null) {
-                this._sittingSections.put(id, (SittingSection) newSection);
-                this._sittingSections.get(id).setId(id);
-                this._sittingSections.get(id).setNameSection("S-" + id);
-            } else if (this._standingSections.get(idSection) != null) {
-                this._standingSections.put(id, (StandingSection) newSection);
-                this._standingSections.get(id).setId(id);
-                this._sittingSections.get(id).setNameSection("S-" + id);
-            }
-        } catch (CloneNotSupportedException e) {
-            System.err.println(e);
-        }
-        return newSection;
     }
 
     public void setIdSection(String idSection, String newId) {
@@ -334,6 +310,7 @@ public class Room implements ImmutableRoom, Serializable {
     }
 
     public void deleteSection(String idSection) {
+        Core.get().deleteSectionPrices(idSection);
         this._sittingSections.remove(idSection);
         this._standingSections.remove(idSection);
         _idHandler.releaseId(idSection);

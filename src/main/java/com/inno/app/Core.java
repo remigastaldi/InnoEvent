@@ -3,7 +3,7 @@
  * Author: GASTALDI Rémi
  * -----
  * Last Modified: Tuesday, 18th December 2018
- * Modified By: GASTALDI Rémi
+ * Modified By: HUBERT Léo
  * -----
  * Copyright - 2018 GASTALDI Rémi
  * <<licensetext>>
@@ -23,6 +23,7 @@ import java.util.Map;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.internal.LinkedTreeMap;
 import com.inno.app.room.ImmutableRoom;
 import com.inno.app.room.ImmutableScene;
 import com.inno.app.room.ImmutableSection;
@@ -56,7 +57,7 @@ public class Core {
     SEAT, ROW, SECTION
   };
 
-  private ArrayList<String> _recentPaths = new ArrayList<>();
+  private LinkedTreeMap<String, String> _recentPaths = new LinkedTreeMap<>();
 
   // Inno Class
   private Room _room = null;
@@ -64,7 +65,7 @@ public class Core {
   @SuppressWarnings("unchecked")
   private Core() {
     if (_settings.has("recent_paths")) {
-      _recentPaths = (ArrayList<String>) _settings.get("recent_paths");
+      _recentPaths = (LinkedTreeMap<String, String>) _settings.get("recent_paths");
     }
   }
 
@@ -162,6 +163,14 @@ public class Core {
     _undoRedo.deleteSection(idSection);
   }
 
+  public void deleteSectionPrices(String id) {
+    HashMap<String, ? extends ImmutablePlaceRate> places = _pricing.getPlaces(id);
+
+    for (String key : places.keySet()) {
+      _pricing.deletePlaceRate(key);
+    }    
+  }
+
   public void setSectionUserRotation(String idSection, double rotation) {
     // _room.setSectionRotation(idSection, rotation);
     _room.setSectionUserRotation(idSection, rotation);
@@ -173,10 +182,6 @@ public class Core {
 
   public ImmutableSittingSection standingToSittingSection(String idSection) {
     return _room.standingToSittingSection(idSection);
-  }
-
-  public ImmutableSection duplicateSection(String idSection) {
-    return _room.duplicateSection(idSection);
   }
 
   // standingSection Methods
@@ -375,18 +380,18 @@ public class Core {
 
   public void saveTo(String path) {
     SaveObject save = new SaveObject(_room, _pricing);
-    _recentPaths.remove(path);
-    _recentPaths.add(path);
+    _recentPaths.remove(_room.getName());
+    _recentPaths.put(_room.getName(), path);
     _settings.set("recent_paths", _recentPaths);
     _saveService.saveTo(save, path);
   }
 
   public void loadProject(String absolutePath) {
     SaveObject save = _saveService.loadFrom(absolutePath);
-    _recentPaths.remove(absolutePath);
-    _recentPaths.add(absolutePath);
-    _settings.set("recent_paths", _recentPaths);
     _room = (Room) save.getRoomData();
+    _recentPaths.remove(_room.getName());
+    _recentPaths.put(_room.getName(), absolutePath);
+    _settings.set("recent_paths", _recentPaths);
     _pricing = save.getPricing();
     refreshOfferList();
   }
@@ -399,15 +404,17 @@ public class Core {
     }
   }
 
-  public ArrayList<String> getRecentPaths() {
+  public LinkedTreeMap<String, String> getRecentPaths() {
     try {
-      _recentPaths.forEach(path -> {
+      for (Map.Entry<String, String> entry : _recentPaths.entrySet()) {
+        String name = entry.getKey();
+        String path = entry.getValue();
         Path nPath = Paths.get(path);
         if (!Files.exists(nPath)) {
-          _recentPaths.remove(path);
+          _recentPaths.remove(name);
           _settings.set("recent_paths", _recentPaths);
         }
-      });
+      }
     } catch (Exception e) {
     }
     return _recentPaths;

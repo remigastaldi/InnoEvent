@@ -322,11 +322,11 @@ public abstract class InteractiveShape<T extends Shape> {
       }
     };
     EventHandlers().put(MouseEvent.MOUSE_DRAGGED, mouseDragged);
-    _group.addEventHandler(MouseEvent.MOUSE_DRAGGED, mouseDragged);
+    _shape.addEventHandler(MouseEvent.MOUSE_DRAGGED, mouseDragged);
 
-    _shape.setOnMouseReleased(mouseEvent -> {
-      onShapeReleased();
-    });
+    // _shape.setOnMouseReleased(mouseEvent -> {
+    //   onShapeReleased();
+    // });
 
     _group.setOnMousePressed(mouseEvent -> {
       Point2D p = Pane().sceneToLocal(mouseEvent.getSceneX(), mouseEvent.getSceneY());
