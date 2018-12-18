@@ -90,6 +90,11 @@ public class StartupPopupController extends ViewController {
   }
 
   public void init() {
+    System.out.println(getIntent());
+
+    if (getIntent() != null) {
+      View().openViewWithAnimation("popup_new_project.fxml", AnimationDirection.LEFT, anchor_root, "new");
+    }
   }
 
   @FXML

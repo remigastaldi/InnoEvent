@@ -38,7 +38,7 @@ public class SavePopupController extends ViewController {
     stage.close();
     if (type == "new" || type == "close") {
         Core().closeProject();
-        View().showStartupPopup();
+        View().showStartupPopupNewProject();
     }
     else if (type == "quit") {
         Core().closeProject();
@@ -59,7 +59,7 @@ public class SavePopupController extends ViewController {
     }
     if (type == "new" || type == "close") {
         Core().closeProject();
-        View().showStartupPopup();
+        View().showStartupPopupNewProject();
     }
     else if (type == "quit") {
         Core().closeProject();

@@ -52,7 +52,7 @@ public class View extends Application {
    * @param view
    * @param fxmlFileName
    */
-  public Stage openView(Stage view, String fxmlFileName) {
+  public Stage openView(Stage view, String fxmlFileName, Object intent) {
     if (view == null) {
       view = new Stage();
     }
@@ -61,6 +61,7 @@ public class View extends Application {
 
       Scene scene = new Scene(fxmlLoader.load());
       ViewController viewController = fxmlLoader.<ViewController>getController();
+      viewController.addIntent(intent);
       viewController.setStage(view);
       viewController.setView(this);
       viewController.init();
@@ -72,6 +73,10 @@ public class View extends Application {
       System.out.println("Error when load new view => " + e.getMessage());
     }
     return view;
+  }
+
+  public Stage openView(Stage view, String fxmlFileName) {
+    return openView(view, fxmlFileName, null);
   }
 
   public void openPopup(String fxmlFileName, Object intent) {
@@ -147,7 +152,7 @@ public class View extends Application {
   public void openViewWithAnimation(String fxmlFileName, AnimationDirection animationTo, AnchorPane anchor_root,
       Object intent) {
     StackPane parentContainer = (StackPane) anchor_root.getScene().getRoot();
-    Stage stage = (Stage)anchor_root.getScene().getWindow();
+    Stage stage = (Stage) anchor_root.getScene().getWindow();
     Scene scene = parentContainer.getScene();
     try {
       FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/" + fxmlFileName));
@@ -263,7 +268,14 @@ public class View extends Application {
   }
 
   public void showStartupPopup() {
-    Stage view = openView(null, "popup.fxml");
+    Stage view = openView(null, "popup.fxml", null);
+    view.setResizable(false);
+    closeView(getMainView());
+    setMainView(view);
+  }
+
+  public void showStartupPopupNewProject() {
+    Stage view = openView(null, "popup.fxml", "new");
     view.setResizable(false);
     closeView(getMainView());
     setMainView(view);

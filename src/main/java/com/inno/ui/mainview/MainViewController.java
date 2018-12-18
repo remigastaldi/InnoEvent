@@ -65,10 +65,9 @@ public class MainViewController extends ViewController {
 
   private HashMap<KeyCode, Timer> _timers = new HashMap<>();
 
-
   @FXML
   private void initialize() {
-    
+
   }
 
   public void init() {
@@ -80,7 +79,14 @@ public class MainViewController extends ViewController {
     componentsPane = mainSplitPane.getItems().get(1);
 
     getStage().setOnCloseRequest((e) -> {
-      for(Timer timer : _timers.values()) {
+      for (Timer timer : _timers.values()) {
+        timer.cancel();
+        timer.purge();
+      }
+    });
+
+    getStage().setOnHiding((e) -> {
+      for (Timer timer : _timers.values()) {
         timer.cancel();
         timer.purge();
       }
@@ -188,8 +194,7 @@ public class MainViewController extends ViewController {
     if (Core().hasChanged()) {
       InnoEngine innoEngine = View().getEngine();
       innoEngine.getView().openPopup("save.fxml", "quit");
-    }
-    else {
+    } else {
       Core().closeProject();
       View().closeView(View().getMainView());
     }
@@ -200,8 +205,7 @@ public class MainViewController extends ViewController {
     if (Core().hasChanged()) {
       InnoEngine innoEngine = View().getEngine();
       innoEngine.getView().openPopup("save.fxml", "new");
-    }
-    else {
+    } else {
       Core().closeProject();
       View().showStartupPopup();
     }
@@ -212,8 +216,7 @@ public class MainViewController extends ViewController {
     if (Core().hasChanged()) {
       InnoEngine innoEngine = View().getEngine();
       innoEngine.getView().openPopup("save.fxml", "close");
-    }
-    else {
+    } else {
       Core().closeProject();
       View().showStartupPopup();
     }
