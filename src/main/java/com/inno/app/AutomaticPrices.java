@@ -45,7 +45,7 @@ public class AutomaticPrices {
             double R = 255;
             double G = 0;
             double B = 0;
-            double i = (double) 512 / nbr;
+            double i = (double) 1024 / nbr;
             double sum = 0;
             int m = 0;
             for (double dist : distancesMintoMax) {
@@ -62,10 +62,22 @@ public class AutomaticPrices {
                             G = 255;
                         }
                     }
-                    if (G == 255) {
+                    if (G == 255 && B == 0) {
                         R -= i;
                         if (R < 0) {
                             R = 0;
+                        }
+                    }
+                    if (G == 255 && R == 0) {
+                        B += i;
+                        if (B > 255) {
+                            B = 255;
+                        }
+                    }
+                    if (B == 255) {
+                        G -= i;
+                        if (G < 0) {
+                            G = 0;
                         }
                     }
                     m++;
@@ -90,10 +102,22 @@ public class AutomaticPrices {
                                     g = 255;
                                 }
                             }
-                            if (g == 255) {
+                            if (g == 255 && b == 0) {
                                 r -= i;
                                 if (r < 0) {
                                     r = 0;
+                                }
+                            }
+                            if (g == 255 && r == 0) {
+                                b += i;
+                                if (b > 255) {
+                                    b = 255;
+                                }
+                            }
+                            if (b == 255) {
+                                g -= i;
+                                if (g < 0) {
+                                    g = 0;
                                 }
                             }
                             v++;
@@ -102,8 +126,8 @@ public class AutomaticPrices {
 
                 } else if (sum > total) {
                     double r = 0;
-                    double g = 255;
-                    double b = 0;
+                    double g = 0;
+                    double b = 255;
                     int v = 0;
                     double p = (2 * (total - (nbr * minPrice))) / (nbr * (nbr - 1));
                     for (double dist : distancesMintoMax.descendingSet()) {
@@ -111,7 +135,19 @@ public class AutomaticPrices {
                         for (Triplet<String, String, Integer> seatid : listid) {
                             String hex = String.format("#%02x%02x%02x", (int) r, (int) g, (int) b);
                             Core.get().setSeatPrice(seatid.getFirst(), seatid.getSecond(), Integer.toString(seatid.getThird()), minPrice + (p * v), hex);
-                            if (g == 255) {
+                            if (b == 255) {
+                                g += i;
+                                if (g > 255) {
+                                    g = 255;
+                                }
+                            }
+                            if (g == 255 && r == 0) {
+                                b -= i;
+                                if (b < 0) {
+                                    b = 0;
+                                }
+                            }
+                            if (g == 255 && b == 0) {
                                 r += i;
                                 if (r > 255) {
                                     r = 255;
@@ -139,10 +175,10 @@ public class AutomaticPrices {
                         for (Triplet<String, String, Integer> seatid : listid) {
                             s += Core.get().getSeatPrice(seatid.getFirst(), seatid.getSecond(), Integer.toString(seatid.getThird())).getPrice();
                             String color = Core.get().getSeatPrice(seatid.getFirst(), seatid.getSecond(), Integer.toString(seatid.getThird())).getColor();
-                            r += Integer.parseInt(color.substring(1,3), 16);
-                            g += Integer.parseInt(color.substring(3,5), 16);
+                            r += Integer.parseInt(color.substring(1, 3), 16);
+                            g += Integer.parseInt(color.substring(3, 5), 16);
                         }
-                        String hex = String.format("#%02x%02x%02x", r/totalElements, g/totalElements, b);
+                        String hex = String.format("#%02x%02x%02x", r / totalElements, g / totalElements, b);
                         double price = s / totalElements;
                         for (Triplet<String, String, Integer> seatid : listid) {
                             Core.get().setSeatPrice(seatid.getFirst(), seatid.getSecond(), Integer.toString(seatid.getThird()), price, hex);
@@ -184,7 +220,7 @@ public class AutomaticPrices {
                 double r = 255;
                 double g = 0;
                 double b = 0;
-                double i = (double) 512 / nbrRows;
+                double i = (double) 1024 / nbrRows;
                 for (double dist : rowDistancesMintoMax) {
                     ArrayList<Pair<String, String>> listid = rowsByDistance.get(dist);
                     for (Pair<String, String> rowid : listid) {
@@ -200,19 +236,32 @@ public class AutomaticPrices {
                         }
                         String hex = String.format("#%02x%02x%02x", (int) r, (int) g, (int) b);
                         Core.get().setRowPrice(rowid.getKey(), rowid.getValue(), rowPrice / seatsInRow, hex);
-                        if (r == 255) {
-                            g += i;
-                            if (g > 255) {
-                                g = 255;
-                            }
-                        }
-                        if (g == 255) {
-                            r -= i;
-                            if (r < 0) {
-                                r = 0;
-                            }
+                    }
+                    if (r == 255) {
+                        g += i;
+                        if (g > 255) {
+                            g = 255;
                         }
                     }
+                    if (g == 255 && b == 0) {
+                        r -= i;
+                        if (r < 0) {
+                            r = 0;
+                        }
+                    }
+                    if (g == 255 && r == 0) {
+                        b += i;
+                        if (b > 255) {
+                            b = 255;
+                        }
+                    }
+                    if (b == 255) {
+                        g -= i;
+                        if (g < 0) {
+                            g = 0;
+                        }
+                    }
+
                 }
             }
         }
@@ -244,7 +293,7 @@ public class AutomaticPrices {
                 double r = 255;
                 double g = 0;
                 double b = 0;
-                double i = (double) 512 / nbrSections;
+                double i = (double) 1024 / nbrSections;
                 for (double dist : sectionsDistancesMintoMax) {
                     ArrayList<String> listid = sectionsByDistance.get(dist);
                     for (String sectionid : listid) {
@@ -258,17 +307,29 @@ public class AutomaticPrices {
                         }
                         String hex = String.format("#%02x%02x%02x", (int) r, (int) g, (int) b);
                         Core.get().setSectionPrice(sectionid, sectionPrice / seatsInSection, hex);
-                        if (r == 255) {
-                            g += i;
-                            if (g > 255) {
-                                g = 255;
-                            }
+                    }
+                    if (r == 255) {
+                        g += i;
+                        if (g > 255) {
+                            g = 255;
                         }
-                        if (g == 255) {
-                            r -= i;
-                            if (r < 0) {
-                                r = 0;
-                            }
+                    }
+                    if (g == 255 && b == 0) {
+                        r -= i;
+                        if (r < 0) {
+                            r = 0;
+                        }
+                    }
+                    if (g == 255 && r == 0) {
+                        b += i;
+                        if (b > 255) {
+                            b = 255;
+                        }
+                    }
+                    if (b == 255) {
+                        g -= i;
+                        if (g < 0) {
+                            g = 0;
                         }
                     }
                 }
@@ -276,3 +337,4 @@ public class AutomaticPrices {
         }
     }
 }
+
