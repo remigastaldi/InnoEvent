@@ -2,7 +2,7 @@
  * File Created: Saturday, 27th October 2018
  * Author: HUBERT Léo
  * -----
- * Last Modified: Monday, 17th December 2018
+ * Last Modified: Tuesday, 18th December 2018
  * Modified By: HUBERT Léo
  * -----
  * Copyright - 2018 HUBERT Léo
@@ -224,6 +224,16 @@ public class Pricing implements Serializable {
    * @param name
    */
   public void deleteOffer(String name) {
+    Offer offer = this._offers.get(name);
+
+    if (offer == null) {
+      return;
+    }
+
+    for (PlaceRate place : _places.values()) {
+      place.removeOffer(offer);
+    }
+
     this._offers.remove(name);
   }
 
