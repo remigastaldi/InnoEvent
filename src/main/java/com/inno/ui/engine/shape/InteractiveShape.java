@@ -89,6 +89,7 @@ public abstract class InteractiveShape<T extends Shape> {
 
   // REMOVE THIS ASDYASUDYASIUDYASIDYTASIUDTIUYWQTEIUYWQTEIYTQWIEUTQWIEYTQWIEUYT
   public void updateRowsFromData(boolean toParent){};
+  public void updateFromData(boolean toParent){};
 
   protected void addOutboundShape(Shape shape) {
     _outBoundShapes.add(shape);

@@ -3,7 +3,7 @@
  * Author: GASTALDI Rémi
  * -----
  * Last Modified: Tuesday, 18th December 2018
- * Modified By: HUBERT Léo
+ * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
  * <<licensetext>>
@@ -263,17 +263,6 @@ public class InnoEngine extends Engine {
     //   createIrregularSection(section.getId(), false).select();
     // }
     core.copySectionToBuffer(getSelectedShape().getID());
-}
-
-  /**
-   * Update all sections vital which have old one
-   * @param width old width
-   * @param height old height
-   */
-  public void updateSectionsVitalSpaceFromData(double width, double height) {
-    for (InteractiveShape<? extends Shape> shape : getShapes()) {
-      shape.updateRowsFromData(false);
-    }
   }
 
   public void addRectangle(InnoRectangle rectangle) {
