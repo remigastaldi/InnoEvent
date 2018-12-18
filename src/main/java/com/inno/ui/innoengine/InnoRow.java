@@ -25,7 +25,6 @@ import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
-import javafx.scene.shape.StrokeType;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
@@ -65,14 +64,14 @@ public class InnoRow {
     }
 
     _line = new Line(start[0], start[1], end[0], end[1]);
-    _line.setStrokeWidth(3d);
+    _line.setStrokeWidth(3.5);
 
     if (_toParent)
       _engine.getPane().getChildren().add(_line);
     else
       _intShape.addAdditionalShape(_line);
 
-    _line.setOnMouseClicked(event -> {
+    _line.setOnMouseReleased(event -> {
       selectRowSidebar();
     });
 
@@ -104,8 +103,8 @@ public class InnoRow {
           .valueOf(Core.get().getSeatPrice(_intShape.getID(), _row.getIdRow(), Integer.toString(seat.getId())).getColor())
           .deriveColor(1, 1, 1, 0.85)));
       circle.setStroke(Color.TRANSPARENT);
-      circle.setStrokeWidth(2);
-      circle.setOnMouseClicked(event -> {
+      circle.setStrokeWidth(2.5);
+      circle.setOnMouseReleased(event -> {
         _selectedSeat = seat;
         _engine.getView().setSidebarFromFxmlFileName("sidebar_seat.fxml", this);
       });
@@ -136,7 +135,7 @@ public class InnoRow {
     rect.setOpacity(0.5);
     rect.setArcHeight(3);
     rect.setArcWidth(3);
-    rect.setOnMouseClicked(event -> {
+    rect.setOnMouseReleased(event -> {
       System.out.println("Row " + _row.getIdRow());
       selectRowSidebar();
       _selectedSeat = null;
@@ -158,7 +157,7 @@ public class InnoRow {
     Text text = new Text(endX[0], endX[1], _row.getIdRow());
     text.setFill(Color.WHITE);
     text.setFont(new Font(vitalSpace[1] / 3));
-    text.setOnMouseClicked(event -> {
+    text.setOnMouseReleased(event -> {
       System.out.println("Row " + _row.getIdRow());
       selectRowSidebar();
       _selectedSeat = null;

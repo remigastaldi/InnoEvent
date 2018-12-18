@@ -65,7 +65,7 @@ public abstract class InteractiveShape<T extends Shape> {
   public boolean onMouseOnDragDetected(MouseEvent event) { return true; }
   public boolean onMouseOnDragDropped(MouseEvent event) { return true; }
   public boolean onFormComplete() { return true; }
-  public boolean onSelected() { return true; }
+  public boolean onGroupSelected() { return true; }
   public boolean onDestroy() { return true; }
   
   public boolean onShapeMoved() { return true; }
@@ -236,7 +236,7 @@ public abstract class InteractiveShape<T extends Shape> {
   //   _group = new Group(nodes);
   //   Pane().getChildren().add(_group);
 
-  //   _group.setOnMousePressed(mouseEvent -> {
+  //   _group.setOnMouseReleased(mouseEvent -> {
   //     select();
   //     Point2D p = Pane().sceneToLocal(mouseEvent.getSceneX(), mouseEvent.getSceneY());
 
@@ -321,7 +321,12 @@ public abstract class InteractiveShape<T extends Shape> {
       }
     };
     EventHandlers().put(MouseEvent.MOUSE_DRAGGED, mouseDragged);
-    _shape.addEventHandler(MouseEvent.MOUSE_DRAGGED, mouseDragged);
+    _group.addEventHandler(MouseEvent.MOUSE_DRAGGED, mouseDragged);
+
+    // _shape.setOnMouseClicked(mouseEvent -> {
+    //   // onSelected();
+    //   System.out.println("-----------------------");
+    // });
 
     _group.setOnMousePressed(mouseEvent -> {
       Point2D p = Pane().sceneToLocal(mouseEvent.getSceneX(), mouseEvent.getSceneY());
@@ -356,15 +361,15 @@ public abstract class InteractiveShape<T extends Shape> {
 
   public void  select() {
     if (Engine().getSelectedShape() != this) {
-      if (!onSelected())
+      if (!onGroupSelected())
         return;
       _shape.toFront();
-      for (Shape additionalShape : _additionalShapes) {
-        additionalShape.toFront();
-      }
       for (Shape selectShape : getSelectShapes()) {
         selectShape.toFront();
         selectShape.setVisible(true);
+      }
+      for (Shape additionalShape : _additionalShapes) {
+        additionalShape.toFront();
       }
       enableGlow();
       Engine().selected(this);

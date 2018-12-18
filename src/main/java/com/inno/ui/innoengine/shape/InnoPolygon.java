@@ -115,7 +115,7 @@ public class InnoPolygon extends InteractivePolygon {
 
       Point2D center = Engine().getCenterOfPoints(getPoints());
       setRotation(new Rotate(_sittingSectionData.getRotation(), center.getX(), center.getY()));
-  
+
       updateFromData(false);
       select();
 
@@ -148,7 +148,7 @@ public class InnoPolygon extends InteractivePolygon {
   }
 
   @Override
-  public boolean onSelected() {
+  public boolean onGroupSelected() {
     if (getID() == null)
       return false;
     InnoEngine engine = (InnoEngine) Engine();
@@ -156,6 +156,7 @@ public class InnoPolygon extends InteractivePolygon {
       engine.getView().setSidebarFromFxmlFileName("sidebar_irregular_sitting_section.fxml", this);
     else
       engine.getView().setSidebarFromFxmlFileName("sidebar_standing_section.fxml", this);
+    _shape.toBack();
     return true;
   }
 

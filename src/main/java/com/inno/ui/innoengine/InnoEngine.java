@@ -2,7 +2,7 @@
  * File Created: Friday, 12th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Monday, 17th December 2018
+ * Last Modified: Tuesday, 18th December 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -94,7 +94,7 @@ public class InnoEngine extends Engine {
         }
 
         @Override
-        public boolean onSelected() {
+        public boolean onGroupSelected() {
           _view.setSidebarFromFxmlFileName("sidebar_scene.fxml", this);
           return true;
         }

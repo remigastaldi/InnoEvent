@@ -2,7 +2,7 @@
  * File Created: Monday, 15th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Monday, 17th December 2018
+ * Last Modified: Tuesday, 18th December 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -198,7 +198,7 @@ public class InnoRectangle extends InteractiveRectangle {
   }
 
   @Override
-  public boolean onSelected() {
+  public boolean onGroupSelected() {
     if (getID() == null)
       return false;
     InnoEngine engine = (InnoEngine) ((InnoEngine)Engine());
