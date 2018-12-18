@@ -190,6 +190,7 @@ public class InnoPolygon extends InteractivePolygon {
     // updateRowsFromData(toParent);
     updateRowsFromData(false);
     updatePositionsFromData();
+    checkShapeCollision();
   }
 
   private void updatePositionsFromData() {
@@ -259,5 +260,12 @@ public class InnoPolygon extends InteractivePolygon {
 
   public ImmutableStandingSection getStandingData() {
     return _standingSectionData;
+  }
+
+  public void checkShapeCollision() {
+    if (Engine().isOtherShapeUnder(_shape) == true)
+      setContourColor(Color.RED);
+    else
+      setContourColor(Color.valueOf("#6378bf"));
   }
 }

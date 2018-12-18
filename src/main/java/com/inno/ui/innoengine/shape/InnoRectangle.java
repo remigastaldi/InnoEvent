@@ -116,7 +116,7 @@ public class InnoRectangle extends InteractiveRectangle {
 
     updateFromData(false);
     select();
-
+    checkShapeCollision();
     ((InnoEngine)Engine()).addRectangle(this);
     return true;
   }
@@ -127,6 +127,7 @@ public class InnoRectangle extends InteractiveRectangle {
       return true;
     Core.get().updateSectionPositions(getID(), ((InnoEngine)Engine()).pixelToMeter(getNoRotatedParentPos()), true);
     updatePositionsFromData();
+    checkShapeCollision();
 
     return true;
   }
@@ -278,6 +279,7 @@ public class InnoRectangle extends InteractiveRectangle {
   public void updateFromData(boolean toParent) {
     updatePositionsFromData();
     updateRowsFromData(toParent);
+    checkShapeCollision();
   }
 
   public void updatePositionsFromData() {
@@ -316,5 +318,12 @@ public class InnoRectangle extends InteractiveRectangle {
     _ghostRotation.setPivotX(pos[0]);
     _ghostRotation.setPivotY(pos[1]);
     _ghostRotation.setAngle(_sectionData.getRotation());
+  }
+
+  public void checkShapeCollision() {
+    if (Engine().isOtherShapeUnder(_shape) == true)
+      setContourColor(Color.RED);
+    else
+      setContourColor(Color.valueOf("#6378bf"));
   }
 }

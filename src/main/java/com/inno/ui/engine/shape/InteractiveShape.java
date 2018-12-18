@@ -421,4 +421,10 @@ public abstract class InteractiveShape<T extends Shape> {
   public Color getColor() {
     return (Color) _shape.getFill();
   }
+
+  public void setContourColor(Color color) {
+    for (Shape shape : _outBoundShapes) {
+      shape.setStroke(color);
+    }
+  }
 }

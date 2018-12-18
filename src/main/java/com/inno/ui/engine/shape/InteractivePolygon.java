@@ -105,7 +105,7 @@ public class InteractivePolygon extends InteractiveShape<Polygon> {
   private Line createLine(double startX, double startY, double endX, double endY) {
     Line line = new Line();
 
-    line.setStrokeWidth(1.0);
+    line.setStrokeWidth(2.0);
     line.setStroke(Color.KHAKI);
     line.setStartX(startX);
     line.setStartY(startY);

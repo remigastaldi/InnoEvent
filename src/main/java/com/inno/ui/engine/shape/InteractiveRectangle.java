@@ -36,8 +36,6 @@ public class InteractiveRectangle extends InteractiveShape<Rectangle> {
   private DoubleProperty maxXProperty = null;
   private DoubleProperty maxYProperty = null;
 
-  private Rotate _rotation;
-
   public InteractiveRectangle(Engine engine, Pane pane) {
     super(engine, pane);
 
@@ -185,7 +183,7 @@ public class InteractiveRectangle extends InteractiveShape<Rectangle> {
 
   void createLine(CircleAnchor first, CircleAnchor second) {
     Line line = new Line();
-    line.setStrokeWidth(1.0);
+    line.setStrokeWidth(2.0);
     line.setStroke(Color.ROYALBLUE);
     line.startXProperty().bind(first.centerXProperty());
     line.startYProperty().bind(first.centerYProperty());

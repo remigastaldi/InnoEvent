@@ -257,28 +257,26 @@ public class Engine {
     activateGrid(true);
   }
 
-  // public boolean isObjectUnderCursor(Shape cursor) {
-  //   // for (InteractiveShape<? extends Shape> element : _shapes) {
-  //   //   if (element == _selectedShape)
-  //   //     continue;
-  //   //   for (Shape shape : element.getOutBoundShapes()) {
-  //   //     Shape intersect = Shape.intersect(cursor, shape);
-  //   //     if (intersect.getBoundsInParent().getWidth() != -1) {
-  //   //       // System.out.println(" ++++++++++ Line collision ++++++++++");
-  //   //       return true;
-  //   //     }
-  //   //   }
-  //   //   // System.out.println(cursor.getBoundsInParent());
-  //   //   Shape intersect = Shape.intersect(cursor, element.getShape());
-  //   //   if (intersect.getBoundsInParent().getWidth() != -1) {
-  //   //     // System.out.println(intersect.getBoundsInParent().getMaxX() + " : " +
-  //   //     //   intersect.getBoundsInParent().getMaxX());
-  //   //     // System.out.println("collision");
-  //   //     return true;
-  //   //   }
-  //   // }
-  // return false;
-  // }
+  public boolean isOtherShapeUnder(Shape shape) {
+    for (InteractiveShape<? extends Shape> element : _shapes) {
+      if (element == _selectedShape)
+        continue;
+      // for (Shape elem : element.getOutBoundShapes()) {
+        Shape intersect = Shape.intersect(shape, element.getShape());
+        if (intersect.getBoundsInParent().getWidth() != -1) {
+          return true;
+        }
+      }
+      // System.out.println(cursor.getBoundsInParent());
+      // Shape intersect = Shape.intersect(shape, element.getShape());
+      // if (intersect.getBoundsInParent().getWidth() != -1) {
+        // System.out.println(intersect.getBoundsInParent().getMaxX() + " : " +
+        //   intersect.getBoundsInParent().getMaxX());
+        // System.out.println("collision");
+        // return true;
+      // }
+      return false;
+    }
 
   public ArrayList<Shape> getObjectsUnderCursor(Shape cursor) {
     ArrayList<Shape> shapes = new ArrayList<>();
@@ -295,6 +293,7 @@ public class Engine {
     }
     return shapes;
   }
+
   public Point2D getCenterOfPoints(ArrayList<Point2D> points) {
     double sum1 = 0;
     double sum2 = 0;
