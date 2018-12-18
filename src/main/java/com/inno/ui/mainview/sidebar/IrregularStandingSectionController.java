@@ -253,14 +253,15 @@ public class IrregularStandingSectionController extends ViewController {
 
           if (section_price_color_picker.isFocused()) {
             Core().setSectionPrice(polygon.getID(),
-                Double.parseDouble(
+              Double.parseDouble(
                     section_price_input.getText().trim().length() != 0 ? section_price_input.getText() : "-1"),
                 section_price_color_picker.getValue().toString());
+              polygon.setColor(Color.valueOf(section_price_color_picker.getValue().toString()).deriveColor(1, 1, 0.8, 0.85));
             polygon.updateRowsFromData(false);
           } else {
             Core().setSectionPrice(polygon.getID(), Double.parseDouble(
                 section_price_input.getText().trim().length() != 0 ? section_price_input.getText() : "-1"));
-          }
+            }
 
         } else if (section_price_input.isFocused() || section_price_color_picker.isFocused()) {
           Core().setSectionPrice(polygon.getID(), Double.parseDouble("-1"), "#6378bf");
