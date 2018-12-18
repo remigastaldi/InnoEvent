@@ -531,11 +531,12 @@ public class Core {
     return _availableOffers;
   }
 
-  public void setAutomaticPrices(double minPrice, double maxPrice, double total, String attributionType) {
+  public boolean setAutomaticPrices(double minPrice, double maxPrice, double total, String attributionType) {
     AttributionType attributionTypeEnum = _pricing.getEnumFromString(AttributionType.class, attributionType);
 
-    AutomaticPrices.setAutomaticPrices(_room, minPrice, maxPrice, total, attributionTypeEnum);
+    boolean done = AutomaticPrices.setAutomaticPrices(_room, minPrice, maxPrice, total, attributionTypeEnum);
     _engine.updateAllSectionsFromData();
+    return done;
   }
 
   public void copySectionToBuffer(String id) {
