@@ -2,7 +2,7 @@
  * File Created: Tuesday, 13th November 2018
  * Author: MAREL Maud
  * -----
- * Last Modified: Monday, 17th December 2018
+ * Last Modified: Tuesday, 18th December 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 MAREL Maud
@@ -83,13 +83,15 @@ public class SceneController extends ViewController {
   }
 
   private void setRotation(double angle, boolean input) {
-    scene_rotation_group.setRotate(angle - 90);
+    // angle = angle - 90;
+    scene_rotation_group.setRotate(angle);
     if (!input) {
       scene_rotation_input.setText("" + (angle));
     }
-    InteractiveRectangle rectangle = (InteractiveRectangle) getIntent();
+    InnoRectangle rectangle = (InnoRectangle) getIntent();
 
     Core().setSceneRotation(angle);
+    // rectangle.updateFromData(false);
     rectangle.setRotationAngle(Core().getImmutableRoom().getImmutableScene().getRotation());
   }
 

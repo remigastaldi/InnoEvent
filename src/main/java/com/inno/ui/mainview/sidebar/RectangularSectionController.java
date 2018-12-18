@@ -3,7 +3,7 @@
  * Author: MAREL Maud
  * -----
  * Last Modified: Tuesday, 18th December 2018
- * Modified By: HUBERT Léo
+ * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 MAREL Maud
  * <<licensetext>>
@@ -191,7 +191,8 @@ public class RectangularSectionController extends ViewController {
   }
 
   private void setRotation(Double angle, boolean input) {
-    section_rotation_group.setRotate(angle - 90);
+    angle = angle - 90;
+    section_rotation_group.setRotate(angle);
     if (input) {
       section_rotation_input.setText("" + (angle));    
     }

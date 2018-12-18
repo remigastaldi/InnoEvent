@@ -176,7 +176,8 @@ public class IrregularSectionController extends ViewController {
   }
 
   private void setRotation(Double angle, boolean input) {
-    section_rotation_group.setRotate(angle - 90);
+    // angle = angle - 90;
+    section_rotation_group.setRotate(angle);
     if (input) {
       section_rotation_input.setText("" + (angle));
     }
@@ -184,7 +185,6 @@ public class IrregularSectionController extends ViewController {
 
     Core().setSectionUserRotation(polygon.getID(), angle);
     polygon.updateFromData(false);
-    // polygon.setRotationAngle(Core().getImmutableRoom().getSectionById(polygon.getID()).getRotation());
   }
 
   // private void setRotation(String angle, boolean input) {
