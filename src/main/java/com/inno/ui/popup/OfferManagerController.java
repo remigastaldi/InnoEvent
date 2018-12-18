@@ -207,14 +207,12 @@ public class OfferManagerController extends ViewController {
     @FXML
     private void doneButtonAction() {
         Stage stage = (Stage) anchor_root.getScene().getWindow();
-        // do what you have to do
         stage.close();
     }
 
     @FXML
     private void cancelButtonAction() {
         Stage stage = (Stage) anchor_root.getScene().getWindow();
-        // do what you have to do
         stage.close();
     }
 

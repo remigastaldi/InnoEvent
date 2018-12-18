@@ -21,15 +21,16 @@ import com.inno.ui.ViewController;
 import javafx.fxml.FXML;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
 
 public class AutomaticPriceController extends ViewController {
 
     @FXML
-    private TextField minPriceInput;
+    private TextField minPlacePriceInput;
     @FXML
-    private TextField maxPriceInput;
+    private TextField maxPlacePriceInput;
     @FXML
-    private TextField totalRevenuePriceInput;
+    private TextField totalRevenueInput;
     @FXML
     private ChoiceBox<String> attributionTypeDropdown;
 
@@ -42,6 +43,8 @@ public class AutomaticPriceController extends ViewController {
 
     @Override
     public void init() {
+        attributionTypeDropdown.getItems().setAll(Core().getAttributionTypesPossibilities());
+        attributionTypeDropdown.getSelectionModel().select("SEAT");
     }
 
     @FXML
@@ -52,7 +55,19 @@ public class AutomaticPriceController extends ViewController {
     @FXML
     private void doneButtonAction() {
         if (checkInputs(true)) {
-            
+
+            double minPrice = Double.parseDouble(minPlacePriceInput.getText());
+            double maxPrice = Double.parseDouble(maxPlacePriceInput.getText());
+            double totalRevenue = 0;
+            if (totalRevenueInput.getText().length() != 0) {
+                totalRevenue = Double.parseDouble(totalRevenueInput.getText());
+            }
+
+            Core().setAutomaticPrices(minPrice, maxPrice, totalRevenue,
+                    attributionTypeDropdown.getSelectionModel().getSelectedItem());
+
+            Stage stage = (Stage) minPlacePriceInput.getScene().getWindow();
+            stage.close();
         }
     }
 
@@ -67,8 +82,9 @@ public class AutomaticPriceController extends ViewController {
         boolean valid = true;
 
         HashMap<TextField, String> fields = new LinkedHashMap<>();
-        fields.put(minPriceInput, (required == true ? "required|" : "") + "numeric");
-        fields.put(maxPriceInput, (required == true ? "required|" : "") + "numeric");
+        fields.put(minPlacePriceInput, (required == true ? "required|" : "") + "numeric");
+        fields.put(maxPlacePriceInput, (required == true ? "required|" : "") + "numeric");
+        fields.put(totalRevenueInput, "numeric");
 
         for (Map.Entry<TextField, String> entry : fields.entrySet()) {
             TextField field = entry.getKey();

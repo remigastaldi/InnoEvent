@@ -3,7 +3,7 @@
  * Author: GASTALDI Rémi
  * -----
  * Last Modified: Monday, 17th December 2018
- * Modified By: GASTALDI Rémi
+ * Modified By: HUBERT Léo
  * -----
  * Copyright - 2018 GASTALDI Rémi
  * <<licensetext>>
@@ -17,6 +17,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -50,7 +51,11 @@ public class Core {
   private Pricing _pricing = new Pricing();
   private SettingsService _settings = new SettingsService();
   private ObservableList<String> _availableOffers = FXCollections.observableArrayList();
-  public enum AttributionType {SEAT, ROW, SECTION};
+
+  public enum AttributionType {
+    SEAT, ROW, SECTION
+  };
+
   private ArrayList<String> _recentPaths = new ArrayList<>();
 
   // Inno Class
@@ -74,6 +79,10 @@ public class Core {
   public void setEngine(InnoEngine engine) {
     _engine = engine;
     createUndoRedoHelper(engine, _room);
+  }
+
+  public String[] getAttributionTypesPossibilities() {
+    return Arrays.stream(AttributionType.class.getEnumConstants()).map(Enum::name).toArray(String[]::new);
   }
 
   private void createUndoRedoHelper(InnoEngine engine, Room room) {
@@ -171,7 +180,8 @@ public class Core {
 
   // standingSection Methods
   public void createStandingSection(int nbPeople, double[] positions, double rotation) {
-    // Command command = new CreateStandingSection(_engine, _room, nbPeople, positions, rotation);
+    // Command command = new CreateStandingSection(_engine, _room, nbPeople,
+    // positions, rotation);
     // command.execute();
     // _undoRedo.insert(command);
   }
@@ -315,11 +325,11 @@ public class Core {
   }
 
   // public void deleteSittingRow(String idSection, String idRow) {
-  //   this._room.deleteSittingRow(idSection, idRow);
+  // this._room.deleteSittingRow(idSection, idRow);
   // }
 
   // public void clearAllSittingRows(String idSection) {
-  //   this._room.clearAllSittingRows(idSection);
+  // this._room.clearAllSittingRows(idSection);
   // }
 
   // SAVE
@@ -521,10 +531,11 @@ public class Core {
     return _availableOffers;
   }
 
-  public void setAutomaticPrices(double minPrice, double maxPrice, double total, AttributionType type)
-  {
-      AutomaticPrices.setAutomaticPrices(_room, minPrice, maxPrice, total, type);
-//       _engine.updateAllSectionsFromData();
+  public void setAutomaticPrices(double minPrice, double maxPrice, double total, String attributionType) {
+    AttributionType attributionTypeEnum = _pricing.getEnumFromString(AttributionType.class, attributionType);
+
+    AutomaticPrices.setAutomaticPrices(_room, minPrice, maxPrice, total, attributionTypeEnum);
+    _engine.updateAllSectionsFromData();
   }
 
   public void copySectionToBuffer(String id) {

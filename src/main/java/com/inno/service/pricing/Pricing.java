@@ -2,7 +2,7 @@
  * File Created: Saturday, 27th October 2018
  * Author: HUBERT Léo
  * -----
- * Last Modified: Thursday, 13th December 2018
+ * Last Modified: Monday, 17th December 2018
  * Modified By: HUBERT Léo
  * -----
  * Copyright - 2018 HUBERT Léo
@@ -29,7 +29,7 @@ public class Pricing implements Serializable {
   public Pricing() {
   }
 
-  private <T extends Enum<T>> T getEnumFromString(Class<T> c, String string) {
+  public <T extends Enum<T>> T getEnumFromString(Class<T> c, String string) {
     if (c != null && string != null) {
       try {
         return Enum.valueOf(c, string.trim().toUpperCase());
