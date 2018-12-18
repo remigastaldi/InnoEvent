@@ -201,7 +201,7 @@ public class Core {
     HashMap<String, ? extends ImmutablePlaceRate> places = _pricing.getPlaces(idSection + "|");
     _pricing.setPlaceRatePrice(idSection, price);
     if (color != null && price != -1) {
-      _pricing.setPlaceRateColor(idSection, color);
+      setPlaceRateColor(idSection, price, color);
     } else if (price == -1) {
       _pricing.setPlaceRateColor(idSection, "#6378bf");
     }
@@ -216,6 +216,16 @@ public class Core {
         _pricing.setPlaceRateColor(key, "#FFA500");
       }
     }
+  }
+
+  private void setPlaceRateColor(String key, double price, String color) {
+    _pricing.setPlaceRateColor(key, color);
+    for (ImmutablePlaceRate place : _pricing.getPlaces().values()) {
+      if (place.getPrice() == price) {
+        _pricing.setPlaceRateColor(place.getId(), color);
+      }
+    }
+    _engine.updateAllSectionsFromData();
   }
 
   public void setSectionPrice(String idSection, double price) {
@@ -251,7 +261,7 @@ public class Core {
 
     _pricing.setPlaceRatePrice(idSection + "|" + idRow, price);
     if (color != null) {
-      _pricing.setPlaceRateColor(idSection + "|" + idRow, color);
+      setPlaceRateColor(idSection + "|" + idRow, price, color);
     }
     for (Map.Entry<String, ? extends ImmutablePlaceRate> entry : places.entrySet()) {
       String key = entry.getKey();
@@ -297,7 +307,7 @@ public class Core {
     _pricing.setPlaceRateColor(idSection + "|" + idRow, "#7289DA");
     _pricing.setPlaceRatePrice(idSection + "|" + idRow + "|" + idSeat, price);
     if (color != null) {
-      _pricing.setPlaceRateColor(idSection + "|" + idRow + "|" + idSeat, color);
+      setPlaceRateColor(idSection + "|" + idRow + "|" + idSeat, price, color);
     }
   }
 
@@ -511,6 +521,15 @@ public class Core {
     _pricing.addPlaceRateOffer(id, offerName);
   }
 
+  public String getColorPrice(double price) {
+    for (ImmutablePlaceRate place : _pricing.getPlaces().values()) {
+      if (place.getPrice() == price) {
+        return place.getColor();
+      }
+    }
+    return null;
+  }
+
   // Save Methods
 
   public void closeProject() {
@@ -559,4 +578,5 @@ public class Core {
   public boolean hasChanged() {
     return _undoRedo.hasChanged();
   }
+
 };

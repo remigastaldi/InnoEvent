@@ -2,8 +2,8 @@
  * File Created: Tuesday, 13th November 2018
  * Author: MAREL Maud
  * -----
- * Last Modified: Monday, 17th December 2018
- * Modified By: MAREL Maud
+ * Last Modified: Tuesday, 18th December 2018
+ * Modified By: HUBERT Léo
  * -----
  * Copyright - 2018 MAREL Maud
  * <<licensetext>>
@@ -31,7 +31,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-
 
 public class RowController extends ViewController {
 
@@ -90,8 +89,7 @@ public class RowController extends ViewController {
 
     row_number_info.setText(row_number_info.getText() + "  " + row.getImmutableRow().getIdRow());
     section_number_info.setText(section_number_info.getText() + "  " + row.getImmutableSection().getId());
-    ImmutablePlaceRate place = Core().getRowPrice(row.getImmutableSection().getId(),
-        row.getImmutableRow().getIdRow());
+    ImmutablePlaceRate place = Core().getRowPrice(row.getImmutableSection().getId(), row.getImmutableRow().getIdRow());
     if (place != null) {
       row_price_info.setText(row_price_info.getText() + "  " + (place.getPrice() != -1 ? place.getPrice() : "NA"));
       row_price_color_info.setFill(Color.valueOf(place.getColor()));
@@ -107,7 +105,8 @@ public class RowController extends ViewController {
 
     available_offers_list.setOnMouseClicked((e) -> {
       if (e.getClickCount() == 2 && available_offers_list.getFocusModel().getFocusedItem() != null) {
-        Core().addRowOffer(row.getImmutableSection().getId(), row.getImmutableRow().getIdRow(), available_offers_list.getFocusModel().getFocusedItem());
+        Core().addRowOffer(row.getImmutableSection().getId(), row.getImmutableRow().getIdRow(),
+            available_offers_list.getFocusModel().getFocusedItem());
         available_offers_list.getItems().remove(available_offers_list.getFocusModel().getFocusedItem());
         refreshOffer();
       }
@@ -115,7 +114,8 @@ public class RowController extends ViewController {
 
     attributed_offers_list.setOnMouseClicked((e) -> {
       if (e.getClickCount() == 2 && attributed_offers_list.getFocusModel().getFocusedItem() != null) {
-        Core().removeRowOffer(row.getImmutableSection().getId(), row.getImmutableRow().getIdRow(), attributed_offers_list.getFocusModel().getFocusedItem());
+        Core().removeRowOffer(row.getImmutableSection().getId(), row.getImmutableRow().getIdRow(),
+            attributed_offers_list.getFocusModel().getFocusedItem());
         available_offers_list.getItems().add(attributed_offers_list.getFocusModel().getFocusedItem());
         refreshOffer();
       }
@@ -134,7 +134,8 @@ public class RowController extends ViewController {
     Core().refreshOfferList();
     available_offers_list.setItems(Core().getObservableOffersList());
 
-    ArrayList<? extends ImmutableOffer> offers = Core().getRowPrice(row.getImmutableSection().getId(), row.getImmutableRow().getIdRow()).getImmutableOffers();
+    ArrayList<? extends ImmutableOffer> offers = Core()
+        .getRowPrice(row.getImmutableSection().getId(), row.getImmutableRow().getIdRow()).getImmutableOffers();
     attributed_offers_list.getItems().clear();
     offers.forEach((offer) -> {
       available_offers_list.getItems().remove(offer.getName());
@@ -153,16 +154,33 @@ public class RowController extends ViewController {
       }
       try {
 
-        if ((row_price_input.isFocused() || row_price_color_picker.isFocused()) && row_price_input.getText().trim().length() != 0) {
+        if ((row_price_input.isFocused() || row_price_color_picker.isFocused())
+            && row_price_input.getText().trim().length() != 0) {
+
+          if (row_price_input.isFocused()) {
+            String color = Core().getColorPrice(Double.parseDouble(row_price_input.getText()));
+            if (color != null) {
+              row_price_color_picker.setValue(Color.valueOf(color));
+              Core().setRowPrice(row.getImmutableSection().getId(), row.getImmutableRow().getIdRow(),
+                  Double.parseDouble(row_price_input.getText().trim().length() != 0 ? row_price_input.getText() : "-1"),
+                  color);
+              row.updateRowFromData();
+            }
+          }
+
           row_price_color_picker.setDisable(false);
-          Core().setRowPrice(row.getImmutableSection().getId(), row.getImmutableRow().getIdRow(),
-              Double.parseDouble(row_price_input.getText().trim().length() != 0 ? row_price_input.getText() : "-1"),
-              "#" + Integer.toHexString(row_price_color_picker.getValue().hashCode()));
+
           // row_price_info.setText(row_price_input.getText().trim().length() != 0 ?
           // row_price_input.getText() : "NA"); // TODO: Fix that !
           if (row_price_color_picker.isFocused()) {
+            Core().setRowPrice(row.getImmutableSection().getId(), row.getImmutableRow().getIdRow(),
+                Double.parseDouble(row_price_input.getText().trim().length() != 0 ? row_price_input.getText() : "-1"),
+                row_price_color_picker.getValue().toString());
             row_price_color_info.setFill(row_price_color_picker.getValue());
-            row.setRowColor(row_price_color_picker.getValue());
+            row.updateRowFromData();
+          } else {
+            Core().setRowPrice(row.getImmutableSection().getId(), row.getImmutableRow().getIdRow(),
+                Double.parseDouble(row_price_input.getText().trim().length() != 0 ? row_price_input.getText() : "-1"));
           }
         } else if (row_price_input.isFocused() || row_price_color_picker.isFocused()) {
           Core().setRowPrice(row.getImmutableSection().getId(), row.getImmutableRow().getIdRow(),

@@ -3,7 +3,7 @@
  * Author: MAREL Maud
  * -----
  * Last Modified: Tuesday, 18th December 2018
- * Modified By: GASTALDI Rémi
+ * Modified By: HUBERT Léo
  * -----
  * Copyright - 2018 MAREL Maud
  * <<licensetext>>
@@ -108,17 +108,17 @@ public class IrregularSectionController extends ViewController {
       return;
     }
 
-    if (Core().getSectionPrice(polygon.getID()) != null
-        && Core().getSectionPrice(polygon.getID()).getPrice() != -1) {
+    if (Core().getSectionPrice(polygon.getID()) != null && Core().getSectionPrice(polygon.getID()).getPrice() != -1) {
       section_price_input.setText(Double.toString(Core().getSectionPrice(polygon.getID()).getPrice()));
     }
 
     section_name_input.setText(Core().getImmutableRoom().getSectionById(polygon.getID()).getNameSection());
     section_rotation_input.setText(Double.toString(polygon.getRotation().getAngle()));
-    section_elevation_input.setText(Double.toString(Core().getImmutableRoom().getSectionById(polygon.getID()).getElevation()));
-    section_auto_distrib_input.setSelected(((ImmutableSittingSection) Core().getImmutableRoom().getSectionById(polygon.getID())).getAutoDistribution());
-    section_auto_distrib_input.setIndeterminate(false);   
-
+    section_elevation_input
+        .setText(Double.toString(Core().getImmutableRoom().getSectionById(polygon.getID()).getElevation()));
+    section_auto_distrib_input.setSelected(
+        ((ImmutableSittingSection) Core().getImmutableRoom().getSectionById(polygon.getID())).getAutoDistribution());
+    section_auto_distrib_input.setIndeterminate(false);
 
     // setRotation(polygon.getRotation().getAngle(), false);
     section_rotation_input
@@ -128,7 +128,6 @@ public class IrregularSectionController extends ViewController {
         .setText(Double.toString(polygon.getSittingData().getImmutableVitalSpace().getWidth()));
     section_vital_space_height_input
         .setText(Double.toString(polygon.getSittingData().getImmutableVitalSpace().getHeight()));
-
 
     // Price color
     ImmutablePlaceRate place = Core().getSectionPrice(polygon.getID());
@@ -252,7 +251,8 @@ public class IrregularSectionController extends ViewController {
         if (section_vital_space_width_input.isFocused() || section_vital_space_height_input.isFocused()) {
           double width = Double.parseDouble(section_vital_space_width_input.getText());
           double height = Double.parseDouble(section_vital_space_height_input.getText());
-          polygon.setVitalSpace(width, height);;
+          polygon.setVitalSpace(width, height);
+          ;
           polygon.updateFromData(false);
         }
         if (section_name_input.isFocused())
@@ -260,14 +260,28 @@ public class IrregularSectionController extends ViewController {
         if (section_elevation_input.isFocused())
           Core().setSectionElevation(polygon.getID(), Double.parseDouble(section_elevation_input.getText()));
 
-        if ((section_price_input.isFocused() || section_price_color_picker.isFocused()) && section_price_input.getText().trim().length() != 0) {
+        if ((section_price_input.isFocused() || section_price_color_picker.isFocused())
+            && section_price_input.getText().trim().length() != 0) {
+          if (section_price_input.isFocused()) {
+            String color = Core().getColorPrice(Double.parseDouble(section_price_input.getText()));
+            if (color != null) {
+              section_price_color_picker.setValue(Color.valueOf(color));
+              Core().setSectionPrice(polygon.getID(),
+                Double.parseDouble(
+                    section_price_input.getText().trim().length() != 0 ? section_price_input.getText() : "-1"),
+                color);
+            }
+          }
           section_price_color_picker.setDisable(false);
-          Core().setSectionPrice(polygon.getID(),
-              Double.parseDouble(
-                  section_price_input.getText().trim().length() != 0 ? section_price_input.getText() : "-1"),
-              "#" + Integer.toHexString(section_price_color_picker.getValue().hashCode()));
           if (section_price_color_picker.isFocused()) {
+            Core().setSectionPrice(polygon.getID(),
+                Double.parseDouble(
+                    section_price_input.getText().trim().length() != 0 ? section_price_input.getText() : "-1"),
+                section_price_color_picker.getValue().toString());
             polygon.updateRowsFromData(false);
+          } else {
+            Core().setSectionPrice(polygon.getID(), Double.parseDouble(
+                section_price_input.getText().trim().length() != 0 ? section_price_input.getText() : "-1"));
           }
         } else if (section_price_input.isFocused() || section_price_color_picker.isFocused()) {
           Core().setSectionPrice(polygon.getID(), Double.parseDouble("-1"), "#6378bf");
@@ -315,7 +329,7 @@ public class IrregularSectionController extends ViewController {
     fields.put(section_vital_space_width_input, "required|numeric");
     fields.put(section_vital_space_height_input, "required|numeric");
     fields.put(section_rotation_input, "required|numeric|min:-180|max:180");
-    fields.put(section_elevation_input, "required|numeric");    
+    fields.put(section_elevation_input, "required|numeric");
     fields.put(section_price_input, "numeric|min:0");
 
     for (Map.Entry<TextField, String> entry : fields.entrySet()) {
