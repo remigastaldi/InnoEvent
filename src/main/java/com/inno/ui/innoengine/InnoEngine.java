@@ -3,7 +3,7 @@
  * Author: GASTALDI Rémi
  * -----
  * Last Modified: Tuesday, 18th December 2018
- * Modified By: GASTALDI Rémi
+ * Modified By: MAREL Maud
  * -----
  * Copyright - 2018 GASTALDI Rémi
  * <<licensetext>>
@@ -36,7 +36,6 @@ import javafx.scene.transform.Rotate;
 
 public class InnoEngine extends Engine {
   private View _view = null;
-  ImmutableSection _buffSection = null;
   private HashMap<String, InnoRectangle> _rectangles = new HashMap<>();
   private HashMap<String, InnoPolygon> _polygons = new HashMap<>();
   

@@ -2,8 +2,8 @@
  * File Created: Friday, 26th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Monday, 17th December 2018
- * Modified By: HUBERT Léo
+ * Last Modified: Tuesday, 18th December 2018
+ * Modified By: MAREL Maud
  * -----
  * Copyright - 2018 GASTALDI Rémi
  * <<licensetext>>
@@ -53,9 +53,9 @@ public class OfferManagerController extends ViewController {
     @FXML
     private ChoiceBox<String> offerReductionType;
 
-    ObservableList<CellWithDelFunction> _offerList = FXCollections.observableArrayList();
-    ObservableList<CellWithDelFunction> _offerConditionList = FXCollections.observableArrayList();
-    ImmutableOffer _selectedOffer = null;
+    private ObservableList<CellWithDelFunction> _offerList = FXCollections.observableArrayList();
+    private ObservableList<CellWithDelFunction> _offerConditionList = FXCollections.observableArrayList();
+    private ImmutableOffer _selectedOffer = null;
 
     public class UIOfferCondition {
         private ImmutableOffer _offer;
