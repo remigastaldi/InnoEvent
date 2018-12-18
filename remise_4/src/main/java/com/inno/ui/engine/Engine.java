@@ -257,9 +257,9 @@ public class Engine {
     activateGrid(true);
   }
 
-  public boolean isOtherShapeUnder(Shape shape) {
+  public boolean isOtherShapeUnder(Shape shape, Shape ignore) {
     for (InteractiveShape<? extends Shape> element : _shapes) {
-      if (element == _selectedShape)
+      if (element.getShape() == ignore)
         continue;
       // for (Shape elem : element.getOutBoundShapes()) {
         Shape intersect = Shape.intersect(shape, element.getShape());

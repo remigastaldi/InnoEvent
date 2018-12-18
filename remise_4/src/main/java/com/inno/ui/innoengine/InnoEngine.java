@@ -22,14 +22,12 @@ import com.inno.app.room.ImmutableSittingSection;
 import com.inno.app.room.ImmutableStandingSection;
 import com.inno.ui.View;
 import com.inno.ui.engine.Engine;
-import com.inno.ui.engine.shape.InteractiveShape;
 import com.inno.ui.innoengine.shape.InnoPolygon;
 import com.inno.ui.innoengine.shape.InnoRectangle;
 
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Shape;
 import javafx.scene.transform.Rotate;
 
 
