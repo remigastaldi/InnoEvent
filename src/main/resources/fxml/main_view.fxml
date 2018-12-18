@@ -182,14 +182,8 @@
                     </Menu>
                     <Menu mnemonicParsing="false" text="Edit">
                       <items>
-                        <MenuItem mnemonicParsing="false" onAction="#menuUndoAction" text="Undo">
-                                 <accelerator>
-                                    <KeyCodeCombination alt="UP" code="Z" control="UP" meta="UP" shift="UP" shortcut="DOWN" />
-                                 </accelerator></MenuItem>
-                        <MenuItem mnemonicParsing="false" onAction="#menuRedoAction" text="Redo">
-                                 <accelerator>
-                                    <KeyCodeCombination alt="UP" code="Z" control="UP" meta="UP" shift="DOWN" shortcut="DOWN" />
-                                 </accelerator></MenuItem>
+                        <MenuItem mnemonicParsing="false" onAction="#menuUndoAction" text="Undo" />
+                        <MenuItem mnemonicParsing="false" onAction="#menuRedoAction" text="Redo" />
                         <SeparatorMenuItem mnemonicParsing="false" />
                         <MenuItem mnemonicParsing="false" onAction="#menuDeleteAction" text="Delete" />
                       </items>
