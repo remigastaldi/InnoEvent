@@ -66,12 +66,7 @@ public class DeleteSection implements Command {
       e.printStackTrace();
     }
 
-
-    HashMap<String, ? extends ImmutablePlaceRate> places = _pricing.getPlaces(_idSection);
-
-    for (String key : places.keySet()) {
-      _pricing.deletePlaceRate(key);
-    }
+    Core.get().deleteSectionPrices(_idSection);
     _room.deleteSection(_idSection);
   }
 }

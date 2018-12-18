@@ -162,6 +162,14 @@ public class Core {
     _undoRedo.deleteSection(idSection);
   }
 
+  public void deleteSectionPrices(String id) {
+    HashMap<String, ? extends ImmutablePlaceRate> places = _pricing.getPlaces(id);
+
+    for (String key : places.keySet()) {
+      _pricing.deletePlaceRate(key);
+    }    
+  }
+
   public void setSectionUserRotation(String idSection, double rotation) {
     // _room.setSectionRotation(idSection, rotation);
     _room.setSectionUserRotation(idSection, rotation);
@@ -173,10 +181,6 @@ public class Core {
 
   public ImmutableSittingSection standingToSittingSection(String idSection) {
     return _room.standingToSittingSection(idSection);
-  }
-
-  public ImmutableSection duplicateSection(String idSection) {
-    return _room.duplicateSection(idSection);
   }
 
   // standingSection Methods

@@ -235,6 +235,7 @@ public class InnoPolygon extends InteractivePolygon {
     _sittingSectionData = null;
     destroyRows();
     setID(_standingSectionData.getId());
+    ((InnoEngine) Engine()).getView().setSidebarFromFxmlFileName("sidebar_standing_section.fxml", this);
   }
 
   public void standingToSitting() {
