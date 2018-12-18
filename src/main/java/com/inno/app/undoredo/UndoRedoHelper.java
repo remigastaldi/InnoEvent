@@ -2,7 +2,7 @@
  * File Created: Saturday, 15th December 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Monday, 17th December 2018
+ * Last Modified: Tuesday, 18th December 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Remi
@@ -20,18 +20,15 @@ import com.inno.app.undoredo.command.DeleteSection;
 import com.inno.app.undoredo.command.UpdateSectionPositions;
 import com.inno.service.pricing.Pricing;
 import com.inno.service.undoredo.UndoRedo;
-import com.inno.ui.innoengine.InnoEngine;
 
 public class UndoRedoHelper {
   private UndoRedo _undoRedo = new UndoRedo();
-  private InnoEngine _engine = null;
   private Room _room = null;
   private Pricing _pricing = null;
   private long _actionsNumber = 0;
   private long _lastChangedCheck = 0;
 
-  public UndoRedoHelper(InnoEngine engine, Room room, Pricing pricing) {
-    _engine = engine;
+  public UndoRedoHelper(Room room, Pricing pricing) {
     _room = room;
     _pricing = pricing;
   }
@@ -46,7 +43,7 @@ public class UndoRedoHelper {
 
   public void updateSectionPositions(String idSection, double[] positions, boolean rectangular) {
     double[] oldPositions = _room.getImmutableSectionById(idSection).getPositions().clone();
-    UpdateSectionPositions command = new UpdateSectionPositions(_engine, _room, idSection, positions, rectangular, oldPositions);
+    UpdateSectionPositions command = new UpdateSectionPositions(_room, idSection, positions, rectangular, oldPositions);
     command.updateSectionPositions(positions);
 
     _undoRedo.insert(command);
@@ -55,7 +52,7 @@ public class UndoRedoHelper {
   }
 
   public ImmutableSittingSection createSittingSection(double[] positions, double rotation, boolean isRectangle) {
-    CreateSittingSection command = new CreateSittingSection(_engine, _room, _pricing, positions, rotation, isRectangle);
+    CreateSittingSection command = new CreateSittingSection(_room, _pricing, positions, rotation, isRectangle);
     ImmutableSittingSection section = command.createSectionInDomain();
 
     _undoRedo.insert(command);
@@ -66,7 +63,7 @@ public class UndoRedoHelper {
   public void deleteSection(String idSection) {
     if (_room.getSectionById(idSection) == null)
       return;
-    DeleteSection command = new DeleteSection(_engine, _room, _pricing, idSection);
+    DeleteSection command = new DeleteSection(_room, _pricing, idSection);
 
     command.deleteSection();
     _undoRedo.insert(command);
@@ -74,7 +71,7 @@ public class UndoRedoHelper {
   }
 
   public void createSectionFromBuffer() {
-    CopySectionFromBuffer command = new CopySectionFromBuffer(_engine, _room, _pricing);
+    CopySectionFromBuffer command = new CopySectionFromBuffer(_room, _pricing);
 
     command.execute();
     _undoRedo.insert(command);

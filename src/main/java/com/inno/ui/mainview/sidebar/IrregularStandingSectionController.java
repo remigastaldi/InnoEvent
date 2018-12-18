@@ -3,7 +3,7 @@
  * Author: MAREL Maud
  * -----
  * Last Modified: Tuesday, 18th December 2018
- * Modified By: HUBERT Léo
+ * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 MAREL Maud
  * <<licensetext>>
@@ -11,21 +11,20 @@
 
 package com.inno.ui.mainview.sidebar;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.Map;
+
 import com.inno.service.pricing.ImmutableOffer;
 import com.inno.service.pricing.ImmutablePlaceRate;
 import com.inno.ui.Validator;
 import com.inno.ui.ViewController;
-import com.inno.ui.engine.shape.InteractivePolygon;
 import com.inno.ui.innoengine.shape.InnoPolygon;
-
-import java.util.LinkedHashMap;
-import java.util.Map;
-import javafx.geometry.Point2D;
-import java.util.ArrayList;
-import java.util.HashMap;
 
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.geometry.Point2D;
 import javafx.scene.Group;
 import javafx.scene.control.Accordion;
 import javafx.scene.control.ColorPicker;
@@ -98,7 +97,7 @@ public class IrregularStandingSectionController extends ViewController {
     InnoPolygon polygon = (InnoPolygon) getIntent();
 
     if (polygon == null) {
-      System.out.println("Polygon herer is null");
+      System.out.println("Polygon is null");
       return;
     }
     if (Core().getSectionPrice(polygon.getID()) != null && Core().getSectionPrice(polygon.getID()).getPrice() != -1) {

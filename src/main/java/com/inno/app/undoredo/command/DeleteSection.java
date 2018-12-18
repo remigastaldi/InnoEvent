@@ -2,7 +2,7 @@
  * File Created: Saturday, 15th December 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Sunday, 16th December 2018
+ * Last Modified: Tuesday, 18th December 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Remi
@@ -14,24 +14,22 @@ package com.inno.app.undoredo.command;
 
 import java.util.HashMap;
 
+import com.inno.app.Core;
 import com.inno.app.room.ImmutableSittingSection;
 import com.inno.app.room.Room;
 import com.inno.app.room.Section;
 import com.inno.service.pricing.ImmutablePlaceRate;
 import com.inno.service.pricing.Pricing;
 import com.inno.service.undoredo.Command;
-import com.inno.ui.innoengine.InnoEngine;
 
 public class DeleteSection implements Command {
-  private InnoEngine _engine = null;
   private Room _room = null;
   private String _idSection = null;
   private Pricing _pricing = null;
 
   private ImmutableSittingSection _section = null;
 
-  public DeleteSection(InnoEngine engine, Room room, Pricing pricing, String idSection) {
-    _engine = engine;
+  public DeleteSection(Room room, Pricing pricing, String idSection) {
     _room = room;
     _pricing = pricing;
     _idSection = idSection;
@@ -40,7 +38,7 @@ public class DeleteSection implements Command {
   @Override
   public void execute() {
     deleteSection();
-    _engine.deleteSection(_idSection);
+    Core.get().deleteUiSection(_idSection);
   }
 
   @Override
@@ -48,7 +46,7 @@ public class DeleteSection implements Command {
     if (_section != null) {
       // TODO; Standing section
       // new CreateSittingSection(_engine, _room, _pricing, _section.getPositions(), _section.getRotation(), _section.isRectangle()).execute();
-      CreateSittingSection command =  new CreateSittingSection(_engine, _room, _pricing,
+      CreateSittingSection command =  new CreateSittingSection(_room, _pricing,
         _section.getPositions(), _section.getRotation(), _section.isRectangle());
       _section = command.createSectionInDomain();
 

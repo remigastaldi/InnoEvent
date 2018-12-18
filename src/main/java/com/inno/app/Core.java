@@ -3,7 +3,7 @@
  * Author: GASTALDI Rémi
  * -----
  * Last Modified: Tuesday, 18th December 2018
- * Modified By: HUBERT Léo
+ * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
  * <<licensetext>>
@@ -78,15 +78,15 @@ public class Core {
 
   public void setEngine(InnoEngine engine) {
     _engine = engine;
-    createUndoRedoHelper(engine, _room);
+    createUndoRedoHelper(_room);
   }
 
   public String[] getAttributionTypesPossibilities() {
     return Arrays.stream(AttributionType.class.getEnumConstants()).map(Enum::name).toArray(String[]::new);
   }
 
-  private void createUndoRedoHelper(InnoEngine engine, Room room) {
-    _undoRedo = new UndoRedoHelper(engine, room, _pricing);
+  private void createUndoRedoHelper(Room room) {
+    _undoRedo = new UndoRedoHelper(room, _pricing);
   }
 
   // Room methods
@@ -579,4 +579,19 @@ public class Core {
     return _undoRedo.hasChanged();
   }
 
+  public void createRectangularSection(String id) {
+    _engine.createRectangularSection(id);
+  }
+
+  public void createIrregularSection(String id, boolean b) {
+    _engine.createIrregularSection(id, b);
+  }
+
+  public void updateSectionFromData(String _idSection) {
+    _engine.updateSectionFromData(_idSection);
+  }
+
+  public void deleteUiSection(String id) {
+    _engine.deleteSection(id);
+  }
 };

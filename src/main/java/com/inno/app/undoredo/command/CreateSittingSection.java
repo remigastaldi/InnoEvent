@@ -2,7 +2,7 @@
  * File Created: Saturday, 15th December 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Sunday, 16th December 2018
+ * Last Modified: Tuesday, 18th December 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Remi
@@ -19,10 +19,8 @@ import com.inno.service.Point;
 import com.inno.service.Utils;
 import com.inno.service.pricing.Pricing;
 import com.inno.service.undoredo.Command;
-import com.inno.ui.innoengine.InnoEngine;
 
 public class CreateSittingSection implements Command {
-  private InnoEngine _engine = null;
   private Room _room = null;
   private double[] _positions = null;
   private double _rotation = 0d;
@@ -30,8 +28,7 @@ public class CreateSittingSection implements Command {
   private String _id = null;
   private Pricing _pricing = null;
 
-  public CreateSittingSection(InnoEngine engine, Room room, Pricing pricing, double[] positions, double rotation, boolean isRectangle) {
-    _engine = engine;
+  public CreateSittingSection(Room room, Pricing pricing, double[] positions, double rotation, boolean isRectangle) {
     _room = room;
     _pricing = pricing;
     _positions = positions.clone();
@@ -57,7 +54,7 @@ public class CreateSittingSection implements Command {
   @Override 
   public void unExecute() {
     if (_id != null) {
-      new DeleteSection(_engine, _room, _pricing, _id).execute();
+      new DeleteSection(_room, _pricing, _id).execute();
     }
   }
 
@@ -78,8 +75,8 @@ public class CreateSittingSection implements Command {
 
   public void createSectionInEngine(ImmutableSittingSection section) {
     if (section.isRectangle())
-      _engine.createRectangularSection(_id);
+      Core.get().createRectangularSection(_id);
     else
-      _engine.createIrregularSection(_id, false);
+      Core.get().createIrregularSection(_id, false);
   }
 }

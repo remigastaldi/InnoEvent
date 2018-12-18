@@ -2,8 +2,8 @@
  * File Created: Saturday, 15th December 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Sunday, 16th December 2018
- * Modified By: MAREL Maud
+ * Last Modified: Tuesday, 18th December 2018
+ * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Remi
  * <<licensetext>>
@@ -12,6 +12,7 @@
 
 package com.inno.app.undoredo.command;
 
+import com.inno.app.Core;
 import com.inno.app.room.ImmutableSittingSection;
 import com.inno.app.room.Room;
 import com.inno.app.room.Section;
@@ -19,10 +20,8 @@ import com.inno.app.room.SittingSection;
 import com.inno.service.Point;
 import com.inno.service.Utils;
 import com.inno.service.undoredo.Command;
-import com.inno.ui.innoengine.InnoEngine;
 
 public class UpdateSectionPositions implements Command {
-  private InnoEngine _engine = null;
   private Room _room = null;
   private String _idSection = null;
   private double[] _positions = null;
@@ -31,16 +30,14 @@ public class UpdateSectionPositions implements Command {
 
   private double[] _oldPositions = null;
 
-  public UpdateSectionPositions(InnoEngine engine,Room room, String idSection, double[] positions, boolean rectangular) {
-    _engine = engine;
+  public UpdateSectionPositions(Room room, String idSection, double[] positions, boolean rectangular) {
     _room = room;
     _idSection = idSection;
     _positions = positions.clone();
     _rectangular = rectangular;
   }
 
-  public UpdateSectionPositions(InnoEngine engine,Room room, String idSection, double[] positions, boolean rectangular, double[] oldPos) {
-    _engine = engine;
+  public UpdateSectionPositions(Room room, String idSection, double[] positions, boolean rectangular, double[] oldPos) {
     _room = room;
     _idSection = idSection;
     _positions = positions.clone();
@@ -55,7 +52,7 @@ public class UpdateSectionPositions implements Command {
     if (!section.isStanding())
       _autoDistrib = ((SittingSection)section).getAutoDistribution();
     updateSectionPositions(_positions);
-    _engine.updateSectionFromData(_idSection);
+    Core.get().updateSectionFromData(_idSection);
   }
 
   @Override
@@ -65,7 +62,7 @@ public class UpdateSectionPositions implements Command {
       if (!section.isStanding())
         ((SittingSection)section).setAutoDistribution(_autoDistrib);
       updateSectionPositions(_oldPositions);
-      _engine.updateSectionFromData(_idSection);
+      Core.get().updateSectionFromData(_idSection);
     }
   }
 
