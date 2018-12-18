@@ -13,7 +13,7 @@ import javafx.util.Pair;
 public class AutomaticPrices {
 
     public static boolean setAutomaticPrices(Room room, double minPrice, double maxPrice, double total, Core.AttributionType type) {
-        boolean done = true;
+//        boolean done = true;
         Point posScene = new Point(room.getScene().getCenter()[0], room.getScene().getCenter()[1]);
         HashMap<Double, ArrayList<Triplet<String, String, Integer>>> seatsByDistance = new HashMap<>();
         long nbr = 0;
@@ -42,9 +42,8 @@ public class AutomaticPrices {
 
         TreeSet<Double> distancesMintoMax = new TreeSet<>(seatsByDistance.keySet());
 
-        if (total!=0 && (((total / nbr) < minPrice) || ((total / nbr) > maxPrice)))
-        {
-            done = false;
+        if ((maxPrice < minPrice) || (minPrice < 0) || (maxPrice < 0) || (total != 0 && (((total / nbr) < minPrice) || ((total / nbr) > maxPrice)))) {
+            return false;
         }
 
         if ((((total / nbr) >= minPrice) && ((total / nbr) <= maxPrice)) || (total == 0)) {
@@ -342,7 +341,7 @@ public class AutomaticPrices {
                 }
             }
         }
-        return done;
+        return true;
     }
 }
 
