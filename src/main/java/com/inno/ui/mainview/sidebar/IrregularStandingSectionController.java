@@ -159,14 +159,14 @@ public class IrregularStandingSectionController extends ViewController {
   }
 
   private void setRotation(Double angle, boolean input) {
-    section_rotation_group.setRotate(angle - 90);
+    section_rotation_group.setRotate(angle);
     if (input) {
       section_rotation_input.setText("" + (angle));
     }
     InnoPolygon polygon = (InnoPolygon) getIntent();
 
     Core().setSectionUserRotation(polygon.getID(), angle);
-    // polygon.updateFromData(false);
+    polygon.updateFromData(false);
     // polygon.setRotationAngle(Core().getImmutableRoom().getSectionById(polygon.getID()).getRotation());
   }
 
