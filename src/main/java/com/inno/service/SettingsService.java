@@ -11,7 +11,7 @@ import java.util.HashMap;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-public class SettingsService<T> {
+public class SettingsService {
 
     private HashMap<String, Object> _db = new HashMap<>();
 

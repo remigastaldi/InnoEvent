@@ -151,7 +151,10 @@
                   <menus>
                     <Menu mnemonicParsing="false" text="File">
                       <items>
-                        <MenuItem mnemonicParsing="false" onAction="#menuNewAction" text="New" />
+                        <MenuItem mnemonicParsing="false" onAction="#menuNewAction" text="New">
+                                 <accelerator>
+                                    <KeyCodeCombination alt="UP" code="N" control="UP" meta="UP" shift="UP" shortcut="DOWN" />
+                                 </accelerator></MenuItem>
                         <MenuItem mnemonicParsing="false" onAction="#menuOpenProjectAction" text="Open…">
                                  <accelerator>
                                     <KeyCodeCombination alt="UP" code="O" control="UP" meta="UP" shift="UP" shortcut="DOWN" />
@@ -166,7 +169,10 @@
                                  <accelerator>
                                     <KeyCodeCombination alt="UP" code="S" control="UP" meta="UP" shift="DOWN" shortcut="DOWN" />
                                  </accelerator></MenuItem>
-                              <MenuItem mnemonicParsing="false" onAction="#menuExportAsJsonAction" text="Export as JSON" />
+                              <MenuItem mnemonicParsing="false" onAction="#menuExportAsJsonAction" text="Export as JSON">
+                                 <accelerator>
+                                    <KeyCodeCombination alt="UP" code="J" control="UP" meta="UP" shift="DOWN" shortcut="DOWN" />
+                                 </accelerator></MenuItem>
                         <SeparatorMenuItem mnemonicParsing="false" />
                         <MenuItem mnemonicParsing="false" onAction="#menuQuitButtonAction" text="Quit">
                                  <accelerator>
@@ -176,8 +182,14 @@
                     </Menu>
                     <Menu mnemonicParsing="false" text="Edit">
                       <items>
-                        <MenuItem mnemonicParsing="false" onAction="#menuUndoAction" text="Undo" />
-                        <MenuItem mnemonicParsing="false" onAction="#menuRedoAction" text="Redo" />
+                        <MenuItem mnemonicParsing="false" onAction="#menuUndoAction" text="Undo">
+                                 <accelerator>
+                                    <KeyCodeCombination alt="UP" code="Z" control="UP" meta="UP" shift="UP" shortcut="DOWN" />
+                                 </accelerator></MenuItem>
+                        <MenuItem mnemonicParsing="false" onAction="#menuRedoAction" text="Redo">
+                                 <accelerator>
+                                    <KeyCodeCombination alt="UP" code="Z" control="UP" meta="UP" shift="DOWN" shortcut="DOWN" />
+                                 </accelerator></MenuItem>
                         <SeparatorMenuItem mnemonicParsing="false" />
                         <MenuItem mnemonicParsing="false" onAction="#menuDeleteAction" text="Delete" />
                       </items>
