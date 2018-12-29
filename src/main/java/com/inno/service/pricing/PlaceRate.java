@@ -2,45 +2,71 @@
  * File Created: Friday, 12th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Saturday, 27th October 2018
- * Modified By: GASTALDI Rémi
+ * Last Modified: Wednesday, 12th December 2018
+ * Modified By: HUBERT Léo
  * -----
  * Copyright - 2018 GASTALDI Rémi
  * <<licensetext>>
  */
 
-
 package com.inno.service.pricing;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class PlaceRate {
+public class PlaceRate implements ImmutablePlaceRate, Serializable {
 
-  private double _price;
-  private int _idSection;
-  private String _idRow = new String();
-  private int _idSeat;
-  private ArrayList<String> _listOffers = new ArrayList<String>();
+  private static final long serialVersionUID = 1L;
+  protected String _id;
+  protected String _color;
+  protected double _price;
+  protected ArrayList<Offer> _offers = new ArrayList<Offer>();
 
-  public PlaceRate(int section, String row, int seat, double price, ArrayList<String> listOffers) {
+  public PlaceRate(String id, String color, double price) {
+    _id = id;
+    _color = color;
+    _price = price;
+  }
+
+  @Override
+  public String getId() {
+    return _id;
+  }
+
+  @Override
+  public double getPrice() {
+    return _price;
+  }
+
+  @Override
+  public String getColor() {
+    return _color;
+  }
+
+  @Override
+  public ArrayList<? extends ImmutableOffer> getImmutableOffers() {
+    return _offers;
+  }
+
+  public ArrayList<Offer> getOffers() {
+    return _offers;
   }
 
   public void setPrice(double price) {
+    this._price = price;
   }
 
-  public double getPrice() {
-    return this._price;
+  public void setColor(String color) {
+    this._color = color;
   }
 
-  public void addOffer(String offer) {
-
+  public boolean addOffer(Offer offer) {
+    if (!this._offers.contains(offer))
+      return this._offers.add(offer);
+    return false;
   }
 
-  public void removeOffer(String offer) {
-
-  }
-
-  public ArrayList<String> getListOffers() {
-    return this._listOffers;
+  public boolean removeOffer(Offer offer) {
+    return this._offers.remove(offer);
   }
 };

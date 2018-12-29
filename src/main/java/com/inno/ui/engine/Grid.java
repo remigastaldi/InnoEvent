@@ -2,7 +2,7 @@
  * File Created: Saturday, 13th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Friday, 26th October 2018
+ * Last Modified: Sunday, 2nd December 2018
  * Modified By: GASTALDI Rémi
  * -----
  * Copyright - 2018 GASTALDI Rémi
@@ -14,11 +14,10 @@ package com.inno.ui.engine;
 
 import java.util.ArrayList;
 
-import javafx.collections.ObservableList;
-import javafx.scene.Node;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
+import javafx.scene.shape.Shape;
 
 public class Grid {
   private Pane  _pane = null;
@@ -77,6 +76,16 @@ public class Grid {
   }
 
   public void disable() {
+    for (Line line : _lines) {
+      _pane.getChildren().remove(line);
+    }
+  }
+
+  public ArrayList<? extends Shape> getLines() {
+    return _lines;
+  }
+
+  public void destroy() {
     for (Line line : _lines) {
       _pane.getChildren().remove(line);
     }

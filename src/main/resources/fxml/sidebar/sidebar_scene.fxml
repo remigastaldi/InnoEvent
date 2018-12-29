@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.Group?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.paint.LinearGradient?>
+<?import javafx.scene.paint.Stop?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="597.0" prefWidth="250.0" style="-fx-background-color: -fx-dark;" stylesheets="@../../dark-theme.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.inno.ui.mainview.sidebar.SceneController">
+   <children>
+      <AnchorPane prefWidth="367.0" style="-fx-border-color: -fx-primary; -fx-border-width: 0 0 1 0; -fx-background-color: -fx-grey;" styleClass="grey" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <Label alignment="CENTER" layoutX="22.0" prefHeight="50.0" prefWidth="356.0" text="Scene" textAlignment="CENTER" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+               <textFill>
+                  <LinearGradient endX="1.0" endY="1.0">
+                     <stops>
+                        <Stop color="#6f2467" />
+                        <Stop color="#f500da" offset="1.0" />
+                     </stops>
+                  </LinearGradient>
+               </textFill>
+               <font>
+                  <Font size="40.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
+      <AnchorPane layoutY="51.0" prefHeight="200.0" prefWidth="252.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="51.0">
+         <children>
+            <AnchorPane fx:id="sidebar_content" prefHeight="546.0" prefWidth="250.0">
+               <children>
+                  <AnchorPane layoutX="7.0" layoutY="65.0" prefHeight="185.0" prefWidth="124.0" AnchorPane.topAnchor="20.0">
+                     <children>
+                        <Label layoutY="10.0" text="Width" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+                        <Label layoutY="54.0" text="Height" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+                        <Label layoutY="141.0" text="Rotation" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+                        <Label layoutY="98.0" text="Elevation" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane layoutX="151.0" layoutY="74.0" minWidth="89.0" prefHeight="163.0" prefWidth="101.0" AnchorPane.leftAnchor="139.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="20.0">
+                     <children>
+                        <TextField fx:id="scene_width_input" onKeyReleased="#onKeyReleased" prefHeight="29.0" prefWidth="75.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+                        <TextField fx:id="scene_height_input" layoutY="44.0" onKeyReleased="#onKeyReleased" prefHeight="29.0" prefWidth="75.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+                        <TextField fx:id="scene_elevation_input" layoutY="88.0" onKeyReleased="#onKeyReleased" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+                        <TextField fx:id="scene_rotation_input" layoutY="132.0" onKeyReleased="#onKeyReleased" prefHeight="29.0" prefWidth="46.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="43.0" />
+                        <Group fx:id="scene_rotation_group" layoutX="86.0" layoutY="235.0" AnchorPane.rightAnchor="0.0">
+                           <children>
+                              <Circle fx:id="scene_rotation_circle" fill="#e3e7eb" layoutY="-88.0" radius="15.0" stroke="BLACK" strokeType="INSIDE" />
+                              <Circle fill="#eef2f5" layoutX="9.0" layoutY="-88.0" onMousePressed="#onMousePressed" onMouseReleased="#onMouseReleased" radius="4.0" stroke="BLACK" strokeType="INSIDE">
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
+                              </Circle>
+                           </children>
+                        </Group>
+                     </children>
+                  </AnchorPane>
+               </children>
+            </AnchorPane>
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>

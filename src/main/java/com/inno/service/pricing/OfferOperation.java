@@ -2,35 +2,55 @@
  * File Created: Friday, 12th October 2018
  * Author: GASTALDI Rémi
  * -----
- * Last Modified: Saturday, 27th October 2018
- * Modified By: GASTALDI Rémi
+ * Last Modified: Thursday, 13th December 2018
+ * Modified By: HUBERT Léo
  * -----
  * Copyright - 2018 GASTALDI Rémi
  * <<licensetext>>
  */
 
-
 package com.inno.service.pricing;
 
-public class OfferOperation {
+import java.io.Serializable;
 
-  private String _name = new String();
-  private String _operation = new String();
+public class OfferOperation implements ImmutableOfferOperation, Serializable {
 
-  public OfferOperation(String name, String operation) {
+  private static final long serialVersionUID = 1L;
+  private String _value;
+  private RelationalOperator _relationalOperator;
+  private LogicalOperator _logicalOperator;
+
+  public OfferOperation(String value, RelationalOperator relationalOperator, LogicalOperator logicalOperator) {
+    this._value = value;
+    this._relationalOperator = relationalOperator;
+    this._logicalOperator = logicalOperator;
   }
 
-  public void setName(String name) {
-  }
-  
-  public void setOperation(String operation) {
-  }
-
-  public String getName() {
-    return this._name;
+  @Override
+  public String getValue() {
+    return _value;
   }
 
-  public String getOperation() {
-    return this._operation;
+  @Override
+  public RelationalOperator getRelationalOperator() {
+    return _relationalOperator;
   }
+
+  @Override
+  public LogicalOperator getLogicalOperator() {
+    return _logicalOperator;
+  }
+
+  public void setValue(String value) {
+    this._value = value;
+  }
+
+  public void setRelationalOperator(RelationalOperator relationalOperator) {
+    this._relationalOperator = relationalOperator;
+  }
+
+  public void setLogicalOperator(LogicalOperator logicalOperator) {
+    this._logicalOperator = logicalOperator;
+  }
+
 };

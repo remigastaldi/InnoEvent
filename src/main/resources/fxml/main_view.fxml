@@ -5,148 +5,216 @@
 <?import javafx.scene.control.ButtonBar?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuButton?>
 <?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.SeparatorMenuItem?>
 <?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.Tooltip?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
+<?import javafx.scene.input.KeyCodeCombination?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.StackPane?>
 
-<StackPane minHeight="720.0" minWidth="1280.0" onKeyReleased="#keyAction" prefHeight="720.0" prefWidth="1280.0" stylesheets="@../dark-theme.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.inno.ui.mainview.MainViewController">
+<StackPane minHeight="720.0" minWidth="1280.0" onKeyPressed="#keyPressedAction" onKeyReleased="#keyReleasedAction" prefHeight="720.0" prefWidth="1280.0" stylesheets="@../dark-theme.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.inno.ui.mainview.MainViewController">
   <children>
-      <AnchorPane prefHeight="200.0" prefWidth="200.0">
+      <AnchorPane>
          <children>
-          <MenuBar prefHeight="29.0" prefWidth="1280.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-            <menus>
-              <Menu mnemonicParsing="false" text="File">
-                <items>
-                  <MenuItem mnemonicParsing="false" text="New" />
-                  <MenuItem mnemonicParsing="false" text="Open…" />
-                  <Menu mnemonicParsing="false" text="Open Recent" />
-                  <SeparatorMenuItem mnemonicParsing="false" />
-                  <MenuItem mnemonicParsing="false" text="Close" />
-                  <MenuItem mnemonicParsing="false" text="Save" />
-                  <MenuItem mnemonicParsing="false" text="Save As…" />
-                  <SeparatorMenuItem mnemonicParsing="false" />
-                  <MenuItem mnemonicParsing="false" onAction="#quitButtonAction" text="Quit" />
-                </items>
-              </Menu>
-              <Menu mnemonicParsing="false" text="Edit">
-                <items>
-                  <MenuItem mnemonicParsing="false" text="Undo" />
-                  <MenuItem mnemonicParsing="false" text="Redo" />
-                  <SeparatorMenuItem mnemonicParsing="false" />
-                  <MenuItem mnemonicParsing="false" text="Delete" />
-                  <SeparatorMenuItem mnemonicParsing="false" />
-                  <MenuItem mnemonicParsing="false" text="Select All" />
-                  <MenuItem mnemonicParsing="false" text="Unselect All" />
-                </items>
-              </Menu>
-              <Menu mnemonicParsing="false" text="Insertion" />
-            </menus>
-          </MenuBar>
-            <ButtonBar buttonMinWidth="0.0" centerShape="false" layoutY="29.0" prefHeight="29.0" prefWidth="1280.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
-               <buttons>
-                  <Button mnemonicParsing="false" ButtonBar.buttonData="LEFT">
-                     <graphic>
-                        <ImageView fitHeight="10.0" fitWidth="10.0" preserveRatio="true">
-                           <image>
-                              <Image url="@../icon/arrow.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                  </Button>
-                  <Button mnemonicParsing="false" ButtonBar.buttonData="LEFT">
-                     <graphic>
-                        <ImageView fitHeight="10.0" fitWidth="15.0" nodeOrientation="RIGHT_TO_LEFT" preserveRatio="true">
-                           <image>
-                              <Image url="@../icon/arrow.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                  </Button>
-                  <Button mnemonicParsing="false" ButtonBar.buttonData="LEFT">
-                     <graphic>
-                        <ImageView fitHeight="10.0" fitWidth="10.0" preserveRatio="true">
-                           <image>
-                              <Image url="@../icon/save.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                  </Button>
-                  <Button mnemonicParsing="false" ButtonBar.buttonData="LEFT">
-                     <graphic>
-                        <ImageView fitHeight="10.0" fitWidth="10.0" preserveRatio="true">
-                           <image>
-                              <Image url="@../icon/zoom_in.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                  </Button>
-                  <Button mnemonicParsing="false" ButtonBar.buttonData="LEFT">
-                     <graphic>
-                        <ImageView fitHeight="10.0" fitWidth="10.0" preserveRatio="true">
-                           <image>
-                              <Image url="@../icon/zoom_out.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                  </Button>
-                  <Button mnemonicParsing="false" text="+" ButtonBar.buttonData="LEFT" />
-                  <Button mnemonicParsing="false" text="+" ButtonBar.buttonData="LEFT" />
-                  <Button mnemonicParsing="false" ButtonBar.buttonData="LEFT">
-                     <graphic>
-                        <ImageView fitHeight="10.0" fitWidth="10.0" preserveRatio="true">
-                           <image>
-                              <Image url="@../icon/dollar_symbol.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                  </Button>
-                  <Button mnemonicParsing="false" ButtonBar.buttonData="LEFT">
-                     <graphic>
-                        <ImageView fitHeight="10.0" fitWidth="10.0" preserveRatio="true">
-                           <image>
-                              <Image url="@../icon/magnet.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                  </Button>
-                  <Button mnemonicParsing="false" onAction="#openSection" text="Section" />
-                  <Button mnemonicParsing="false" onAction="#openRoom" text="Room" />
-               </buttons>
-               <padding>
-                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-               </padding>
-            </ButtonBar>
-         </children>
-      </AnchorPane>
-      <AnchorPane prefHeight="200.0" prefWidth="200.0">
-         <children>
-            <SplitPane dividerPositions="0.8450704225352113" prefHeight="719.0" prefWidth="1280.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <AnchorPane fx:id="top_bar" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+               <children>
+                  <ButtonBar buttonMinWidth="0.0" centerShape="false" layoutY="29.0" prefWidth="1280.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                     <buttons>
+                        <Button maxHeight="25.0" maxWidth="25.0" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#menuUndoAction" prefHeight="25.0" prefWidth="25.0" ButtonBar.buttonData="LEFT">
+                           <graphic>
+                              <ImageView fitHeight="15.0" fitWidth="15.0" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../icon/arrow.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                           <tooltip>
+                              <Tooltip text="Undo" />
+                           </tooltip>
+                        </Button>
+                        <Button maxHeight="25.0" maxWidth="25.0" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#menuRedoAction" prefHeight="25.0" prefWidth="25.0" ButtonBar.buttonData="LEFT">
+                           <graphic>
+                              <ImageView fitHeight="15.0" fitWidth="15.0" nodeOrientation="RIGHT_TO_LEFT" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../icon/arrow.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                           <tooltip>
+                              <Tooltip text="Redo" />
+                           </tooltip>
+                        </Button>
+                        <Button maxHeight="25.0" maxWidth="25.0" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#menuSaveAction" prefHeight="25.0" prefWidth="25.0" ButtonBar.buttonData="LEFT">
+                           <graphic>
+                              <ImageView fitHeight="15.0" fitWidth="15.0" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../icon/save.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                           <tooltip>
+                              <Tooltip text="Save" />
+                           </tooltip>
+                        </Button>
+                        <Button maxHeight="25.0" maxWidth="25.0" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#menuZoomInAction" prefHeight="25.0" prefWidth="25.0" ButtonBar.buttonData="LEFT">
+                           <graphic>
+                              <ImageView fitHeight="15.0" fitWidth="15.0" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../icon/zoom_in.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                           <tooltip>
+                              <Tooltip text="Zoom in" />
+                           </tooltip>
+                        </Button>
+                        <Button maxHeight="25.0" maxWidth="25.0" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#menuZoomOutAction" prefHeight="25.0" prefWidth="25.0" ButtonBar.buttonData="LEFT">
+                           <graphic>
+                              <ImageView fitHeight="15.0" fitWidth="15.0" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../icon/zoom_out.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                           <tooltip>
+                              <Tooltip text="Zoom out" />
+                           </tooltip>
+                        </Button>
+                        <Button maxHeight="25.0" maxWidth="25.0" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#menuDrawRectangularSectionAction" prefHeight="25.0" prefWidth="25.0" ButtonBar.buttonData="LEFT">
+                           <graphic>
+                              <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../icon/rectangle.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                           <tooltip>
+                              <Tooltip text="New Regular Sitting Section" />
+                           </tooltip></Button>
+                        <Button maxHeight="25.0" maxWidth="25.0" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#menuDrawIrregularSectionAction" prefHeight="25.0" prefWidth="25.0" ButtonBar.buttonData="LEFT">
+                           <graphic>
+                              <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../icon/hexagon.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                           <tooltip>
+                              <Tooltip text="New Irregular Section" />
+                           </tooltip></Button>
+                        <MenuButton maxHeight="25.0" maxWidth="50.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="50.0" styleClass="menu-button-bar" ButtonBar.buttonData="LEFT">
+                          <items>
+                            <MenuItem mnemonicParsing="false" onAction="#offerManagerAction" text="Offers" />
+                              <MenuItem mnemonicParsing="false" onAction="#automaticPricesAction" text="Automatic Prices" />
+                          </items>
+                           <graphic>
+                              <ImageView fitHeight="15.0" fitWidth="15.0" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../icon/price.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                           <tooltip>
+                              <Tooltip text="Price Manager" />
+                           </tooltip>
+                        </MenuButton>
+                        <Button fx:id="magnet_button" maxHeight="25.0" maxWidth="25.0" mnemonicParsing="false" onAction="#toggleMagnetismAction" prefHeight="25.0" prefWidth="25.0" ButtonBar.buttonData="LEFT">
+                           <graphic>
+                              <ImageView fx:id="magnet_icon" fitHeight="15.0" fitWidth="15.0" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../icon/magnet_selected.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                           <tooltip>
+                              <Tooltip text="Magnet" />
+                           </tooltip>
+                        </Button>
+                        <Button mnemonicParsing="false" onAction="#toggleSidebarAction">
+                           <graphic>
+                              <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../icon/hamburger.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic></Button>
+                     </buttons>
+                     <padding>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </padding>
+                  </ButtonBar>
+                <MenuBar AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <menus>
+                    <Menu mnemonicParsing="false" text="File">
+                      <items>
+                        <MenuItem mnemonicParsing="false" onAction="#menuNewAction" text="New">
+                                 <accelerator>
+                                    <KeyCodeCombination alt="UP" code="N" control="UP" meta="UP" shift="UP" shortcut="DOWN" />
+                                 </accelerator></MenuItem>
+                        <MenuItem mnemonicParsing="false" onAction="#menuOpenProjectAction" text="Open…">
+                                 <accelerator>
+                                    <KeyCodeCombination alt="UP" code="O" control="UP" meta="UP" shift="UP" shortcut="DOWN" />
+                                 </accelerator></MenuItem>
+                        <SeparatorMenuItem mnemonicParsing="false" />
+                        <MenuItem mnemonicParsing="false" onAction="#menuCloseAction" text="Close" />
+                        <MenuItem mnemonicParsing="false" onAction="#menuSaveAction" text="Save">
+                                 <accelerator>
+                                    <KeyCodeCombination alt="UP" code="S" control="UP" meta="UP" shift="UP" shortcut="DOWN" />
+                                 </accelerator></MenuItem>
+                        <MenuItem mnemonicParsing="false" onAction="#menuSaveAsAction" text="Save As…">
+                                 <accelerator>
+                                    <KeyCodeCombination alt="UP" code="S" control="UP" meta="UP" shift="DOWN" shortcut="DOWN" />
+                                 </accelerator></MenuItem>
+                              <MenuItem mnemonicParsing="false" onAction="#menuExportAsJsonAction" text="Export as JSON">
+                                 <accelerator>
+                                    <KeyCodeCombination alt="UP" code="J" control="UP" meta="UP" shift="DOWN" shortcut="DOWN" />
+                                 </accelerator></MenuItem>
+                        <SeparatorMenuItem mnemonicParsing="false" />
+                        <MenuItem mnemonicParsing="false" onAction="#menuQuitButtonAction" text="Quit">
+                                 <accelerator>
+                                    <KeyCodeCombination alt="UP" code="Q" control="UP" meta="UP" shift="UP" shortcut="DOWN" />
+                                 </accelerator></MenuItem>
+                      </items>
+                    </Menu>
+                    <Menu mnemonicParsing="false" text="Edit">
+                      <items>
+                        <MenuItem mnemonicParsing="false" onAction="#menuUndoAction" text="Undo" />
+                        <MenuItem mnemonicParsing="false" onAction="#menuRedoAction" text="Redo" />
+                        <SeparatorMenuItem mnemonicParsing="false" />
+                        <MenuItem mnemonicParsing="false" onAction="#menuDeleteAction" text="Delete" />
+                      </items>
+                    </Menu>
+                    <Menu mnemonicParsing="false" text="Insertion">
+                           <items>
+                              <MenuItem mnemonicParsing="false" onAction="#menuCreateSceneAction" text="Scene" />
+                              <MenuItem mnemonicParsing="false" onAction="#menuDrawRectangularSectionAction" text="Rectangular Section" />
+                              <MenuItem mnemonicParsing="false" onAction="#menuDrawIrregularSectionAction" text="Irregular Section" />
+                           </items></Menu>
+                  </menus>
+                </MenuBar>
+               </children>
+            </AnchorPane>
+            <SplitPane fx:id="mainSplitPane" dividerPositions="0.8450704225352113" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
               <items>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="728.0" prefWidth="903.0">
+                <AnchorPane fx:id="anchor_canvas">
                      <children>
-                        <ScrollPane fx:id="scrollPane" minViewportHeight="100.0" minViewportWidth="100.0" prefHeight="717.0" prefViewportHeight="100.0" prefViewportWidth="100.0" prefWidth="1038.0" styleClass="scrollPane" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                           <content>
-                              <Pane fx:id="paneParent" prefHeight="1080.0" prefWidth="1920.0" style="-fx-background-color: rgb(57, 57, 57);">
-                                 <children>
-                                    <Pane fx:id="graphicsPane" layoutX="519.0" layoutY="249.0" prefHeight="582.0" prefWidth="883.0" style="-fx-background-color: red;" />
-                                 </children>
-                              </Pane>
-                           </content>
-                        </ScrollPane>
-                     </children></AnchorPane>
-                <AnchorPane fx:id="sidebarAnchor" maxWidth="500.0" minHeight="0.0" minWidth="200.0" styleClass="dark" SplitPane.resizableWithParent="false" />
+                        <StackPane fx:id="stack_pane" style="-fx-background-color: -fx-dark;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                     </children>
+                  </AnchorPane>
+                <AnchorPane fx:id="sidebar_anchor" maxWidth="500.0" minWidth="250.0" prefWidth="250.0" style="-fx-background-color: -fx-grey;" SplitPane.resizableWithParent="false" />
               </items>
             </SplitPane>
          </children>
          <StackPane.margin>
-            <Insets top="66.0" />
+            <Insets />
          </StackPane.margin>
+         <padding>
+            <Insets top="66.0" />
+         </padding>
       </AnchorPane>
   </children>
 </StackPane>
