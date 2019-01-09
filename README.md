@@ -116,7 +116,7 @@ This validator class is aim to handle forms errors, we developed it as a service
 
 ## Run the project
 
-Ensure to have java8 with javaFX on you computer.
+Ensure to have java8 JRE, JDK and javaFX in your PATH.
 
 ### With sources
 
