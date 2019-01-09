@@ -2,10 +2,10 @@
 
 ## Software
 
-<center>
+<p align="center">
   <img src="media/start.png" width="50%">
   <img src="media/home.png" width="90%">
-</center>
+</p>
 
 ### Laval GLO-2004 : Génie logiciel orienté objet
 
