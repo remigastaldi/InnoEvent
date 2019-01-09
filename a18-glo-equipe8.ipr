@@ -12,8 +12,8 @@
       <entry name="!?*.java" />
     </wildcardResourcePatterns>
     <bytecodeTargetLevel target="1.8">
-      <module name="a18-glo-equipe8_main" target="1.8" />
-      <module name="a18-glo-equipe8_test" target="1.8" />
+      <module name="InnoEvent_main" target="1.8" />
+      <module name="InnoEvent_test" target="1.8" />
     </bytecodeTargetLevel>
   </component>
   <component name="CopyrightManager" default="" />
@@ -66,9 +66,9 @@
   </component>
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/a18-glo-equipe8.iml" filepath="$PROJECT_DIR$/a18-glo-equipe8.iml" />
-      <module fileurl="file://$PROJECT_DIR$/a18-glo-equipe8_main.iml" filepath="$PROJECT_DIR$/a18-glo-equipe8_main.iml" group="a18-glo-equipe8" />
-      <module fileurl="file://$PROJECT_DIR$/a18-glo-equipe8_test.iml" filepath="$PROJECT_DIR$/a18-glo-equipe8_test.iml" group="a18-glo-equipe8" />
+      <module fileurl="file://$PROJECT_DIR$/InnoEvent.iml" filepath="$PROJECT_DIR$/InnoEvent.iml" />
+      <module fileurl="file://$PROJECT_DIR$/InnoEvent_main.iml" filepath="$PROJECT_DIR$/InnoEvent_main.iml" group="InnoEvent" />
+      <module fileurl="file://$PROJECT_DIR$/InnoEvent_test.iml" filepath="$PROJECT_DIR$/InnoEvent_test.iml" group="InnoEvent" />
     </modules>
   </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" default="false" project-jdk-name="1.8" project-jdk-type="JavaSDK">
