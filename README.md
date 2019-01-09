@@ -1,15 +1,15 @@
 # InnoEvent  
 
+## Laval GLO-2004 : Génie logiciel orienté objet
+
+This project was done under the "Génie logiciel orienté objet" class at the Laval University - Quebec.  
+
 ## Software
 
 <p align="center">
   <img src="media/start.png" width="50%">
   <img src="media/home.png" width="90%">
 </p>
-
-### Laval GLO-2004 : Génie logiciel orienté objet
-
-This project was done under the "Génie logiciel orienté objet" class at the Laval University - Quebec.  
 
 ### Project
 
