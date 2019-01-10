@@ -52,6 +52,7 @@ This software makes it possible to have a room plan in accordance with the reali
   - Activate / disable magnetism
   - Automatic rectangular section rotation and irregular row distribution while moving scene
   - Shape's bounds handling (to keep all element in board per example)
+  - Copy / Past for sections
 - **Sections**
   - Custom name
   - Interactive creation
