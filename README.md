@@ -115,7 +115,7 @@ Our pricing gestion is developed as a service so it can be separated from our pr
 This validator class is aim to handle forms errors, we developed it as a service so it can be separated from our project as well: 
 [Validator](https://github.com/MrDarkSkil/Validator)
 
-## Install .dmg on macos
+## Install .dmg on macos
 
 If you plan to install directly the software without building it from the sources, here are instructions for macos (tested on Macos Mojave).
 
