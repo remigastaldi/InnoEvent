@@ -115,6 +115,19 @@ Our pricing gestion is developed as a service so it can be separated from our pr
 This validator class is aim to handle forms errors, we developed it as a service so it can be separated from our project as well: 
 [Validator](https://github.com/MrDarkSkil/Validator)
 
+## Install .dmg on macos
+
+If you plan to install directly the software without building it from the sources, here are instructions for macos (tested on Macos Mojave).
+
+Download the .dmg version of InnoEvent you wish to use from the releases page : https://github.com/remigastaldi/InnoEvent/releases
+
+Open the .dmg file, it should pop up a contextual menu. Drag & drop the .app to your applications folder.
+You can't run directly the .app because of some security protections from Macos that doesn't allow you to execute application that doesn't came from the App Store or trusted developers. You can bypass this security protection by adding an exception for InnoEvent.
+
+Open the applications folder from finder and find the InnoEvent app (*a18-glo-equipe8.app*). Keep the control key pressured on your keyboad and then right click on the application and select "Open" from the contextual menu. It should open an other popup menu that ask you if you are sure to open the app, even if it doesn't came from a trusted developer. Macos allow you to check twice if the file came from github, which is the correct way to download InnoEvent so just click on "Open".
+
+InnoEvent is now in your exceptions applications list and can be executed like other applications, from your dock, spotlight or launchpad.
+
 ## Run the project
 
 Ensure to have java8 JRE, JDK and javaFX in your PATH.
